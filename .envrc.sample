@@ -1,0 +1,1 @@
+export DATABASE_URL='postgres://indie:indie@localhost:5431/indie?sslmode=disable'
