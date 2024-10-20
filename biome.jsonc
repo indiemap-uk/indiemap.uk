@@ -19,13 +19,21 @@
 	"linter": {
 		"enabled": true,
 		"rules": {
-			"recommended": true
+			"recommended": true,
+			"style": {
+				"noUnusedTemplateLiteral": "off"
+			},
+			"correctness": {
+				"noUnusedVariables": "error",
+				"noUnusedImports": "error"
+			}
 		}
 	},
 	"javascript": {
 		"formatter": {
 			"quoteStyle": "double",
-			"semicolons": "asNeeded"
+			"semicolons": "asNeeded",
+			"bracketSpacing": false
 		}
 	}
 }
