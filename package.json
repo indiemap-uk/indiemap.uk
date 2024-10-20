@@ -9,7 +9,9 @@
 		"db:gen": "zapatos",
 		"db:up": "dbmate up",
 		"db:down": "dbmate down",
-		"db:towns": "cd db/data && sh ./install.sh"
+		"db:towns": "cd db/data && sh ./install.sh",
+		"db:mock": "tsx db/data/mock.ts",
+		"db:remock": "tsx db/data/delete.ts && pnpm run db:mock"
 	},
 	"dependencies": {
 		"@radix-ui/themes": "^3.1.4",
@@ -25,10 +27,12 @@
 	},
 	"devDependencies": {
 		"@biomejs/biome": "1.9.3",
+		"@faker-js/faker": "^9.0.3",
 		"@remix-run/dev": "^2.12.1",
 		"@types/pg": "^8.11.10",
 		"@types/react": "^18.3.11",
 		"dbmate": "^2.21.0",
+		"tsx": "^4.19.1",
 		"typescript": "^5.6.2",
 		"vite": "^5.4.8"
 	},

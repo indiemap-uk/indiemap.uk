@@ -23,89 +23,6 @@ declare module 'zapatos/schema' {
   /* --- tables --- */
 
   /**
-   * **counties**
-   * - Table in database
-   */
-  export namespace counties {
-    export type Table = 'counties';
-    export interface Selectable {
-      /**
-      * **counties.id**
-      * - `uuid` in database
-      * - `NOT NULL`, default: `gen_random_uuid()`
-      */
-      id: string;
-      /**
-      * **counties.name**
-      * - `varchar` in database
-      * - `NOT NULL`, no default
-      */
-      name: string;
-    }
-    export interface JSONSelectable {
-      /**
-      * **counties.id**
-      * - `uuid` in database
-      * - `NOT NULL`, default: `gen_random_uuid()`
-      */
-      id: string;
-      /**
-      * **counties.name**
-      * - `varchar` in database
-      * - `NOT NULL`, no default
-      */
-      name: string;
-    }
-    export interface Whereable {
-      /**
-      * **counties.id**
-      * - `uuid` in database
-      * - `NOT NULL`, default: `gen_random_uuid()`
-      */
-      id?: string | db.Parameter<string> | db.SQLFragment | db.ParentColumn | db.SQLFragment<any, string | db.Parameter<string> | db.SQLFragment | db.ParentColumn>;
-      /**
-      * **counties.name**
-      * - `varchar` in database
-      * - `NOT NULL`, no default
-      */
-      name?: string | db.Parameter<string> | db.SQLFragment | db.ParentColumn | db.SQLFragment<any, string | db.Parameter<string> | db.SQLFragment | db.ParentColumn>;
-    }
-    export interface Insertable {
-      /**
-      * **counties.id**
-      * - `uuid` in database
-      * - `NOT NULL`, default: `gen_random_uuid()`
-      */
-      id?: string | db.Parameter<string> | db.DefaultType | db.SQLFragment;
-      /**
-      * **counties.name**
-      * - `varchar` in database
-      * - `NOT NULL`, no default
-      */
-      name: string | db.Parameter<string> | db.SQLFragment;
-    }
-    export interface Updatable {
-      /**
-      * **counties.id**
-      * - `uuid` in database
-      * - `NOT NULL`, default: `gen_random_uuid()`
-      */
-      id?: string | db.Parameter<string> | db.DefaultType | db.SQLFragment | db.SQLFragment<any, string | db.Parameter<string> | db.DefaultType | db.SQLFragment>;
-      /**
-      * **counties.name**
-      * - `varchar` in database
-      * - `NOT NULL`, no default
-      */
-      name?: string | db.Parameter<string> | db.SQLFragment | db.SQLFragment<any, string | db.Parameter<string> | db.SQLFragment>;
-    }
-    export type UniqueIndex = 'counties_pkey';
-    export type Column = keyof Selectable;
-    export type OnlyCols<T extends readonly Column[]> = Pick<Selectable, T[number]>;
-    export type SQLExpression = Table | db.ColumnNames<Updatable | (keyof Updatable)[]> | db.ColumnValues<Updatable> | Whereable | Column | db.ParentColumn | db.GenericSQLExpression;
-    export type SQL = SQLExpression | SQLExpression[];
-  }
-
-  /**
    * **indies**
    * - Table in database
    */
@@ -132,10 +49,10 @@ declare module 'zapatos/schema' {
       name: string;
       /**
       * **indies.town_id**
-      * - `uuid` in database
+      * - `int4` in database
       * - `NOT NULL`, no default
       */
-      town_id: string;
+      town_id: number;
     }
     export interface JSONSelectable {
       /**
@@ -158,10 +75,10 @@ declare module 'zapatos/schema' {
       name: string;
       /**
       * **indies.town_id**
-      * - `uuid` in database
+      * - `int4` in database
       * - `NOT NULL`, no default
       */
-      town_id: string;
+      town_id: number;
     }
     export interface Whereable {
       /**
@@ -184,10 +101,10 @@ declare module 'zapatos/schema' {
       name?: string | db.Parameter<string> | db.SQLFragment | db.ParentColumn | db.SQLFragment<any, string | db.Parameter<string> | db.SQLFragment | db.ParentColumn>;
       /**
       * **indies.town_id**
-      * - `uuid` in database
+      * - `int4` in database
       * - `NOT NULL`, no default
       */
-      town_id?: string | db.Parameter<string> | db.SQLFragment | db.ParentColumn | db.SQLFragment<any, string | db.Parameter<string> | db.SQLFragment | db.ParentColumn>;
+      town_id?: number | db.Parameter<number> | db.SQLFragment | db.ParentColumn | db.SQLFragment<any, number | db.Parameter<number> | db.SQLFragment | db.ParentColumn>;
     }
     export interface Insertable {
       /**
@@ -210,10 +127,10 @@ declare module 'zapatos/schema' {
       name: string | db.Parameter<string> | db.SQLFragment;
       /**
       * **indies.town_id**
-      * - `uuid` in database
+      * - `int4` in database
       * - `NOT NULL`, no default
       */
-      town_id: string | db.Parameter<string> | db.SQLFragment;
+      town_id: number | db.Parameter<number> | db.SQLFragment;
     }
     export interface Updatable {
       /**
@@ -236,10 +153,10 @@ declare module 'zapatos/schema' {
       name?: string | db.Parameter<string> | db.SQLFragment | db.SQLFragment<any, string | db.Parameter<string> | db.SQLFragment>;
       /**
       * **indies.town_id**
-      * - `uuid` in database
+      * - `int4` in database
       * - `NOT NULL`, no default
       */
-      town_id?: string | db.Parameter<string> | db.SQLFragment | db.SQLFragment<any, string | db.Parameter<string> | db.SQLFragment>;
+      town_id?: number | db.Parameter<number> | db.SQLFragment | db.SQLFragment<any, number | db.Parameter<number> | db.SQLFragment>;
     }
     export type UniqueIndex = 'indies_pkey';
     export type Column = keyof Selectable;
@@ -452,103 +369,433 @@ declare module 'zapatos/schema' {
     export type Table = 'towns';
     export interface Selectable {
       /**
-      * **towns.county_id**
-      * - `uuid` in database
-      * - `NOT NULL`, no default
+      * **towns.country**
+      * - `varchar` in database
+      * - Nullable, no default
       */
-      county_id: string;
+      country: string | null;
+      /**
+      * **towns.county**
+      * - `varchar` in database
+      * - Nullable, no default
+      */
+      county: string | null;
+      /**
+      * **towns.easting**
+      * - `int4` in database
+      * - Nullable, no default
+      */
+      easting: number | null;
+      /**
+      * **towns.elevation**
+      * - `int4` in database
+      * - Nullable, no default
+      */
+      elevation: number | null;
+      /**
+      * **towns.grid_reference**
+      * - `varchar` in database
+      * - Nullable, no default
+      */
+      grid_reference: string | null;
       /**
       * **towns.id**
-      * - `uuid` in database
-      * - `NOT NULL`, default: `gen_random_uuid()`
+      * - `int4` in database
+      * - `NOT NULL`, no default
       */
-      id: string;
+      id: number;
+      /**
+      * **towns.latitude**
+      * - `numeric` in database
+      * - Nullable, no default
+      */
+      latitude: db.NumericString | null;
+      /**
+      * **towns.local_government_area**
+      * - `varchar` in database
+      * - Nullable, no default
+      */
+      local_government_area: string | null;
+      /**
+      * **towns.longitude**
+      * - `numeric` in database
+      * - Nullable, no default
+      */
+      longitude: db.NumericString | null;
       /**
       * **towns.name**
       * - `varchar` in database
-      * - `NOT NULL`, no default
+      * - Nullable, no default
       */
-      name: string;
+      name: string | null;
+      /**
+      * **towns.northing**
+      * - `int4` in database
+      * - Nullable, no default
+      */
+      northing: number | null;
+      /**
+      * **towns.nuts_region**
+      * - `varchar` in database
+      * - Nullable, no default
+      */
+      nuts_region: string | null;
+      /**
+      * **towns.postcode_sector**
+      * - `varchar` in database
+      * - Nullable, no default
+      */
+      postcode_sector: string | null;
+      /**
+      * **towns.type**
+      * - `varchar` in database
+      * - Nullable, no default
+      */
+      type: string | null;
     }
     export interface JSONSelectable {
       /**
-      * **towns.county_id**
-      * - `uuid` in database
-      * - `NOT NULL`, no default
+      * **towns.country**
+      * - `varchar` in database
+      * - Nullable, no default
       */
-      county_id: string;
+      country: string | null;
+      /**
+      * **towns.county**
+      * - `varchar` in database
+      * - Nullable, no default
+      */
+      county: string | null;
+      /**
+      * **towns.easting**
+      * - `int4` in database
+      * - Nullable, no default
+      */
+      easting: number | null;
+      /**
+      * **towns.elevation**
+      * - `int4` in database
+      * - Nullable, no default
+      */
+      elevation: number | null;
+      /**
+      * **towns.grid_reference**
+      * - `varchar` in database
+      * - Nullable, no default
+      */
+      grid_reference: string | null;
       /**
       * **towns.id**
-      * - `uuid` in database
-      * - `NOT NULL`, default: `gen_random_uuid()`
+      * - `int4` in database
+      * - `NOT NULL`, no default
       */
-      id: string;
+      id: number;
+      /**
+      * **towns.latitude**
+      * - `numeric` in database
+      * - Nullable, no default
+      */
+      latitude: number | null;
+      /**
+      * **towns.local_government_area**
+      * - `varchar` in database
+      * - Nullable, no default
+      */
+      local_government_area: string | null;
+      /**
+      * **towns.longitude**
+      * - `numeric` in database
+      * - Nullable, no default
+      */
+      longitude: number | null;
       /**
       * **towns.name**
       * - `varchar` in database
-      * - `NOT NULL`, no default
+      * - Nullable, no default
       */
-      name: string;
+      name: string | null;
+      /**
+      * **towns.northing**
+      * - `int4` in database
+      * - Nullable, no default
+      */
+      northing: number | null;
+      /**
+      * **towns.nuts_region**
+      * - `varchar` in database
+      * - Nullable, no default
+      */
+      nuts_region: string | null;
+      /**
+      * **towns.postcode_sector**
+      * - `varchar` in database
+      * - Nullable, no default
+      */
+      postcode_sector: string | null;
+      /**
+      * **towns.type**
+      * - `varchar` in database
+      * - Nullable, no default
+      */
+      type: string | null;
     }
     export interface Whereable {
       /**
-      * **towns.county_id**
-      * - `uuid` in database
-      * - `NOT NULL`, no default
+      * **towns.country**
+      * - `varchar` in database
+      * - Nullable, no default
       */
-      county_id?: string | db.Parameter<string> | db.SQLFragment | db.ParentColumn | db.SQLFragment<any, string | db.Parameter<string> | db.SQLFragment | db.ParentColumn>;
+      country?: string | db.Parameter<string> | db.SQLFragment | db.ParentColumn | db.SQLFragment<any, string | db.Parameter<string> | db.SQLFragment | db.ParentColumn>;
+      /**
+      * **towns.county**
+      * - `varchar` in database
+      * - Nullable, no default
+      */
+      county?: string | db.Parameter<string> | db.SQLFragment | db.ParentColumn | db.SQLFragment<any, string | db.Parameter<string> | db.SQLFragment | db.ParentColumn>;
+      /**
+      * **towns.easting**
+      * - `int4` in database
+      * - Nullable, no default
+      */
+      easting?: number | db.Parameter<number> | db.SQLFragment | db.ParentColumn | db.SQLFragment<any, number | db.Parameter<number> | db.SQLFragment | db.ParentColumn>;
+      /**
+      * **towns.elevation**
+      * - `int4` in database
+      * - Nullable, no default
+      */
+      elevation?: number | db.Parameter<number> | db.SQLFragment | db.ParentColumn | db.SQLFragment<any, number | db.Parameter<number> | db.SQLFragment | db.ParentColumn>;
+      /**
+      * **towns.grid_reference**
+      * - `varchar` in database
+      * - Nullable, no default
+      */
+      grid_reference?: string | db.Parameter<string> | db.SQLFragment | db.ParentColumn | db.SQLFragment<any, string | db.Parameter<string> | db.SQLFragment | db.ParentColumn>;
       /**
       * **towns.id**
-      * - `uuid` in database
-      * - `NOT NULL`, default: `gen_random_uuid()`
+      * - `int4` in database
+      * - `NOT NULL`, no default
       */
-      id?: string | db.Parameter<string> | db.SQLFragment | db.ParentColumn | db.SQLFragment<any, string | db.Parameter<string> | db.SQLFragment | db.ParentColumn>;
+      id?: number | db.Parameter<number> | db.SQLFragment | db.ParentColumn | db.SQLFragment<any, number | db.Parameter<number> | db.SQLFragment | db.ParentColumn>;
+      /**
+      * **towns.latitude**
+      * - `numeric` in database
+      * - Nullable, no default
+      */
+      latitude?: (number | db.NumericString) | db.Parameter<(number | db.NumericString)> | db.SQLFragment | db.ParentColumn | db.SQLFragment<any, (number | db.NumericString) | db.Parameter<(number | db.NumericString)> | db.SQLFragment | db.ParentColumn>;
+      /**
+      * **towns.local_government_area**
+      * - `varchar` in database
+      * - Nullable, no default
+      */
+      local_government_area?: string | db.Parameter<string> | db.SQLFragment | db.ParentColumn | db.SQLFragment<any, string | db.Parameter<string> | db.SQLFragment | db.ParentColumn>;
+      /**
+      * **towns.longitude**
+      * - `numeric` in database
+      * - Nullable, no default
+      */
+      longitude?: (number | db.NumericString) | db.Parameter<(number | db.NumericString)> | db.SQLFragment | db.ParentColumn | db.SQLFragment<any, (number | db.NumericString) | db.Parameter<(number | db.NumericString)> | db.SQLFragment | db.ParentColumn>;
       /**
       * **towns.name**
       * - `varchar` in database
-      * - `NOT NULL`, no default
+      * - Nullable, no default
       */
       name?: string | db.Parameter<string> | db.SQLFragment | db.ParentColumn | db.SQLFragment<any, string | db.Parameter<string> | db.SQLFragment | db.ParentColumn>;
+      /**
+      * **towns.northing**
+      * - `int4` in database
+      * - Nullable, no default
+      */
+      northing?: number | db.Parameter<number> | db.SQLFragment | db.ParentColumn | db.SQLFragment<any, number | db.Parameter<number> | db.SQLFragment | db.ParentColumn>;
+      /**
+      * **towns.nuts_region**
+      * - `varchar` in database
+      * - Nullable, no default
+      */
+      nuts_region?: string | db.Parameter<string> | db.SQLFragment | db.ParentColumn | db.SQLFragment<any, string | db.Parameter<string> | db.SQLFragment | db.ParentColumn>;
+      /**
+      * **towns.postcode_sector**
+      * - `varchar` in database
+      * - Nullable, no default
+      */
+      postcode_sector?: string | db.Parameter<string> | db.SQLFragment | db.ParentColumn | db.SQLFragment<any, string | db.Parameter<string> | db.SQLFragment | db.ParentColumn>;
+      /**
+      * **towns.type**
+      * - `varchar` in database
+      * - Nullable, no default
+      */
+      type?: string | db.Parameter<string> | db.SQLFragment | db.ParentColumn | db.SQLFragment<any, string | db.Parameter<string> | db.SQLFragment | db.ParentColumn>;
     }
     export interface Insertable {
       /**
-      * **towns.county_id**
-      * - `uuid` in database
-      * - `NOT NULL`, no default
+      * **towns.country**
+      * - `varchar` in database
+      * - Nullable, no default
       */
-      county_id: string | db.Parameter<string> | db.SQLFragment;
+      country?: string | db.Parameter<string> | null | db.DefaultType | db.SQLFragment;
+      /**
+      * **towns.county**
+      * - `varchar` in database
+      * - Nullable, no default
+      */
+      county?: string | db.Parameter<string> | null | db.DefaultType | db.SQLFragment;
+      /**
+      * **towns.easting**
+      * - `int4` in database
+      * - Nullable, no default
+      */
+      easting?: number | db.Parameter<number> | null | db.DefaultType | db.SQLFragment;
+      /**
+      * **towns.elevation**
+      * - `int4` in database
+      * - Nullable, no default
+      */
+      elevation?: number | db.Parameter<number> | null | db.DefaultType | db.SQLFragment;
+      /**
+      * **towns.grid_reference**
+      * - `varchar` in database
+      * - Nullable, no default
+      */
+      grid_reference?: string | db.Parameter<string> | null | db.DefaultType | db.SQLFragment;
       /**
       * **towns.id**
-      * - `uuid` in database
-      * - `NOT NULL`, default: `gen_random_uuid()`
+      * - `int4` in database
+      * - `NOT NULL`, no default
       */
-      id?: string | db.Parameter<string> | db.DefaultType | db.SQLFragment;
+      id: number | db.Parameter<number> | db.SQLFragment;
+      /**
+      * **towns.latitude**
+      * - `numeric` in database
+      * - Nullable, no default
+      */
+      latitude?: (number | db.NumericString) | db.Parameter<(number | db.NumericString)> | null | db.DefaultType | db.SQLFragment;
+      /**
+      * **towns.local_government_area**
+      * - `varchar` in database
+      * - Nullable, no default
+      */
+      local_government_area?: string | db.Parameter<string> | null | db.DefaultType | db.SQLFragment;
+      /**
+      * **towns.longitude**
+      * - `numeric` in database
+      * - Nullable, no default
+      */
+      longitude?: (number | db.NumericString) | db.Parameter<(number | db.NumericString)> | null | db.DefaultType | db.SQLFragment;
       /**
       * **towns.name**
       * - `varchar` in database
-      * - `NOT NULL`, no default
+      * - Nullable, no default
       */
-      name: string | db.Parameter<string> | db.SQLFragment;
+      name?: string | db.Parameter<string> | null | db.DefaultType | db.SQLFragment;
+      /**
+      * **towns.northing**
+      * - `int4` in database
+      * - Nullable, no default
+      */
+      northing?: number | db.Parameter<number> | null | db.DefaultType | db.SQLFragment;
+      /**
+      * **towns.nuts_region**
+      * - `varchar` in database
+      * - Nullable, no default
+      */
+      nuts_region?: string | db.Parameter<string> | null | db.DefaultType | db.SQLFragment;
+      /**
+      * **towns.postcode_sector**
+      * - `varchar` in database
+      * - Nullable, no default
+      */
+      postcode_sector?: string | db.Parameter<string> | null | db.DefaultType | db.SQLFragment;
+      /**
+      * **towns.type**
+      * - `varchar` in database
+      * - Nullable, no default
+      */
+      type?: string | db.Parameter<string> | null | db.DefaultType | db.SQLFragment;
     }
     export interface Updatable {
       /**
-      * **towns.county_id**
-      * - `uuid` in database
-      * - `NOT NULL`, no default
+      * **towns.country**
+      * - `varchar` in database
+      * - Nullable, no default
       */
-      county_id?: string | db.Parameter<string> | db.SQLFragment | db.SQLFragment<any, string | db.Parameter<string> | db.SQLFragment>;
+      country?: string | db.Parameter<string> | null | db.DefaultType | db.SQLFragment | db.SQLFragment<any, string | db.Parameter<string> | null | db.DefaultType | db.SQLFragment>;
+      /**
+      * **towns.county**
+      * - `varchar` in database
+      * - Nullable, no default
+      */
+      county?: string | db.Parameter<string> | null | db.DefaultType | db.SQLFragment | db.SQLFragment<any, string | db.Parameter<string> | null | db.DefaultType | db.SQLFragment>;
+      /**
+      * **towns.easting**
+      * - `int4` in database
+      * - Nullable, no default
+      */
+      easting?: number | db.Parameter<number> | null | db.DefaultType | db.SQLFragment | db.SQLFragment<any, number | db.Parameter<number> | null | db.DefaultType | db.SQLFragment>;
+      /**
+      * **towns.elevation**
+      * - `int4` in database
+      * - Nullable, no default
+      */
+      elevation?: number | db.Parameter<number> | null | db.DefaultType | db.SQLFragment | db.SQLFragment<any, number | db.Parameter<number> | null | db.DefaultType | db.SQLFragment>;
+      /**
+      * **towns.grid_reference**
+      * - `varchar` in database
+      * - Nullable, no default
+      */
+      grid_reference?: string | db.Parameter<string> | null | db.DefaultType | db.SQLFragment | db.SQLFragment<any, string | db.Parameter<string> | null | db.DefaultType | db.SQLFragment>;
       /**
       * **towns.id**
-      * - `uuid` in database
-      * - `NOT NULL`, default: `gen_random_uuid()`
+      * - `int4` in database
+      * - `NOT NULL`, no default
       */
-      id?: string | db.Parameter<string> | db.DefaultType | db.SQLFragment | db.SQLFragment<any, string | db.Parameter<string> | db.DefaultType | db.SQLFragment>;
+      id?: number | db.Parameter<number> | db.SQLFragment | db.SQLFragment<any, number | db.Parameter<number> | db.SQLFragment>;
+      /**
+      * **towns.latitude**
+      * - `numeric` in database
+      * - Nullable, no default
+      */
+      latitude?: (number | db.NumericString) | db.Parameter<(number | db.NumericString)> | null | db.DefaultType | db.SQLFragment | db.SQLFragment<any, (number | db.NumericString) | db.Parameter<(number | db.NumericString)> | null | db.DefaultType | db.SQLFragment>;
+      /**
+      * **towns.local_government_area**
+      * - `varchar` in database
+      * - Nullable, no default
+      */
+      local_government_area?: string | db.Parameter<string> | null | db.DefaultType | db.SQLFragment | db.SQLFragment<any, string | db.Parameter<string> | null | db.DefaultType | db.SQLFragment>;
+      /**
+      * **towns.longitude**
+      * - `numeric` in database
+      * - Nullable, no default
+      */
+      longitude?: (number | db.NumericString) | db.Parameter<(number | db.NumericString)> | null | db.DefaultType | db.SQLFragment | db.SQLFragment<any, (number | db.NumericString) | db.Parameter<(number | db.NumericString)> | null | db.DefaultType | db.SQLFragment>;
       /**
       * **towns.name**
       * - `varchar` in database
-      * - `NOT NULL`, no default
+      * - Nullable, no default
       */
-      name?: string | db.Parameter<string> | db.SQLFragment | db.SQLFragment<any, string | db.Parameter<string> | db.SQLFragment>;
+      name?: string | db.Parameter<string> | null | db.DefaultType | db.SQLFragment | db.SQLFragment<any, string | db.Parameter<string> | null | db.DefaultType | db.SQLFragment>;
+      /**
+      * **towns.northing**
+      * - `int4` in database
+      * - Nullable, no default
+      */
+      northing?: number | db.Parameter<number> | null | db.DefaultType | db.SQLFragment | db.SQLFragment<any, number | db.Parameter<number> | null | db.DefaultType | db.SQLFragment>;
+      /**
+      * **towns.nuts_region**
+      * - `varchar` in database
+      * - Nullable, no default
+      */
+      nuts_region?: string | db.Parameter<string> | null | db.DefaultType | db.SQLFragment | db.SQLFragment<any, string | db.Parameter<string> | null | db.DefaultType | db.SQLFragment>;
+      /**
+      * **towns.postcode_sector**
+      * - `varchar` in database
+      * - Nullable, no default
+      */
+      postcode_sector?: string | db.Parameter<string> | null | db.DefaultType | db.SQLFragment | db.SQLFragment<any, string | db.Parameter<string> | null | db.DefaultType | db.SQLFragment>;
+      /**
+      * **towns.type**
+      * - `varchar` in database
+      * - Nullable, no default
+      */
+      type?: string | db.Parameter<string> | null | db.DefaultType | db.SQLFragment | db.SQLFragment<any, string | db.Parameter<string> | null | db.DefaultType | db.SQLFragment>;
     }
     export type UniqueIndex = 'towns_pkey';
     export type Column = keyof Selectable;
@@ -560,20 +807,20 @@ declare module 'zapatos/schema' {
   /* --- aggregate types --- */
 
   export namespace public {  
-    export type Table = counties.Table | indies.Table | links.Table | schema_migrations.Table | towns.Table;
-    export type Selectable = counties.Selectable | indies.Selectable | links.Selectable | schema_migrations.Selectable | towns.Selectable;
-    export type JSONSelectable = counties.JSONSelectable | indies.JSONSelectable | links.JSONSelectable | schema_migrations.JSONSelectable | towns.JSONSelectable;
-    export type Whereable = counties.Whereable | indies.Whereable | links.Whereable | schema_migrations.Whereable | towns.Whereable;
-    export type Insertable = counties.Insertable | indies.Insertable | links.Insertable | schema_migrations.Insertable | towns.Insertable;
-    export type Updatable = counties.Updatable | indies.Updatable | links.Updatable | schema_migrations.Updatable | towns.Updatable;
-    export type UniqueIndex = counties.UniqueIndex | indies.UniqueIndex | links.UniqueIndex | schema_migrations.UniqueIndex | towns.UniqueIndex;
-    export type Column = counties.Column | indies.Column | links.Column | schema_migrations.Column | towns.Column;
+    export type Table = indies.Table | links.Table | schema_migrations.Table | towns.Table;
+    export type Selectable = indies.Selectable | links.Selectable | schema_migrations.Selectable | towns.Selectable;
+    export type JSONSelectable = indies.JSONSelectable | links.JSONSelectable | schema_migrations.JSONSelectable | towns.JSONSelectable;
+    export type Whereable = indies.Whereable | links.Whereable | schema_migrations.Whereable | towns.Whereable;
+    export type Insertable = indies.Insertable | links.Insertable | schema_migrations.Insertable | towns.Insertable;
+    export type Updatable = indies.Updatable | links.Updatable | schema_migrations.Updatable | towns.Updatable;
+    export type UniqueIndex = indies.UniqueIndex | links.UniqueIndex | schema_migrations.UniqueIndex | towns.UniqueIndex;
+    export type Column = indies.Column | links.Column | schema_migrations.Column | towns.Column;
   
-    export type AllBaseTables = [counties.Table, indies.Table, links.Table, schema_migrations.Table, towns.Table];
+    export type AllBaseTables = [indies.Table, links.Table, schema_migrations.Table, towns.Table];
     export type AllForeignTables = [];
     export type AllViews = [];
     export type AllMaterializedViews = [];
-    export type AllTablesAndViews = [counties.Table, indies.Table, links.Table, schema_migrations.Table, towns.Table];
+    export type AllTablesAndViews = [indies.Table, links.Table, schema_migrations.Table, towns.Table];
   }
 
 
@@ -601,7 +848,6 @@ declare module 'zapatos/schema' {
   /* === lookups === */
 
   export type SelectableForTable<T extends Table> = {
-    "counties": counties.Selectable;
     "indies": indies.Selectable;
     "links": links.Selectable;
     "schema_migrations": schema_migrations.Selectable;
@@ -609,7 +855,6 @@ declare module 'zapatos/schema' {
   }[T];
 
   export type JSONSelectableForTable<T extends Table> = {
-    "counties": counties.JSONSelectable;
     "indies": indies.JSONSelectable;
     "links": links.JSONSelectable;
     "schema_migrations": schema_migrations.JSONSelectable;
@@ -617,7 +862,6 @@ declare module 'zapatos/schema' {
   }[T];
 
   export type WhereableForTable<T extends Table> = {
-    "counties": counties.Whereable;
     "indies": indies.Whereable;
     "links": links.Whereable;
     "schema_migrations": schema_migrations.Whereable;
@@ -625,7 +869,6 @@ declare module 'zapatos/schema' {
   }[T];
 
   export type InsertableForTable<T extends Table> = {
-    "counties": counties.Insertable;
     "indies": indies.Insertable;
     "links": links.Insertable;
     "schema_migrations": schema_migrations.Insertable;
@@ -633,7 +876,6 @@ declare module 'zapatos/schema' {
   }[T];
 
   export type UpdatableForTable<T extends Table> = {
-    "counties": counties.Updatable;
     "indies": indies.Updatable;
     "links": links.Updatable;
     "schema_migrations": schema_migrations.Updatable;
@@ -641,7 +883,6 @@ declare module 'zapatos/schema' {
   }[T];
 
   export type UniqueIndexForTable<T extends Table> = {
-    "counties": counties.UniqueIndex;
     "indies": indies.UniqueIndex;
     "links": links.UniqueIndex;
     "schema_migrations": schema_migrations.UniqueIndex;
@@ -649,7 +890,6 @@ declare module 'zapatos/schema' {
   }[T];
 
   export type ColumnForTable<T extends Table> = {
-    "counties": counties.Column;
     "indies": indies.Column;
     "links": links.Column;
     "schema_migrations": schema_migrations.Column;
@@ -657,7 +897,6 @@ declare module 'zapatos/schema' {
   }[T];
 
   export type SQLForTable<T extends Table> = {
-    "counties": counties.SQL;
     "indies": indies.SQL;
     "links": links.SQL;
     "schema_migrations": schema_migrations.SQL;
