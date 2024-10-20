@@ -1,6 +1,6 @@
-import { fakerEN_GB as faker } from "@faker-js/faker"
+import {fakerEN_GB as faker} from "@faker-js/faker"
 import * as db from "zapatos/db"
-import { pool } from "../pool"
+import {pool} from "../pool"
 
 /**
  * Generates a lot of fake data.
@@ -13,15 +13,15 @@ const maxTownId = 49225
 // How many links to add to a vendor (min, max)
 const linksPerIndie = [0, 10]
 // How many vendors to add to a town (min, max)
-const indiesPerTown = [1, 10]
+const indiesPerTown = [1, 50]
 // How many indies to add to the DB in total
-const indieCount = 10
+const indieCount = 1000
 
 export const mock = async () => {
 	const indies = []
 
 	while (indies.length < indieCount) {
-		const town = await pickRandomTown()
+		const townId = await pickRandomTown()
 
 		const indiesInTown = faker.number.int({
 			min: indiesPerTown[0],
@@ -31,11 +31,9 @@ export const mock = async () => {
 		let iit = 0
 
 		while (iit < indiesInTown) {
-			indies.push(await generateIndie(town.id))
+			indies.push(await generateIndie(townId))
 			iit++
 		}
-
-		console.log("Added %s indies to %s", indiesInTown, town.name)
 	}
 	console.log("Generated %s indies in total", indies.length)
 
@@ -49,7 +47,7 @@ export const mock = async () => {
 }
 
 /** Returns a random town ID, which is just an int between 1 and the max - no need to access the DB */
-const pickRandomTown = async () => faker.number.int({ min: 1, max: maxTownId })
+const pickRandomTown = async () => faker.number.int({min: 1, max: maxTownId})
 
 const generateIndie = async (townId: number) =>
 	db
@@ -62,7 +60,7 @@ const generateIndie = async (townId: number) =>
 
 const addLinksToIndie = async (indieId: string) => {
 	const links = faker.helpers
-		.multiple(() => faker.internet.url({ protocol: "https" }), {
+		.multiple(() => faker.internet.url({protocol: "https"}), {
 			count: faker.number.int({
 				min: linksPerIndie[0],
 				max: linksPerIndie[1],
