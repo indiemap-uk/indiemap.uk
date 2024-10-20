@@ -1,0 +1,28 @@
+{
+	"compilerOptions": {
+		"allowSyntheticDefaultImports": true,
+		"declaration": true,
+		"declarationMap": true,
+		"disableReferencedProjectLoad": false,
+		"esModuleInterop": true,
+		"exactOptionalPropertyTypes": true,
+		"forceConsistentCasingInFileNames": true,
+		"incremental": true,
+		"outDir": "lib",
+		"noEmit": true,
+		"isolatedModules": true,
+		"module": "NodeNext",
+		"moduleDetection": "force",
+		"moduleResolution": "NodeNext",
+		"noImplicitOverride": true,
+		"noUncheckedIndexedAccess": true,
+		"noUnusedLocals": true,
+		"noUnusedParameters": true,
+		"removeComments": true,
+		"sourceMap": true,
+		"strict": true,
+		"target": "es2023",
+		"strictNullChecks": true,
+		"noImplicitAny": true
+	}
+}

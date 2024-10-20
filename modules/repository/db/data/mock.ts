@@ -1,6 +1,6 @@
 import {fakerEN_GB as faker} from "@faker-js/faker"
 import * as db from "zapatos/db"
-import {pool} from "../pool"
+import {pool} from "../../src/pool.js"
 
 /**
  * Generates a lot of fake data.
@@ -11,9 +11,9 @@ import {pool} from "../pool"
 // The largest town ID in the DB
 const maxTownId = 49225
 // How many links to add to a vendor (min, max)
-const linksPerIndie = [0, 10]
+const linksPerIndie = [0, 10] as const
 // How many vendors to add to a town (min, max)
-const indiesPerTown = [1, 50]
+const indiesPerTown = [1, 50] as const
 // How many indies to add to the DB in total
 const indieCount = 1000
 
@@ -76,7 +76,7 @@ const addLinksToIndie = async (indieId: string) => {
 }
 
 try {
-	mock()
+	await mock()
 } catch (e: unknown) {
 	console.error(e)
 }

@@ -1,42 +1,19 @@
 {
+	"name": "@indeimap/indiemap",
 	"scripts": {
-		"dev": "node --inspect ./server.js",
-		"start": "NODE_ENV=production node ./server.js",
 		"lint": "biome check",
 		"typecheck": "tsc --noEmit",
-		"validate": "pnpm run lint && pnpm run typecheck",
-		"db": "docker-compose --project-name indiedb up -d",
-		"db:gen": "zapatos",
-		"db:up": "dbmate up",
-		"db:down": "dbmate down",
-		"db:towns": "cd db/data && sh ./install.sh",
-		"db:mock": "tsx db/data/mock.ts",
-		"db:remock": "tsx db/data/delete.ts && pnpm run db:mock"
+		"validate": "pnpm run lint && pnpm run typecheck"
 	},
-	"dependencies": {
-		"@radix-ui/themes": "^3.1.4",
-		"@remix-run/express": "^2.12.1",
-		"@remix-run/node": "^2.12.1",
-		"@remix-run/react": "^2.12.1",
-		"express": "^4.21.0",
-		"isbot": "4",
-		"pg": "^8.13.0",
-		"react": "^18.3.1",
-		"react-dom": "^18.3.1",
-		"zapatos": "^6.4.4"
-	},
+	"dependencies": {},
 	"devDependencies": {
 		"@biomejs/biome": "1.9.3",
 		"@faker-js/faker": "^9.0.3",
-		"@remix-run/dev": "^2.12.1",
 		"@types/pg": "^8.11.10",
-		"@types/react": "^18.3.11",
 		"dbmate": "^2.21.0",
 		"tsx": "^4.19.1",
-		"typescript": "^5.6.2",
-		"vite": "^5.4.8"
+		"typescript": "^5.6.2"
 	},
-	"name": "@indeimap/app",
 	"version": "1.0.0",
 	"private": true,
 	"license": "UNLICENSED",
