@@ -8,11 +8,11 @@
 		"typecheck": "tsc --noEmit",
 		"db": "docker-compose --project-name indiedb up -d",
 		"db:gen": "zapatos",
-		"db:up": "dbmate up",
-		"db:down": "dbmate down",
-		"db:towns": "cd db/data && sh ./install.sh",
-		"db:mock": "tsx db/data/mock.ts",
-		"db:remock": "tsx db/data/delete.ts && pnpm run db:mock"
+		"migrate:up": "dbmate up",
+		"migrate:down": "dbmate down",
+		"towns": "cd db/data && sh ./install.sh",
+		"mock": "tsx db/data/mock.ts",
+		"remock": "tsx db/data/delete.ts && pnpm run db:mock"
 	},
 	"dependencies": {
 		"pg": "^8.13.0",
