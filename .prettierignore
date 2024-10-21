@@ -2,3 +2,5 @@
 package-lock.json
 pnpm-lock.yaml
 yarn.lock
+**/zapatos/schema.d.ts
+**/.svelte-kit

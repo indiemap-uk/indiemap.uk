@@ -6,7 +6,16 @@ import tseslint from 'typescript-eslint'
 
 export default tseslint.config(
 	eslint.configs.recommended,
-	...tseslint.configs.recommended,
+	...tseslint.configs.recommendedTypeChecked,
+	{
+		languageOptions: {
+			parserOptions: {
+				projectService: true,
+				tsconfigRootDir: import.meta.dirname,
+				extraFileExtensions: ['.svelte'],
+			},
+		},
+	},
 	...svelte.configs['flat/recommended'],
 	prettier,
 	...svelte.configs['flat/prettier'],
@@ -19,6 +28,12 @@ export default tseslint.config(
 		},
 	},
 	{
+		rules: {
+			'@typescript-eslint/await-thenable': 'error',
+			'@typescript-eslint/no-floating-promises': 'error',
+		},
+	},
+	{
 		files: ['**/*.svelte'],
 		languageOptions: {
 			parserOptions: {
@@ -26,7 +41,17 @@ export default tseslint.config(
 			},
 		},
 	},
+	// Disable type-related checks in .js files
 	{
-		ignores: ['build/', '.svelte-kit/', 'dist/'],
+		files: ['**/*.js'],
+		extends: [tseslint.configs.disableTypeChecked],
+	},
+	{
+		ignores: [
+			'**/build/',
+			'**/.svelte-kit/',
+			'**/dist/',
+			'**/zapatos/schema.d.ts',
+		],
 	},
 )

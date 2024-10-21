@@ -6,8 +6,8 @@
 
 ```json
 {
-  "devDependencies": {
-    "@i/tsconfig": "workspace:*"
-  }
+	"devDependencies": {
+		"@i/tsconfig": "workspace:*"
+	}
 }
 ```

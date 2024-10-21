@@ -1,5 +1,11 @@
 <script lang="ts">
-	const {data} = $props()
+	const {
+		data,
+	}: {
+		data: {
+			indies: {name: string}[]
+		}
+	} = $props()
 </script>
 
 <h1>Welcome</h1>

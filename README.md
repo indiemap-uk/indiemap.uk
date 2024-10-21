@@ -2,7 +2,6 @@
 
 > All the wonderful stuff made by independent creators in the UK
 
-
 ```sh
 pnpm install
 pnpm db # starts a postgres server in a docker container

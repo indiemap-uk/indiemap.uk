@@ -2,15 +2,26 @@
 	"name": "@indeimap/indiemap",
 	"scripts": {
 		"typecheck": "tsc --noEmit",
-		"validate": "pnpm run lint && pnpm run typecheck"
+		"validate": "pnpm run lint && pnpm run typecheck",
+		"lint": "prettier --check . && eslint .",
+		"lint:fix": "prettier --write . && eslint . --fix"
 	},
-	"dependencies": {},
+	"dependencies": {
+		"@eslint/js": "^9.13.0"
+	},
 	"devDependencies": {
 		"@faker-js/faker": "^9.0.3",
+		"@types/eslint": "^9.6.1",
 		"@types/pg": "^8.11.10",
 		"dbmate": "^2.21.0",
+		"eslint-config-prettier": "^9.1.0",
+		"eslint-plugin-svelte": "^2.46.0",
+		"globals": "^15.11.0",
+		"prettier": "^3.3.3",
+		"prettier-plugin-svelte": "^3.2.7",
 		"tsx": "^4.19.1",
-		"typescript": "^5.6.2"
+		"typescript": "^5.6.2",
+		"typescript-eslint": "^8.10.0"
 	},
 	"version": "1.0.0",
 	"private": true,
