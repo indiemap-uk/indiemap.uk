@@ -1,0 +1,25 @@
+{
+	"name": "@i/core",
+	"imports": {
+		"#lib": "./src/*"
+	},
+	"exports": {
+		"./business": "./src/entities/business/index.ts",
+		"./town": "./src/entities/town/index.ts",
+		"./link": "./src/entities/link/index.ts",
+		"./repository": "./src/repository/index.ts"
+	},
+	"scripts": {
+		"typecheck": "tsc --noEmit"
+	},
+	"dependencies": {
+		"valibot": "^0.42.1"
+	},
+	"devDependencies": {
+		"@i/tsconfig": "workspace:*"
+	},
+	"version": "1.0.0",
+	"private": true,
+	"license": "UNLICENSED",
+	"type": "module"
+}

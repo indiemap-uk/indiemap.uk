@@ -2,7 +2,7 @@
 	"bracketSpacing": false,
 	"overrides": [{"files": "*.svelte", "options": {"parser": "svelte"}}],
 	"plugins": ["prettier-plugin-svelte"],
-	"printWidth": 80,
+	"printWidth": 120,
 	"semi": false,
 	"singleQuote": true,
 	"trailingComma": "all",

@@ -3,7 +3,7 @@
 		data,
 	}: {
 		data: {
-			indies: {name: string}[]
+			businesses: {name: string}[]
 		}
 	} = $props()
 </script>
@@ -12,6 +12,6 @@
 
 <h2>Some random records from the database</h2>
 
-{#each data.indies as indie}
-	<p>{indie.name}</p>
+{#each data.businesses as business}
+	<p>{business.name}</p>
 {/each}

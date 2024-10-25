@@ -1,25 +1,38 @@
 {
 	"name": "@i/repository",
+	"imports": {
+		"#lib": "./src/*",
+		"#db": "./db/*"
+	},
 	"exports": {
-		"./IndieRepository": "./src/IndieRepository.ts",
+		"./BusinessRepository": "./src/BusinessRepository.ts",
 		"./pool": "./src/pool.ts"
 	},
 	"scripts": {
 		"typecheck": "tsc --noEmit",
+		"test": "vitest run --exclude '**/*.db.test.ts'",
+		"test:db": "vitest run **/**/*.db.test.ts",
 		"db": "docker-compose --project-name indiedb up -d",
-		"db:gen": "zapatos",
-		"migrate:up": "dbmate up",
-		"migrate:down": "dbmate down",
+		"db:gen": "zapatos && prettier ./zapatos --write",
+		"mig:new": "node-pg-migrate create",
+		"mig:up": "node-pg-migrate up",
+		"mig:down": "node-pg-migrate down",
+		"mig:redo": "node-pg-migrate redo",
 		"towns": "cd db/data && sh ./install.sh",
 		"mock": "tsx db/data/mock.ts",
 		"remock": "tsx db/data/delete.ts && pnpm run db:mock"
 	},
 	"dependencies": {
+		"@i/core": "workspace:*",
+		"es-toolkit": "^1.26.0",
 		"pg": "^8.13.0",
+		"valibot": "^0.42.1",
 		"zapatos": "^6.4.4"
 	},
 	"devDependencies": {
-		"@i/tsconfig": "workspace:*"
+		"@i/tsconfig": "workspace:*",
+		"@testcontainers/postgresql": "^10.13.2",
+		"node-pg-migrate": "^7.7.1"
 	},
 	"version": "1.0.0",
 	"private": true,

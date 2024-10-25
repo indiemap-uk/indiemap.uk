@@ -8,21 +8,23 @@
 		"exactOptionalPropertyTypes": true,
 		"forceConsistentCasingInFileNames": true,
 		"incremental": true,
-		"outDir": "lib",
-		"noEmit": true,
 		"isolatedModules": true,
 		"module": "NodeNext",
 		"moduleDetection": "force",
 		"moduleResolution": "NodeNext",
+		"noEmit": true,
+		"noImplicitAny": true,
 		"noImplicitOverride": true,
 		"noUncheckedIndexedAccess": true,
 		"noUnusedLocals": true,
 		"noUnusedParameters": true,
+		"outDir": "lib",
 		"removeComments": true,
+		"skipLibCheck": true,
 		"sourceMap": true,
 		"strict": true,
-		"target": "es2023",
 		"strictNullChecks": true,
-		"noImplicitAny": true
-	}
+		"target": "es2023"
+	},
+	"include": ["src"]
 }

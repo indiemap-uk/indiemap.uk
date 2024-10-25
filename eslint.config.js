@@ -47,11 +47,6 @@ export default tseslint.config(
 		extends: [tseslint.configs.disableTypeChecked],
 	},
 	{
-		ignores: [
-			'**/build/',
-			'**/.svelte-kit/',
-			'**/dist/',
-			'**/zapatos/schema.d.ts',
-		],
+		ignores: ['**/build/', '**/.svelte-kit/', '**/dist/', '**/zapatos/schema.d.ts'],
 	},
 )
