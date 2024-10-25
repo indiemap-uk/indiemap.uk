@@ -1,4 +1,5 @@
 import * as v from 'valibot'
+
 import {LinkCreateSchema, LinkSchema, LinkUpdateSchema} from './LinkSchema.js'
 
 export type LinkType = v.InferOutput<typeof LinkSchema>

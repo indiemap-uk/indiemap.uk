@@ -1,4 +1,5 @@
 import type {Pool} from 'pg'
+
 import * as db from 'zapatos/db'
 
 export const insertTestTowns = async (pool: Pool) => {

@@ -1,12 +1,14 @@
+import type {BusinessCreateType} from '@i/core/business'
+
+import {LinkCreateType} from '@i/core/link'
+import {PostgreSqlContainer} from '@testcontainers/postgresql'
+import {runner as migrationRunner} from 'node-pg-migrate'
 import {describe, expect, test} from 'vitest'
+
+import {BusinessRepositoryPostgres} from '../BusinessRepositoryPostgres.js'
 import {getPool} from '../getPool.js'
 import {LinkRepositoryPostgres} from '../LinkRepositoryPostgres.js'
-import {LinkCreateType} from '@i/core/link'
-import {BusinessRepositoryPostgres} from '../BusinessRepositoryPostgres.js'
-import type {BusinessCreateType} from '@i/core/business'
 import {TownRepositoryPostgres} from '../TownRepositoryPostgres.js'
-import {runner as migrationRunner} from 'node-pg-migrate'
-import {PostgreSqlContainer} from '@testcontainers/postgresql'
 import {insertTestTowns} from './insertTestTowns.js'
 
 describe('link Repository Postgres', () => {
@@ -16,9 +18,9 @@ describe('link Repository Postgres', () => {
 
 		await migrationRunner({
 			databaseUrl,
-			migrationsTable: 'pgmigrations',
 			dir: 'migrations',
 			direction: 'up',
+			migrationsTable: 'pgmigrations',
 		})
 
 		const pool = getPool(databaseUrl)
@@ -38,9 +40,9 @@ describe('link Repository Postgres', () => {
 		const business = await businessRepository.create(newBusiness)
 
 		const newLink: LinkCreateType = {
-			url: 'https://www.example.com',
-			label: 'example',
 			businessId: business.id,
+			label: 'example',
+			url: 'https://www.example.com',
 		}
 
 		const linkFromDb = await linkRepository.create(newLink)

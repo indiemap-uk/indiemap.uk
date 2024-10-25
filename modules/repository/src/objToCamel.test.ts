@@ -1,4 +1,5 @@
 import {describe, expect, test} from 'vitest'
+
 import {objToCamel} from './objToCamel.js'
 
 describe('Obj to Camel', () => {

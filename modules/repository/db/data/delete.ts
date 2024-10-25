@@ -2,6 +2,7 @@
  * Removes the data from the tables, except for the town data as that takes a long time to reload
  */
 import * as db from 'zapatos/db'
+
 import {getPool} from '../../src/getPool.js'
 
 const deleteData = async () => {

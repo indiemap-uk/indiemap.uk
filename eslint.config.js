@@ -1,5 +1,6 @@
 import eslint from '@eslint/js'
 import prettier from 'eslint-config-prettier'
+import perfectionist from 'eslint-plugin-perfectionist'
 import svelte from 'eslint-plugin-svelte'
 import globals from 'globals'
 import tseslint from 'typescript-eslint'
@@ -10,9 +11,9 @@ export default tseslint.config(
 	{
 		languageOptions: {
 			parserOptions: {
+				extraFileExtensions: ['.svelte'],
 				projectService: true,
 				tsconfigRootDir: import.meta.dirname,
-				extraFileExtensions: ['.svelte'],
 			},
 		},
 	},
@@ -27,6 +28,7 @@ export default tseslint.config(
 			},
 		},
 	},
+	perfectionist.configs['recommended-natural'],
 	{
 		rules: {
 			'@typescript-eslint/await-thenable': 'error',
@@ -43,8 +45,8 @@ export default tseslint.config(
 	},
 	// Disable type-related checks in .js files
 	{
-		files: ['**/*.js'],
 		extends: [tseslint.configs.disableTypeChecked],
+		files: ['**/*.js'],
 	},
 	{
 		ignores: ['**/build/', '**/.svelte-kit/', '**/dist/', '**/zapatos/schema.d.ts'],

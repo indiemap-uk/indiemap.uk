@@ -2,18 +2,18 @@ import * as v from 'valibot'
 
 /** Towns are not editable so we only have a single schema */
 export const TownSchema = v.object({
-	id: v.number(),
-	name: v.string(),
-	county: v.string(),
 	country: v.string(),
-	grid_reference: v.string(),
+	county: v.string(),
 	easting: v.number(),
-	northing: v.number(),
-	latitude: v.pipe(v.string(), v.decimal()),
-	longitude: v.pipe(v.string(), v.decimal()),
 	elevation: v.number(),
-	postcode_sector: v.string(),
+	grid_reference: v.string(),
+	id: v.number(),
+	latitude: v.pipe(v.string(), v.decimal()),
 	local_government_area: v.string(),
+	longitude: v.pipe(v.string(), v.decimal()),
+	name: v.string(),
+	northing: v.number(),
 	nuts_region: v.string(),
+	postcode_sector: v.string(),
 	type: v.string(),
 })

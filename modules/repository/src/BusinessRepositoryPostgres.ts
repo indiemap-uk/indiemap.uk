@@ -1,8 +1,10 @@
-import * as db from 'zapatos/db'
-import * as v from 'valibot'
-import type * as s from 'zapatos/schema'
 import type {CRUDRepository} from '@i/core/repository'
+import type * as s from 'zapatos/schema'
+
 import {BusinessCreateSchema, type BusinessCreateType, BusinessSchema, type BusinessType} from '@i/core/business'
+import * as v from 'valibot'
+import * as db from 'zapatos/db'
+
 import {CRUDRepositoryPostgres} from './CRUDRepositoryPostgres.js'
 import {objToCamel} from './objToCamel.js'
 import {objToSnake} from './objToSnake.js'

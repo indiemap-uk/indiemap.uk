@@ -10,34 +10,34 @@ exports.shorthands = undefined
  */
 exports.up = (pgm) => {
 	pgm.createTable('towns', {
-		id: {type: 'int', notNull: true, primaryKey: true},
-		name: {type: 'varchar(56)'},
-		county: {type: 'varchar(32)'},
 		country: {type: 'varchar(16)'},
-		grid_reference: {type: 'varchar(8)'},
+		county: {type: 'varchar(32)'},
 		easting: {type: 'int'},
-		northing: {type: 'int'},
-		latitude: {type: 'numeric(8, 5)'},
-		longitude: {type: 'numeric(8, 5)'},
 		elevation: {type: 'int'},
-		postcode_sector: {type: 'varchar(6)'},
+		grid_reference: {type: 'varchar(8)'},
+		id: {notNull: true, primaryKey: true, type: 'int'},
+		latitude: {type: 'numeric(8, 5)'},
 		local_government_area: {type: 'varchar(44)'},
+		longitude: {type: 'numeric(8, 5)'},
+		name: {type: 'varchar(56)'},
+		northing: {type: 'int'},
 		nuts_region: {type: 'varchar(24)'},
+		postcode_sector: {type: 'varchar(6)'},
 		type: {type: 'varchar(13)'},
 	})
 
 	pgm.createTable('businesses', {
-		id: {type: 'uuid', notNull: true, primaryKey: true, default: pgm.func('gen_random_uuid()')},
-		name: {type: 'varchar', notNull: true},
 		description: {type: 'text'},
-		town_id: {type: 'int', notNull: true, references: 'towns', onDelete: 'SET NULL', onUpdate: 'CASCADE'},
+		id: {default: pgm.func('gen_random_uuid()'), notNull: true, primaryKey: true, type: 'uuid'},
+		name: {notNull: true, type: 'varchar'},
+		town_id: {notNull: true, onDelete: 'SET NULL', onUpdate: 'CASCADE', references: 'towns', type: 'int'},
 	})
 
 	pgm.createTable('links', {
-		id: {type: 'uuid', notNull: true, primaryKey: true, default: pgm.func('gen_random_uuid()')},
-		url: {type: 'varchar', notNull: true},
+		business_id: {notNull: true, onDelete: 'CASCADE', onUpdate: 'CASCADE', references: 'businesses', type: 'uuid'},
+		id: {default: pgm.func('gen_random_uuid()'), notNull: true, primaryKey: true, type: 'uuid'},
 		label: {type: 'text'},
-		business_id: {type: 'uuid', notNull: true, references: 'businesses', onDelete: 'CASCADE', onUpdate: 'CASCADE'},
+		url: {notNull: true, type: 'varchar'},
 	})
 }
 

@@ -1,8 +1,10 @@
-import * as db from 'zapatos/db'
-import {CRUDRepositoryPostgres} from './CRUDRepositoryPostgres.js'
+import type * as s from 'zapatos/schema'
+
 import {type TownRepository, TownSchema} from '@i/core/town'
 import * as v from 'valibot'
-import type * as s from 'zapatos/schema'
+import * as db from 'zapatos/db'
+
+import {CRUDRepositoryPostgres} from './CRUDRepositoryPostgres.js'
 
 export class TownRepositoryPostgres extends CRUDRepositoryPostgres implements TownRepository {
 	private toSchema = (record: object) => {
