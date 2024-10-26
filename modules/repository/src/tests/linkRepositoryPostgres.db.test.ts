@@ -11,6 +11,7 @@ import {LinkRepositoryPostgres} from '../LinkRepositoryPostgres.js'
 import {TownRepositoryPostgres} from '../TownRepositoryPostgres.js'
 import {insertTestTowns} from './insertTestTowns.js'
 
+/** WARNING: This test does not work with OrbStack */
 describe('link Repository Postgres', () => {
 	test(`insert`, async () => {
 		const container = await new PostgreSqlContainer().start()
