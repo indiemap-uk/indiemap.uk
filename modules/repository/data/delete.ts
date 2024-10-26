@@ -3,7 +3,7 @@
  */
 import * as db from 'zapatos/db'
 
-import {getPool} from '../../src/getPool.js'
+import {getPool} from '../src/getPool.js'
 
 const deleteData = async () => {
 	const pool = getPool(process.env.DATABASE_URL!)

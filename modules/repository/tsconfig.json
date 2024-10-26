@@ -4,8 +4,8 @@
 		"allowJs": true,
 		"paths": {
 			"#lib/*": ["./src"],
-			"#db/*": ["./db"]
+			"#data/*": ["./data"]
 		}
 	},
-	"include": ["src", "db/data", "migrations", "zapatos"]
+	"include": ["src", "data", "migrations", "zapatos"]
 }

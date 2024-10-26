@@ -18,9 +18,7 @@
 		"mig:up": "node-pg-migrate up",
 		"mig:down": "node-pg-migrate down",
 		"mig:redo": "node-pg-migrate redo",
-		"towns": "cd db/data && sh ./install.sh",
-		"mock": "tsx db/data/mock.ts",
-		"remock": "tsx db/data/delete.ts && pnpm run db:mock"
+		"towns": "cd data && sh ./install.sh"
 	},
 	"dependencies": {
 		"@i/core": "workspace:*",
