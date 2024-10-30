@@ -1,15 +1,23 @@
 {
 	"name": "@i/web",
 	"scripts": {
-		"dev": "vite dev",
+		"dev": "DEBUG=indie* vite dev",
 		"build": "vite build",
 		"preview": "vite preview",
 		"check": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json",
 		"check:watch": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json --watch"
 	},
 	"dependencies": {
+		"@i/core": "workspace:*",
 		"@i/repository": "workspace:*",
-		"bulma": "^1.0.2"
+		"@tabler/icons-svelte": "^3.20.0",
+		"@tanstack/svelte-query": "^5.59.16",
+		"@tanstack/svelte-query-devtools": "^5.59.16",
+		"bulma": "^1.0.2",
+		"es-toolkit": "1.26.1",
+		"ky": "^1.7.2",
+		"sveltekit-superforms": "^2.20.0",
+		"valibot": "0.42.1"
 	},
 	"devDependencies": {
 		"@sveltejs/adapter-auto": "^3.0.0",

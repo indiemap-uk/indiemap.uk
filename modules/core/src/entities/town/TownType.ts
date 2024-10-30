@@ -1,6 +1,9 @@
 import * as v from 'valibot'
 
-import {TownSchema} from './TownSchema.js'
+import {TownSchema, type TownSearchResultSchema, TownSearchSchema} from './TownSchema.js'
 
-/** Towns are not editable so we only have a single type */
 export type TownType = v.InferOutput<typeof TownSchema>
+
+export type TownSearchType = v.InferOutput<typeof TownSearchSchema>
+
+export type TownSearchResultType = v.InferOutput<typeof TownSearchResultSchema>

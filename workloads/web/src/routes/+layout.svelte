@@ -1,33 +1,22 @@
 <script lang="ts">
 	import 'bulma/css/bulma.css'
+
+	import {QueryClientProvider, QueryClient} from '@tanstack/svelte-query'
+	import {SvelteQueryDevtools} from '@tanstack/svelte-query-devtools'
+	import {browser} from '$app/environment'
+
+	const queryClient = new QueryClient()
 </script>
 
-<div class="grid">
-
-	<header>
-		<h1 class="title is-1">Indiemap</h1>
-	</header>
-
-	<main>
-	<slot/>
-	</main>
-
-	<footer class="footer">
-		<div class="content has-text-centered">
-			<p>
-				<strong>Indiemap.uk</strong>
-			</p>
-			<p>Made with 🫖 and 🌧️ in Brentwood, Essex.</p>
-		</div>
-	</footer>
-
-</div>
+<QueryClientProvider client={queryClient}>
+	<slot />
+	{#if browser && document.location.href.includes('localhost')}
+		<SvelteQueryDevtools />
+	{/if}
+</QueryClientProvider>
 
 <style>
-.grid {
-	display: grid;
-	grid-template-columns: 1fr;
-	grid-template-rows: auto 1fr auto;
-	height: 100vh;
-}
+	:global(body) {
+		overflow: hidden;
+	}
 </style>

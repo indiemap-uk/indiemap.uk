@@ -1,0 +1,16 @@
+meta {
+  name: towns-search
+  type: http
+  seq: 2
+}
+
+get {
+  url: http://localhost:5173/api/town/search?q=Brent
+  body: none
+  auth: none
+}
+
+params:query {
+  q: Brent
+  ~q: x
+}

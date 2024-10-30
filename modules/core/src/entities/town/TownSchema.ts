@@ -1,13 +1,13 @@
 import * as v from 'valibot'
 
-/** Towns are not editable so we only have a single schema */
+/** Towns are not editable, so there is no create- or update schema */
 export const TownSchema = v.object({
 	country: v.string(),
 	county: v.string(),
 	easting: v.number(),
 	elevation: v.number(),
 	grid_reference: v.string(),
-	id: v.number(),
+	id: v.pipe(v.number(), v.minValue(1), v.maxValue(50_000)),
 	latitude: v.pipe(v.string(), v.decimal()),
 	local_government_area: v.string(),
 	longitude: v.pipe(v.string(), v.decimal()),
@@ -17,3 +17,7 @@ export const TownSchema = v.object({
 	postcode_sector: v.string(),
 	type: v.string(),
 })
+
+export const TownSearchSchema = v.pipe(v.string(), v.minLength(3), v.maxLength(20))
+
+export const TownSearchResultSchema = v.pick(TownSchema, ['id', 'name', 'county'])

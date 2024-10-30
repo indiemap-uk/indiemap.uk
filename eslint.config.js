@@ -33,6 +33,10 @@ export default tseslint.config(
 		rules: {
 			'@typescript-eslint/await-thenable': 'error',
 			'@typescript-eslint/no-floating-promises': 'error',
+			// Turning off all no-unsafe-* as they keep reporting nonsense 😡
+			'@typescript-eslint/no-unsafe-argument': 'off',
+			'@typescript-eslint/no-unsafe-assignment': 'off',
+			'@typescript-eslint/no-unsafe-call': 'off',
 		},
 	},
 	{

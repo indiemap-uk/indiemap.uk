@@ -1,8 +1,13 @@
 import type * as s from 'zapatos/schema'
 
-import {type TownRepository, TownSchema} from '@i/core/town'
+import {
+	type TownRepository,
+	TownSchema,
+	TownSearchResultSchema,
+	type TownSearchResultType,
+	TownSearchSchema,
+} from '@i/core/town'
 import * as v from 'valibot'
-import * as db from 'zapatos/db'
 
 import {CRUDRepositoryPostgres} from './CRUDRepositoryPostgres.js'
 
@@ -12,18 +17,33 @@ export class TownRepositoryPostgres extends CRUDRepositoryPostgres implements To
 	}
 
 	async getById(id: number) {
-		const record = await db.selectExactlyOne('towns', {id}).run(this.pool)
+		const record = await this.db.selectExactlyOne('towns', {id}).run(this.pool)
 
 		return this.toSchema(record)
 	}
 
 	async getRandom() {
-		const records = (await db.sql`SELECT * FROM towns ORDER BY random() LIMIT 1`.run(this.pool)) as s.towns.Selectable[]
+		const records = (await this.db.sql`SELECT * FROM towns ORDER BY random() LIMIT 1`.run(
+			this.pool,
+		)) as s.towns.Selectable[]
 
 		if (!records?.[0]) {
 			throw new Error('No random town found')
 		}
 
 		return this.toSchema(records[0])
+	}
+
+	async search(qInput: string): Promise<TownSearchResultType[]> {
+		const q = v.parse(TownSearchSchema, qInput)
+
+		const records = await this.db.sql`SELECT id, name, county 
+		FROM ${'towns'}
+		WHERE ${{
+			name: this.db.sql`LOWER(${this.db.self}) LIKE(${this.db.param(`${q.toLowerCase()}%`)})`,
+		}}
+		LIMIT 25`.run(this.pool)
+
+		return records.map((r) => v.parse(TownSearchResultSchema, r))
 	}
 }

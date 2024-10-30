@@ -5,8 +5,7 @@
 		"#db": "./db/*"
 	},
 	"exports": {
-		"./BusinessRepository": "./src/BusinessRepository.ts",
-		"./pool": "./src/pool.ts"
+		".": "./src/index.ts"
 	},
 	"scripts": {
 		"typecheck": "tsc --noEmit",
@@ -22,6 +21,7 @@
 	},
 	"dependencies": {
 		"@i/core": "workspace:*",
+		"debug": "^4.3.7",
 		"es-toolkit": "^1.26.0",
 		"pg": "^8.13.0",
 		"valibot": "^0.42.1",
@@ -30,6 +30,7 @@
 	"devDependencies": {
 		"@i/tsconfig": "workspace:*",
 		"@testcontainers/postgresql": "^10.13.2",
+		"@types/debug": "^4.1.12",
 		"node-pg-migrate": "^7.7.1"
 	},
 	"version": "1.0.0",

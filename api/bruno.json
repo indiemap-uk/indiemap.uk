@@ -1,0 +1,9 @@
+{
+  "version": "1",
+  "name": "Indiemap",
+  "type": "collection",
+  "ignore": [
+    "node_modules",
+    ".git"
+  ]
+}
