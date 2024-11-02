@@ -9,7 +9,7 @@
 
 <QueryClientProvider client={queryClient}>
 	<slot />
-	{#if browser && document.location.href.includes('localhost')}
+	{#if browser && window.localStorage.getItem('querydebug')}
 		<SvelteQueryDevtools />
 	{/if}
 </QueryClientProvider>

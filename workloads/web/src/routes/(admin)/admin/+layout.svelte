@@ -6,8 +6,8 @@
 		[
 			'Business',
 			[
-				['List', '/admin/business'],
-				['Add', '/admin/business/add'],
+				['List', '/admin/businesses'],
+				['Add', '/admin/business'],
 			],
 		],
 	]

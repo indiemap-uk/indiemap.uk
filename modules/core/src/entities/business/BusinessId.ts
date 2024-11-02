@@ -1,6 +1,6 @@
 import {newIdFn} from '../../id/newIdFn.js'
 import {TypeIDSchema} from '../../id/TypeIDSchema.js'
 
-const businessIdPrefix = 'business'
-export const BusinessIdSchema = TypeIDSchema('business')
+const businessIdPrefix = 'bsn'
+export const BusinessIdSchema = TypeIDSchema(businessIdPrefix)
 export const newBusinessId = newIdFn(businessIdPrefix)

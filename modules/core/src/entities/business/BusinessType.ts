@@ -1,7 +1,9 @@
 import * as v from 'valibot'
 
-import {BusinessCreateSchema, BusinessSchema, BusinessUpdateSchema} from './BusinessSchema.js'
+import {BusinessIdSchema} from './BusinessId.js'
+import {BusinessCreateSchema, BusinessCRUDSchema, BusinessSchema} from './BusinessSchema.js'
 
+export type BusinessIdType = v.InferOutput<typeof BusinessIdSchema>
 export type BusinessType = v.InferOutput<typeof BusinessSchema>
 export type BusinessCreateType = v.InferOutput<typeof BusinessCreateSchema>
-export type BusinessUpdateType = v.InferOutput<typeof BusinessUpdateSchema>
+export type BusinessCRUDType = v.InferOutput<typeof BusinessCRUDSchema>

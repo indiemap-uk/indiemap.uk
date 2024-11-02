@@ -1,36 +1,48 @@
 <script lang="ts">
-	import {browser} from '$app/environment'
-	import {useTownSearch} from '$lib/api/townQuery.js'
 	import {debounce} from '$lib/debounce.js'
-	import SuperDebug, {superForm} from 'sveltekit-superforms'
+	import type {BusinessCRUDType} from '@i/core/business'
+	import type {TownSearchResultType} from '@i/core/town'
+	import type {Writable} from 'svelte/store'
+	import {superForm} from 'sveltekit-superforms'
+	import type {SuperValidated} from 'sveltekit-superforms'
 
-	const {data} = $props()
-	const {constraints, enhance, errors, form, message} = superForm(data.form)
-	const {townQuery, townSearchFilter} = useTownSearch()
+	const {
+		sForm,
+		isLoading,
+		isError,
+		isSuccess,
+		towns = [],
+		townSearchFilter,
+	}: {
+		sForm: SuperValidated<BusinessCRUDType>
+		isError: boolean
+		isLoading: boolean
+		isSuccess: boolean
+		towns: TownSearchResultType[]
+		townSearchFilter: Writable<string>
+	} = $props()
+	const {constraints, enhance, errors, form, message} = superForm(sForm)
 
 	// Select the first town by default
 	$effect(() => {
-		if (!$form.townId && $townQuery.isSuccess) {
-			console.log('setting townId', $townQuery.data?.[0].id)
-			$form.townId = $townQuery.data?.[0].id
+		if (!towns?.map((t) => t.id).includes($form.townId) && isSuccess) {
+			$form.townId = towns?.[0].id
 		}
 	})
+
+	$inspect({message, errors})
 </script>
 
-<svelte:head>
-	<title>Add a business</title>
-</svelte:head>
-
-<h1 class="title">New a business</h1>
-
 {#if $message}
-	<div class="notification is-success">
-		{$message}
-	</div>
+	<h2>{$message}</h2>
 {/if}
 
 <div class="block">
-	<form action="?/add" method="post" use:enhance>
+	<form method="POST" use:enhance>
+		{#if $form.id}
+			<input type="hidden" bind:value={$form.id} name="id" />
+		{/if}
+
 		<div class="field">
 			<label class="label" for="name">Name</label>
 			<div class="control">
@@ -62,32 +74,36 @@
 		</div>
 		<div class="field">
 			<label class="label" for="townSearch">Town</label>
-			<div class="control" class:is-loading={$townQuery.isLoading} class:is-danger={$townQuery.isError}>
+			<div class="control" class:is-loading={isLoading} class:is-danger={isError}>
 				<input use:debounce={{callback: (f) => ($townSearchFilter = f)}} name="townSearch" class="input" type="text" />
 			</div>
 		</div>
 
 		<div class="field">
-			<ul>
-				{#if $townQuery.isSuccess}
-					{#each $townQuery.data as town, index}
+			<ul class="grid is-col-min-15">
+				{#if isSuccess}
+					{#each towns as town}
 						<li>
 							<label for={String(town.id)} class="radio">
 								<input bind:group={$form.townId} type="radio" name="townId" id={String(town.id)} value={town.id} />
-								{town.name}
+								{town.name} ({town.county})
 							</label>
 						</li>
 					{/each}
+				{:else}
+					<input type="hidden" bind:value={$form.townId} name="townId" />
 				{/if}
 			</ul>
 		</div>
 
 		<button class="button is-primary" type="submit">Save</button>
+		{#if $form.id}
+			<button
+				name="delete"
+				class="button is-danger"
+				type="submit"
+				onclick={(e) => !confirm('Are you sure?') && e.preventDefault()}>Delete</button
+			>
+		{/if}
 	</form>
 </div>
-
-{#if browser && document.location.href.includes('localhost')}
-	<div class="block">
-		<SuperDebug data={$form} />
-	</div>
-{/if}
