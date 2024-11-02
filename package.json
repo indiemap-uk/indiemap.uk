@@ -1,7 +1,7 @@
 {
 	"name": "@indeimap/indiemap",
 	"scripts": {
-		"typecheck": "pnpm --filter !tsconfig recursive exec tsc --noEmit",
+		"typecheck": "pnpm --filter !tsconfig --filter !web recursive exec tsc --noEmit && pnpm -F web check",
 		"test": "pnpm --filter !tsconfig recursive run test",
 		"validate": "pnpm run lint && pnpm run typecheck && pnpm run test",
 		"lint": "prettier --check . && eslint .",

@@ -1,4 +1,5 @@
-import type {CRUDRepository} from '../../repository/index.js'
-import type {LinkType} from './LinkType.js'
+import type {LinkCreateType, LinkType} from './LinkType.js'
 
-export type LinkRepository = CRUDRepository<LinkType>
+export type LinkRepository = {
+	create(data: LinkCreateType): Promise<LinkType>
+}

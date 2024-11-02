@@ -1,6 +1,10 @@
 <script lang="ts">
 </script>
 
+<svelte:head>
+	<title>Admin</title>
+</svelte:head>
+
 <h2 class="subtitle">This is the admin dashboard</h2>
 
 <style>

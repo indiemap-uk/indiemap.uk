@@ -17,6 +17,10 @@
 	})
 </script>
 
+<svelte:head>
+	<title>Add a business</title>
+</svelte:head>
+
 <h1 class="title">New a business</h1>
 
 {#if $message}

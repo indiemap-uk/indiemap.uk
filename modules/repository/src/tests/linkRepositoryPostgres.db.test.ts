@@ -1,11 +1,12 @@
 import type {BusinessCreateType} from '@i/core/business'
+import type {LinkCreateType} from '@i/core/link'
 
-import {LinkCreateType} from '@i/core/link'
 import {PostgreSqlContainer} from '@testcontainers/postgresql'
 import {runner as migrationRunner} from 'node-pg-migrate'
 import {describe, expect, test} from 'vitest'
 
 import {BusinessRepositoryPostgres} from '../BusinessRepositoryPostgres.js'
+import {getDb} from '../getDb.js'
 import {getPool} from '../getPool.js'
 import {LinkRepositoryPostgres} from '../LinkRepositoryPostgres.js'
 import {TownRepositoryPostgres} from '../TownRepositoryPostgres.js'
@@ -25,9 +26,9 @@ describe('link Repository Postgres', () => {
 		})
 
 		const pool = getPool(databaseUrl)
-		const townRepository = new TownRepositoryPostgres(pool)
-		const linkRepository = new LinkRepositoryPostgres(pool)
-		const businessRepository = new BusinessRepositoryPostgres(pool)
+		const townRepository = new TownRepositoryPostgres(pool, getDb())
+		const linkRepository = new LinkRepositoryPostgres(pool, getDb())
+		const businessRepository = new BusinessRepositoryPostgres(pool, getDb())
 
 		await insertTestTowns(pool)
 		const town = await townRepository.getRandom()

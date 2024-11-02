@@ -1,4 +1,6 @@
-import type {CRUDRepository} from '../../repository/index.js'
-import type {BusinessType} from './BusinessType.js'
+import type {BusinessCreateType, BusinessType} from './BusinessType.js'
 
-export type BusinessRepository = CRUDRepository<BusinessType>
+export type BusinessRepository = {
+	create(data: BusinessCreateType): Promise<BusinessType>
+	list(): Promise<BusinessType[]>
+}

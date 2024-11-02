@@ -81,10 +81,6 @@
 		display: flex;
 		flex-direction: column;
 
-		.logo {
-			width: 150px;
-		}
-
 		button {
 			position: absolute;
 			bottom: 2rem;

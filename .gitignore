@@ -4,3 +4,4 @@ build
 .idea
 .husky
 *.tsbuildinfo
+.vscode/settings.json

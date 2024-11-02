@@ -1,6 +1,5 @@
+import type {TownRepository} from './TownRepository.js'
 import type {TownSearchResultType, TownSearchType} from './TownType.js'
-
-import {TownRepository} from './TownRepository.js'
 
 export class TownService {
 	constructor(private readonly townRepository: TownRepository) {}

@@ -24,7 +24,8 @@
 		"sourceMap": true,
 		"strict": true,
 		"strictNullChecks": true,
-		"target": "es2023"
+		"target": "es2023",
+		"verbatimModuleSyntax": true
 	},
 	"include": ["src"]
 }

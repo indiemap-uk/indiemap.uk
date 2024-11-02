@@ -32,10 +32,9 @@ exports.up = (pgm) => {
 
 	pgm.createTable('businesses', {
 		id: {
-			default: pgm.func('gen_random_uuid()'),
 			notNull: true,
 			primaryKey: true,
-			type: 'uuid',
+			type: 'varchar(90)',
 		},
 		description: {type: 'text'},
 		name: {notNull: true, type: 'varchar'},
@@ -50,17 +49,16 @@ exports.up = (pgm) => {
 
 	pgm.createTable('links', {
 		id: {
-			default: pgm.func('gen_random_uuid()'),
 			notNull: true,
 			primaryKey: true,
-			type: 'uuid',
+			type: 'varchar(90)',
 		},
 		business_id: {
 			notNull: true,
 			onDelete: 'CASCADE',
 			onUpdate: 'CASCADE',
 			references: 'businesses',
-			type: 'uuid',
+			type: 'varchar(90)',
 		},
 		label: {type: 'text'},
 		url: {notNull: true, type: 'varchar'},
