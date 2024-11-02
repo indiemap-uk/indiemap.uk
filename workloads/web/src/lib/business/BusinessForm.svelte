@@ -21,7 +21,7 @@
 		towns: TownSearchResultType[]
 		townSearchFilter: Writable<string>
 	} = $props()
-	const {constraints, enhance, errors, form, message} = superForm(sForm)
+	const {constraints, enhance, errors, form, message, isTainted, tainted} = superForm(sForm)
 
 	// Select the first town by default
 	$effect(() => {
@@ -29,8 +29,6 @@
 			$form.townId = towns?.[0].id
 		}
 	})
-
-	$inspect({message, errors})
 </script>
 
 {#if $message}
@@ -96,9 +94,15 @@
 			</ul>
 		</div>
 
-		<button class="button is-primary" type="submit">Save</button>
+		<button
+			class="button is-primary"
+			type="submit"
+			disabled={!isTainted($tainted)}
+			formaction={$form.id ? `?/update` : `?/create`}>Save</button
+		>
 		{#if $form.id}
 			<button
+				formaction="?/delete"
 				name="delete"
 				class="button is-danger"
 				type="submit"

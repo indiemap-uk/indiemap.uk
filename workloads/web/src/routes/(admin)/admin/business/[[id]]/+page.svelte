@@ -14,7 +14,8 @@
 </svelte:head>
 
 {#if data.business?.id}
-	<h1 class="title">Edit {data.business.name}</h1>
+	<h1 class="title">{data.business.name}</h1>
+	<h2 class="subtitle">Edit business</h2>
 {:else}
 	<h1 class="title">Add a business</h1>
 {/if}

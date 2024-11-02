@@ -1,13 +1,7 @@
-import {
-	BusinessCRUDSchema,
-	type BusinessCRUDType,
-	BusinessIdSchema,
-	BusinessSchema,
-	type BusinessType,
-} from '@i/core/business'
+import {BusinessCRUDSchema, BusinessIdSchema, BusinessSchema} from '@i/core/business'
 import {error, fail} from '@sveltejs/kit'
 import {redirect} from '@sveltejs/kit'
-import {message, superValidate} from 'sveltekit-superforms'
+import {superValidate} from 'sveltekit-superforms'
 import {valibot} from 'sveltekit-superforms/adapters'
 import * as v from 'valibot'
 
@@ -34,33 +28,41 @@ export const load: PageServerLoad = async ({locals, params}) => {
 }
 
 export const actions = {
-	default: async ({locals, request}) => {
-		const formData = await request.formData()
-		if (formData.has('delete')) {
-			await locals.container.businessService.delete(v.parse(BusinessIdSchema, formData.get('id')))
-
-			return redirect(301, '/admin/businesses')
-		}
-
+	create: async ({locals, request}) => {
 		const form = await superValidate(request, valibot(BusinessCRUDSchema))
 
 		if (!form.valid) {
-			console.error('Invalid form data', form)
 			return fail(400, {form})
 		}
 
-		if (!form.data.id) {
-			// Create new business
-			let business
-			try {
-				business = await locals.container.businessService.create(form.data)
-			} catch (error) {
-				console.error(error)
-				return fail(500, {form})
-			}
+		// Create new business
+		let business
+		try {
+			business = await locals.container.businessService.create(form.data)
+		} catch (error) {
+			console.error(error)
+			return fail(500, {form})
+		}
 
-			return redirect(301, `/admin/business/${business.id.toString()}`)
-		} else if (v.is(BusinessSchema, form.data)) {
+		return redirect(301, `/admin/business/${business.id.toString()}`)
+	},
+
+	delete: async ({locals, request}) => {
+		const formData = await request.formData()
+
+		await locals.container.businessService.delete(v.parse(BusinessIdSchema, formData.get('id')))
+
+		return redirect(301, '/admin/businesses')
+	},
+
+	update: async ({locals, request}) => {
+		const form = await superValidate(request, valibot(BusinessCRUDSchema))
+
+		if (!form.valid) {
+			return fail(400, {form})
+		}
+
+		if (v.is(BusinessSchema, form.data)) {
 			// Update existing business
 			try {
 				await locals.container.businessService.update(form.data)
@@ -70,7 +72,7 @@ export const actions = {
 			}
 		} else {
 			// Invalid
-			throw new Error('Invalid business data')
+			throw new Error('Invalid business data in update')
 		}
 	},
 } satisfies Actions
