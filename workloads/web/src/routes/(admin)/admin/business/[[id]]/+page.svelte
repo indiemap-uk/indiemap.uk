@@ -4,11 +4,10 @@
 
 	const {data} = $props()
 	const {message} = superForm(data.form)
-	const town = data.town
 </script>
 
 <svelte:head>
-	<title>Add a business</title>
+	<title>Business</title>
 </svelte:head>
 
 {#if $message}
@@ -16,10 +15,9 @@
 {/if}
 
 {#if data.business?.id}
-	<h1 class="title">{data.business.name}</h1>
-	<h2 class="subtitle">Edit business</h2>
+	<h1 class="title"><span class="tag is-info">Edit</span> {data.business.name}</h1>
 {:else}
 	<h1 class="title">Add a business</h1>
 {/if}
 
-<BusinessForm sForm={data.form} town={data.town} />
+<BusinessForm sForm={data.form} town={data.business?.town} />

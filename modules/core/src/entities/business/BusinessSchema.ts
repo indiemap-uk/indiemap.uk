@@ -3,11 +3,12 @@ import * as v from 'valibot'
 import {TownSchema} from '../town/index.js'
 import {BusinessIdSchema} from './BusinessId.js'
 
+const BusinessResolvedReferences = v.object({
+	town: TownSchema,
+})
+
 /**
- * A schema representing a Business.
- *
- * Other properties might be added by services, e.g. a list of LInks or the Town the business is in,
- * but these are treted as separate entities and we only store the mandatory relations in the core entity.
+ * A schema representing a Business, this includes references to other entities.
  **/
 export const BusinessSchema = v.object({
 	description: v.nullish(v.pipe(v.string(), v.minLength(5), v.maxLength(500))),
@@ -16,8 +17,10 @@ export const BusinessSchema = v.object({
 	townId: TownSchema.entries.id,
 })
 
-/** Schema for creating an entity */
-export const BusinessCreateSchema = v.omit(BusinessSchema, ['id'])
+export const BusinessResolvedSchema = v.object({
+	...BusinessSchema.entries,
+	...BusinessResolvedReferences.entries,
+})
 
 /**
  * Schema for CRUD operations for a controller.
@@ -29,3 +32,6 @@ export const BusinessCRUDSchema = v.object({
 	...BusinessSchema.entries,
 	id: v.nullish(BusinessSchema.entries.id),
 })
+
+/** Schema for creating an entity */
+export const BusinessCreateSchema = v.omit(BusinessSchema, ['id'])

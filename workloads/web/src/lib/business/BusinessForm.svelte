@@ -18,18 +18,17 @@
 	} = $props()
 	const {constraints, enhance, errors, form, message, isTainted, tainted} = superForm(sForm)
 
-	const townOptionRenderer = (i: object) => {
-		return `${(i as TownSearchResultType).name} (${(i as TownSearchResultType).county})`
+	const townOptionRenderer = (i: object, selectionSection?: boolean, inputValue?: string) => {
+		if (!(i as TownSearchResultType).name) return 'Type to search...'
+		return `${(i as TownSearchResultType).name}, ${(i as TownSearchResultType).county}`
 	}
 
-	let editTown = $state(false)
+	const defaultOptions: TownSearchResultType[] = town ? [town] : []
+
+	let editTown = $state($form.townId === 0)
 	const toggleTownEdit = (e: Event) => {
 		e.preventDefault()
 		editTown = !editTown
-
-		if (!editTown && !$form.townId && town?.id) {
-			$form.townId = town.id
-		}
 	}
 </script>
 
@@ -76,15 +75,6 @@
 
 			<label class="label" for="townId">Town</label>
 			<div class="field is-grouped">
-				<button class="button is-white" onclick={toggleTownEdit}>
-					<span class="icon">
-						{#if editTown}
-							<IconDeviceFloppy />
-						{:else}
-							<IconPencil />
-						{/if}
-					</span>
-				</button>
 				{#if editTown}
 					<Svelecte
 						renderer={townOptionRenderer}
@@ -94,10 +84,17 @@
 						fetch="/api/town/search?q=[query]"
 						valueField="id"
 						labelField="name"
-						options={/*default value*/ [{id: town?.id, name: town?.name, county: town?.county}]}
+						options={defaultOptions}
 					/>
 				{:else}
-					<input type="text" readonly class="input is-static" value={`${town?.name}, ${town?.county}`} />
+					<button class="button is-white" onclick={toggleTownEdit}>
+						{#if editTown}
+							<IconDeviceFloppy />
+						{:else}
+							<IconPencil />
+						{/if}
+						{town?.name}, {town?.county}
+					</button>
 				{/if}
 			</div>
 

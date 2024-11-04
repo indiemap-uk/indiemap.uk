@@ -14,24 +14,20 @@
 	<table class="table is-striped is-hoverable is-fullwidth">
 		<thead>
 			<tr>
-				<th></th>
 				<th>NAME</th>
 				<th>TOWN</th>
 				<th>DESCRIPTION</th>
 			</tr>
 		</thead>
 		<tbody>
-			{#each data.businesses as business}
+			{#each data.businesses as business, bidx}
 				<tr>
 					<td class="is-family-monospace">
 						<a href={`/admin/business/${business.id.toString()}`}>
-							<abbr title={business.id.toString()}>
-								{business.id.toString().substring(business.id.toString().length - 5)}
-							</abbr>
+							<strong>{business.name}</strong>
 						</a>
 					</td>
-					<td>{business.name}</td>
-					<td>{business.townId}</td>
+					<td>{business.town.name}, {business.town.county}</td>
 					<td>{business.description}</td>
 				</tr>
 			{/each}

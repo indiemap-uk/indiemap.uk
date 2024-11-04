@@ -18,21 +18,14 @@ export const load: PageServerLoad = async ({locals, params}) => {
 	}
 
 	// ID provided = edit business form
-	const {businessService, townService} = locals.container
+	const {businessService} = locals.container
 	const business = await businessService.getById(v.parse(BusinessIdSchema, params.id))
 	if (!business) {
 		throw error(404, 'Business not found')
 	}
 
-	const fullTown = await townService.getById(business.townId)
-	const town: TownSearchResultType = {
-		county: fullTown.county,
-		id: fullTown.id,
-		name: fullTown.name,
-	}
-
 	const form = await superValidate(business, valibot(BusinessCRUDSchema))
-	return {business, form, town}
+	return {business, form}
 }
 
 export const actions = {

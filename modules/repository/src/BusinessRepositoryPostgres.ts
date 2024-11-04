@@ -5,6 +5,7 @@ import {
 	type BusinessCreateType,
 	type BusinessIdType,
 	type BusinessRepository,
+	BusinessResolvedSchema,
 	BusinessSchema,
 	type BusinessType,
 	newBusinessId,
@@ -16,10 +17,24 @@ import {CRUDRepositoryPostgres} from './CRUDRepositoryPostgres.js'
 import {objToCamel} from './objToCamel.js'
 import {objToSnake} from './objToSnake.js'
 
+type BusinessCoreRecord = s.businesses.Selectable
+type BusinessResolvedRecord = {town: s.towns.JSONSelectable} & s.businesses.JSONSelectable
+
 export class BusinessRepositoryPostgres extends CRUDRepositoryPostgres implements BusinessRepository {
-	private recordToEntity(record: s.businesses.Selectable) {
-		return v.parse(BusinessSchema, objToCamel(record))
+	private recordToEntity(record: BusinessCoreRecord | BusinessResolvedRecord, townRecord?: s.towns.JSONSelectable) {
+		try {
+			const town = 'town' in record ? record.town : townRecord
+
+			return v.parse(BusinessResolvedSchema, objToCamel({...record, town}))
+		} catch (error: unknown) {
+			if (v.isValiError(error)) {
+				console.error('Validation error', JSON.stringify(error.issues, null, 2))
+			}
+
+			throw error
+		}
 	}
+
 	async create(data: BusinessCreateType) {
 		const toInsert = Object.assign(
 			{id: newBusinessId()},
@@ -27,8 +42,9 @@ export class BusinessRepositoryPostgres extends CRUDRepositoryPostgres implement
 		)
 
 		const record = await db.insert('businesses', toInsert).run(this.pool)
+		const town = await db.selectExactlyOne('towns', {id: record.town_id}).run(this.pool)
 
-		return this.recordToEntity(record)
+		return this.recordToEntity(record, town)
 	}
 
 	async delete(id: BusinessIdType) {
@@ -39,15 +55,30 @@ export class BusinessRepositoryPostgres extends CRUDRepositoryPostgres implement
 		}
 	}
 
-	async getById(id: BusinessIdType): Promise<BusinessType | null> {
+	async getById(id: BusinessIdType) {
 		return db
-			.selectExactlyOne('businesses', {id: id.toString()})
+			.selectExactlyOne(
+				'businesses',
+				{id: id.toString()},
+				{
+					lateral: {
+						town: db.selectExactlyOne('towns', {id: db.parent('town_id')}),
+					},
+				},
+			)
 			.run(this.pool)
 			.then((record) => this.recordToEntity(record))
 	}
 
 	async list() {
-		const records = await db.select('businesses', db.all).run(this.pool)
+		const records = await db
+			.select('businesses', db.all, {
+				lateral: {
+					town: db.selectExactlyOne('towns', {id: db.parent('town_id')}),
+				},
+				limit: 100,
+			})
+			.run(this.pool)
 
 		return records.map((r) => this.recordToEntity(r))
 	}
@@ -61,6 +92,6 @@ export class BusinessRepositoryPostgres extends CRUDRepositoryPostgres implement
 			throw new Error('Update failed, no record returned')
 		}
 
-		return this.recordToEntity(record[0])
+		return this.getById(data.id)
 	}
 }

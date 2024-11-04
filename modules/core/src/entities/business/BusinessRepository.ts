@@ -1,9 +1,9 @@
-import type {BusinessCreateType, BusinessIdType, BusinessType} from './BusinessType.js'
+import type {BusinessCreateType, BusinessIdType, BusinessResolvedType, BusinessType} from './BusinessType.js'
 
 export type BusinessRepository = {
-	create(data: BusinessCreateType): Promise<BusinessType>
+	create(data: BusinessCreateType): Promise<BusinessResolvedType>
 	delete(id: BusinessIdType): Promise<void>
-	getById(id: BusinessIdType): Promise<BusinessType | null>
-	list(): Promise<BusinessType[]>
-	update(data: BusinessType): Promise<BusinessType>
+	getById(id: BusinessIdType): Promise<BusinessResolvedType | null>
+	list(): Promise<BusinessResolvedType[]>
+	update(data: BusinessType): Promise<BusinessResolvedType>
 }
