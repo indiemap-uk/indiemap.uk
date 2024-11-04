@@ -13,7 +13,15 @@ import {CRUDRepositoryPostgres} from './CRUDRepositoryPostgres.js'
 
 export class TownRepositoryPostgres extends CRUDRepositoryPostgres implements TownRepository {
 	private toSchema = (record: object) => {
-		return v.parse(TownSchema, record)
+		try {
+			return v.parse(TownSchema, record)
+		} catch (error: unknown) {
+			if (v.isValiError(error)) {
+				console.error('Validation error', JSON.stringify(error.issues, null, 2))
+			}
+
+			throw error
+		}
 	}
 
 	async getById(id: number) {

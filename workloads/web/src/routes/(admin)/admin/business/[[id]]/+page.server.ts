@@ -1,3 +1,5 @@
+import type {TownSearchResultType} from '@i/core/town'
+
 import {BusinessCRUDSchema, BusinessIdSchema, BusinessSchema} from '@i/core/business'
 import {error, fail} from '@sveltejs/kit'
 import {redirect} from '@sveltejs/kit'
@@ -16,15 +18,21 @@ export const load: PageServerLoad = async ({locals, params}) => {
 	}
 
 	// ID provided = edit business form
-	const {businessService} = locals.container
+	const {businessService, townService} = locals.container
 	const business = await businessService.getById(v.parse(BusinessIdSchema, params.id))
-
 	if (!business) {
 		throw error(404, 'Business not found')
 	}
 
+	const fullTown = await townService.getById(business.townId)
+	const town: TownSearchResultType = {
+		county: fullTown.county,
+		id: fullTown.id,
+		name: fullTown.name,
+	}
+
 	const form = await superValidate(business, valibot(BusinessCRUDSchema))
-	return {business, form}
+	return {business, form, town}
 }
 
 export const actions = {

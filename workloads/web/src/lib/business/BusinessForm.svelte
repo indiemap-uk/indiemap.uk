@@ -1,34 +1,36 @@
 <script lang="ts">
-	import {debounce} from '$lib/debounce.js'
+	import {browser} from '$app/environment'
 	import type {BusinessCRUDType} from '@i/core/business'
-	import type {TownSearchResultType} from '@i/core/town'
-	import type {Writable} from 'svelte/store'
-	import {superForm} from 'sveltekit-superforms'
+	import SuperDebug, {superForm} from 'sveltekit-superforms'
 	import type {SuperValidated} from 'sveltekit-superforms'
+	import Svelecte from 'svelecte'
+	import type {TownSearchResultType, TownSearchType} from '@i/core/town'
+	import {IconPencil, IconDeviceFloppy} from '@tabler/icons-svelte'
 
 	const {
 		sForm,
-		isLoading,
-		isError,
-		isSuccess,
-		towns = [],
-		townSearchFilter,
+		town,
 	}: {
+		/** sForm is the superform instance */
 		sForm: SuperValidated<BusinessCRUDType>
-		isError: boolean
-		isLoading: boolean
-		isSuccess: boolean
-		towns: TownSearchResultType[]
-		townSearchFilter: Writable<string>
+		/** town is the currently selected town (if any) */
+		town?: TownSearchResultType
 	} = $props()
 	const {constraints, enhance, errors, form, message, isTainted, tainted} = superForm(sForm)
 
-	// Select the first town by default
-	$effect(() => {
-		if (!towns?.map((t) => t.id).includes($form.townId) && isSuccess) {
-			$form.townId = towns?.[0].id
+	const townOptionRenderer = (i: object) => {
+		return `${(i as TownSearchResultType).name} (${(i as TownSearchResultType).county})`
+	}
+
+	let editTown = $state(false)
+	const toggleTownEdit = (e: Event) => {
+		e.preventDefault()
+		editTown = !editTown
+
+		if (!editTown && !$form.townId && town?.id) {
+			$form.townId = town.id
 		}
-	})
+	}
 </script>
 
 {#if $message}
@@ -36,78 +38,136 @@
 {/if}
 
 <div class="block">
-	<form method="POST" use:enhance>
-		{#if $form.id}
-			<input type="hidden" bind:value={$form.id} name="id" />
-		{/if}
-
-		<div class="field">
-			<label class="label" for="name">Name</label>
-			<div class="control">
-				<input
-					bind:value={$form.name}
-					name="name"
-					class="input"
-					type="text"
-					placeholder="Pin & Needle"
-					{...$constraints.name}
-					tabindex="0"
-				/>
-			</div>
-			{#if $errors.name}
-				<p class="help is-danger">{$errors.name}</p>
+	<div class="container is-max-tablet">
+		<form method="POST" use:enhance>
+			{#if $form.id}
+				<input type="hidden" bind:value={$form.id} name="id" />
 			{/if}
-		</div>
-		<div class="field">
-			<label class="label" for="description">Description</label>
-			<div class="control">
-				<textarea
-					bind:value={$form.description}
-					name="description"
-					class="textarea"
-					placeholder="Making Pins & Needles since 1899 (optional)"
-					{...$constraints.description}
-				></textarea>
-			</div>
-		</div>
-		<div class="field">
-			<label class="label" for="townSearch">Town</label>
-			<div class="control" class:is-loading={isLoading} class:is-danger={isError}>
-				<input use:debounce={{callback: (f) => ($townSearchFilter = f)}} name="townSearch" class="input" type="text" />
-			</div>
-		</div>
 
-		<div class="field">
-			<ul class="grid is-col-min-15">
-				{#if isSuccess}
-					{#each towns as town}
-						<li>
-							<label for={String(town.id)} class="radio">
-								<input bind:group={$form.townId} type="radio" name="townId" id={String(town.id)} value={town.id} />
-								{town.name} ({town.county})
-							</label>
-						</li>
-					{/each}
-				{:else}
-					<input type="hidden" bind:value={$form.townId} name="townId" />
+			<div class="field">
+				<label class="label" for="name">Name</label>
+				<div class="control">
+					<input
+						bind:value={$form.name}
+						name="name"
+						class="input"
+						type="text"
+						placeholder="Pin & Needle"
+						{...$constraints.name}
+						tabindex="0"
+					/>
+				</div>
+				{#if $errors.name}
+					<p class="help is-danger">{$errors.name}</p>
 				{/if}
-			</ul>
-		</div>
+			</div>
+			<div class="field">
+				<label class="label" for="description">Description</label>
+				<div class="control">
+					<textarea
+						bind:value={$form.description}
+						name="description"
+						class="textarea"
+						placeholder="Making Pins & Needles since 1899 (optional)"
+						{...$constraints.description}
+					></textarea>
+				</div>
+			</div>
 
-		<button
-			class="button is-primary"
-			type="submit"
-			disabled={!isTainted($tainted)}
-			formaction={$form.id ? `?/update` : `?/create`}>Save</button
-		>
-		{#if $form.id}
-			<button
-				formaction="?/delete"
-				name="delete"
-				class="button is-danger"
-				type="submit"
-				onclick={(e) => !confirm('Are you sure?') && e.preventDefault()}>Delete</button
-			>
-		{/if}
-	</form>
+			<label class="label" for="townId">Town</label>
+			<div class="field is-grouped">
+				<button class="button is-white" onclick={toggleTownEdit}>
+					<span class="icon">
+						{#if editTown}
+							<IconDeviceFloppy />
+						{:else}
+							<IconPencil />
+						{/if}
+					</span>
+				</button>
+				{#if editTown}
+					<Svelecte
+						renderer={townOptionRenderer}
+						minQuery={3}
+						name="townId"
+						bind:value={$form.townId}
+						fetch="/api/town/search?q=[query]"
+						valueField="id"
+						labelField="name"
+						options={/*default value*/ [{id: town?.id, name: town?.name, county: town?.county}]}
+					/>
+				{:else}
+					<input type="text" readonly class="input is-static" value={`${town?.name}, ${town?.county}`} />
+				{/if}
+			</div>
+
+			<div class="level">
+				<div class="level-left">
+					<div class="level-item">
+						<button
+							class="button is-primary"
+							type="submit"
+							disabled={!isTainted($tainted)}
+							formaction={$form.id ? `?/update` : `?/create`}>Save</button
+						>
+					</div>
+				</div>
+				<div class="level-right">
+					<div class="level-item">
+						{#if $form.id}
+							<button
+								formaction="?/delete"
+								name="delete"
+								class="button is-danger"
+								type="submit"
+								onclick={(e) => !confirm('Are you sure?') && e.preventDefault()}>Delete</button
+							>
+						{/if}
+					</div>
+				</div>
+			</div>
+		</form>
+	</div>
 </div>
+
+{#if browser && window.localStorage.getItem('superdebug')}
+	<SuperDebug data={$form} />
+{/if}
+
+<style>
+	:global(:root) {
+		--sv-color: hsl(221, 14%, 21%);
+		--sv-min-height: var(--bulma-control-height);
+		--sv-bg: #fff;
+		--sv-disabled-bg: var(--bulma-background);
+		--sv-border: var(--bulma-control-border-width) solid rgb(214, 217, 224);
+		--sv-border-radius: 6px;
+		--sv-general-padding: 4px;
+		--sv-control-bg: var(--sv-bg);
+		--sv-item-wrap-padding: 3px 3px 3px 6px;
+		--sv-item-selected-bg: #efefef;
+		--sv-item-btn-color: #000;
+		--sv-item-btn-color-hover: #777;
+		--sv-item-btn-bg: #efefef;
+		--sv-item-btn-bg-hover: #ddd;
+		--sv-icon-color: transparent;
+		--sv-icon-color-hover: transparent;
+		--sv-icon-bg: transparent;
+		--sv-icon-size: 0px;
+		--sv-separator-bg: #ccc;
+		--sv-btn-border: 0;
+		--sv-placeholder-color: #ccccd6;
+		--sv-dropdown-bg: var(--sv-bg);
+		--sv-dropdown-offset: 1px;
+		--sv-dropdown-border: 1px solid rgba(0, 0, 0, 0.15);
+		--sv-dropdown-width: auto;
+		--sv-dropdown-shadow: 0 6px 12px #0000002d;
+		--sv-dropdown-height: 320px;
+		--sv-dropdown-active-bg: #f2f5f8;
+		--sv-dropdown-selected-bg: #ecf3f9;
+		--sv-create-kbd-border: 1px solid #efefef;
+		--sv-create-kbd-bg: #fff;
+		--sv-create-disabled-bg: #fcbaba;
+		--sv-loader-border: 2px solid #ccc;
+	}
+</style>
