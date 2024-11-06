@@ -11,8 +11,8 @@ export const newLinkId = newIdFn(linkIdPrefix)
 export const LinkSchema = v.object({
 	businessId: BusinessIdSchema,
 	id: LinkIdSchema,
-	label: v.optional(v.string()),
-	url: v.pipe(v.string(), v.url(), v.maxLength(250)),
+	label: v.optional(v.pipe(v.string(), v.trim())),
+	url: v.pipe(v.string(), v.trim(), v.url(), v.maxLength(250)),
 })
 
 export const LinkCRUDSchema = v.object({

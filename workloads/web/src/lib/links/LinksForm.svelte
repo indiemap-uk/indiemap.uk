@@ -22,8 +22,6 @@
 		invalidateAll: 'force',
 	})
 
-	$inspect($form.links)
-
 	const addLink = () => {
 		$form.links = $form.links.concat({
 			businessId,

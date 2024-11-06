@@ -11,9 +11,14 @@ const BusinessResolvedReferences = v.object({
  * A schema representing a Business, this includes references to other entities.
  **/
 export const BusinessSchema = v.object({
-	description: v.nullish(v.pipe(v.string(), v.minLength(5), v.maxLength(500))),
+	description: v.nullish(v.pipe(v.string(), v.trim(), v.minLength(5), v.maxLength(500))),
 	id: BusinessIdSchema,
-	name: v.pipe(v.string(), v.minLength(2, 'At least two characters'), v.maxLength(100, 'At most 100 characters')),
+	name: v.pipe(
+		v.string(),
+		v.trim(),
+		v.minLength(2, 'At least two characters'),
+		v.maxLength(100, 'At most 100 characters'),
+	),
 	townId: TownSchema.entries.id,
 })
 
