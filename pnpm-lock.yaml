@@ -112,21 +112,9 @@ importers:
       '@tabler/icons-svelte':
         specifier: ^3.20.0
         version: 3.20.0(svelte@5.0.3)
-      '@tanstack/svelte-query':
-        specifier: ^5.59.16
-        version: 5.59.16(svelte@5.0.3)
-      '@tanstack/svelte-query-devtools':
-        specifier: ^5.59.16
-        version: 5.59.16(@tanstack/svelte-query@5.59.16(svelte@5.0.3))(svelte@5.0.3)
       bulma:
         specifier: ^1.0.2
         version: 1.0.2
-      es-toolkit:
-        specifier: 1.26.1
-        version: 1.26.1
-      ky:
-        specifier: ^1.7.2
-        version: 1.7.2
       svelecte:
         specifier: 5.0.0-next.16
         version: 5.0.0-next.16(svelte@5.0.3)
@@ -710,23 +698,6 @@ packages:
   '@tabler/icons@3.20.0':
     resolution: {integrity: sha512-nXSeUzsCOxX/Of+kdUVQfxL9bG+ck8XCWNf9dGSpE+nhVexRwk/4HiDQDxFDysfT7vfgSut6GXnrZsU5M5dSlA==}
 
-  '@tanstack/query-core@5.59.16':
-    resolution: {integrity: sha512-crHn+G3ltqb5JG0oUv6q+PMz1m1YkjpASrXTU+sYWW9pLk0t2GybUHNRqYPZWhxgjPaVGC4yp92gSFEJgYEsPw==}
-
-  '@tanstack/query-devtools@5.58.0':
-    resolution: {integrity: sha512-iFdQEFXaYYxqgrv63ots+65FGI+tNp5ZS5PdMU1DWisxk3fez5HG3FyVlbUva+RdYS5hSLbxZ9aw3yEs97GNTw==}
-
-  '@tanstack/svelte-query-devtools@5.59.16':
-    resolution: {integrity: sha512-ITgIwMs0U0pq2N9X5L8/UXcuGgJFetmBVxUqpIBmzpFMLoHfSN6xPYSue00RpW1khHO0cAjLOwLI1HjOOhMSdg==}
-    peerDependencies:
-      '@tanstack/svelte-query': ^5.59.16
-      svelte: ^3.54.0 || ^4.0.0 || ^5.0.0-next.0
-
-  '@tanstack/svelte-query@5.59.16':
-    resolution: {integrity: sha512-s0CRtjUK0Lo+uvRU+XFxWjmTRV1hr0fe+Z/R+wDGnTzbMKSyaSKYeC0aZSQKZdAO6R/DvEVrD9tgjof1ojufnQ==}
-    peerDependencies:
-      svelte: ^3.54.0 || ^4.0.0 || ^5.0.0-next.0
-
   '@testcontainers/postgresql@10.13.2':
     resolution: {integrity: sha512-xd3u/rL8FrOBHFMu1aU+2d4sqPz9ffEb19ITtopT/tyBZWW9qCsgR6wSg0r2BJUd+2hT4UR5nR5cymi+ROkehw==}
 
@@ -1163,9 +1134,6 @@ packages:
   es-toolkit@1.26.0:
     resolution: {integrity: sha512-gg6ZaI4eTwzkQGkdEG+t4b4VH2mTxodBQ2KvyTKAQFIag3Vvxoq3XZ1ie4ijIQmVxiipL2+dZLDMkh1VIvAFyg==}
 
-  es-toolkit@1.26.1:
-    resolution: {integrity: sha512-E3H14lHWk8JpupVpIRA1gfNF4r953abHTFW+X1Rp7zl7eG37ksuthfEA4FinyVF/Y807vzzfQS1nubeZk2LTVA==}
-
   esbuild-runner@2.2.2:
     resolution: {integrity: sha512-fRFVXcmYVmSmtYm2mL8RlUASt2TDkGh3uRcvHFOKNr/T58VrfVeKD9uT9nlgxk96u0LS0ehS/GY7Da/bXWKkhw==}
     hasBin: true
@@ -1504,10 +1472,6 @@ packages:
 
   known-css-properties@0.35.0:
     resolution: {integrity: sha512-a/RAk2BfKk+WFGhhOCAYqSiFLc34k8Mt/6NWRI4joER0EYUzXIcFivjjnoD3+XU1DggLn/tZc3DOAgke7l8a4A==}
-
-  ky@1.7.2:
-    resolution: {integrity: sha512-OzIvbHKKDpi60TnF9t7UUVAF1B4mcqc02z5PIvrm08Wyb+yOcz63GRvEuVxNT18a9E1SrNouhB4W2NNLeD7Ykg==}
-    engines: {node: '>=18'}
 
   lazystream@1.0.1:
     resolution: {integrity: sha512-b94GiNHQNy6JNTrt5w6zNyffMrNkXZb3KTkCZJb2V1xaEGCk093vkZ2jk3tpaeP33/OiXC+WvK9AxUebnf5nbw==}
@@ -2743,22 +2707,6 @@ snapshots:
 
   '@tabler/icons@3.20.0': {}
 
-  '@tanstack/query-core@5.59.16': {}
-
-  '@tanstack/query-devtools@5.58.0': {}
-
-  '@tanstack/svelte-query-devtools@5.59.16(@tanstack/svelte-query@5.59.16(svelte@5.0.3))(svelte@5.0.3)':
-    dependencies:
-      '@tanstack/query-devtools': 5.58.0
-      '@tanstack/svelte-query': 5.59.16(svelte@5.0.3)
-      esm-env: 1.0.0
-      svelte: 5.0.3
-
-  '@tanstack/svelte-query@5.59.16(svelte@5.0.3)':
-    dependencies:
-      '@tanstack/query-core': 5.59.16
-      svelte: 5.0.3
-
   '@testcontainers/postgresql@10.13.2':
     dependencies:
       testcontainers: 10.13.2
@@ -3258,8 +3206,6 @@ snapshots:
 
   es-toolkit@1.26.0: {}
 
-  es-toolkit@1.26.1: {}
-
   esbuild-runner@2.2.2(esbuild@0.23.1):
     dependencies:
       esbuild: 0.23.1
@@ -3644,8 +3590,6 @@ snapshots:
   kleur@4.1.5: {}
 
   known-css-properties@0.35.0: {}
-
-  ky@1.7.2: {}
 
   lazystream@1.0.1:
     dependencies:
