@@ -77,6 +77,7 @@ export class BusinessRepositoryPostgres extends CRUDRepositoryPostgres implement
 					town: db.selectExactlyOne('towns', {id: db.parent('town_id')}),
 				},
 				limit: 100,
+				order: {by: 'id', direction: 'ASC'},
 			})
 			.run(this.pool)
 

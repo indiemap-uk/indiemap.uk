@@ -1,6 +1,6 @@
 import {BusinessCRUDSchema, BusinessIdSchema, BusinessSchema} from '@i/core/business'
 import {fail, redirect} from '@sveltejs/kit'
-import {superValidate} from 'sveltekit-superforms'
+import {message, superValidate} from 'sveltekit-superforms'
 import {valibot} from 'sveltekit-superforms/adapters'
 import * as v from 'valibot'
 
@@ -57,17 +57,13 @@ export const actions = {
 			return fail(400, {form})
 		}
 
-		if (v.is(BusinessSchema, form.data)) {
-			// Update existing business
-			try {
-				await locals.container.businessService.update(form.data)
-			} catch (error) {
-				console.error(error)
-				return fail(500, {form})
-			}
-		} else {
-			// Invalid
-			throw new Error('Invalid business data in update')
+		try {
+			await locals.container.businessService.update(v.parse(BusinessSchema, form.data))
+
+			return message(form, 'Business updated')
+		} catch (error) {
+			console.error(error)
+			return fail(500, {form})
 		}
 	},
 } satisfies Actions

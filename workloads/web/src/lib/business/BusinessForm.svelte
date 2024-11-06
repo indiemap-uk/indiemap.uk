@@ -16,7 +16,7 @@
 		/** town is the currently selected town (if any) */
 		town?: TownSearchResultType
 	} = $props()
-	const {constraints, enhance, errors, form, message, isTainted, tainted} = superForm(sForm)
+	const {constraints, enhance, errors, form, message, isTainted, tainted} = superForm(sForm, {invalidateAll: 'force'})
 
 	const townOptionRenderer = (i: object, selectionSection?: boolean, inputValue?: string) => {
 		if (!(i as TownSearchResultType).name) return 'Type to search...'
@@ -33,7 +33,9 @@
 </script>
 
 {#if $message}
-	<h2>{$message}</h2>
+	<div class="notification is-success">
+		{$message}
+	</div>
 {/if}
 
 <form method="POST" use:enhance>
@@ -85,13 +87,14 @@
 				options={defaultOptions}
 			/>
 		{:else}
+			<input type="hidden" value={$form.townId} name="townId" />
 			<button class="button is-white" onclick={toggleTownEdit}>
-				{#if editTown}
-					<IconDeviceFloppy />
-				{:else}
+				<span class="icon">
 					<IconPencil />
-				{/if}
-				{town?.name}, {town?.county}
+				</span>
+				<span>
+					{town?.name}, {town?.county}
+				</span>
 			</button>
 		{/if}
 	</div>
