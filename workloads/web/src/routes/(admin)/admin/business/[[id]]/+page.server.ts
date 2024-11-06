@@ -1,31 +1,24 @@
-import type {TownSearchResultType} from '@i/core/town'
-
 import {BusinessCRUDSchema, BusinessIdSchema, BusinessSchema} from '@i/core/business'
-import {error, fail} from '@sveltejs/kit'
-import {redirect} from '@sveltejs/kit'
+import {fail, redirect} from '@sveltejs/kit'
 import {superValidate} from 'sveltekit-superforms'
 import {valibot} from 'sveltekit-superforms/adapters'
 import * as v from 'valibot'
 
 import type {Actions, PageServerLoad} from './$types'
 
-export const load: PageServerLoad = async ({locals, params}) => {
+export const load: PageServerLoad = async ({parent}) => {
+	const {business} = await parent()
+
 	// No ID = new business form
-	if (!params.id) {
-		const form = await superValidate(valibot(BusinessCRUDSchema))
-
-		return {form}
-	}
-
-	// ID provided = edit business form
-	const {businessService} = locals.container
-	const business = await businessService.getById(v.parse(BusinessIdSchema, params.id))
 	if (!business) {
-		throw error(404, 'Business not found')
+		const businessForm = await superValidate(valibot(BusinessCRUDSchema))
+
+		return {businessForm}
 	}
 
-	const form = await superValidate(business, valibot(BusinessCRUDSchema))
-	return {business, form}
+	const businessForm = await superValidate(business, valibot(BusinessCRUDSchema))
+
+	return {business, businessForm}
 }
 
 export const actions = {
@@ -60,6 +53,7 @@ export const actions = {
 		const form = await superValidate(request, valibot(BusinessCRUDSchema))
 
 		if (!form.valid) {
+			console.error(form.errors)
 			return fail(400, {form})
 		}
 

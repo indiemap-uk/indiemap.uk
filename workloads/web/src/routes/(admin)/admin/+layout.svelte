@@ -59,7 +59,7 @@
 		grid-template-columns: 200px 1fr;
 		grid-template-rows: auto 1fr auto;
 
-		height: 100vh;
+		min-height: 100vh;
 
 		padding: 0;
 		margin: 0;

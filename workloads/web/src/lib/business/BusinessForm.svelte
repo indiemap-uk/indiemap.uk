@@ -36,99 +36,97 @@
 	<h2>{$message}</h2>
 {/if}
 
-<div class="block">
-	<div class="container is-max-tablet">
-		<form method="POST" use:enhance>
-			{#if $form.id}
-				<input type="hidden" bind:value={$form.id} name="id" />
-			{/if}
+<form method="POST" use:enhance>
+	{#if $form.id}
+		<input type="hidden" bind:value={$form.id} name="id" />
+	{/if}
 
-			<div class="field">
-				<label class="label" for="name">Name</label>
-				<div class="control">
-					<input
-						bind:value={$form.name}
-						name="name"
-						class="input"
-						type="text"
-						placeholder="Pin & Needle"
-						{...$constraints.name}
-						tabindex="0"
-					/>
-				</div>
-				{#if $errors.name}
-					<p class="help is-danger">{$errors.name}</p>
-				{/if}
-			</div>
-			<div class="field">
-				<label class="label" for="description">Description</label>
-				<div class="control">
-					<textarea
-						bind:value={$form.description}
-						name="description"
-						class="textarea"
-						placeholder="Making Pins & Needles since 1899 (optional)"
-						{...$constraints.description}
-					></textarea>
-				</div>
-			</div>
-
-			<label class="label" for="townId">Town</label>
-			<div class="field is-grouped">
-				{#if editTown}
-					<Svelecte
-						renderer={townOptionRenderer}
-						minQuery={3}
-						name="townId"
-						bind:value={$form.townId}
-						fetch="/api/town/search?q=[query]"
-						valueField="id"
-						labelField="name"
-						options={defaultOptions}
-					/>
-				{:else}
-					<button class="button is-white" onclick={toggleTownEdit}>
-						{#if editTown}
-							<IconDeviceFloppy />
-						{:else}
-							<IconPencil />
-						{/if}
-						{town?.name}, {town?.county}
-					</button>
-				{/if}
-			</div>
-
-			<div class="level">
-				<div class="level-left">
-					<div class="level-item">
-						<button
-							class="button is-primary"
-							type="submit"
-							disabled={!isTainted($tainted)}
-							formaction={$form.id ? `?/update` : `?/create`}>Save</button
-						>
-					</div>
-				</div>
-				<div class="level-right">
-					<div class="level-item">
-						{#if $form.id}
-							<button
-								formaction="?/delete"
-								name="delete"
-								class="button is-danger"
-								type="submit"
-								onclick={(e) => !confirm('Are you sure?') && e.preventDefault()}>Delete</button
-							>
-						{/if}
-					</div>
-				</div>
-			</div>
-		</form>
+	<div class="field">
+		<label class="label" for="name">Name</label>
+		<div class="control">
+			<input
+				bind:value={$form.name}
+				name="name"
+				class="input"
+				type="text"
+				placeholder="Pin & Needle"
+				{...$constraints.name}
+				tabindex="0"
+			/>
+		</div>
+		{#if $errors.name}
+			<p class="help is-danger">{$errors.name}</p>
+		{/if}
 	</div>
-</div>
+	<div class="field">
+		<label class="label" for="description">Description</label>
+		<div class="control">
+			<textarea
+				bind:value={$form.description}
+				name="description"
+				class="textarea"
+				placeholder="Making Pins & Needles since 1899 (optional)"
+				{...$constraints.description}
+			></textarea>
+		</div>
+	</div>
+
+	<label class="label" for="townId">Town</label>
+	<div class="field is-grouped">
+		{#if editTown}
+			<Svelecte
+				renderer={townOptionRenderer}
+				minQuery={3}
+				name="townId"
+				bind:value={$form.townId}
+				fetch="/api/town/search?q=[query]"
+				valueField="id"
+				labelField="name"
+				options={defaultOptions}
+			/>
+		{:else}
+			<button class="button is-white" onclick={toggleTownEdit}>
+				{#if editTown}
+					<IconDeviceFloppy />
+				{:else}
+					<IconPencil />
+				{/if}
+				{town?.name}, {town?.county}
+			</button>
+		{/if}
+	</div>
+
+	<div class="level">
+		<div class="level-left">
+			<div class="level-item">
+				<button
+					class="button is-primary"
+					type="submit"
+					disabled={!isTainted($tainted)}
+					formaction={$form.id ? `?/update` : `?/create`}>Save</button
+				>
+			</div>
+		</div>
+		<div class="level-right">
+			<div class="level-item">
+				{#if $form.id}
+					<button
+						formaction="?/delete"
+						name="delete"
+						class="button is-danger"
+						type="submit"
+						onclick={(e) => !confirm('Are you sure?') && e.preventDefault()}>Delete</button
+					>
+				{/if}
+			</div>
+		</div>
+	</div>
+</form>
 
 {#if browser && window.localStorage.getItem('superdebug')}
-	<SuperDebug data={$form} />
+	<div class="mt-5">
+		<SuperDebug data={$form} />
+	</div>
 {/if}
 
 <style>

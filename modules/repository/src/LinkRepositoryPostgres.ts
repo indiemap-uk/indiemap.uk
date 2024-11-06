@@ -1,6 +1,15 @@
+import type {BusinessIdType} from '@i/core/business'
 import type * as s from 'zapatos/schema'
 
-import {LinkCreateSchema, type LinkCreateType, type LinkRepository, LinkSchema, newLinkId} from '@i/core/link'
+import {
+	LinkCreateSchema,
+	type LinkCreateType,
+	type LinkIdType,
+	type LinkRepository,
+	LinkSchema,
+	type LinkType,
+	newLinkId,
+} from '@i/core/link'
 import * as v from 'valibot'
 import * as db from 'zapatos/db'
 
@@ -15,5 +24,23 @@ export class LinkRepositoryPostgres extends CRUDRepositoryPostgres implements Li
 		const record = await db.insert('links', toInsert).run(this.pool)
 
 		return v.parse(LinkSchema, objToCamel(record))
+	}
+
+	async delete(id: LinkIdType) {
+		await db.deletes('links', {id: id.toString()}).run(this.pool)
+	}
+
+	async getByBusinessId(id: BusinessIdType) {
+		const records = await db
+			.select('links', {business_id: id.toString()}, {order: {by: 'id', direction: 'ASC'}})
+			.run(this.pool)
+
+		return records.map(objToCamel).map((r) => v.parse(LinkSchema, r))
+	}
+
+	async update(data: LinkType): Promise<void> {
+		const toUpdate = objToSnake<s.links.Updatable>(v.parse(LinkSchema, data))
+
+		await db.update('links', toUpdate, {id: data.id.toString()}).run(this.pool)
 	}
 }
