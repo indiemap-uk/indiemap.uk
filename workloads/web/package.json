@@ -9,6 +9,7 @@
 	},
 	"dependencies": {
 		"@i/core": "workspace:*",
+		"@i/geocoding": "workspace:*",
 		"@i/repository": "workspace:*",
 		"@tabler/icons-svelte": "^3.20.0",
 		"bulma": "^1.0.2",

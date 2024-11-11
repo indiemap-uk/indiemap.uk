@@ -1,0 +1,80 @@
+/**
+ * Source:
+ * GET https://api.geocodify.com/v2/geocode?api_key=YOUR_API_KEY&q=Munchy Seeds, 6a Eastlands Rd,Leiston, Suffolk, IP16+4LL
+ */
+
+{
+	"meta": {
+		"code": 200,
+	},
+	"response": {
+		"geocoding": {
+			"version": "api.v2",
+			"attribution": "https://geocodify.com/attribution",
+			"query": {
+				"text": "Munchy Seeds, 6a Eastlands Rd,Leiston, Suffolk, IP16 4LL",
+				"size": 10,
+				"private": false,
+				"lang": {
+					"name": "English",
+					"iso6391": "en",
+					"iso6393": "eng",
+					"via": "default",
+					"defaulted": true,
+				},
+				"querySize": 20,
+				"parser": "libpostal",
+				"parsed_text": {
+					"query": "munchy seeds",
+					"housenumber": "6a",
+					"street": "eastlands rd",
+					"city": "leiston",
+					"county": "suffolk",
+					"postalcode": "ip16 4ll",
+				},
+			},
+			"timestamp": 1731334980547,
+			"terms": "https://geocodify.com/terms",
+		},
+		"type": "FeatureCollection",
+		"features": [
+			{
+				"type": "Feature",
+				"geometry": {
+					"type": "Point",
+					"coordinates": [1.585939, 52.206927],
+				},
+				"properties": {
+					"id": "way/135887730",
+					"gid": "openstreetmap:venue:way/135887730",
+					"layer": "venue",
+					"source": "openstreetmap",
+					"source_id": "way/135887730",
+					"name": "Munchy Seeds",
+					"housenumber": "Unit 6a",
+					"street": "Eastlands Industrial Estate",
+					"confidence": 1,
+					"match_type": "exact",
+					"accuracy": "point",
+					"macrocounty": "Suffolk",
+					"macrocounty_gid": "whosonfirst:macrocounty:1880762001",
+					"county": "East Suffolk",
+					"county_gid": "whosonfirst:county:1880771635",
+					"localadmin": "Leiston Civil Parish",
+					"localadmin_gid": "whosonfirst:localadmin:404447543",
+					"locality": "Leiston",
+					"locality_gid": "whosonfirst:locality:101854877",
+					"label": "Munchy Seeds, Leiston",
+					"addendum": {
+						"osm": {
+							"website": "https://www.munchyseeds.co.uk/",
+							"phone": "+44 1728 833004",
+						},
+					},
+				},
+				"bbox": [1.5857864, 52.2068786, 1.5860911, 52.2069745],
+			},
+		],
+		"bbox": [1.5857864, 52.2068786, 1.5860911, 52.2069745],
+	},
+}

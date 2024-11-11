@@ -1,21 +1,18 @@
 {
-	"name": "@i/core",
+	"name": "@i/geocoding",
 	"imports": {
 		"#lib": "./src/*"
 	},
 	"exports": {
-		"./business": "./src/entities/business/index.ts",
-		"./town": "./src/entities/town/index.ts",
-		"./link": "./src/entities/link/index.ts",
-		"./location": "./src/entities/location/index.ts",
-		"./geocoding": "./src/entities/geocoding/index.ts"
+		".": "./src/index.ts"
 	},
 	"scripts": {
 		"typecheck": "tsc --noEmit"
 	},
 	"dependencies": {
+		"@i/core": "workspace:*",
 		"debug": "^4.3.7",
-		"typeid-js": "^1.1.0",
+		"ky": "^1.7.2",
 		"valibot": "0.42.1"
 	},
 	"devDependencies": {

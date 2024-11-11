@@ -37,6 +37,7 @@ export default tseslint.config(
 			'@typescript-eslint/no-unsafe-argument': 'off',
 			'@typescript-eslint/no-unsafe-assignment': 'off',
 			'@typescript-eslint/no-unsafe-call': 'off',
+			'@typescript-eslint/no-unsafe-return': 'off',
 			// no unused is turned off as TS already checks this
 			'@typescript-eslint/no-unused-vars': 'off',
 			// sveltekit throws `error()` etc

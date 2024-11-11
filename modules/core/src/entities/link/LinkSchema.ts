@@ -30,5 +30,3 @@ export const LinkCRUDListSchema = v.object({
 })
 
 export const LinkCreateSchema = v.omit(LinkSchema, ['id'])
-
-export const LinkUpdateSchema = v.partial(LinkCreateSchema)

@@ -1,3 +1,3 @@
-import type {createContainer} from './createContainer'
+import type {getContainer} from './getContainer'
 
-export type AppContainer = ReturnType<typeof createContainer>
+export type AppContainer = ReturnType<typeof getContainer>

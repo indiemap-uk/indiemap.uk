@@ -4,12 +4,12 @@ import type {Handle} from '@sveltejs/kit'
 
 import * as staticPrivateEnv from '$env/static/private'
 import {ContainerEnvSchema} from '$lib/server/container/ContainerEnvSchema'
-import {createContainer} from '$lib/server/container/createContainer'
+import {getContainer} from '$lib/server/container/getContainer'
 import * as v from 'valibot'
 
 export const handle: Handle = async ({event, resolve}) => {
 	const env = v.parse(ContainerEnvSchema, staticPrivateEnv)
-	const container = createContainer(env)
+	const container = getContainer(env)
 	event.locals.container = container
 
 	return resolve(event)

@@ -57,7 +57,7 @@ export class BusinessRepositoryPostgres extends CRUDRepositoryPostgres implement
 
 	async getById(id: BusinessIdType) {
 		return db
-			.selectExactlyOne(
+			.selectOne(
 				'businesses',
 				{id: id.toString()},
 				{
@@ -67,7 +67,7 @@ export class BusinessRepositoryPostgres extends CRUDRepositoryPostgres implement
 				},
 			)
 			.run(this.pool)
-			.then((record) => this.recordToEntity(record))
+			.then((record) => (record ? this.recordToEntity(record) : null))
 	}
 
 	async list() {
@@ -93,6 +93,8 @@ export class BusinessRepositoryPostgres extends CRUDRepositoryPostgres implement
 			throw new Error('Update failed, no record returned')
 		}
 
-		return this.getById(data.id)
+		const town = await db.selectExactlyOne('towns', {id: record[0].town_id}).run(this.pool)
+
+		return this.recordToEntity(record[0], town)
 	}
 }

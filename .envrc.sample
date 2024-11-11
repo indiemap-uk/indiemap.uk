@@ -1,1 +1,2 @@
 export DATABASE_URL='postgres://indie:indie@localhost:5431/indie?sslmode=disable'
+export GEOCODIFY_API_KEY=vPvtAv5KiZpabcMZQkOXmR9GGIDSoL99

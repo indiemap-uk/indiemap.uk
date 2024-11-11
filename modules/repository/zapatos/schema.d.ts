@@ -23,6 +23,114 @@ declare module 'zapatos/schema' {
 	/* --- tables --- */
 
 	/**
+	 * **business_locations**
+	 * - Table in database
+	 */
+	export namespace business_locations {
+		export type Table = 'business_locations'
+		export interface Selectable {
+			/**
+			 * **business_locations.business_id**
+			 * - `varchar` in database
+			 * - `NOT NULL`, no default
+			 */
+			business_id: string
+			/**
+			 * **business_locations.location_id**
+			 * - `varchar` in database
+			 * - `NOT NULL`, no default
+			 */
+			location_id: string
+		}
+		export interface JSONSelectable {
+			/**
+			 * **business_locations.business_id**
+			 * - `varchar` in database
+			 * - `NOT NULL`, no default
+			 */
+			business_id: string
+			/**
+			 * **business_locations.location_id**
+			 * - `varchar` in database
+			 * - `NOT NULL`, no default
+			 */
+			location_id: string
+		}
+		export interface Whereable {
+			/**
+			 * **business_locations.business_id**
+			 * - `varchar` in database
+			 * - `NOT NULL`, no default
+			 */
+			business_id?:
+				| string
+				| db.Parameter<string>
+				| db.SQLFragment
+				| db.ParentColumn
+				| db.SQLFragment<any, string | db.Parameter<string> | db.SQLFragment | db.ParentColumn>
+			/**
+			 * **business_locations.location_id**
+			 * - `varchar` in database
+			 * - `NOT NULL`, no default
+			 */
+			location_id?:
+				| string
+				| db.Parameter<string>
+				| db.SQLFragment
+				| db.ParentColumn
+				| db.SQLFragment<any, string | db.Parameter<string> | db.SQLFragment | db.ParentColumn>
+		}
+		export interface Insertable {
+			/**
+			 * **business_locations.business_id**
+			 * - `varchar` in database
+			 * - `NOT NULL`, no default
+			 */
+			business_id: string | db.Parameter<string> | db.SQLFragment
+			/**
+			 * **business_locations.location_id**
+			 * - `varchar` in database
+			 * - `NOT NULL`, no default
+			 */
+			location_id: string | db.Parameter<string> | db.SQLFragment
+		}
+		export interface Updatable {
+			/**
+			 * **business_locations.business_id**
+			 * - `varchar` in database
+			 * - `NOT NULL`, no default
+			 */
+			business_id?:
+				| string
+				| db.Parameter<string>
+				| db.SQLFragment
+				| db.SQLFragment<any, string | db.Parameter<string> | db.SQLFragment>
+			/**
+			 * **business_locations.location_id**
+			 * - `varchar` in database
+			 * - `NOT NULL`, no default
+			 */
+			location_id?:
+				| string
+				| db.Parameter<string>
+				| db.SQLFragment
+				| db.SQLFragment<any, string | db.Parameter<string> | db.SQLFragment>
+		}
+		export type UniqueIndex = never
+		export type Column = keyof Selectable
+		export type OnlyCols<T extends readonly Column[]> = Pick<Selectable, T[number]>
+		export type SQLExpression =
+			| Table
+			| db.ColumnNames<Updatable | (keyof Updatable)[]>
+			| db.ColumnValues<Updatable>
+			| Whereable
+			| Column
+			| db.ParentColumn
+			| db.GenericSQLExpression
+		export type SQL = SQLExpression | SQLExpression[]
+	}
+
+	/**
 	 * **businesses**
 	 * - Table in database
 	 */
@@ -37,8 +145,8 @@ declare module 'zapatos/schema' {
 			description: string | null
 			/**
 			 * **businesses.id**
-			 * - `uuid` in database
-			 * - `NOT NULL`, default: `gen_random_uuid()`
+			 * - `varchar` in database
+			 * - `NOT NULL`, no default
 			 */
 			id: string
 			/**
@@ -63,8 +171,8 @@ declare module 'zapatos/schema' {
 			description: string | null
 			/**
 			 * **businesses.id**
-			 * - `uuid` in database
-			 * - `NOT NULL`, default: `gen_random_uuid()`
+			 * - `varchar` in database
+			 * - `NOT NULL`, no default
 			 */
 			id: string
 			/**
@@ -94,8 +202,8 @@ declare module 'zapatos/schema' {
 				| db.SQLFragment<any, string | db.Parameter<string> | db.SQLFragment | db.ParentColumn>
 			/**
 			 * **businesses.id**
-			 * - `uuid` in database
-			 * - `NOT NULL`, default: `gen_random_uuid()`
+			 * - `varchar` in database
+			 * - `NOT NULL`, no default
 			 */
 			id?:
 				| string
@@ -135,10 +243,10 @@ declare module 'zapatos/schema' {
 			description?: string | db.Parameter<string> | null | db.DefaultType | db.SQLFragment
 			/**
 			 * **businesses.id**
-			 * - `uuid` in database
-			 * - `NOT NULL`, default: `gen_random_uuid()`
+			 * - `varchar` in database
+			 * - `NOT NULL`, no default
 			 */
-			id?: string | db.Parameter<string> | db.DefaultType | db.SQLFragment
+			id: string | db.Parameter<string> | db.SQLFragment
 			/**
 			 * **businesses.name**
 			 * - `varchar` in database
@@ -167,15 +275,14 @@ declare module 'zapatos/schema' {
 				| db.SQLFragment<any, string | db.Parameter<string> | null | db.DefaultType | db.SQLFragment>
 			/**
 			 * **businesses.id**
-			 * - `uuid` in database
-			 * - `NOT NULL`, default: `gen_random_uuid()`
+			 * - `varchar` in database
+			 * - `NOT NULL`, no default
 			 */
 			id?:
 				| string
 				| db.Parameter<string>
-				| db.DefaultType
 				| db.SQLFragment
-				| db.SQLFragment<any, string | db.Parameter<string> | db.DefaultType | db.SQLFragment>
+				| db.SQLFragment<any, string | db.Parameter<string> | db.SQLFragment>
 			/**
 			 * **businesses.name**
 			 * - `varchar` in database
@@ -220,14 +327,14 @@ declare module 'zapatos/schema' {
 		export interface Selectable {
 			/**
 			 * **links.business_id**
-			 * - `uuid` in database
+			 * - `varchar` in database
 			 * - `NOT NULL`, no default
 			 */
 			business_id: string
 			/**
 			 * **links.id**
-			 * - `uuid` in database
-			 * - `NOT NULL`, default: `gen_random_uuid()`
+			 * - `varchar` in database
+			 * - `NOT NULL`, no default
 			 */
 			id: string
 			/**
@@ -246,14 +353,14 @@ declare module 'zapatos/schema' {
 		export interface JSONSelectable {
 			/**
 			 * **links.business_id**
-			 * - `uuid` in database
+			 * - `varchar` in database
 			 * - `NOT NULL`, no default
 			 */
 			business_id: string
 			/**
 			 * **links.id**
-			 * - `uuid` in database
-			 * - `NOT NULL`, default: `gen_random_uuid()`
+			 * - `varchar` in database
+			 * - `NOT NULL`, no default
 			 */
 			id: string
 			/**
@@ -272,7 +379,7 @@ declare module 'zapatos/schema' {
 		export interface Whereable {
 			/**
 			 * **links.business_id**
-			 * - `uuid` in database
+			 * - `varchar` in database
 			 * - `NOT NULL`, no default
 			 */
 			business_id?:
@@ -283,8 +390,8 @@ declare module 'zapatos/schema' {
 				| db.SQLFragment<any, string | db.Parameter<string> | db.SQLFragment | db.ParentColumn>
 			/**
 			 * **links.id**
-			 * - `uuid` in database
-			 * - `NOT NULL`, default: `gen_random_uuid()`
+			 * - `varchar` in database
+			 * - `NOT NULL`, no default
 			 */
 			id?:
 				| string
@@ -318,16 +425,16 @@ declare module 'zapatos/schema' {
 		export interface Insertable {
 			/**
 			 * **links.business_id**
-			 * - `uuid` in database
+			 * - `varchar` in database
 			 * - `NOT NULL`, no default
 			 */
 			business_id: string | db.Parameter<string> | db.SQLFragment
 			/**
 			 * **links.id**
-			 * - `uuid` in database
-			 * - `NOT NULL`, default: `gen_random_uuid()`
+			 * - `varchar` in database
+			 * - `NOT NULL`, no default
 			 */
-			id?: string | db.Parameter<string> | db.DefaultType | db.SQLFragment
+			id: string | db.Parameter<string> | db.SQLFragment
 			/**
 			 * **links.label**
 			 * - `text` in database
@@ -344,7 +451,7 @@ declare module 'zapatos/schema' {
 		export interface Updatable {
 			/**
 			 * **links.business_id**
-			 * - `uuid` in database
+			 * - `varchar` in database
 			 * - `NOT NULL`, no default
 			 */
 			business_id?:
@@ -354,15 +461,14 @@ declare module 'zapatos/schema' {
 				| db.SQLFragment<any, string | db.Parameter<string> | db.SQLFragment>
 			/**
 			 * **links.id**
-			 * - `uuid` in database
-			 * - `NOT NULL`, default: `gen_random_uuid()`
+			 * - `varchar` in database
+			 * - `NOT NULL`, no default
 			 */
 			id?:
 				| string
 				| db.Parameter<string>
-				| db.DefaultType
 				| db.SQLFragment
-				| db.SQLFragment<any, string | db.Parameter<string> | db.DefaultType | db.SQLFragment>
+				| db.SQLFragment<any, string | db.Parameter<string> | db.SQLFragment>
 			/**
 			 * **links.label**
 			 * - `text` in database
@@ -401,61 +507,406 @@ declare module 'zapatos/schema' {
 	}
 
 	/**
-	 * **schema_migrations**
+	 * **locations**
 	 * - Table in database
 	 */
-	export namespace schema_migrations {
-		export type Table = 'schema_migrations'
+	export namespace locations {
+		export type Table = 'locations'
 		export interface Selectable {
 			/**
-			 * **schema_migrations.version**
+			 * **locations.address**
+			 * - `text` in database
+			 * - Nullable, no default
+			 */
+			address: string | null
+			/**
+			 * **locations.id**
 			 * - `varchar` in database
 			 * - `NOT NULL`, no default
 			 */
-			version: string
+			id: string
+			/**
+			 * **locations.label**
+			 * - `text` in database
+			 * - Nullable, no default
+			 */
+			label: string | null
+			/**
+			 * **locations.latitude**
+			 * - `numeric` in database
+			 * - Nullable, no default
+			 */
+			latitude: db.NumericString | null
+			/**
+			 * **locations.longitude**
+			 * - `numeric` in database
+			 * - Nullable, no default
+			 */
+			longitude: db.NumericString | null
 		}
 		export interface JSONSelectable {
 			/**
-			 * **schema_migrations.version**
+			 * **locations.address**
+			 * - `text` in database
+			 * - Nullable, no default
+			 */
+			address: string | null
+			/**
+			 * **locations.id**
 			 * - `varchar` in database
 			 * - `NOT NULL`, no default
 			 */
-			version: string
+			id: string
+			/**
+			 * **locations.label**
+			 * - `text` in database
+			 * - Nullable, no default
+			 */
+			label: string | null
+			/**
+			 * **locations.latitude**
+			 * - `numeric` in database
+			 * - Nullable, no default
+			 */
+			latitude: number | null
+			/**
+			 * **locations.longitude**
+			 * - `numeric` in database
+			 * - Nullable, no default
+			 */
+			longitude: number | null
 		}
 		export interface Whereable {
 			/**
-			 * **schema_migrations.version**
-			 * - `varchar` in database
-			 * - `NOT NULL`, no default
+			 * **locations.address**
+			 * - `text` in database
+			 * - Nullable, no default
 			 */
-			version?:
+			address?:
 				| string
 				| db.Parameter<string>
 				| db.SQLFragment
 				| db.ParentColumn
 				| db.SQLFragment<any, string | db.Parameter<string> | db.SQLFragment | db.ParentColumn>
+			/**
+			 * **locations.id**
+			 * - `varchar` in database
+			 * - `NOT NULL`, no default
+			 */
+			id?:
+				| string
+				| db.Parameter<string>
+				| db.SQLFragment
+				| db.ParentColumn
+				| db.SQLFragment<any, string | db.Parameter<string> | db.SQLFragment | db.ParentColumn>
+			/**
+			 * **locations.label**
+			 * - `text` in database
+			 * - Nullable, no default
+			 */
+			label?:
+				| string
+				| db.Parameter<string>
+				| db.SQLFragment
+				| db.ParentColumn
+				| db.SQLFragment<any, string | db.Parameter<string> | db.SQLFragment | db.ParentColumn>
+			/**
+			 * **locations.latitude**
+			 * - `numeric` in database
+			 * - Nullable, no default
+			 */
+			latitude?:
+				| (number | db.NumericString)
+				| db.Parameter<number | db.NumericString>
+				| db.SQLFragment
+				| db.ParentColumn
+				| db.SQLFragment<
+						any,
+						(number | db.NumericString) | db.Parameter<number | db.NumericString> | db.SQLFragment | db.ParentColumn
+				  >
+			/**
+			 * **locations.longitude**
+			 * - `numeric` in database
+			 * - Nullable, no default
+			 */
+			longitude?:
+				| (number | db.NumericString)
+				| db.Parameter<number | db.NumericString>
+				| db.SQLFragment
+				| db.ParentColumn
+				| db.SQLFragment<
+						any,
+						(number | db.NumericString) | db.Parameter<number | db.NumericString> | db.SQLFragment | db.ParentColumn
+				  >
 		}
 		export interface Insertable {
 			/**
-			 * **schema_migrations.version**
+			 * **locations.address**
+			 * - `text` in database
+			 * - Nullable, no default
+			 */
+			address?: string | db.Parameter<string> | null | db.DefaultType | db.SQLFragment
+			/**
+			 * **locations.id**
 			 * - `varchar` in database
 			 * - `NOT NULL`, no default
 			 */
-			version: string | db.Parameter<string> | db.SQLFragment
+			id: string | db.Parameter<string> | db.SQLFragment
+			/**
+			 * **locations.label**
+			 * - `text` in database
+			 * - Nullable, no default
+			 */
+			label?: string | db.Parameter<string> | null | db.DefaultType | db.SQLFragment
+			/**
+			 * **locations.latitude**
+			 * - `numeric` in database
+			 * - Nullable, no default
+			 */
+			latitude?:
+				| (number | db.NumericString)
+				| db.Parameter<number | db.NumericString>
+				| null
+				| db.DefaultType
+				| db.SQLFragment
+			/**
+			 * **locations.longitude**
+			 * - `numeric` in database
+			 * - Nullable, no default
+			 */
+			longitude?:
+				| (number | db.NumericString)
+				| db.Parameter<number | db.NumericString>
+				| null
+				| db.DefaultType
+				| db.SQLFragment
 		}
 		export interface Updatable {
 			/**
-			 * **schema_migrations.version**
+			 * **locations.address**
+			 * - `text` in database
+			 * - Nullable, no default
+			 */
+			address?:
+				| string
+				| db.Parameter<string>
+				| null
+				| db.DefaultType
+				| db.SQLFragment
+				| db.SQLFragment<any, string | db.Parameter<string> | null | db.DefaultType | db.SQLFragment>
+			/**
+			 * **locations.id**
 			 * - `varchar` in database
 			 * - `NOT NULL`, no default
 			 */
-			version?:
+			id?:
 				| string
 				| db.Parameter<string>
 				| db.SQLFragment
 				| db.SQLFragment<any, string | db.Parameter<string> | db.SQLFragment>
+			/**
+			 * **locations.label**
+			 * - `text` in database
+			 * - Nullable, no default
+			 */
+			label?:
+				| string
+				| db.Parameter<string>
+				| null
+				| db.DefaultType
+				| db.SQLFragment
+				| db.SQLFragment<any, string | db.Parameter<string> | null | db.DefaultType | db.SQLFragment>
+			/**
+			 * **locations.latitude**
+			 * - `numeric` in database
+			 * - Nullable, no default
+			 */
+			latitude?:
+				| (number | db.NumericString)
+				| db.Parameter<number | db.NumericString>
+				| null
+				| db.DefaultType
+				| db.SQLFragment
+				| db.SQLFragment<
+						any,
+						| (number | db.NumericString)
+						| db.Parameter<number | db.NumericString>
+						| null
+						| db.DefaultType
+						| db.SQLFragment
+				  >
+			/**
+			 * **locations.longitude**
+			 * - `numeric` in database
+			 * - Nullable, no default
+			 */
+			longitude?:
+				| (number | db.NumericString)
+				| db.Parameter<number | db.NumericString>
+				| null
+				| db.DefaultType
+				| db.SQLFragment
+				| db.SQLFragment<
+						any,
+						| (number | db.NumericString)
+						| db.Parameter<number | db.NumericString>
+						| null
+						| db.DefaultType
+						| db.SQLFragment
+				  >
 		}
-		export type UniqueIndex = 'schema_migrations_pkey'
+		export type UniqueIndex = 'locations_pkey'
+		export type Column = keyof Selectable
+		export type OnlyCols<T extends readonly Column[]> = Pick<Selectable, T[number]>
+		export type SQLExpression =
+			| Table
+			| db.ColumnNames<Updatable | (keyof Updatable)[]>
+			| db.ColumnValues<Updatable>
+			| Whereable
+			| Column
+			| db.ParentColumn
+			| db.GenericSQLExpression
+		export type SQL = SQLExpression | SQLExpression[]
+	}
+
+	/**
+	 * **pgmigrations**
+	 * - Table in database
+	 */
+	export namespace pgmigrations {
+		export type Table = 'pgmigrations'
+		export interface Selectable {
+			/**
+			 * **pgmigrations.id**
+			 * - `int4` in database
+			 * - `NOT NULL`, default: `nextval('pgmigrations_id_seq'::regclass)`
+			 */
+			id: number
+			/**
+			 * **pgmigrations.name**
+			 * - `varchar` in database
+			 * - `NOT NULL`, no default
+			 */
+			name: string
+			/**
+			 * **pgmigrations.run_on**
+			 * - `timestamp` in database
+			 * - `NOT NULL`, no default
+			 */
+			run_on: Date
+		}
+		export interface JSONSelectable {
+			/**
+			 * **pgmigrations.id**
+			 * - `int4` in database
+			 * - `NOT NULL`, default: `nextval('pgmigrations_id_seq'::regclass)`
+			 */
+			id: number
+			/**
+			 * **pgmigrations.name**
+			 * - `varchar` in database
+			 * - `NOT NULL`, no default
+			 */
+			name: string
+			/**
+			 * **pgmigrations.run_on**
+			 * - `timestamp` in database
+			 * - `NOT NULL`, no default
+			 */
+			run_on: db.TimestampString
+		}
+		export interface Whereable {
+			/**
+			 * **pgmigrations.id**
+			 * - `int4` in database
+			 * - `NOT NULL`, default: `nextval('pgmigrations_id_seq'::regclass)`
+			 */
+			id?:
+				| number
+				| db.Parameter<number>
+				| db.SQLFragment
+				| db.ParentColumn
+				| db.SQLFragment<any, number | db.Parameter<number> | db.SQLFragment | db.ParentColumn>
+			/**
+			 * **pgmigrations.name**
+			 * - `varchar` in database
+			 * - `NOT NULL`, no default
+			 */
+			name?:
+				| string
+				| db.Parameter<string>
+				| db.SQLFragment
+				| db.ParentColumn
+				| db.SQLFragment<any, string | db.Parameter<string> | db.SQLFragment | db.ParentColumn>
+			/**
+			 * **pgmigrations.run_on**
+			 * - `timestamp` in database
+			 * - `NOT NULL`, no default
+			 */
+			run_on?:
+				| (db.TimestampString | Date)
+				| db.Parameter<db.TimestampString | Date>
+				| db.SQLFragment
+				| db.ParentColumn
+				| db.SQLFragment<
+						any,
+						(db.TimestampString | Date) | db.Parameter<db.TimestampString | Date> | db.SQLFragment | db.ParentColumn
+				  >
+		}
+		export interface Insertable {
+			/**
+			 * **pgmigrations.id**
+			 * - `int4` in database
+			 * - `NOT NULL`, default: `nextval('pgmigrations_id_seq'::regclass)`
+			 */
+			id?: number | db.Parameter<number> | db.DefaultType | db.SQLFragment
+			/**
+			 * **pgmigrations.name**
+			 * - `varchar` in database
+			 * - `NOT NULL`, no default
+			 */
+			name: string | db.Parameter<string> | db.SQLFragment
+			/**
+			 * **pgmigrations.run_on**
+			 * - `timestamp` in database
+			 * - `NOT NULL`, no default
+			 */
+			run_on: (db.TimestampString | Date) | db.Parameter<db.TimestampString | Date> | db.SQLFragment
+		}
+		export interface Updatable {
+			/**
+			 * **pgmigrations.id**
+			 * - `int4` in database
+			 * - `NOT NULL`, default: `nextval('pgmigrations_id_seq'::regclass)`
+			 */
+			id?:
+				| number
+				| db.Parameter<number>
+				| db.DefaultType
+				| db.SQLFragment
+				| db.SQLFragment<any, number | db.Parameter<number> | db.DefaultType | db.SQLFragment>
+			/**
+			 * **pgmigrations.name**
+			 * - `varchar` in database
+			 * - `NOT NULL`, no default
+			 */
+			name?:
+				| string
+				| db.Parameter<string>
+				| db.SQLFragment
+				| db.SQLFragment<any, string | db.Parameter<string> | db.SQLFragment>
+			/**
+			 * **pgmigrations.run_on**
+			 * - `timestamp` in database
+			 * - `NOT NULL`, no default
+			 */
+			run_on?:
+				| (db.TimestampString | Date)
+				| db.Parameter<db.TimestampString | Date>
+				| db.SQLFragment
+				| db.SQLFragment<any, (db.TimestampString | Date) | db.Parameter<db.TimestampString | Date> | db.SQLFragment>
+		}
+		export type UniqueIndex = 'pgmigrations_pkey'
 		export type Column = keyof Selectable
 		export type OnlyCols<T extends readonly Column[]> = Pick<Selectable, T[number]>
 		export type SQLExpression =
@@ -1104,28 +1555,82 @@ declare module 'zapatos/schema' {
 	/* --- aggregate types --- */
 
 	export namespace public {
-		export type Table = businesses.Table | links.Table | schema_migrations.Table | towns.Table
-		export type Selectable = businesses.Selectable | links.Selectable | schema_migrations.Selectable | towns.Selectable
+		export type Table =
+			| business_locations.Table
+			| businesses.Table
+			| links.Table
+			| locations.Table
+			| pgmigrations.Table
+			| towns.Table
+		export type Selectable =
+			| business_locations.Selectable
+			| businesses.Selectable
+			| links.Selectable
+			| locations.Selectable
+			| pgmigrations.Selectable
+			| towns.Selectable
 		export type JSONSelectable =
+			| business_locations.JSONSelectable
 			| businesses.JSONSelectable
 			| links.JSONSelectable
-			| schema_migrations.JSONSelectable
+			| locations.JSONSelectable
+			| pgmigrations.JSONSelectable
 			| towns.JSONSelectable
-		export type Whereable = businesses.Whereable | links.Whereable | schema_migrations.Whereable | towns.Whereable
-		export type Insertable = businesses.Insertable | links.Insertable | schema_migrations.Insertable | towns.Insertable
-		export type Updatable = businesses.Updatable | links.Updatable | schema_migrations.Updatable | towns.Updatable
+		export type Whereable =
+			| business_locations.Whereable
+			| businesses.Whereable
+			| links.Whereable
+			| locations.Whereable
+			| pgmigrations.Whereable
+			| towns.Whereable
+		export type Insertable =
+			| business_locations.Insertable
+			| businesses.Insertable
+			| links.Insertable
+			| locations.Insertable
+			| pgmigrations.Insertable
+			| towns.Insertable
+		export type Updatable =
+			| business_locations.Updatable
+			| businesses.Updatable
+			| links.Updatable
+			| locations.Updatable
+			| pgmigrations.Updatable
+			| towns.Updatable
 		export type UniqueIndex =
+			| business_locations.UniqueIndex
 			| businesses.UniqueIndex
 			| links.UniqueIndex
-			| schema_migrations.UniqueIndex
+			| locations.UniqueIndex
+			| pgmigrations.UniqueIndex
 			| towns.UniqueIndex
-		export type Column = businesses.Column | links.Column | schema_migrations.Column | towns.Column
+		export type Column =
+			| business_locations.Column
+			| businesses.Column
+			| links.Column
+			| locations.Column
+			| pgmigrations.Column
+			| towns.Column
 
-		export type AllBaseTables = [businesses.Table, links.Table, schema_migrations.Table, towns.Table]
+		export type AllBaseTables = [
+			business_locations.Table,
+			businesses.Table,
+			links.Table,
+			locations.Table,
+			pgmigrations.Table,
+			towns.Table,
+		]
 		export type AllForeignTables = []
 		export type AllViews = []
 		export type AllMaterializedViews = []
-		export type AllTablesAndViews = [businesses.Table, links.Table, schema_migrations.Table, towns.Table]
+		export type AllTablesAndViews = [
+			business_locations.Table,
+			businesses.Table,
+			links.Table,
+			locations.Table,
+			pgmigrations.Table,
+			towns.Table,
+		]
 	}
 
 	/* === global aggregate types === */
@@ -1150,58 +1655,74 @@ declare module 'zapatos/schema' {
 	/* === lookups === */
 
 	export type SelectableForTable<T extends Table> = {
+		business_locations: business_locations.Selectable
 		businesses: businesses.Selectable
 		links: links.Selectable
-		schema_migrations: schema_migrations.Selectable
+		locations: locations.Selectable
+		pgmigrations: pgmigrations.Selectable
 		towns: towns.Selectable
 	}[T]
 
 	export type JSONSelectableForTable<T extends Table> = {
+		business_locations: business_locations.JSONSelectable
 		businesses: businesses.JSONSelectable
 		links: links.JSONSelectable
-		schema_migrations: schema_migrations.JSONSelectable
+		locations: locations.JSONSelectable
+		pgmigrations: pgmigrations.JSONSelectable
 		towns: towns.JSONSelectable
 	}[T]
 
 	export type WhereableForTable<T extends Table> = {
+		business_locations: business_locations.Whereable
 		businesses: businesses.Whereable
 		links: links.Whereable
-		schema_migrations: schema_migrations.Whereable
+		locations: locations.Whereable
+		pgmigrations: pgmigrations.Whereable
 		towns: towns.Whereable
 	}[T]
 
 	export type InsertableForTable<T extends Table> = {
+		business_locations: business_locations.Insertable
 		businesses: businesses.Insertable
 		links: links.Insertable
-		schema_migrations: schema_migrations.Insertable
+		locations: locations.Insertable
+		pgmigrations: pgmigrations.Insertable
 		towns: towns.Insertable
 	}[T]
 
 	export type UpdatableForTable<T extends Table> = {
+		business_locations: business_locations.Updatable
 		businesses: businesses.Updatable
 		links: links.Updatable
-		schema_migrations: schema_migrations.Updatable
+		locations: locations.Updatable
+		pgmigrations: pgmigrations.Updatable
 		towns: towns.Updatable
 	}[T]
 
 	export type UniqueIndexForTable<T extends Table> = {
+		business_locations: business_locations.UniqueIndex
 		businesses: businesses.UniqueIndex
 		links: links.UniqueIndex
-		schema_migrations: schema_migrations.UniqueIndex
+		locations: locations.UniqueIndex
+		pgmigrations: pgmigrations.UniqueIndex
 		towns: towns.UniqueIndex
 	}[T]
 
 	export type ColumnForTable<T extends Table> = {
+		business_locations: business_locations.Column
 		businesses: businesses.Column
 		links: links.Column
-		schema_migrations: schema_migrations.Column
+		locations: locations.Column
+		pgmigrations: pgmigrations.Column
 		towns: towns.Column
 	}[T]
 
 	export type SQLForTable<T extends Table> = {
+		business_locations: business_locations.SQL
 		businesses: businesses.SQL
 		links: links.SQL
-		schema_migrations: schema_migrations.SQL
+		locations: locations.SQL
+		pgmigrations: pgmigrations.SQL
 		towns: towns.SQL
 	}[T]
 }

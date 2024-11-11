@@ -2,5 +2,6 @@
 	"db": {
 		"connectionString": "{{DATABASE_URL}}"
 	},
+	"customJSONParsingForLargeNumbers": true,
 	"outDir": "."
 }

@@ -1,6 +1,12 @@
 <script lang="ts">
 	import {page} from '$app/stores'
 	const {children, data} = $props()
+
+	const activeTab = $derived.by(() => {
+		if ($page.url.pathname.includes('links')) return 'links'
+		if ($page.url.pathname.includes('locations')) return 'locations'
+		return 'info'
+	})
 </script>
 
 <svelte:head>
@@ -15,12 +21,15 @@
 
 <div class="tabs">
 	<ul>
-		<li class:is-active={!$page.url.pathname.includes('links')}>
+		<li class:is-active={activeTab === 'info'}>
 			<a href={`/admin/business/${data.business?.id}`}>Business info</a>
 		</li>
 		{#if data.business}
-			<li class:is-active={$page.url.pathname.includes('links')}>
+			<li class:is-active={activeTab === 'links'}>
 				<a href={`/admin/business/${data.business.id}/links`}>Links</a>
+			</li>
+			<li class:is-active={activeTab === 'locations'}>
+				<a href={`/admin/business/${data.business.id}/locations`}>Locations</a>
 			</li>
 		{/if}
 	</ul>

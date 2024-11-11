@@ -63,6 +63,35 @@ exports.up = (pgm) => {
 		label: {type: 'text'},
 		url: {notNull: true, type: 'varchar'},
 	})
+
+	pgm.createTable('locations', {
+		id: {
+			notNull: true,
+			primaryKey: true,
+			type: 'varchar(90)',
+		},
+		address: {type: 'text'},
+		label: {type: 'text'},
+		latitude: {type: 'numeric(8, 5)'},
+		longitude: {type: 'numeric(8, 5)'},
+	})
+
+	pgm.createTable('business_locations', {
+		business_id: {
+			notNull: true,
+			onDelete: 'CASCADE',
+			onUpdate: 'CASCADE',
+			references: 'businesses',
+			type: 'varchar(90)',
+		},
+		location_id: {
+			notNull: true,
+			onDelete: 'CASCADE',
+			onUpdate: 'CASCADE',
+			references: 'locations',
+			type: 'varchar(90)',
+		},
+	})
 }
 
 /**
