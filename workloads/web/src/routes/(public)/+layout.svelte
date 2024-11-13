@@ -1,4 +1,4 @@
-<div class="grid">
+<div class="sticky">
 	<header>
 		<h1 class="title is-1">Indiemap</h1>
 	</header>
@@ -12,16 +12,16 @@
 			<p>
 				<strong>Indiemap.uk</strong>
 			</p>
-			<p>Made with 🫖 and 🌧️ in Brentwood, Essex.</p>
+			<p><span class="is-size-7">Made in Brentwood, Essex ✌️</span></p>
 		</div>
 	</footer>
 </div>
 
 <style>
-	.grid {
+	.sticky {
 		display: grid;
 		grid-template-columns: 1fr;
 		grid-template-rows: auto 1fr auto;
-		height: 100vh;
+		min-height: 100vh;
 	}
 </style>

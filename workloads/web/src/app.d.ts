@@ -9,7 +9,9 @@ declare global {
 		interface Locals {
 			container: AppContainer
 		}
-		// interface PageData {}
+		interface PageData {
+			flash?: {message: string; type: 'error' | 'success'}
+		}
 		// interface PageState {}
 		// interface Platform {}
 	}

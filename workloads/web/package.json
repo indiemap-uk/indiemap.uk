@@ -8,12 +8,14 @@
 		"check:watch": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json --watch"
 	},
 	"dependencies": {
+		"@auth/sveltekit": "^1.7.3",
 		"@i/core": "workspace:*",
 		"@i/geocoding": "workspace:*",
 		"@i/repository": "workspace:*",
 		"@tabler/icons-svelte": "^3.20.0",
 		"bulma": "^1.0.2",
 		"svelecte": "5.0.0-next.16",
+		"sveltekit-flash-message": "^2.4.4",
 		"sveltekit-superforms": "^2.20.0",
 		"valibot": "0.42.1"
 	},

@@ -1,6 +1,9 @@
 <script lang="ts">
+	import {signOut} from '@auth/sveltekit/client'
 	import {page} from '$app/stores'
 	import {IconHomeFilled} from '@tabler/icons-svelte'
+
+	const {data, children} = $props()
 
 	const menu = [
 		[
@@ -15,16 +18,37 @@
 
 <div class="grid">
 	<header>
-		<nav class="breadcrumb">
-			<ul>
-				<li>
-					<a href="/">
-						<IconHomeFilled />
-					</a>
-				</li>
-				<li class:is-active={$page.url.pathname === '/admin'}><a href="/admin">Admin</a></li>
-			</ul>
-		</nav>
+		<div class="columns">
+			<nav class="column breadcrumb">
+				<ul>
+					<li>
+						<a href="/">
+							<IconHomeFilled />
+						</a>
+					</li>
+					<li class:is-active={$page.url.pathname === '/admin'}><a href="/admin">Admin</a></li>
+				</ul>
+			</nav>
+
+			<div class="column has-text-right level">
+				<div class="level-left"></div>
+				<div class="level-right">
+					<div class="level-item">
+						<figure class="image is-24x24">
+							<img class="is-rounded" alt="Logged in user avatar" src={data.session?.user.image} />
+						</figure>
+					</div>
+					<div class="level-item">
+						<span>{data.session?.user.name}</span>
+					</div>
+					<div class="level-item">
+						<button class="button is-small" onclick={() => signOut({redirect: true})}>
+							<span>Sign out</span>
+						</button>
+					</div>
+				</div>
+			</div>
+		</div>
 	</header>
 
 	<aside class="menu">
@@ -37,12 +61,12 @@
 			</ul>
 		{/each}
 
-		<button class="button is-small">Log out</button>
+		<footer></footer>
 	</aside>
 
 	<main>
 		<div class="container">
-			<slot />
+			{@render children()}
 		</div>
 	</main>
 </div>
@@ -81,7 +105,7 @@
 		display: flex;
 		flex-direction: column;
 
-		button {
+		footer {
 			position: absolute;
 			bottom: 2rem;
 		}
