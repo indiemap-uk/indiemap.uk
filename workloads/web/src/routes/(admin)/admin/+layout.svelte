@@ -1,5 +1,4 @@
 <script lang="ts">
-	import {signOut} from '@auth/sveltekit/client'
 	import {page} from '$app/stores'
 	import {IconHomeFilled} from '@tabler/icons-svelte'
 
@@ -42,9 +41,11 @@
 						<span>{data.session?.user.name}</span>
 					</div>
 					<div class="level-item">
-						<button class="button is-small" onclick={() => signOut({redirect: true})}>
-							<span>Sign out</span>
-						</button>
+						<form method="POST" action="/logout">
+							<button class="button is-small" type="submit">
+								<span>Sign out</span>
+							</button>
+						</form>
 					</div>
 				</div>
 			</div>

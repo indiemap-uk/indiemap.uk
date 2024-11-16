@@ -4,7 +4,9 @@ import GitHub from '@auth/sveltekit/providers/github'
 declare module '@auth/sveltekit' {
 	interface Session {
 		user: {
+			accessToken: string
 			id: string
+			provider: string
 			/**
 			 * By default, TypeScript merges new interface properties and overwrites existing ones.
 			 * In this case, the default session user properties will be overwritten,
@@ -57,8 +59,10 @@ export const {handle, signIn, signOut} = SvelteKitAuth({
 		 */
 		jwt({account, token, user}) {
 			if (user) {
-				// User is available during sign-in
+				// User.id example: `github-123123123`
 				token.id = `${account?.provider}-${account?.providerAccountId}`
+				token.accessToken = account?.access_token
+				token.provider = account?.provider
 			}
 			return token
 		},
@@ -78,6 +82,8 @@ export const {handle, signIn, signOut} = SvelteKitAuth({
 		 */
 		session({session, token}) {
 			session.user.id = token.id as string
+			session.user.provider = token.provider as string
+			session.user.accessToken = token.accessToken as string
 			return session
 		},
 	},

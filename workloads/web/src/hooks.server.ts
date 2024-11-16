@@ -1,5 +1,7 @@
 import * as staticPrivateEnv from '$env/static/private'
+import {AuthEnvSchema} from '$lib/authn/AuthEnvSchema'
 import {handle as authjsHandle} from '$lib/authn/authjs.js'
+import {checkEnv} from '$lib/server/checkEnv'
 import {ContainerEnvSchema} from '$lib/server/container/ContainerEnvSchema'
 import {getContainer} from '$lib/server/container/getContainer'
 /* @typescript-eslint/unbound-method errors for `resolve` argument, but that is completely valid */
@@ -9,9 +11,17 @@ import {sequence} from '@sveltejs/kit/hooks'
 import {redirect} from 'sveltekit-flash-message/server'
 import * as v from 'valibot'
 
+checkEnv(staticPrivateEnv)
+
+const setEnv: Handle = ({event, resolve}) => {
+	event.locals.env = checkEnv(staticPrivateEnv)
+
+	return resolve(event)
+}
+
 /** Protects the admin routes **/
 const protectAdmin: Handle = async ({event, resolve}) => {
-	const env = v.parse(ContainerEnvSchema, staticPrivateEnv)
+	const env = v.parse(AuthEnvSchema, staticPrivateEnv)
 	const session = await event.locals.auth()
 	const isAdminUser = session && env.ADMIN_USER_IDS.split(',').includes(session?.user.id)
 	const isNotAdminUser = session && !isAdminUser
@@ -42,4 +52,4 @@ const handleContainer: Handle = async ({event, resolve}) => {
 	return resolve(event)
 }
 
-export const handle = sequence(authjsHandle, protectAdmin, handleContainer)
+export const handle = sequence(setEnv, authjsHandle, protectAdmin, handleContainer)
