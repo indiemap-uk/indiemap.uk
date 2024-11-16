@@ -7,10 +7,12 @@ import {getContainer} from '$lib/server/container/getContainer'
 import {getPool} from '@i/repository'
 /* @typescript-eslint/unbound-method errors for `resolve` argument, but that is completely valid */
 /* eslint-disable @typescript-eslint/unbound-method */
-import {type Handle} from '@sveltejs/kit'
+import {type Handle, type HandleServerError} from '@sveltejs/kit'
 import {sequence} from '@sveltejs/kit/hooks'
 import {redirect} from 'sveltekit-flash-message/server'
 import * as v from 'valibot'
+
+import type {RequestEvent} from './routes/$types'
 
 const env = checkEnv(staticPrivateEnv)
 const containerEnv = v.parse(ContainerEnvSchema, staticPrivateEnv)
@@ -54,3 +56,21 @@ const handleContainer: Handle = async ({event, resolve}) => {
 }
 
 export const handle = sequence(setEnv, authjsHandle, protectAdmin, handleContainer)
+
+export const handleError: HandleServerError = async ({error, event, message, status}) => {
+	console.error('UNEXPECTED ERROR', error)
+
+	const isAdminRoute = event.url.pathname.startsWith('/admin')
+
+	if (!isAdminRoute) {
+		return {
+			message: 'An error occurred',
+			status,
+		}
+	}
+
+	return {
+		// code is available in pg's AggregateError
+		message: (error as {code?: string}).code ?? 'Unknown error',
+	}
+}
