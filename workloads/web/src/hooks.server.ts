@@ -4,6 +4,7 @@ import {handle as authjsHandle} from '$lib/authn/authjs.js'
 import {checkEnv} from '$lib/server/checkEnv'
 import {ContainerEnvSchema} from '$lib/server/container/ContainerEnvSchema'
 import {getContainer} from '$lib/server/container/getContainer'
+import {getPool} from '@i/repository'
 /* @typescript-eslint/unbound-method errors for `resolve` argument, but that is completely valid */
 /* eslint-disable @typescript-eslint/unbound-method */
 import {type Handle} from '@sveltejs/kit'
@@ -11,10 +12,12 @@ import {sequence} from '@sveltejs/kit/hooks'
 import {redirect} from 'sveltekit-flash-message/server'
 import * as v from 'valibot'
 
-checkEnv(staticPrivateEnv)
+const env = checkEnv(staticPrivateEnv)
+const containerEnv = v.parse(ContainerEnvSchema, staticPrivateEnv)
+const container = getContainer(containerEnv)
 
 const setEnv: Handle = ({event, resolve}) => {
-	event.locals.env = checkEnv(staticPrivateEnv)
+	event.locals.env = env
 
 	return resolve(event)
 }
@@ -45,8 +48,6 @@ const protectAdmin: Handle = async ({event, resolve}) => {
 
 /** Add the container to the locals **/
 const handleContainer: Handle = async ({event, resolve}) => {
-	const env = v.parse(ContainerEnvSchema, staticPrivateEnv)
-	const container = getContainer(env)
 	event.locals.container = container
 
 	return resolve(event)
