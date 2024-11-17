@@ -1,6 +1,2 @@
+# DATABASE_URL is used by repository and web 
 export DATABASE_URL='postgres://indie:indie@localhost:5431/indie?sslmode=disable'
-export GEOCODIFY_API_KEY=vPvtAv5KiZpabcMZQkOXmR9GGIDSoL99
-export AUTH_SECRET=Priss1-Plonk9-Clonk1-Yect9-Zey5-Pag2-Sov4-Fum4
-export AUTH_GITHUB_ID=
-export AUTH_GITHUB_SECRET=
-export ADMIN_USER_IDS="github-000000,github-111111" # comma separated
