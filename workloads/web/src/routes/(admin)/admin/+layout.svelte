@@ -32,11 +32,13 @@
 			<div class="column has-text-right level">
 				<div class="level-left"></div>
 				<div class="level-right">
-					<div class="level-item">
-						<figure class="image is-24x24">
-							<img class="is-rounded" alt="Logged in user avatar" src={data.session?.user.image} />
-						</figure>
-					</div>
+					{#if data.session?.user.libravatar}
+						<div class="level-item">
+							<figure class="image is-32x32">
+								<img class="is-rounded" alt="Logged in user avatar" src={data.session?.user.libravatar} />
+							</figure>
+						</div>
+					{/if}
 					<div class="level-item">
 						<span>{data.session?.user.name}</span>
 					</div>

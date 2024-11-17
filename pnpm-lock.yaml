@@ -8,9 +8,15 @@ importers:
 
   .:
     dependencies:
+      '@auth/pg-adapter':
+        specifier: ^1.7.4
+        version: 1.7.4(pg@8.13.0)
       '@eslint/js':
         specifier: ^9.13.0
         version: 9.13.0
+      pg:
+        specifier: ^8.13.0
+        version: 8.13.0
     devDependencies:
       '@faker-js/faker':
         specifier: ^9.0.3
@@ -158,9 +164,9 @@ importers:
       bulma:
         specifier: ^1.0.2
         version: 1.0.2
-      ky:
-        specifier: ^1.7.2
-        version: 1.7.2
+      debug:
+        specifier: ^4.3.7
+        version: 4.3.7
       svelecte:
         specifier: 5.0.0-next.16
         version: 5.0.0-next.16(svelte@5.0.3)
@@ -183,6 +189,9 @@ importers:
       '@sveltejs/vite-plugin-svelte':
         specifier: ^4.0.0-next.6
         version: 4.0.0(svelte@5.0.3)(vite@5.4.9(@types/node@22.7.4))
+      '@types/debug':
+        specifier: ^4.1.12
+        version: 4.1.12
       svelte:
         specifier: ^5.0.0-next.1
         version: 5.0.3
@@ -221,6 +230,25 @@ packages:
         optional: true
       nodemailer:
         optional: true
+
+  '@auth/core@0.37.4':
+    resolution: {integrity: sha512-HOXJwXWXQRhbBDHlMU0K/6FT1v+wjtzdKhsNg0ZN7/gne6XPsIrjZ4daMcFnbq0Z/vsAbYBinQhhua0d77v7qw==}
+    peerDependencies:
+      '@simplewebauthn/browser': ^9.0.1
+      '@simplewebauthn/server': ^9.0.2
+      nodemailer: ^6.8.0
+    peerDependenciesMeta:
+      '@simplewebauthn/browser':
+        optional: true
+      '@simplewebauthn/server':
+        optional: true
+      nodemailer:
+        optional: true
+
+  '@auth/pg-adapter@1.7.4':
+    resolution: {integrity: sha512-IbTBoIH+/Drv2m+GJKZNqatdle4Ovz2FKY9vSqrDhgdaj+Wp4hIEPcw/K/Y72A+3RxlCONOKW14sh27WjRK0vw==}
+    peerDependencies:
+      pg: ^8
 
   '@auth/sveltekit@1.7.3':
     resolution: {integrity: sha512-L+sTmbgRqbTi/PEYr8iTswEEeEXTq6DPJRUt62lQq4e9c55WY6I2ZAY60dnKVEmLXQiBWEmABolOGghJz+3Pbw==}
@@ -2466,6 +2494,23 @@ snapshots:
       oauth4webapi: 3.1.2
       preact: 10.24.3
       preact-render-to-string: 6.5.11(preact@10.24.3)
+
+  '@auth/core@0.37.4':
+    dependencies:
+      '@panva/hkdf': 1.2.1
+      jose: 5.9.6
+      oauth4webapi: 3.1.2
+      preact: 10.24.3
+      preact-render-to-string: 6.5.11(preact@10.24.3)
+
+  '@auth/pg-adapter@1.7.4(pg@8.13.0)':
+    dependencies:
+      '@auth/core': 0.37.4
+      pg: 8.13.0
+    transitivePeerDependencies:
+      - '@simplewebauthn/browser'
+      - '@simplewebauthn/server'
+      - nodemailer
 
   '@auth/sveltekit@1.7.3(@sveltejs/kit@2.7.2(@sveltejs/vite-plugin-svelte@4.0.0(svelte@5.0.3)(vite@5.4.9(@types/node@22.7.4)))(svelte@5.0.3)(vite@5.4.9(@types/node@22.7.4)))(svelte@5.0.3)':
     dependencies:

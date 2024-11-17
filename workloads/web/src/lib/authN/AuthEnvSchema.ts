@@ -2,18 +2,15 @@ import * as v from 'valibot'
 
 export const AuthEnvSchema = v.object({
 	/**
-	 * Comma separated list of admin users, e.g. github-123123,github-3423432
+	 * Comma separated list of emails that are admin users
 	 * See $lib/authn/authjs.ts and hooks.server.ts
 	 **/
-	ADMIN_USER_IDS: v.string(),
+	ADMIN_USER_EMAILS: v.string(),
 	/**
-	 * The ID of the GitHub OAuth App to use for admin authentication
+	 * The Resend.com API key, used for email magic links.
+	 * https://resend.com/api-keys
 	 */
-	AUTH_GITHUB_ID: v.string(),
-	/**
-	 * The secret of the GitHub OAuth App
-	 */
-	AUTH_GITHUB_SECRET: v.string(),
+	AUTH_RESEND_KEY: v.string(),
 	/**
 	 * The secret used to sign the JWT tokens by Auth.js.
 	 * 32+ characters. See https://authjs.dev/reference/sveltekit#usage

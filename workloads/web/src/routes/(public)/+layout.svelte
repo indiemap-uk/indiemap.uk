@@ -1,10 +1,32 @@
+<script lang="ts">
+	const {data, children} = $props()
+</script>
+
 <div class="sticky">
 	<header>
-		<h1 class="title is-1">Indiemap</h1>
+		<div class="columns">
+			<div class="column">
+				<h1 class="title is-1">Indiemap</h1>
+			</div>
+			<div class="column has-text-right level">
+				<div class="level-left"></div>
+				<div class="level-right">
+					{#if data.session}
+						<div class="level-item">
+							<form method="POST" action="/logout">
+								<button class="button is-small" type="submit">
+									<span>Sign out</span>
+								</button>
+							</form>
+						</div>
+					{/if}
+				</div>
+			</div>
+		</div>
 	</header>
 
 	<main>
-		<slot />
+		{@render children()}
 	</main>
 
 	<footer class="footer">
@@ -23,5 +45,10 @@
 		grid-template-columns: 1fr;
 		grid-template-rows: auto 1fr auto;
 		min-height: 100vh;
+
+		header {
+			padding-block: 2rem;
+			padding-inline: 1rem;
+		}
 	}
 </style>
