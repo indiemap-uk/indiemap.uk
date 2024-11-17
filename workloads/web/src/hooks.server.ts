@@ -28,17 +28,17 @@ const setEnv: Handle = ({event, resolve}) => {
 const protectAdmin: Handle = async ({event, resolve}) => {
 	const env = v.parse(AuthEnvSchema, staticPrivateEnv)
 	const session = await event.locals.auth()
-	const isAdminUser = session && env.ADMIN_USER_IDS.split(',').includes(session?.user.id)
-	const isNotAdminUser = session && !isAdminUser
-	const isAdminRoute = event.url.pathname.startsWith('/admin')
-	const isLoginPage = event.url.pathname === '/login'
+	const isAdminUser = !!session && env.ADMIN_USER_IDS.split(',').includes(session?.user.id)
+	const isNotAdminRole = !!session && !isAdminUser
+	const isLoginPage = event.url.pathname === '/admin/login'
+	const isAdminRoute = event.url.pathname.startsWith('/admin') && !isLoginPage
 
-	if (isAdminRoute && isNotAdminUser) {
+	if (isAdminRoute && isNotAdminRole) {
 		redirect('/', {message: 'You are not an admin user', type: 'error'}, event)
 	}
 
 	if (isAdminRoute && !isAdminUser) {
-		redirect(303, '/login')
+		redirect(303, '/admin/login')
 	}
 
 	if (isLoginPage && isAdminUser) {
