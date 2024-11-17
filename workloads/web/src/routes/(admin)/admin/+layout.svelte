@@ -1,5 +1,6 @@
 <script lang="ts">
 	import {page} from '$app/stores'
+	import SignOutBar from '$lib/user/SignOutBar.svelte'
 	import {IconHomeFilled} from '@tabler/icons-svelte'
 
 	const {data, children} = $props()
@@ -32,23 +33,10 @@
 			<div class="column has-text-right level">
 				<div class="level-left"></div>
 				<div class="level-right">
-					{#if data.session?.user.libravatar}
-						<div class="level-item">
-							<figure class="image is-32x32">
-								<img class="is-rounded" alt="Logged in user avatar" src={data.session?.user.libravatar} />
-							</figure>
-						</div>
-					{/if}
-					<div class="level-item">
-						<span>{data.session?.user.name}</span>
-					</div>
-					<div class="level-item">
-						<form method="POST" action="/logout">
-							<button class="button is-small" type="submit">
-								<span>Sign out</span>
-							</button>
-						</form>
-					</div>
+					<SignOutBar
+						name={data.session?.user.name ?? data.session?.user.email}
+						image={data.session?.user.image ?? data.session?.user.libravatar}
+					/>
 				</div>
 			</div>
 		</div>

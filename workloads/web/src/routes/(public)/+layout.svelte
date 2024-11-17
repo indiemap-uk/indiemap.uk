@@ -1,4 +1,6 @@
 <script lang="ts">
+	import SignOutBar from '$lib/user/SignOutBar.svelte'
+
 	const {data, children} = $props()
 </script>
 
@@ -11,15 +13,10 @@
 			<div class="column has-text-right level">
 				<div class="level-left"></div>
 				<div class="level-right">
-					{#if data.session}
-						<div class="level-item">
-							<form method="POST" action="/logout">
-								<button class="button is-small" type="submit">
-									<span>Sign out</span>
-								</button>
-							</form>
-						</div>
-					{/if}
+					<SignOutBar
+						name={data.session?.user.name ?? data.session?.user.email}
+						image={data.session?.user.image ?? data.session?.user.libravatar}
+					/>
 				</div>
 			</div>
 		</div>
