@@ -5,7 +5,13 @@
 /**
  * @type {import('node-pg-migrate').ColumnDefinitions | undefined}
  */
-exports.shorthands = undefined
+exports.shorthands = {
+	typeID: {
+		notNull: true,
+		primaryKey: true,
+		type: 'varchar(90)',
+	},
+}
 
 /**
  * @param pgm {import('node-pg-migrate').MigrationBuilder}
@@ -31,11 +37,7 @@ exports.up = (pgm) => {
 	})
 
 	pgm.createTable('businesses', {
-		id: {
-			notNull: true,
-			primaryKey: true,
-			type: 'varchar(90)',
-		},
+		id: 'typeID',
 		description: {type: 'text'},
 		name: {notNull: true, type: 'varchar'},
 		town_id: {
@@ -48,11 +50,7 @@ exports.up = (pgm) => {
 	})
 
 	pgm.createTable('links', {
-		id: {
-			notNull: true,
-			primaryKey: true,
-			type: 'varchar(90)',
-		},
+		id: 'typeID',
 		business_id: {
 			notNull: true,
 			onDelete: 'CASCADE',
@@ -65,11 +63,7 @@ exports.up = (pgm) => {
 	})
 
 	pgm.createTable('locations', {
-		id: {
-			notNull: true,
-			primaryKey: true,
-			type: 'varchar(90)',
-		},
+		id: 'typeID',
 		address: {type: 'text'},
 		label: {type: 'text'},
 		latitude: {type: 'numeric(8, 5)'},
@@ -101,6 +95,8 @@ exports.up = (pgm) => {
  */
 exports.down = (pgm) => {
 	pgm.dropTable('links')
+	pgm.dropTable('business_locations')
+	pgm.dropTable('locations')
 	pgm.dropTable('businesses')
 	pgm.dropTable('towns')
 }
