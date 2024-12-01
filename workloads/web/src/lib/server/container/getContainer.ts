@@ -27,7 +27,9 @@ export const getContainer = (env: ContainerEnvType) => {
 	const linkService = new LinkService(linkRepository)
 
 	const locationRepository = new LocationRepositoryPostgres(pool, getDb())
-	const locationService = new LocationService(locationRepository, new GeocodingServiceGeocodify(env.GEOCODIFY_API_KEY))
+	const locationService = new LocationService(locationRepository)
 
-	return {businessService, linkService, locationService, townService}
+	const geocodingService = new GeocodingServiceGeocodify(env.GEOCODIFY_API_KEY)
+
+	return {businessService, geocodingService, linkService, locationService, townService}
 }

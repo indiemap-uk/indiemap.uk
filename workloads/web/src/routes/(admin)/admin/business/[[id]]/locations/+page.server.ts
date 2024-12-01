@@ -38,11 +38,13 @@ export const actions = {
 
 		try {
 			await Promise.all(
-				form.data.locations.map((location) => {
+				form.data.locations.map(async (location) => {
 					if (v.is(LocationSchema, location)) {
 						return locals.container.locationService.update(location)
 					} else {
-						return locals.container.locationService.create(location)
+						const geocodingResult = await locals.container.geocodingService.safeGeocode(location.address)
+
+						return locals.container.locationService.create(location, geocodingResult)
 					}
 				}),
 			)

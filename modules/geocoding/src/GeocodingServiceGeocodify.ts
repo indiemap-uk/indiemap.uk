@@ -37,4 +37,22 @@ export class GeocodingServiceGeocodify implements GeocodingService {
 			longitude: coords[0],
 		})
 	}
+
+	/**
+	 * Return 0,0 (instead of throwing) if the address cannot be geocoded.
+	 */
+	public async safeGeocode(address: string): Promise<GeocodingResultType> {
+		try {
+			const res = await this.geocode(address)
+
+			return res
+		} catch (error) {
+			this.debug('Error: %o', error)
+			this.debug('Returning 0,0')
+			return {
+				latitude: 0,
+				longitude: 0,
+			}
+		}
+	}
 }
