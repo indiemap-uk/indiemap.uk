@@ -7,6 +7,7 @@ import {
 	type TownSearchResultType,
 	TownSearchSchema,
 } from '@i/core/town'
+import Big from 'big.js'
 import * as v from 'valibot'
 
 import {CRUDRepositoryPostgres} from './CRUDRepositoryPostgres.js'
@@ -43,9 +44,13 @@ export class TownRepositoryPostgres extends CRUDRepositoryPostgres implements To
 		return records.map((r) => v.parse(TownSearchResultSchema, r))
 	}
 
-	private toSchema = (record: object) => {
+	private toSchema = (record: s.towns.JSONSelectable | s.towns.Selectable) => {
 		try {
-			return v.parse(TownSchema, record)
+			return v.parse(TownSchema, {
+				...record,
+				latitude: Big(record.latitude ?? 0).toNumber(),
+				longitude: Big(record.longitude ?? 0).toNumber(),
+			})
 		} catch (error: unknown) {
 			if (v.isValiError(error)) {
 				console.error('Validation error', JSON.stringify(error.issues, null, 2))
