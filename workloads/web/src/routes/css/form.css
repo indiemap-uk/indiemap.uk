@@ -1,0 +1,64 @@
+select,
+input[type='text'] {
+	height: var(--input-height);
+	width: 100%;
+	border-radius: var(--input-border-radius);
+	border-color: var(--input-border-color);
+	border-width: var(--input-border-width);
+	border-style: solid;
+
+	background-color: var(--input-bg);
+
+	color: var(--input-color);
+}
+
+input[type='text'] {
+	padding-inline: 1rem;
+	padding-block: 1rem;
+}
+
+*::placeholder {
+	color: var(--placeholder-color);
+}
+
+/* 
+* Must wrap a <select> with .select for the nice dropdown icon to work:
+* <div class="select">
+* 	<select>
+* 		<option>Option 1</option>
+* 		<option>Option 2</option>
+* 	</select>
+* </div>
+*/
+.select {
+	display: inline-block;
+	width: 100%;
+	max-width: 100%;
+	position: relative;
+	vertical-align: top;
+}
+
+/* .select::after is the pretty chevron icon */
+.select::after {
+	inset-inline-end: 1.125em;
+	z-index: 4;
+
+	border: 0.125em solid var(--text-color-1);
+	border-right: 0;
+	border-top: 0;
+	content: ' ';
+	display: block;
+	height: 0.625em;
+	margin-top: -0.4375em;
+	pointer-events: none;
+	position: absolute;
+	top: 50%;
+	transform: rotate(-45deg);
+	width: 0.625em;
+}
+
+select {
+	appearance: none;
+	padding-inline: 1rem;
+	padding-inline-end: 2.5em;
+}

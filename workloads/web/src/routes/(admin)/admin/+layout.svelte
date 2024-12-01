@@ -1,4 +1,5 @@
 <script lang="ts">
+	import 'bulma/css/bulma.css'
 	import {page} from '$app/stores'
 	import SignOutBar from '$lib/user/SignOutBar.svelte'
 	import {IconHomeFilled} from '@tabler/icons-svelte'

@@ -1,0 +1,69 @@
+* {
+	font-family: var(--font-family-generic);
+}
+html {
+	background-color: var(--bg-color);
+	color: var(--text-color-1);
+}
+
+body {
+	line-height: var(--op-font-lineheight-3);
+	overflow-x: hidden;
+	min-height: 100vh;
+}
+
+h1,
+h2,
+h3 {
+	line-height: var(--op-font-size-fluid-3);
+	font-family: var(--op-font-classical-humanist);
+	font-weight: var(--op-font-weight-6);
+	color: var(--heading-color);
+}
+
+h1 {
+	font-size: var(--op-font-size-fluid-2);
+}
+
+h2,
+h3 {
+	font-size: var(--op-font-size-fluid-1);
+}
+
+span,
+p {
+	font-size: var(--op-font-size-fluid-0);
+	font-family: var(--font-family-generic);
+	color: var(--text-color-1);
+}
+
+p {
+	line-height: 1.5;
+}
+
+a {
+	/* currentColor: same for visited etc */
+	color: currentColor;
+	font-family: var(--op-font-classical-humanist);
+	text-decoration: underline;
+	text-decoration-color: var(--primary-color-ink); /* Adjust the color and opacity as needed */
+	text-decoration-thickness: 2px; /* Adjust the thickness as needed */
+}
+
+a:hover {
+	color: var(--primary-color-ink-hover);
+	text-decoration: none;
+}
+
+table {
+	border-collapse: collapse;
+}
+
+th {
+	text-align: left;
+}
+
+:focus {
+	outline: 1px dotted var(--text-color-0);
+	outline-offset: 0.2rem;
+}

@@ -1,12 +1,13 @@
 import type {BusinessIdType} from '../business/BusinessType.js'
-import type {GeocodingServiceInterface} from '../geocoding/GeocodingServiceInterface.js'
+import type {GeocodingService} from '../geocoding/GeocodingService.js'
+import type {GeocodingResultType} from '../geocoding/GeocodingType.js'
 import type {LocationRepository} from './LocationRepository.js'
-import type {GeocodingResultType, LocationIdType, LocationType, LocationUserCreateType} from './LocationType.js'
+import type {LocationIdType, LocationType, LocationUserCreateType} from './LocationType.js'
 
 export class LocationService {
 	constructor(
 		private readonly locationRepository: LocationRepository,
-		private readonly geocodingService: GeocodingServiceInterface,
+		private readonly geocodingService: GeocodingService,
 	) {}
 
 	async create(newLocation: LocationUserCreateType) {

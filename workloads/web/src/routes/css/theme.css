@@ -1,0 +1,96 @@
+/* Values independent of light/dark */
+:root {
+	--flow-space: var(--op-size-fluid-2);
+
+	/* Feel */
+	--font-family-generic: var(--op-font-system-ui);
+	--radius-1: 0.35rem;
+
+	/* form */
+	--input-height: 2.5em;
+	--input-bg: var(--secondary-color-bg);
+	--input-border-color: var(--secondary-color-border);
+	--input-border-width: 2px;
+	--input-border-style: solid;
+	--input-color: var(--text-color-1);
+	--placeholder-color: var(--text-color-0);
+	--input-border-radius: var(--radius-1);
+
+	/* Shadow */
+	--shadow-1: var(--op-shadow-1);
+	--shadow-2: var(--op-shadow-2);
+	--shadow-3: var(--op-shadow-3);
+	--shadow-4: var(--op-shadow-4);
+	--shadow-5: var(--op-shadow-5);
+	--shadow-6: var(--op-shadow-6);
+
+	/* Fluid sizes -- copy of Open Props */
+	--size-fluid-1: clamp(0.5rem, 1vw, 1rem);
+	--size-fluid-2: clamp(1rem, 2vw, 1.5rem);
+	--size-fluid-3: clamp(1.5rem, 3vw, 2rem);
+	--size-fluid-4: clamp(2rem, 4vw, 3rem);
+	--size-fluid-5: clamp(4rem, 5vw, 5rem);
+	--size-fluid-6: clamp(5rem, 7vw, 7.5rem);
+	--size-fluid-7: clamp(7.5rem, 10vw, 10rem);
+	--size-fluid-8: clamp(10rem, 20vw, 15rem);
+	--size-fluid-9: clamp(15rem, 30vw, 20rem);
+	--size-fluid-10: clamp(20rem, 40vw, 30rem);
+}
+
+/* Light theme */
+:root {
+	color-scheme: light;
+
+	--bg-color: white;
+	--text-color-0: var(--op-gray-6); /* muted */
+	--text-color-1: var(--op-gray-10); /* normal */
+	--text-color-2: var(--op-gray-12); /* strong */
+	--heading-color: var(--op-gray-8);
+
+	--primary-color-ink: var(--op-purple-8);
+	--primary-color-ink-hover: var(--op-purple-10);
+	--primary-color-bg: var(--op-purple-0);
+	--primary-color-bg-hover: var(--op-purple-2);
+
+	--secondary-color-ink: var(--op-gray-8);
+	--secondary-color-ink-hover: var(--op-gray-10);
+	--secondary-color-bg: var(--op-gray-0);
+	--secondary-color-bg-hover: var(--op-gray-2);
+	--secondary-color-border: var(--op-gray-2);
+	--secondary-color-border-hover: var(--op-gray-4);
+
+	--tertiary-color-ink: var(--text-color-0);
+	--tertiary-color-ink-hover: var(--op-gray-8);
+	--tertiary-color-bg: var(--bg-color);
+	--tertiary-color-bg-hover: var(--op-gray-0);
+}
+
+/* Dark theme */
+@media (prefers-color-scheme: dark) {
+	:root {
+		color-scheme: dark;
+
+		--bg-color: var(--op-gray-12);
+		--text-color-0: var(--op-gray-7);
+		--text-color-1: var(--op-gray-5);
+		--text-color-2: var(--op-gray-4);
+		--heading-color: var(--op-gray-5);
+
+		--primary-color-ink: var(--op-purple-4);
+		--primary-color-ink-hover: var(--op-purple-3);
+		--primary-color-bg: var(--op-purple-12);
+		--primary-color-bg-hover: var(--op-purple-11);
+
+		--secondary-color-ink: var(--op-gray-5);
+		--secondary-color-ink-hover: var(--op-gray-4);
+		--secondary-color-bg: var(--op-gray-10);
+		--secondary-color-bg-hover: var(--op-gray-9);
+		--secondary-color-border: var(--op-gray-9);
+		--secondary-color-border-hover: var(--op-gray-8);
+
+		--tertiary-color-ink: var(--text-color-0);
+		--tertiary-color-ink-hover: var(--op-gray-5);
+		--tertiary-color-bg: var(--bg-color);
+		--tertiary-color-bg-hover: var(--op-gray-11);
+	}
+}

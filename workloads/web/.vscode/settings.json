@@ -1,0 +1,6 @@
+{
+	"This is a very handy extension": "https://marketplace.visualstudio.com/items?itemName=phoenisx.cssvar",
+	"cssvar.files": ["../node_modules/open-props/open-props.min.css", "src/**/*.css"],
+	"cssvar.ignore": [],
+	"cssvar.mode": "warn"
+}

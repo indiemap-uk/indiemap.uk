@@ -1,6 +1,6 @@
+import {AuthEnvSchema} from '$lib/authN/AuthEnvSchema'
 import * as v from 'valibot'
 
-import {AuthEnvSchema} from '../authn/AuthEnvSchema'
 import {ContainerEnvSchema} from './container/ContainerEnvSchema'
 
 export const ServerEnvSchema = v.object({

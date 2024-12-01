@@ -1,51 +1,41 @@
 <script lang="ts">
 	import SignOutBar from '$lib/user/SignOutBar.svelte'
+	import {setUserLocationContext, UserLocationState} from '$lib/userLocation/userLocationState.svelte.js'
 
 	const {data, children} = $props()
+
+	const userLocation = new UserLocationState()
+	setUserLocationContext(userLocation)
 </script>
 
-<div class="sticky">
-	<header>
-		<div class="columns">
-			<div class="column">
-				<h1 class="title is-1">Indiemap</h1>
-			</div>
-			<div class="column has-text-right level">
-				<div class="level-left"></div>
-				<div class="level-right">
-					<SignOutBar
-						name={data.session?.user.name ?? data.session?.user.email}
-						image={data.session?.user.image ?? data.session?.user.libravatar}
-					/>
-				</div>
-			</div>
-		</div>
+<svelte:head>
+	<title>Indiemap</title>
+</svelte:head>
+
+<div class="sticky-3 | min-vh-100">
+	<header class="caged left-right level | w-100 mx-a">
+		<h1 class="">Indiemap</h1>
+
+		{#if data.session}
+			<SignOutBar
+				name={data.session?.user.name ?? data.session?.user.email}
+				image={data.session?.user.image ?? data.session?.user.libravatar}
+			/>
+		{/if}
 	</header>
 
-	<main>
+	<main class="caged | w-100 mx-a">
 		{@render children()}
 	</main>
 
 	<footer class="footer">
-		<div class="content has-text-centered">
-			<p>
-				<strong>Indiemap.uk</strong>
-			</p>
-			<p><span class="is-size-7">Made in Brentwood, Essex ✌️</span></p>
-		</div>
+		<p><strong>Indiemap.uk</strong></p>
+		<p><span class="">Made in Brentwood, Essex ✌️</span></p>
 	</footer>
 </div>
 
 <style>
-	.sticky {
-		display: grid;
-		grid-template-columns: 1fr;
-		grid-template-rows: auto 1fr auto;
-		min-height: 100vh;
-
-		header {
-			padding-block: 2rem;
-			padding-inline: 1rem;
-		}
+	header {
+		margin-block: 3rem;
 	}
 </style>

@@ -1,0 +1,18 @@
+@import url('./button.css');
+
+.avatar {
+	aspect-ratio: 1;
+	border-radius: 50%;
+	margin: 0 auto;
+	display: block;
+	width: var(--op-size-fluid-3);
+	height: var(--op-size-fluid-3);
+	border-color: var(--op-gray-3);
+	border-width: 1px;
+	border-style: solid;
+}
+
+.footer {
+	padding: var(--op-size-fluid-4);
+	text-align: center;
+}
