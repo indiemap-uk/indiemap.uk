@@ -1,13 +1,6 @@
 import type {BusinessType} from '@i/core/business'
 
-import {
-	type LocationCreateType,
-	LocationCRUDListSchema,
-	LocationSchema,
-	type LocationService,
-	type LocationType,
-	type LocationUserCreateType,
-} from '@i/core/location'
+import {LocationCRUDListSchema, LocationSchema, type LocationService} from '@i/core/location'
 import {type Actions, redirect} from '@sveltejs/kit'
 import {fail, message, superValidate} from 'sveltekit-superforms'
 import {valibot} from 'sveltekit-superforms/adapters'

@@ -4,7 +4,7 @@
 	import SignOutBar from '$lib/user/SignOutBar.svelte'
 	import {IconHomeFilled} from '@tabler/icons-svelte'
 
-	const {data, children} = $props()
+	const {children, data} = $props()
 
 	const menu = [
 		[

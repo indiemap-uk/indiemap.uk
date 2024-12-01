@@ -1,10 +1,10 @@
 <script lang="ts">
-	import {getFlash} from 'sveltekit-flash-message'
 	import {page} from '$app/stores'
-	import UserLocator from '$lib/userLocation/UserLocator.svelte'
-	import {getUserLocationContext} from '$lib/userLocation/userLocationState.svelte'
 	import IndieMap from '$lib/map/IndieMap.svelte'
 	import TownSearch from '$lib/town/TownSearch.svelte'
+	import {getUserLocationContext} from '$lib/userLocation/userLocationState.svelte'
+	import UserLocator from '$lib/userLocation/UserLocator.svelte'
+	import {getFlash} from 'sveltekit-flash-message'
 
 	const flash = getFlash(page)
 

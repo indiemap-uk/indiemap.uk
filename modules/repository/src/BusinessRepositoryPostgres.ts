@@ -18,23 +18,9 @@ import {objToCamel} from './objToCamel.js'
 import {objToSnake} from './objToSnake.js'
 
 type BusinessCoreRecord = s.businesses.Selectable
-type BusinessResolvedRecord = {town: s.towns.JSONSelectable} & s.businesses.JSONSelectable
+type BusinessResolvedRecord = s.businesses.JSONSelectable & {town: s.towns.JSONSelectable}
 
 export class BusinessRepositoryPostgres extends CRUDRepositoryPostgres implements BusinessRepository {
-	private recordToEntity(record: BusinessCoreRecord | BusinessResolvedRecord, townRecord?: s.towns.JSONSelectable) {
-		try {
-			const town = 'town' in record ? record.town : townRecord
-
-			return v.parse(BusinessResolvedSchema, objToCamel({...record, town}))
-		} catch (error: unknown) {
-			if (v.isValiError(error)) {
-				console.error('Validation error', JSON.stringify(error.issues, null, 2))
-			}
-
-			throw error
-		}
-	}
-
 	async create(data: BusinessCreateType) {
 		const toInsert = Object.assign(
 			{id: newBusinessId()},
@@ -96,5 +82,19 @@ export class BusinessRepositoryPostgres extends CRUDRepositoryPostgres implement
 		const town = await db.selectExactlyOne('towns', {id: record[0].town_id}).run(this.pool)
 
 		return this.recordToEntity(record[0], town)
+	}
+
+	private recordToEntity(record: BusinessCoreRecord | BusinessResolvedRecord, townRecord?: s.towns.JSONSelectable) {
+		try {
+			const town = 'town' in record ? record.town : townRecord
+
+			return v.parse(BusinessResolvedSchema, objToCamel({...record, town}))
+		} catch (error: unknown) {
+			if (v.isValiError(error)) {
+				console.error('Validation error', JSON.stringify(error.issues, null, 2))
+			}
+
+			throw error
+		}
 	}
 }

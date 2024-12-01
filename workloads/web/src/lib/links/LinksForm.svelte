@@ -1,7 +1,8 @@
 <script lang="ts">
-	import {browser} from '$app/environment'
 	import type {BusinessIdType} from '@i/core/business'
-	import {LinkSchema, type LinkCRUDListType, type LinkIdType, type LinkType} from '@i/core/link'
+
+	import {browser} from '$app/environment'
+	import {type LinkCRUDListType, type LinkIdType, LinkSchema, type LinkType} from '@i/core/link'
 	import {IconArrowBackUp, IconX} from '@tabler/icons-svelte'
 	import SuperDebug from 'sveltekit-superforms'
 	import {superForm, type SuperValidated} from 'sveltekit-superforms/client'
@@ -16,17 +17,17 @@
 		sForm: SuperValidated<LinkCRUDListType>
 	} = $props()
 
-	const {form, enhance, constraints, message, tainted, isTainted, reset, errors} = superForm(sForm, {
+	const {constraints, enhance, errors, form, isTainted, message, reset, tainted} = superForm(sForm, {
 		dataType: 'json',
-		resetForm: false,
 		invalidateAll: 'force',
+		resetForm: false,
 	})
 
 	const addLink = () => {
 		$form.links = $form.links.concat({
 			businessId,
-			url: '',
 			label: '',
+			url: '',
 		})
 	}
 
@@ -55,7 +56,7 @@
 		$form.deletedLinks = $form.deletedLinks.filter((link) => link.id !== id)
 
 		if (v.is(LinkSchema, link)) {
-			$form.links = $form.links.concat(link as LinkType)
+			$form.links = $form.links.concat(link)
 		}
 	}
 </script>

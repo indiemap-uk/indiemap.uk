@@ -5,7 +5,6 @@ import {checkEnv} from '$lib/server/checkEnv'
 import {ContainerEnvSchema} from '$lib/server/container/ContainerEnvSchema'
 import {getContainer} from '$lib/server/container/getContainer'
 /* @typescript-eslint/unbound-method errors for `resolve` argument, but that is completely valid */
-/* eslint-disable @typescript-eslint/unbound-method */
 import {type Handle, type HandleServerError} from '@sveltejs/kit'
 import {sequence} from '@sveltejs/kit/hooks'
 import {redirect} from 'sveltekit-flash-message/server'

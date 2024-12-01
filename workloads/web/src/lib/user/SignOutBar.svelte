@@ -1,5 +1,5 @@
 <script lang="ts">
-	const {image, name}: {image?: string; name?: string | null} = $props()
+	const {image, name}: {image?: string; name?: null | string} = $props()
 </script>
 
 <div class="level gap-3">

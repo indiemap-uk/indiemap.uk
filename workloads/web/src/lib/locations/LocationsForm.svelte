@@ -1,10 +1,11 @@
 <script lang="ts">
-	import {browser} from '$app/environment'
 	import type {BusinessIdType} from '@i/core/business'
+
+	import {browser} from '$app/environment'
 	import {
-		LocationSchema,
 		type LocationCRUDListType,
 		type LocationIdType,
+		LocationSchema,
 		type LocationType,
 		type LocationUserCreateType,
 	} from '@i/core/location'
@@ -22,10 +23,10 @@
 		sForm: SuperValidated<LocationCRUDListType>
 	} = $props()
 
-	const {form, enhance, constraints, message, tainted, isTainted, reset, errors} = superForm(sForm, {
+	const {constraints, enhance, errors, form, isTainted, message, reset, tainted} = superForm(sForm, {
 		dataType: 'json',
-		resetForm: false,
 		invalidateAll: 'force',
+		resetForm: false,
 	})
 
 	const addLocation = () => {
@@ -61,7 +62,7 @@
 		$form.deletedLocations = $form.deletedLocations.filter((location) => location.id !== id)
 
 		if (v.is(LocationSchema, location)) {
-			$form.locations = $form.locations.concat(location as LocationType)
+			$form.locations = $form.locations.concat(location)
 		}
 	}
 </script>

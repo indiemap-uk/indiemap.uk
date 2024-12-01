@@ -1,6 +1,6 @@
 <script>
-	import {fakerEN_GB as faker} from '@faker-js/faker'
 	import Autocomplete from '$lib/autocomplete/Autocomplete.svelte'
+	import {fakerEN_GB as faker} from '@faker-js/faker'
 
 	const options = faker.helpers.multiple(() => faker.location.city(), {count: 25})
 </script>

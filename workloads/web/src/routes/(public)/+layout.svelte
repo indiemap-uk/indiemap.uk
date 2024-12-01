@@ -2,7 +2,7 @@
 	import SignOutBar from '$lib/user/SignOutBar.svelte'
 	import {setUserLocationContext, UserLocationState} from '$lib/userLocation/userLocationState.svelte.js'
 
-	const {data, children} = $props()
+	const {children, data} = $props()
 
 	const userLocation = new UserLocationState()
 	setUserLocationContext(userLocation)

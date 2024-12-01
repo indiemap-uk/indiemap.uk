@@ -4,13 +4,9 @@
 	type RenderFunction = (item: object, selectionSection?: boolean, inputValue?: string) => string
 
 	interface AutocompleteProps {
-		noResultMessage?: string
 		clearable?: boolean
-		/**
-		 * The remote API URL, if any. Must contain `[query]` placeholder.
-		 * Example: `https://api.example.com/search?q=[query]`
-		 **/
-		url?: string
+		/** The label field in the response array, e.g. `name` */
+		labelField?: string
 		/**
 		 * The minimum number of characters to trigger a query.
 		 **/
@@ -19,22 +15,26 @@
 		 * The name of the input field.
 		 **/
 		name?: string
-		/** The value field in the response array, e.g. `id` */
-		valueField?: string
-		/** The label field in the response array, e.g. `name` */
-		labelField?: string
+		noResultMessage?: string
 		/**
 		 * The options to display in the dropdown.
 		 **/
 		options?: any[]
+		placeholder?: string
 		/** See https://svelecte-v5.vercel.app/rendering */
 		renderer?: RenderFunction
+		style?: string
+		/**
+		 * The remote API URL, if any. Must contain `[query]` placeholder.
+		 * Example: `https://api.example.com/search?q=[query]`
+		 **/
+		url?: string
 		/**
 		 * The value of the input field.
 		 **/
-		value?: any[] | string | number | object | null
-		placeholder?: string
-		style?: string
+		value?: any[] | null | number | object | string
+		/** The value field in the response array, e.g. `id` */
+		valueField?: string
 	}
 
 	let {
@@ -42,8 +42,8 @@
 		labelField = 'name',
 		minQuery = 3,
 		name,
-		options,
 		noResultMessage = 'No results',
+		options,
 		placeholder,
 		renderer,
 		style,

@@ -5,3 +5,4 @@ build
 .husky
 *.tsbuildinfo
 .vscode/settings.json
+.DS_Store

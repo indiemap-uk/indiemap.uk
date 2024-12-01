@@ -1,4 +1,3 @@
-import {env} from '$env/dynamic/private'
 import * as staticPrivateEnv from '$env/static/private'
 import {isAdminEmail} from '$lib/authZ/isAdminEmail'
 import {checkEnv} from '$lib/server/checkEnv'
@@ -13,7 +12,7 @@ const debug = Debug('indiemap:authjs')
 
 declare module '@auth/sveltekit' {
 	interface Session {
-		user: {
+		user: DefaultSession['user'] & {
 			isAdmin: boolean
 			/**
 			 * Use libravatar (simiar to gravatar) to get the user's avatar.
@@ -26,7 +25,7 @@ declare module '@auth/sveltekit' {
 			 * with the new ones defined above. To keep the default session user properties,
 			 * you need to add them back into the newly declared interface.
 			 */
-		} & DefaultSession['user']
+		}
 	}
 }
 

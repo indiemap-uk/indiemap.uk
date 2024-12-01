@@ -1,11 +1,12 @@
 <script lang="ts">
-	import {browser} from '$app/environment'
 	import type {BusinessCRUDType} from '@i/core/business'
-	import SuperDebug, {superForm} from 'sveltekit-superforms'
-	import type {SuperValidated} from 'sveltekit-superforms'
-	import Svelecte from 'svelecte'
 	import type {TownSearchResultType, TownSearchType} from '@i/core/town'
-	import {IconPencil, IconDeviceFloppy} from '@tabler/icons-svelte'
+	import type {SuperValidated} from 'sveltekit-superforms'
+
+	import {browser} from '$app/environment'
+	import {IconDeviceFloppy, IconPencil} from '@tabler/icons-svelte'
+	import Svelecte from 'svelecte'
+	import SuperDebug, {superForm} from 'sveltekit-superforms'
 
 	const {
 		sForm,
@@ -16,7 +17,7 @@
 		/** town is the currently selected town (if any) */
 		town?: TownSearchResultType
 	} = $props()
-	const {constraints, enhance, errors, form, message, isTainted, tainted} = superForm(sForm, {invalidateAll: 'force'})
+	const {constraints, enhance, errors, form, isTainted, message, tainted} = superForm(sForm, {invalidateAll: 'force'})
 
 	const townOptionRenderer = (i: object, selectionSection?: boolean, inputValue?: string) => {
 		if (!(i as TownSearchResultType).name) return 'Type to search...'

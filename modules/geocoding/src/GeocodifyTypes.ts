@@ -7,19 +7,14 @@
  * Documentation: https://geocodify.com/api-documentation
  **/
 
-export interface Root {
-	meta: Meta
-	response: Response
+export interface Addendum {
+	osm: Osm
 }
 
-export interface Meta {
-	code: number
-}
-
-export interface Response {
+export interface Feature {
 	bbox: number[]
-	features: Feature[]
-	geocoding: Geocoding
+	geometry: Geometry
+	properties: Properties
 	type: string
 }
 
@@ -31,14 +26,9 @@ export interface Geocoding {
 	version: string
 }
 
-export interface Query {
-	lang: Lang
-	parsed_text: ParsedText
-	parser: string
-	private: boolean
-	querySize: number
-	size: number
-	text: string
+export interface Geometry {
+	coordinates: number[]
+	type: string
 }
 
 export interface Lang {
@@ -49,6 +39,15 @@ export interface Lang {
 	via: string
 }
 
+export interface Meta {
+	code: number
+}
+
+export interface Osm {
+	phone: string
+	website: string
+}
+
 export interface ParsedText {
 	city: string
 	county: string
@@ -56,18 +55,6 @@ export interface ParsedText {
 	postalcode: string
 	query: string
 	street: string
-}
-
-export interface Feature {
-	bbox: number[]
-	geometry: Geometry
-	properties: Properties
-	type: string
-}
-
-export interface Geometry {
-	coordinates: number[]
-	type: string
 }
 
 export interface Properties {
@@ -94,11 +81,24 @@ export interface Properties {
 	street: string
 }
 
-export interface Addendum {
-	osm: Osm
+export interface Query {
+	lang: Lang
+	parsed_text: ParsedText
+	parser: string
+	private: boolean
+	querySize: number
+	size: number
+	text: string
 }
 
-export interface Osm {
-	phone: string
-	website: string
+export interface Response {
+	bbox: number[]
+	features: Feature[]
+	geocoding: Geocoding
+	type: string
+}
+
+export interface Root {
+	meta: Meta
+	response: Response
 }

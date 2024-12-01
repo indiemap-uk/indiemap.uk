@@ -4,3 +4,4 @@ pnpm-lock.yaml
 yarn.lock
 **/zapatos/schema.d.ts
 **/.svelte-kit
+workloads/web/src/routes/css/open-props.min.css

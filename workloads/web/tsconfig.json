@@ -30,6 +30,7 @@
 		".svelte-kit/../tests/**/*.ts",
 		".svelte-kit/../tests/**/*.svelte",
 		// Had to explicitly add this here, adding it in @i/repository/tsconfig was not enough
-		"../../modules/repository/zapatos/schema.d.ts"
+		"../../modules/repository/zapatos/schema.d.ts",
+		"postcss.config.mjs"
 	]
 }
