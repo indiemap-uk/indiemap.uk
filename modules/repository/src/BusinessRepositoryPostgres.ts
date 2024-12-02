@@ -28,9 +28,8 @@ export class BusinessRepositoryPostgres extends CRUDRepositoryPostgres implement
 		)
 
 		const record = await db.insert('businesses', toInsert).run(this.pool)
-		const town = await db.selectExactlyOne('towns', {id: record.town_id}).run(this.pool)
 
-		return this.recordToEntity(record, town)
+		return v.parse(BusinessSchema, objToCamel(record))
 	}
 
 	async delete(id: BusinessIdType) {
