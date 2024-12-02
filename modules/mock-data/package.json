@@ -1,0 +1,30 @@
+{
+	"name": "@i/mock-data",
+	"imports": {
+		"#lib": "./src/*"
+	},
+	"exports": {},
+	"scripts": {
+		"mock": "tsx src/mock.ts",
+		"typecheck": "tsc --noEmit"
+	},
+	"dependencies": {
+		"@i/core": "workspace:*",
+		"@i/repository": "workspace:*",
+		"debug": "^4.3.7",
+		"valibot": "0.42.1",
+		"es-toolkit": "^1.26.0",
+		"tsx": "4.19.2",
+		"@faker-js/faker": "^9.2.0",
+		"big.js": "^6.2.2"
+	},
+	"devDependencies": {
+		"@i/tsconfig": "workspace:*",
+		"@types/debug": "^4.1.12",
+		"@types/big.js": "6.2.2"
+	},
+	"version": "1.0.0",
+	"private": true,
+	"license": "UNLICENSED",
+	"type": "module"
+}

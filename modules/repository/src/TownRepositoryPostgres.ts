@@ -31,6 +31,14 @@ export class TownRepositoryPostgres extends CRUDRepositoryPostgres implements To
 		return this.toSchema(records[0])
 	}
 
+	async getRandoms(count: number) {
+		const records = (await this.db.sql`SELECT * FROM towns ORDER BY random() LIMIT ${this.db.param(count)}`.run(
+			this.pool,
+		)) as s.towns.Selectable[]
+
+		return records.map(this.toSchema)
+	}
+
 	async search(qInput: string): Promise<TownSearchResultType[]> {
 		const q = v.parse(TownSearchSchema, qInput)
 

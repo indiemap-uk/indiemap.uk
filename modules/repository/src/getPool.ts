@@ -17,7 +17,7 @@ export const getPool = (connectionString: string): pg.Pool => {
 		return existingPool
 	}
 
-	console.log(`pool cache miss`)
+	debug(`pool cache miss`)
 	const p = new pg.Pool({connectionString})
 	p.on('error', (err) => console.error(err)) // don't let a pg restart kill your app
 

@@ -12,6 +12,8 @@
 		"test": "vitest run --exclude '**/*.db.test.ts'",
 		"test:db": "vitest run **/**/*.db.test.ts",
 		"db": "docker-compose --project-name indiedb up -d",
+		"db:up": "pnpm db && pnpm mig:up && pnpm towns",
+		"db:reset": "pnpm mig:down 999 && pnpm mig:up && pnpm towns",
 		"db:gen": "zapatos && prettier ./zapatos --write",
 		"mig:new": "node-pg-migrate create",
 		"mig:up": "node-pg-migrate up",

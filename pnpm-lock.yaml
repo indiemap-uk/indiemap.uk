@@ -39,9 +39,6 @@ importers:
       prettier-plugin-svelte:
         specifier: ^3.2.7
         version: 3.2.7(prettier@3.3.3)(svelte@5.0.3)
-      tsx:
-        specifier: ^4.19.1
-        version: 4.19.1
       typescript:
         specifier: ^5.6.2
         version: 5.6.2
@@ -89,6 +86,43 @@ importers:
       '@i/tsconfig':
         specifier: workspace:*
         version: link:../tsconfig
+      '@types/debug':
+        specifier: ^4.1.12
+        version: 4.1.12
+
+  modules/mock-data:
+    dependencies:
+      '@faker-js/faker':
+        specifier: ^9.2.0
+        version: 9.2.0
+      '@i/core':
+        specifier: workspace:*
+        version: link:../core
+      '@i/repository':
+        specifier: workspace:*
+        version: link:../repository
+      big.js:
+        specifier: ^6.2.2
+        version: 6.2.2
+      debug:
+        specifier: ^4.3.7
+        version: 4.3.7
+      es-toolkit:
+        specifier: ^1.26.0
+        version: 1.26.0
+      tsx:
+        specifier: 4.19.2
+        version: 4.19.2
+      valibot:
+        specifier: 0.42.1
+        version: 0.42.1(typescript@5.6.2)
+    devDependencies:
+      '@i/tsconfig':
+        specifier: workspace:*
+        version: link:../tsconfig
+      '@types/big.js':
+        specifier: 6.2.2
+        version: 6.2.2
       '@types/debug':
         specifier: ^4.1.12
         version: 4.1.12
@@ -2192,8 +2226,8 @@ packages:
   tslib@2.4.0:
     resolution: {integrity: sha512-d6xOpEDfsi2CZVlPQzGeux8XMwLT9hssAsaPYExaQMuYskwb+x1x7J371tWlbBdWHroy99KnVB6qIkUbs5X3UQ==}
 
-  tsx@4.19.1:
-    resolution: {integrity: sha512-0flMz1lh74BR4wOvBjuh9olbnwqCPc35OOlfyzHba0Dc+QNUeWX/Gq2YTbnwcWPO3BMd8fkzRVrHcsR+a7z7rA==}
+  tsx@4.19.2:
+    resolution: {integrity: sha512-pOUl6Vo2LUq/bSa8S5q7b91cgNSjctn9ugq/+Mvow99qW6x/UZYwzxy/3NmqoT66eHYfCVvFvACC58UBPFf28g==}
     engines: {node: '>=18.0.0'}
     hasBin: true
 
@@ -4362,7 +4396,7 @@ snapshots:
   tslib@2.4.0:
     optional: true
 
-  tsx@4.19.1:
+  tsx@4.19.2:
     dependencies:
       esbuild: 0.23.1
       get-tsconfig: 4.8.1

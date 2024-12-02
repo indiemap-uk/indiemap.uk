@@ -8,6 +8,14 @@ export class TownService {
 		return this.townRepository.getById(id)
 	}
 
+	getRandom() {
+		return this.townRepository.getRandom()
+	}
+
+	getRandoms(count: number) {
+		return this.townRepository.getRandoms(count)
+	}
+
 	async search(q: TownSearchType): Promise<TownSearchResultType[]> {
 		return this.townRepository.search(q)
 	}
