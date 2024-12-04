@@ -1,4 +1,4 @@
-import {BusinessCRUDSchema, BusinessIdSchema, BusinessSchema} from '@i/core/business'
+import {BusinessCreateSchema, BusinessCRUDSchema, BusinessIdSchema, BusinessSchema} from '@i/core/business'
 import {fail, redirect} from '@sveltejs/kit'
 import {message, superValidate} from 'sveltekit-superforms'
 import {valibot} from 'sveltekit-superforms/adapters'
@@ -23,7 +23,7 @@ export const load: PageServerLoad = async ({parent}) => {
 
 export const actions = {
 	create: async ({locals, request}) => {
-		const form = await superValidate(request, valibot(BusinessCRUDSchema))
+		const form = await superValidate(request, valibot(BusinessCreateSchema))
 
 		if (!form.valid) {
 			return fail(400, {form})

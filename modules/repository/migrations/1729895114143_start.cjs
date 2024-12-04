@@ -38,6 +38,7 @@ exports.up = (pgm) => {
 
 	pgm.createTable('businesses', {
 		id: 'typeID',
+		created_at: {type: 'timestamptz', notNull: true, default: pgm.func('current_timestamp')},
 		description: {type: 'text'},
 		name: {notNull: true, type: 'varchar'},
 		town_id: {
@@ -47,7 +48,19 @@ exports.up = (pgm) => {
 			references: 'towns',
 			type: 'int',
 		},
+		updated_at: {type: 'timestamptz', notNull: true},
 	})
+
+	pgm.sql(`create or replace function update_updatedat_column () returns trigger as $$
+		BEGIN
+			NEW.updated_at = NOW();
+			RETURN NEW;
+		END;
+		$$ language plpgsql;`)
+
+	pgm.sql(`create trigger update_updatedat_trigger before
+		update on businesses for each row
+		execute function update_updatedat_column ();`)
 
 	pgm.createTable('links', {
 		id: 'typeID',

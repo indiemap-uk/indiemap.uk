@@ -14,22 +14,27 @@ import * as v from 'valibot'
 import * as db from 'zapatos/db'
 
 import {CRUDRepositoryPostgres} from './CRUDRepositoryPostgres.js'
-import {objToCamel} from './objToCamel.js'
+import {dbToEntity} from './dbToEntity.js'
 import {objToSnake} from './objToSnake.js'
 
-type BusinessCoreRecord = s.businesses.Selectable
+type BusinessCoreRecord = s.businesses.JSONSelectable | s.businesses.Selectable
 type BusinessResolvedRecord = s.businesses.JSONSelectable & {town: s.towns.JSONSelectable}
 
 export class BusinessRepositoryPostgres extends CRUDRepositoryPostgres implements BusinessRepository {
 	async create(data: BusinessCreateType) {
+		const createDate = new Date().toISOString()
 		const toInsert = Object.assign(
-			{id: newBusinessId()},
+			{
+				created_at: createDate,
+				id: newBusinessId(),
+				updated_at: createDate,
+			},
 			objToSnake<s.businesses.Insertable>(v.parse(BusinessCreateSchema, data)),
 		)
 
 		const record = await db.insert('businesses', toInsert).run(this.pool)
 
-		return v.parse(BusinessSchema, objToCamel(record))
+		return dbToEntity(record, BusinessSchema)
 	}
 
 	async delete(id: BusinessIdType) {
@@ -52,7 +57,7 @@ export class BusinessRepositoryPostgres extends CRUDRepositoryPostgres implement
 				},
 			)
 			.run(this.pool)
-			.then((record) => (record ? this.recordToEntity(record) : null))
+			.then((record) => (record ? this.toResolvedBusiness(record) : null))
 	}
 
 	async list() {
@@ -66,7 +71,7 @@ export class BusinessRepositoryPostgres extends CRUDRepositoryPostgres implement
 			})
 			.run(this.pool)
 
-		return records.map((r) => this.recordToEntity(r))
+		return records.map((r) => this.toResolvedBusiness(r))
 	}
 
 	async update(data: BusinessType) {
@@ -80,20 +85,12 @@ export class BusinessRepositoryPostgres extends CRUDRepositoryPostgres implement
 
 		const town = await db.selectExactlyOne('towns', {id: record[0].town_id}).run(this.pool)
 
-		return this.recordToEntity(record[0], town)
+		return this.toResolvedBusiness(record[0], town)
 	}
 
-	private recordToEntity(record: BusinessCoreRecord | BusinessResolvedRecord, townRecord?: s.towns.JSONSelectable) {
-		try {
-			const town = 'town' in record ? record.town : townRecord
+	private toResolvedBusiness(record: BusinessCoreRecord | BusinessResolvedRecord, townRecord?: s.towns.JSONSelectable) {
+		const town = 'town' in record ? record.town : townRecord
 
-			return v.parse(BusinessResolvedSchema, objToCamel({...record, town}))
-		} catch (error: unknown) {
-			if (v.isValiError(error)) {
-				console.error('Validation error', JSON.stringify(error.issues, null, 2))
-			}
-
-			throw error
-		}
+		return dbToEntity({...record, town}, BusinessResolvedSchema)
 	}
 }

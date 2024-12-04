@@ -138,6 +138,12 @@ declare module 'zapatos/schema' {
 		export type Table = 'businesses'
 		export interface Selectable {
 			/**
+			 * **businesses.created_at**
+			 * - `timestamptz` in database
+			 * - `NOT NULL`, no default
+			 */
+			created_at: Date
+			/**
 			 * **businesses.description**
 			 * - `text` in database
 			 * - Nullable, no default
@@ -161,9 +167,21 @@ declare module 'zapatos/schema' {
 			 * - `NOT NULL`, no default
 			 */
 			town_id: number
+			/**
+			 * **businesses.updated_at**
+			 * - `timestamptz` in database
+			 * - `NOT NULL`, no default
+			 */
+			updated_at: Date
 		}
 		export interface JSONSelectable {
 			/**
+			 * **businesses.created_at**
+			 * - `timestamptz` in database
+			 * - `NOT NULL`, no default
+			 */
+			created_at: db.TimestampTzString
+			/**
 			 * **businesses.description**
 			 * - `text` in database
 			 * - Nullable, no default
@@ -187,8 +205,28 @@ declare module 'zapatos/schema' {
 			 * - `NOT NULL`, no default
 			 */
 			town_id: number
+			/**
+			 * **businesses.updated_at**
+			 * - `timestamptz` in database
+			 * - `NOT NULL`, no default
+			 */
+			updated_at: db.TimestampTzString
 		}
 		export interface Whereable {
+			/**
+			 * **businesses.created_at**
+			 * - `timestamptz` in database
+			 * - `NOT NULL`, no default
+			 */
+			created_at?:
+				| (db.TimestampTzString | Date)
+				| db.Parameter<db.TimestampTzString | Date>
+				| db.SQLFragment
+				| db.ParentColumn
+				| db.SQLFragment<
+						any,
+						(db.TimestampTzString | Date) | db.Parameter<db.TimestampTzString | Date> | db.SQLFragment | db.ParentColumn
+				  >
 			/**
 			 * **businesses.description**
 			 * - `text` in database
@@ -233,8 +271,28 @@ declare module 'zapatos/schema' {
 				| db.SQLFragment
 				| db.ParentColumn
 				| db.SQLFragment<any, number | db.Parameter<number> | db.SQLFragment | db.ParentColumn>
+			/**
+			 * **businesses.updated_at**
+			 * - `timestamptz` in database
+			 * - `NOT NULL`, no default
+			 */
+			updated_at?:
+				| (db.TimestampTzString | Date)
+				| db.Parameter<db.TimestampTzString | Date>
+				| db.SQLFragment
+				| db.ParentColumn
+				| db.SQLFragment<
+						any,
+						(db.TimestampTzString | Date) | db.Parameter<db.TimestampTzString | Date> | db.SQLFragment | db.ParentColumn
+				  >
 		}
 		export interface Insertable {
+			/**
+			 * **businesses.created_at**
+			 * - `timestamptz` in database
+			 * - `NOT NULL`, no default
+			 */
+			created_at: (db.TimestampTzString | Date) | db.Parameter<db.TimestampTzString | Date> | db.SQLFragment
 			/**
 			 * **businesses.description**
 			 * - `text` in database
@@ -259,8 +317,27 @@ declare module 'zapatos/schema' {
 			 * - `NOT NULL`, no default
 			 */
 			town_id: number | db.Parameter<number> | db.SQLFragment
+			/**
+			 * **businesses.updated_at**
+			 * - `timestamptz` in database
+			 * - `NOT NULL`, no default
+			 */
+			updated_at: (db.TimestampTzString | Date) | db.Parameter<db.TimestampTzString | Date> | db.SQLFragment
 		}
 		export interface Updatable {
+			/**
+			 * **businesses.created_at**
+			 * - `timestamptz` in database
+			 * - `NOT NULL`, no default
+			 */
+			created_at?:
+				| (db.TimestampTzString | Date)
+				| db.Parameter<db.TimestampTzString | Date>
+				| db.SQLFragment
+				| db.SQLFragment<
+						any,
+						(db.TimestampTzString | Date) | db.Parameter<db.TimestampTzString | Date> | db.SQLFragment
+				  >
 			/**
 			 * **businesses.description**
 			 * - `text` in database
@@ -303,6 +380,19 @@ declare module 'zapatos/schema' {
 				| db.Parameter<number>
 				| db.SQLFragment
 				| db.SQLFragment<any, number | db.Parameter<number> | db.SQLFragment>
+			/**
+			 * **businesses.updated_at**
+			 * - `timestamptz` in database
+			 * - `NOT NULL`, no default
+			 */
+			updated_at?:
+				| (db.TimestampTzString | Date)
+				| db.Parameter<db.TimestampTzString | Date>
+				| db.SQLFragment
+				| db.SQLFragment<
+						any,
+						(db.TimestampTzString | Date) | db.Parameter<db.TimestampTzString | Date> | db.SQLFragment
+				  >
 		}
 		export type UniqueIndex = 'businesses_pkey'
 		export type Column = keyof Selectable
@@ -568,13 +658,13 @@ declare module 'zapatos/schema' {
 			 * - `numeric` in database
 			 * - Nullable, no default
 			 */
-			latitude: number | null
+			latitude: (number | db.NumericString) | null
 			/**
 			 * **locations.longitude**
 			 * - `numeric` in database
 			 * - Nullable, no default
 			 */
-			longitude: number | null
+			longitude: (number | db.NumericString) | null
 		}
 		export interface Whereable {
 			/**
@@ -1054,7 +1144,7 @@ declare module 'zapatos/schema' {
 			 * - `numeric` in database
 			 * - Nullable, no default
 			 */
-			latitude: number | null
+			latitude: (number | db.NumericString) | null
 			/**
 			 * **towns.local_government_area**
 			 * - `varchar` in database
@@ -1066,7 +1156,7 @@ declare module 'zapatos/schema' {
 			 * - `numeric` in database
 			 * - Nullable, no default
 			 */
-			longitude: number | null
+			longitude: (number | db.NumericString) | null
 			/**
 			 * **towns.name**
 			 * - `varchar` in database

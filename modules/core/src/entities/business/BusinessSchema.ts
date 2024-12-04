@@ -1,5 +1,6 @@
 import * as v from 'valibot'
 
+import {TimestampSchema} from '../TimestampSchemas.js'
 import {TownSchema} from '../town/index.js'
 import {BusinessIdSchema} from './BusinessId.js'
 
@@ -20,6 +21,7 @@ export const BusinessSchema = v.object({
 		v.maxLength(100, 'At most 100 characters'),
 	),
 	townId: TownSchema.entries.id,
+	...TimestampSchema.entries,
 })
 
 export const BusinessResolvedSchema = v.object({
@@ -38,5 +40,12 @@ export const BusinessCRUDSchema = v.object({
 	id: v.nullish(BusinessSchema.entries.id),
 })
 
-/** Schema for creating an entity */
-export const BusinessCreateSchema = v.omit(BusinessSchema, ['id'])
+/**
+ * Schema for creating an entity
+ * The dates are optional, so the user doesn't have to set it but the mock-data script can.
+ */
+export const BusinessCreateSchema = v.object({
+	...v.omit(BusinessSchema, ['id', 'createdAt', 'updatedAt']).entries,
+	createdAt: v.undefinedable(v.date()),
+	updatedAt: v.undefinedable(v.date()),
+})

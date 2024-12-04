@@ -32,7 +32,7 @@ export class LocationRepositoryPostgres extends CRUDRepositoryPostgres implement
 
 	constructor(pool: Pool, db: typeof zdb) {
 		super(pool, db)
-		this.debug = Debug('indie:LocationRepositoryPostgres')
+		this.debug = Debug('indie:reop:LocationPostgres')
 	}
 
 	async create(data: LocationCreateType) {

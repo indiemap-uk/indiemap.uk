@@ -1,10 +1,11 @@
 <script lang="ts">
+	import dayjs from 'dayjs'
 	import type {BusinessCRUDType} from '@i/core/business'
 	import type {TownSearchResultType, TownSearchType} from '@i/core/town'
 	import type {SuperValidated} from 'sveltekit-superforms'
 
 	import {browser} from '$app/environment'
-	import {IconDeviceFloppy, IconPencil} from '@tabler/icons-svelte'
+	import {IconPencil} from '@tabler/icons-svelte'
 	import Svelecte from 'svelecte'
 	import SuperDebug, {superForm} from 'sveltekit-superforms'
 
@@ -31,7 +32,20 @@
 		e.preventDefault()
 		editTown = !editTown
 	}
+
+	$inspect({$errors})
 </script>
+
+{#if Object.keys($errors).length}
+	<div>
+		<p>There was an error saving the business:</p>
+		<ol>
+			{#each Object.entries($errors) as err}
+				<li>{err[0]}: {err[1]}</li>
+			{/each}
+		</ol>
+	</div>
+{/if}
 
 {#if $message}
 	<div class="notification is-success">
@@ -41,7 +55,17 @@
 
 <form method="POST" use:enhance>
 	{#if $form.id}
+		<p class="field">
+			<small>Created {dayjs($form.createdAt).format('MMMM D, YYYY h:mm A')}</small>
+			{#if $form.createdAt.toString() !== $form.updatedAt.toString()}
+				//
+				<small>Updated {dayjs($form.updatedAt).format('MMMM D, YYYY h:mm A')}</small>
+			{/if}
+		</p>
+
 		<input type="hidden" bind:value={$form.id} name="id" />
+		<input type="hidden" bind:value={$form.createdAt} name="createdAt" />
+		<input type="hidden" bind:value={$form.updatedAt} name="updatedAt" />
 	{/if}
 
 	<div class="field">
