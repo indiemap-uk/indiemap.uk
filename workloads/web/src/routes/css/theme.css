@@ -35,6 +35,11 @@
 	--size-fluid-8: clamp(10rem, 20vw, 15rem);
 	--size-fluid-9: clamp(15rem, 30vw, 20rem);
 	--size-fluid-10: clamp(20rem, 40vw, 30rem);
+
+	/* Typography */
+	--font-weight-1: var(--op-font-weight-4);
+	--font-weight-2: var(--op-font-weight-6);
+	--font-weight-3: var(--op-font-weight-8);
 }
 
 /* Light theme */

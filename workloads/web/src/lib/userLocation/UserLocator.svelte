@@ -1,15 +1,8 @@
 <script lang="ts">
 	const {onLocate}: {onLocate: (lat: number, lon: number) => void} = $props()
+	import {tryLocate} from './tryLocate.js'
 
 	const geoAvailable = 'geolocation' in navigator
-
-	const tryLocate = () => {
-		if (geoAvailable) {
-			navigator.geolocation.getCurrentPosition((position) => {
-				onLocate(position.coords.latitude, position.coords.longitude)
-			})
-		}
-	}
 </script>
 
 <button
@@ -17,7 +10,7 @@
 	data-button-size="small"
 	data-button-variant="primary"
 	disabled={!geoAvailable}
-	onclick={tryLocate}
+	onclick={() => tryLocate(onLocate)}
 >
 	<span>Search near me</span>
 </button>
