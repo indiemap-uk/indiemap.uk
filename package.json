@@ -4,8 +4,8 @@
 		"typecheck": "pnpm --filter !tsconfig --filter !web recursive exec tsc --noEmit && pnpm -F web check",
 		"test": "pnpm --filter !tsconfig recursive run test",
 		"validate": "pnpm run lint && pnpm run typecheck && pnpm run test",
-		"lint": "prettier --check . && eslint .",
-		"lint:fix": "prettier --write . && eslint . --fix"
+		"lint": "prettier --cache --check . && eslint --cache .",
+		"lint:fix": "prettier --cache --write . && eslint --cache . --fix"
 	},
 	"dependencies": {
 		"@auth/pg-adapter": "^1.7.4",

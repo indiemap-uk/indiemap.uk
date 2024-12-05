@@ -6,3 +6,4 @@ build
 *.tsbuildinfo
 .vscode/settings.json
 .DS_Store
+.eslintcache
