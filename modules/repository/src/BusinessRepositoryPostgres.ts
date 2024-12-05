@@ -4,12 +4,14 @@ import {
 	BusinessCreateSchema,
 	type BusinessCreateType,
 	type BusinessIdType,
+	type BusinessListArgs,
 	type BusinessRepository,
 	BusinessResolvedSchema,
 	BusinessSchema,
 	type BusinessType,
 	newBusinessId,
 } from '@i/core/business'
+import {snakeCase} from 'es-toolkit'
 import * as v from 'valibot'
 import * as db from 'zapatos/db'
 
@@ -60,14 +62,24 @@ export class BusinessRepositoryPostgres extends CRUDRepositoryPostgres implement
 			.then((record) => (record ? this.toResolvedBusiness(record) : null))
 	}
 
-	async list() {
+	async list(userArgs: BusinessListArgs) {
+		const args = {
+			limit: userArgs.limit ?? 10,
+			offset: userArgs.offset ?? 0,
+			order: {
+				by: snakeCase(userArgs.order?.by ?? 'id') as s.SQLForTable<'businesses'>,
+				direction: userArgs.order?.direction ?? 'ASC',
+			},
+		}
+
 		const records = await db
 			.select('businesses', db.all, {
 				lateral: {
 					town: db.selectExactlyOne('towns', {id: db.parent('town_id')}),
 				},
-				limit: 100,
-				order: {by: 'id', direction: 'ASC'},
+				limit: args.limit,
+				offset: args.offset,
+				order: args.order,
 			})
 			.run(this.pool)
 

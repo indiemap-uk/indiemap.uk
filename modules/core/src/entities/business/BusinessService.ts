@@ -1,4 +1,4 @@
-import type {BusinessRepository} from './BusinessRepository.js'
+import type {BusinessListArgs, BusinessRepository} from './BusinessRepository.js'
 import type {BusinessCreateType, BusinessIdType, BusinessType} from './BusinessType.js'
 
 export class BusinessService {
@@ -16,8 +16,8 @@ export class BusinessService {
 		return this.businessRepository.getById(id)
 	}
 
-	async list() {
-		return this.businessRepository.list()
+	async list(args?: BusinessListArgs) {
+		return this.businessRepository.list(args)
 	}
 
 	async update(business: BusinessType) {
