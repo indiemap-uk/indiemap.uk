@@ -50,6 +50,10 @@
 		border-color 0.3s ease;
 }
 
+button > span {
+	color: var(--button-color);
+}
+
 .button:hover {
 	background: var(--button-hover-bg);
 	color: var(--button-hover-color);
