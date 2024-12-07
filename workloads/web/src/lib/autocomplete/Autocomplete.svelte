@@ -35,6 +35,7 @@
 		value?: any[] | null | number | object | string
 		/** The value field in the response array, e.g. `id` */
 		valueField?: string
+		onChange?: (value: unknown) => void
 	}
 
 	let {
@@ -50,6 +51,7 @@
 		url,
 		value = $bindable(),
 		valueField = 'id',
+		onChange,
 	}: AutocompleteProps = $props()
 
 	config.i18n.fetchQuery = () => 'Type to search'
@@ -58,6 +60,7 @@
 
 <div {style}>
 	<Svelecte
+		{onChange}
 		{clearable}
 		{labelField}
 		{minQuery}

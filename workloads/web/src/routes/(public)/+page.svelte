@@ -2,18 +2,12 @@
 	import {page} from '$app/stores'
 	import IndieMap from '$lib/map/IndieMap.svelte'
 	import TownSearch from '$lib/town/TownSearch.svelte'
-	import {getUserLocationContext} from '$lib/userLocation/userLocationState.svelte'
 	import UserLocator from '$lib/userLocation/UserLocator.svelte'
 	import {getFlash} from 'sveltekit-flash-message'
 
 	const {data} = $props()
 
 	const flash = getFlash(page)
-
-	const userLocationState = getUserLocationContext()
-	const onLocate = (latitude: number, longitude: number) => {
-		userLocationState.location = {latitude, longitude}
-	}
 
 	const mapMap = new Map([
 		['England', '🏴󠁧󠁢󠁥󠁮󠁧󠁿'],
@@ -28,7 +22,7 @@
 
 <div class="sticky-2 | h-100">
 	<div class="level | gap-3 | _locator">
-		<UserLocator {onLocate} />
+		<UserLocator />
 		or
 		<TownSearch />
 	</div>

@@ -1,13 +1,13 @@
 <script lang="ts">
 	import {browser} from '$app/environment'
-	import {getUserLocationContext} from '$lib/userLocation/userLocationState.svelte'
+	import {getMapCenterContext} from '$lib/map/mapCenterState.svelte'
 	import type {BusinessResolvedType} from '@i/core/business'
 	import {MapLibre, NavigationControl, DefaultMarker, Popup, Marker} from 'svelte-maplibre'
 	// Center of UK picked from:
 	// https://en.wikipedia.org/wiki/Centre_points_of_the_United_Kingdom > Great Britain (mainland only)
 	const cetnerOfUK = {lon: -2.421975, lat: 53.825564}
 
-	const userLocationState = getUserLocationContext()
+	const userLocationState = getMapCenterContext()
 
 	const center = $derived.by(() =>
 		userLocationState.location
@@ -49,6 +49,8 @@
 
 <style>
 	:global(.map) {
+		/* z-index: otherwise the control buttons (+/-) would draw over other elements, e.g. select dropdowns */
+		z-index: 0;
 		height: 500px;
 	}
 

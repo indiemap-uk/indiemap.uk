@@ -20,4 +20,4 @@ export const TownSchema = v.object({
 
 export const TownSearchSchema = v.pipe(v.string(), v.minLength(3), v.maxLength(20))
 
-export const TownSearchResultSchema = v.pick(TownSchema, ['id', 'name', 'county'])
+export const TownSearchResultSchema = v.pick(TownSchema, ['id', 'name', 'county', 'latitude', 'longitude'])

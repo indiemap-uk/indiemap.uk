@@ -1,11 +1,11 @@
 <script lang="ts">
 	import SignOutBar from '$lib/user/SignOutBar.svelte'
-	import {setUserLocationContext, UserLocationState} from '$lib/userLocation/userLocationState.svelte.js'
+	import {setMapCenterContext, MapCenterState} from '$lib/map/mapCenterState.svelte.js'
 
 	const {children, data} = $props()
 
-	const userLocation = new UserLocationState()
-	setUserLocationContext(userLocation)
+	const userLocation = new MapCenterState()
+	setMapCenterContext(userLocation)
 </script>
 
 <svelte:head>

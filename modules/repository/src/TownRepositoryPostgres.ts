@@ -42,14 +42,20 @@ export class TownRepositoryPostgres extends CRUDRepositoryPostgres implements To
 	async search(qInput: string): Promise<TownSearchResultType[]> {
 		const q = v.parse(TownSearchSchema, qInput)
 
-		const records = await this.db.sql`SELECT id, name, county 
+		const records = await this.db.sql`SELECT id, name, county, latitude, longitude
 		FROM ${'towns'}
 		WHERE ${{
 			name: this.db.sql`LOWER(${this.db.self}) LIKE(${this.db.param(`${q.toLowerCase()}%`)})`,
 		}}
 		LIMIT 25`.run(this.pool)
 
-		return records.map((r) => v.parse(TownSearchResultSchema, r))
+		return records.map((r) =>
+			v.parse(TownSearchResultSchema, {
+				...r,
+				latitude: Big(r.latitude).toNumber(),
+				longitude: Big(r.longitude).toNumber(),
+			}),
+		)
 	}
 
 	private toSchema = (record: s.towns.JSONSelectable | s.towns.Selectable) => {
