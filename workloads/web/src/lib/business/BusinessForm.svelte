@@ -5,7 +5,8 @@
 	import type {SuperValidated} from 'sveltekit-superforms'
 
 	import {browser} from '$app/environment'
-	import {IconPencil} from '@tabler/icons-svelte'
+	import IconPencil from '@tabler/icons-svelte/icons/pencil'
+	import IconUser from '@tabler/icons-svelte/icons/user'
 	import Svelecte from 'svelecte'
 	import SuperDebug, {superForm} from 'sveltekit-superforms'
 

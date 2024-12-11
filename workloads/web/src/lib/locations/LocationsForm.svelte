@@ -9,7 +9,8 @@
 		type LocationType,
 		type LocationUserCreateType,
 	} from '@i/core/location'
-	import {IconArrowBackUp, IconX} from '@tabler/icons-svelte'
+	import IconArrowBackUp from '@tabler/icons-svelte/icons/arrow-back-up'
+	import IconX from '@tabler/icons-svelte/icons/x'
 	import SuperDebug from 'sveltekit-superforms'
 	import {superForm, type SuperValidated} from 'sveltekit-superforms/client'
 	import * as v from 'valibot'

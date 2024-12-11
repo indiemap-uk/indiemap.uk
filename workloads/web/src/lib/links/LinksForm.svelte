@@ -3,7 +3,8 @@
 
 	import {browser} from '$app/environment'
 	import {type LinkCRUDListType, type LinkIdType, LinkSchema, type LinkType} from '@i/core/link'
-	import {IconArrowBackUp, IconX} from '@tabler/icons-svelte'
+	import IconArrowBackUp from '@tabler/icons-svelte/icons/arrow-back-up'
+	import IconX from '@tabler/icons-svelte/icons/x'
 	import SuperDebug from 'sveltekit-superforms'
 	import {superForm, type SuperValidated} from 'sveltekit-superforms/client'
 	import * as v from 'valibot'

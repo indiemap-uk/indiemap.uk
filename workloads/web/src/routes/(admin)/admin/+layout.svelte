@@ -2,7 +2,7 @@
 	import 'bulma/css/bulma.css'
 	import {page} from '$app/stores'
 	import SignOutBar from '$lib/user/SignOutBar.svelte'
-	import {IconHomeFilled} from '@tabler/icons-svelte'
+	import IconHomeFilled from '@tabler/icons-svelte/icons/home-filled'
 
 	const {children, data} = $props()
 
