@@ -1,5 +1,4 @@
 <script lang="ts">
-	import 'bulma/css/bulma.css'
 	import {page} from '$app/stores'
 	import SignOutBar from '$lib/user/SignOutBar.svelte'
 	import IconHomeFilled from '@tabler/icons-svelte/icons/home-filled'
@@ -64,6 +63,8 @@
 </div>
 
 <style>
+	@import 'https://cdn.jsdelivr.net/npm/bulma@1.0.2/css/bulma.min.css';
+
 	.grid {
 		display: grid;
 		gap: 0;
