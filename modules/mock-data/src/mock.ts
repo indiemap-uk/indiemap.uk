@@ -121,7 +121,7 @@ const mock = async () => {
 		totalLinks += linkCount
 	}
 
-	await container.pool.end()
+	await container.end()
 
 	debug(
 		'🦔 Done! Generated %s businesses in %s towns, %s locations and %s links',

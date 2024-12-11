@@ -7,20 +7,10 @@ settings:
 importers:
 
   .:
-    dependencies:
-      '@auth/pg-adapter':
-        specifier: ^1.7.4
-        version: 1.7.4(pg@8.13.0)
-      pg:
-        specifier: ^8.13.0
-        version: 8.13.0
     devDependencies:
       '@eslint/js':
         specifier: ^9.16.0
         version: 9.16.0
-      '@types/pg':
-        specifier: ^8.11.10
-        version: 8.11.10
       eslint:
         specifier: ^9.16.0
         version: 9.16.0
@@ -91,7 +81,7 @@ importers:
         version: 4.1.12
 
   modules/mock-data:
-    dependencies:
+    devDependencies:
       '@faker-js/faker':
         specifier: ^9.2.0
         version: 9.2.0
@@ -101,6 +91,15 @@ importers:
       '@i/repository':
         specifier: workspace:*
         version: link:../repository
+      '@i/tsconfig':
+        specifier: workspace:*
+        version: link:../tsconfig
+      '@types/big.js':
+        specifier: 6.2.2
+        version: 6.2.2
+      '@types/debug':
+        specifier: ^4.1.12
+        version: 4.1.12
       big.js:
         specifier: ^6.2.2
         version: 6.2.2
@@ -116,16 +115,6 @@ importers:
       valibot:
         specifier: 0.42.1
         version: 0.42.1(typescript@5.6.2)
-    devDependencies:
-      '@i/tsconfig':
-        specifier: workspace:*
-        version: link:../tsconfig
-      '@types/big.js':
-        specifier: 6.2.2
-        version: 6.2.2
-      '@types/debug':
-        specifier: ^4.1.12
-        version: 4.1.12
 
   modules/repository:
     dependencies:
@@ -163,9 +152,12 @@ importers:
       '@types/debug':
         specifier: ^4.1.12
         version: 4.1.12
+      '@types/pg':
+        specifier: ^8.11.10
+        version: 8.11.10
       node-pg-migrate:
-        specifier: ^7.7.1
-        version: 7.7.1(@types/pg@8.11.10)(pg@8.13.0)
+        specifier: ^7.8.0
+        version: 7.8.0(@types/pg@8.11.10)(pg@8.13.0)
       type-fest:
         specifier: ^4.26.1
         version: 4.26.1
@@ -174,6 +166,9 @@ importers:
 
   workloads/web:
     dependencies:
+      '@auth/pg-adapter':
+        specifier: ^1.7.4
+        version: 1.7.4(pg@8.13.0)
       '@auth/sveltekit':
         specifier: ^1.7.3
         version: 1.7.3(@sveltejs/kit@2.7.2(@sveltejs/vite-plugin-svelte@4.0.0(svelte@5.0.3)(vite@5.4.9(@types/node@22.7.4)))(svelte@5.0.3)(vite@5.4.9(@types/node@22.7.4)))(svelte@5.0.3)
@@ -198,6 +193,9 @@ importers:
       debug:
         specifier: ^4.3.7
         version: 4.3.7
+      pg:
+        specifier: ^8.13.0
+        version: 8.13.0
       svelecte:
         specifier: 5.0.0-next.16
         version: 5.0.0-next.16(svelte@5.0.3)
@@ -256,6 +254,9 @@ importers:
       '@types/debug':
         specifier: ^4.1.12
         version: 4.1.12
+      '@types/pg':
+        specifier: ^8.11.10
+        version: 8.11.10
       autoprefixer:
         specifier: ^10.4.20
         version: 10.4.20(postcss@8.4.47)
@@ -2508,8 +2509,8 @@ packages:
   no-case@3.0.4:
     resolution: {integrity: sha512-fgAN3jGAh+RoxUGZHTSOLJIqUc2wmoBwGR4tbpNAKmmovFoWq0OdRkb0VkldReO2a2iBT/OEulG9XSUc10r3zg==}
 
-  node-pg-migrate@7.7.1:
-    resolution: {integrity: sha512-wi+zKn+sBWqFUKnViPxHbnriZpGmUJQDhfN06URffYVPBIqS9quuqIfb8wbahiiJIPYWlOluJ18wsWPMYGM7Cg==}
+  node-pg-migrate@7.8.0:
+    resolution: {integrity: sha512-tEcindO1aPx6TetVSt6t8NaqQi/bS5Ek/wgeVWbaISiqfF3+KgvAb1iDbIVg5ZwXwmVLVfco93QDfjMbjwXTBg==}
     engines: {node: '>=18.19.0'}
     hasBin: true
     peerDependencies:
@@ -5813,7 +5814,7 @@ snapshots:
       lower-case: 2.0.2
       tslib: 2.4.0
 
-  node-pg-migrate@7.7.1(@types/pg@8.11.10)(pg@8.13.0):
+  node-pg-migrate@7.8.0(@types/pg@8.11.10)(pg@8.13.0):
     dependencies:
       glob: 11.0.0
       pg: 8.13.0

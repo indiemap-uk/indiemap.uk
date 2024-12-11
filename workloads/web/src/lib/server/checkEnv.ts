@@ -11,9 +11,8 @@ export const checkEnv = (env: unknown) => {
 
 	if (!envCheck.success) {
 		const issues = envCheck.issues.map((issue) => `${issue.path?.[0].key as string}: ${issue.message}`).join('\n')
-		console.error('The env config is invalid!')
-		console.error(issues)
-		process.exit(1)
+
+		throw new Error(`Indiemap/checkEnv: The environment is invalid!: \n${issues}`)
 	}
 
 	return envCheck.output

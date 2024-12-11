@@ -1,6 +1,4 @@
 <script lang="ts">
-	import {description} from 'valibot'
-
 	const {data} = $props()
 </script>
 

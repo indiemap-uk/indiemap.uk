@@ -1,5 +1,8 @@
 {
 	"name": "@i/web",
+	"files": [
+		"build"
+	],
 	"scripts": {
 		"dev": "DEBUG=indie* vite dev",
 		"build": "vite build",
@@ -11,6 +14,7 @@
 	},
 	"dependencies": {
 		"@auth/sveltekit": "^1.7.3",
+		"@auth/pg-adapter": "^1.7.4",
 		"@i/core": "workspace:*",
 		"@i/geocoding": "workspace:*",
 		"@i/repository": "workspace:*",
@@ -22,7 +26,8 @@
 		"svelte-maplibre": "1.0.0-next.7",
 		"sveltekit-flash-message": "^2.4.4",
 		"sveltekit-superforms": "^2.20.0",
-		"valibot": "0.42.1"
+		"valibot": "0.42.1",
+		"pg": "^8.13.0"
 	},
 	"devDependencies": {
 		"@chromatic-com/storybook": "^3.2.2",
@@ -39,6 +44,7 @@
 		"@sveltejs/kit": "^2.0.0",
 		"@sveltejs/vite-plugin-svelte": "^4.0.0-next.6",
 		"@types/debug": "^4.1.12",
+		"@types/pg": "^8.11.10",
 		"autoprefixer": "^10.4.20",
 		"storybook": "^8.4.7",
 		"rollup-plugin-visualizer": "^5.12.0",

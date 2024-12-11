@@ -1,4 +1,4 @@
-import {signOut} from '$lib/authn/authjs'
+import {signOut} from '$lib/authN/authjs'
 import {redirect} from '@sveltejs/kit'
 
 import type {Actions} from './$types'

@@ -3,7 +3,7 @@ import * as v from 'valibot'
 export const AuthEnvSchema = v.object({
 	/**
 	 * Comma separated list of emails that are admin users
-	 * See $lib/authn/authjs.ts and hooks.server.ts
+	 * See $lib/authN/authjs.ts and hooks.server.ts
 	 **/
 	ADMIN_USER_EMAILS: v.string(),
 	/**
