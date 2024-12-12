@@ -1,11 +1,18 @@
 # You need to build the image from the root of the project,
 # as the Docker context must contain all the modules!
-#
-# docker build -t indiemap --file workloads/web/Dockerfile .
+#   docker build -t ghcr.io/indiemap-uk/indiemap:latest --file workloads/web/Dockerfile .
 #
 # Run it with all the required env vars (this is for local testing):
+#   docker run -it --rm -e ADMIN_USER_EMAILS -e AUTH_RESEND_KEY -e AUTH_SECRET -e DATABASE_URL -e GEOCODIFY_API_KEY -p 3333:3000 ghcr.io/indiemap-uk/indiemap:latest
 #
-# docker run -it --rm -e ADMIN_USER_EMAILS -e AUTH_RESEND_KEY -e AUTH_SECRET -e DATABASE_URL -e GEOCODIFY_API_KEY -p 3333:3000 indiemap
+# Login to the remote registry:
+#   echo $GITHUB_PERSONAL_TOKEN | docker login ghcr.io -u $GITHUB_USERNAME --password-stdin
+#
+# Push to the registry:
+#   docker push ghcr.io/indiemap-uk/indiemap:latest 
+#
+# Pull the public image:
+#   docker pull ghcr.io/indiemap-uk/indiemap:latest
 # 
 # BUILD STAGE
 FROM node:22-alpine
