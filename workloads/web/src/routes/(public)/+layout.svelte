@@ -10,6 +10,8 @@
 
 <svelte:head>
 	<title>Indiemap</title>
+	<!-- Cabin visitor analitycs -->
+	<script async defer src="https://scripts.withcabin.com/hello.js"></script>
 </svelte:head>
 
 <div class="sticky-3 | min-vh-100">
