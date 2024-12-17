@@ -20,7 +20,7 @@ import {dbToEntity} from './dbToEntity.js'
 import {objToSnake} from './objToSnake.js'
 
 type BusinessCoreRecord = s.businesses.JSONSelectable | s.businesses.Selectable
-type BusinessResolvedRecord = s.businesses.JSONSelectable & {town: s.towns.JSONSelectable}
+type BusinessResolvedRecord = s.businesses.JSONSelectable & {town: s.uk_towns.JSONSelectable}
 
 export class BusinessRepositoryPostgres extends CRUDRepositoryPostgres implements BusinessRepository {
 	async create(data: BusinessCreateType) {
@@ -54,7 +54,7 @@ export class BusinessRepositoryPostgres extends CRUDRepositoryPostgres implement
 				{id: id.toString()},
 				{
 					lateral: {
-						town: db.selectExactlyOne('towns', {id: db.parent('town_id')}),
+						town: db.selectExactlyOne('uk_towns', {id: db.parent('town_id')}),
 					},
 				},
 			)
@@ -75,7 +75,7 @@ export class BusinessRepositoryPostgres extends CRUDRepositoryPostgres implement
 		const records = await db
 			.select('businesses', db.all, {
 				lateral: {
-					town: db.selectExactlyOne('towns', {id: db.parent('town_id')}),
+					town: db.selectExactlyOne('uk_towns', {id: db.parent('town_id')}),
 				},
 				limit: args.limit,
 				offset: args.offset,
@@ -95,12 +95,15 @@ export class BusinessRepositoryPostgres extends CRUDRepositoryPostgres implement
 			throw new Error('Update failed, no record returned')
 		}
 
-		const town = await db.selectExactlyOne('towns', {id: record[0].town_id}).run(this.pool)
+		const town = await db.selectExactlyOne('uk_towns', {id: record[0].town_id}).run(this.pool)
 
 		return this.toResolvedBusiness(record[0], town)
 	}
 
-	private toResolvedBusiness(record: BusinessCoreRecord | BusinessResolvedRecord, townRecord?: s.towns.JSONSelectable) {
+	private toResolvedBusiness(
+		record: BusinessCoreRecord | BusinessResolvedRecord,
+		townRecord?: s.uk_towns.JSONSelectable,
+	) {
 		const town = 'town' in record ? record.town : townRecord
 
 		return dbToEntity({...record, town}, BusinessResolvedSchema)

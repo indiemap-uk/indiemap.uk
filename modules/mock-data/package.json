@@ -5,7 +5,7 @@
 	},
 	"exports": {},
 	"scripts": {
-		"mock": "tsx src/mock.ts",
+		"mock": "DEBUG=indie:mock-data tsx src/mock.ts",
 		"typecheck": "tsc --noEmit"
 	},
 	"dependencies": {},

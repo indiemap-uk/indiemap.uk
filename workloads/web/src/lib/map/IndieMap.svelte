@@ -2,19 +2,18 @@
 	import {browser} from '$app/environment'
 	import {getMapCenterContext} from '$lib/map/mapCenterState.svelte'
 	import type {BusinessResolvedType} from '@i/core/business'
-	import {MapLibre, NavigationControl, DefaultMarker, Popup, Marker} from 'svelte-maplibre'
-	// Center of UK picked from:
-	// https://en.wikipedia.org/wiki/Centre_points_of_the_United_Kingdom > Great Britain (mainland only)
-	const cetnerOfUK = {lon: -2.421975, lat: 53.825564}
+	import {MapLibre, Marker, NavigationControl, Popup} from 'svelte-maplibre'
+	import {boundsOfUK, centerOfUK} from './UK'
 
-	const userLocationState = getMapCenterContext()
+	const mapCenterState = getMapCenterContext()
 
 	const center = $derived.by(() =>
-		userLocationState.location
-			? {lat: userLocationState.location.latitude, lon: userLocationState.location.longitude}
-			: cetnerOfUK,
+		mapCenterState.location
+			? {lat: mapCenterState.location.latitude, lon: mapCenterState.location.longitude}
+			: centerOfUK,
 	)
-	const zoom = $derived(userLocationState.location ? 10 : 6)
+
+	const zoom = $derived(mapCenterState.location ? 10 : 6)
 
 	const {businesses}: {businesses: Promise<BusinessResolvedType[]>} = $props()
 
@@ -29,6 +28,7 @@
 	minPitch={0}
 	maxPitch={0}
 	dragRotate={false}
+	maxBounds={boundsOfUK}
 	{center}
 	{zoom}
 	class="map"

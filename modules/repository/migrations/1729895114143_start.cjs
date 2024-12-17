@@ -19,7 +19,7 @@ exports.shorthands = {
  * @returns {Promise<void> | void}
  */
 exports.up = (pgm) => {
-	pgm.createTable('towns', {
+	pgm.createTable('uk_towns', {
 		id: {notNull: true, primaryKey: true, type: 'int'},
 		name: {type: 'varchar(56)'},
 		county: {type: 'varchar(32)'},
@@ -45,7 +45,7 @@ exports.up = (pgm) => {
 			notNull: true,
 			onDelete: 'SET NULL',
 			onUpdate: 'CASCADE',
-			references: 'towns',
+			references: 'uk_towns',
 			type: 'int',
 		},
 		updated_at: {type: 'timestamptz', notNull: true},
@@ -111,5 +111,5 @@ exports.down = (pgm) => {
 	pgm.dropTable('business_locations')
 	pgm.dropTable('locations')
 	pgm.dropTable('businesses')
-	pgm.dropTable('towns')
+	pgm.dropTable('uk_towns')
 }

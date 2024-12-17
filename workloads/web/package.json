@@ -27,7 +27,8 @@
 		"sveltekit-flash-message": "^2.4.4",
 		"sveltekit-superforms": "^2.20.0",
 		"valibot": "0.42.1",
-		"pg": "^8.13.0"
+		"pg": "^8.13.0",
+		"maplibre-gl": "4.7.1"
 	},
 	"devDependencies": {
 		"@chromatic-com/storybook": "^3.2.2",

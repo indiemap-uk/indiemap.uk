@@ -14,15 +14,15 @@ import {CRUDRepositoryPostgres} from './CRUDRepositoryPostgres.js'
 
 export class TownRepositoryPostgres extends CRUDRepositoryPostgres implements TownRepository {
 	async getById(id: number) {
-		const record = await this.db.selectExactlyOne('towns', {id}).run(this.pool)
+		const record = await this.db.selectExactlyOne('uk_towns', {id}).run(this.pool)
 
 		return this.toSchema(record)
 	}
 
 	async getRandom() {
-		const records = (await this.db.sql`SELECT * FROM towns ORDER BY random() LIMIT 1`.run(
+		const records = (await this.db.sql`SELECT * FROM ${'uk_towns'} ORDER BY random() LIMIT 1`.run(
 			this.pool,
-		)) as s.towns.Selectable[]
+		)) as s.uk_towns.Selectable[]
 
 		if (!records?.[0]) {
 			throw new Error('No random town found')
@@ -32,9 +32,9 @@ export class TownRepositoryPostgres extends CRUDRepositoryPostgres implements To
 	}
 
 	async getRandoms(count: number) {
-		const records = (await this.db.sql`SELECT * FROM towns ORDER BY random() LIMIT ${this.db.param(count)}`.run(
+		const records = (await this.db.sql`SELECT * FROM ${'uk_towns'} ORDER BY random() LIMIT ${this.db.param(count)}`.run(
 			this.pool,
-		)) as s.towns.Selectable[]
+		)) as s.uk_towns.Selectable[]
 
 		return records.map(this.toSchema)
 	}
@@ -43,7 +43,7 @@ export class TownRepositoryPostgres extends CRUDRepositoryPostgres implements To
 		const q = v.parse(TownSearchSchema, qInput)
 
 		const records = await this.db.sql`SELECT id, name, county, latitude, longitude
-		FROM ${'towns'}
+		FROM ${'uk_towns'}
 		WHERE ${{
 			name: this.db.sql`LOWER(${this.db.self}) LIKE(${this.db.param(`${q.toLowerCase()}%`)})`,
 		}}
@@ -58,7 +58,7 @@ export class TownRepositoryPostgres extends CRUDRepositoryPostgres implements To
 		)
 	}
 
-	private toSchema = (record: s.towns.JSONSelectable | s.towns.Selectable) => {
+	private toSchema = (record: s.uk_towns.JSONSelectable | s.uk_towns.Selectable) => {
 		try {
 			return v.parse(TownSchema, {
 				...record,

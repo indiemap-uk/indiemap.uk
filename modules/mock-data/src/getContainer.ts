@@ -26,7 +26,7 @@ export const getContainer = (env: {DATABASE_URL: string}) => {
 	const locationRepository = new LocationRepositoryPostgres(pool, getDb())
 	const locationService = new LocationService(locationRepository)
 
-	const end = pool.end
+	const end = () => pool.end()
 
 	return {businessService, end, linkService, locationService, townService}
 }

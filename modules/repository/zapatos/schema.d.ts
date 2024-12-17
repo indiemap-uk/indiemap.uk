@@ -140,7 +140,7 @@ declare module 'zapatos/schema' {
 			/**
 			 * **businesses.created_at**
 			 * - `timestamptz` in database
-			 * - `NOT NULL`, no default
+			 * - `NOT NULL`, default: `CURRENT_TIMESTAMP`
 			 */
 			created_at: Date
 			/**
@@ -178,7 +178,7 @@ declare module 'zapatos/schema' {
 			/**
 			 * **businesses.created_at**
 			 * - `timestamptz` in database
-			 * - `NOT NULL`, no default
+			 * - `NOT NULL`, default: `CURRENT_TIMESTAMP`
 			 */
 			created_at: db.TimestampTzString
 			/**
@@ -216,7 +216,7 @@ declare module 'zapatos/schema' {
 			/**
 			 * **businesses.created_at**
 			 * - `timestamptz` in database
-			 * - `NOT NULL`, no default
+			 * - `NOT NULL`, default: `CURRENT_TIMESTAMP`
 			 */
 			created_at?:
 				| (db.TimestampTzString | Date)
@@ -290,9 +290,13 @@ declare module 'zapatos/schema' {
 			/**
 			 * **businesses.created_at**
 			 * - `timestamptz` in database
-			 * - `NOT NULL`, no default
+			 * - `NOT NULL`, default: `CURRENT_TIMESTAMP`
 			 */
-			created_at: (db.TimestampTzString | Date) | db.Parameter<db.TimestampTzString | Date> | db.SQLFragment
+			created_at?:
+				| (db.TimestampTzString | Date)
+				| db.Parameter<db.TimestampTzString | Date>
+				| db.DefaultType
+				| db.SQLFragment
 			/**
 			 * **businesses.description**
 			 * - `text` in database
@@ -328,15 +332,16 @@ declare module 'zapatos/schema' {
 			/**
 			 * **businesses.created_at**
 			 * - `timestamptz` in database
-			 * - `NOT NULL`, no default
+			 * - `NOT NULL`, default: `CURRENT_TIMESTAMP`
 			 */
 			created_at?:
 				| (db.TimestampTzString | Date)
 				| db.Parameter<db.TimestampTzString | Date>
+				| db.DefaultType
 				| db.SQLFragment
 				| db.SQLFragment<
 						any,
-						(db.TimestampTzString | Date) | db.Parameter<db.TimestampTzString | Date> | db.SQLFragment
+						(db.TimestampTzString | Date) | db.Parameter<db.TimestampTzString | Date> | db.DefaultType | db.SQLFragment
 				  >
 			/**
 			 * **businesses.description**
@@ -1011,92 +1016,92 @@ declare module 'zapatos/schema' {
 	}
 
 	/**
-	 * **towns**
+	 * **uk_towns**
 	 * - Table in database
 	 */
-	export namespace towns {
-		export type Table = 'towns'
+	export namespace uk_towns {
+		export type Table = 'uk_towns'
 		export interface Selectable {
 			/**
-			 * **towns.country**
+			 * **uk_towns.country**
 			 * - `varchar` in database
 			 * - Nullable, no default
 			 */
 			country: string | null
 			/**
-			 * **towns.county**
+			 * **uk_towns.county**
 			 * - `varchar` in database
 			 * - Nullable, no default
 			 */
 			county: string | null
 			/**
-			 * **towns.easting**
+			 * **uk_towns.easting**
 			 * - `int4` in database
 			 * - Nullable, no default
 			 */
 			easting: number | null
 			/**
-			 * **towns.elevation**
+			 * **uk_towns.elevation**
 			 * - `int4` in database
 			 * - Nullable, no default
 			 */
 			elevation: number | null
 			/**
-			 * **towns.grid_reference**
+			 * **uk_towns.grid_reference**
 			 * - `varchar` in database
 			 * - Nullable, no default
 			 */
 			grid_reference: string | null
 			/**
-			 * **towns.id**
+			 * **uk_towns.id**
 			 * - `int4` in database
 			 * - `NOT NULL`, no default
 			 */
 			id: number
 			/**
-			 * **towns.latitude**
+			 * **uk_towns.latitude**
 			 * - `numeric` in database
 			 * - Nullable, no default
 			 */
 			latitude: db.NumericString | null
 			/**
-			 * **towns.local_government_area**
+			 * **uk_towns.local_government_area**
 			 * - `varchar` in database
 			 * - Nullable, no default
 			 */
 			local_government_area: string | null
 			/**
-			 * **towns.longitude**
+			 * **uk_towns.longitude**
 			 * - `numeric` in database
 			 * - Nullable, no default
 			 */
 			longitude: db.NumericString | null
 			/**
-			 * **towns.name**
+			 * **uk_towns.name**
 			 * - `varchar` in database
 			 * - Nullable, no default
 			 */
 			name: string | null
 			/**
-			 * **towns.northing**
+			 * **uk_towns.northing**
 			 * - `int4` in database
 			 * - Nullable, no default
 			 */
 			northing: number | null
 			/**
-			 * **towns.nuts_region**
+			 * **uk_towns.nuts_region**
 			 * - `varchar` in database
 			 * - Nullable, no default
 			 */
 			nuts_region: string | null
 			/**
-			 * **towns.postcode_sector**
+			 * **uk_towns.postcode_sector**
 			 * - `varchar` in database
 			 * - Nullable, no default
 			 */
 			postcode_sector: string | null
 			/**
-			 * **towns.type**
+			 * **uk_towns.type**
 			 * - `varchar` in database
 			 * - Nullable, no default
 			 */
@@ -1104,85 +1109,85 @@ declare module 'zapatos/schema' {
 		}
 		export interface JSONSelectable {
 			/**
-			 * **towns.country**
+			 * **uk_towns.country**
 			 * - `varchar` in database
 			 * - Nullable, no default
 			 */
 			country: string | null
 			/**
-			 * **towns.county**
+			 * **uk_towns.county**
 			 * - `varchar` in database
 			 * - Nullable, no default
 			 */
 			county: string | null
 			/**
-			 * **towns.easting**
+			 * **uk_towns.easting**
 			 * - `int4` in database
 			 * - Nullable, no default
 			 */
 			easting: number | null
 			/**
-			 * **towns.elevation**
+			 * **uk_towns.elevation**
 			 * - `int4` in database
 			 * - Nullable, no default
 			 */
 			elevation: number | null
 			/**
-			 * **towns.grid_reference**
+			 * **uk_towns.grid_reference**
 			 * - `varchar` in database
 			 * - Nullable, no default
 			 */
 			grid_reference: string | null
 			/**
-			 * **towns.id**
+			 * **uk_towns.id**
 			 * - `int4` in database
 			 * - `NOT NULL`, no default
 			 */
 			id: number
 			/**
-			 * **towns.latitude**
+			 * **uk_towns.latitude**
 			 * - `numeric` in database
 			 * - Nullable, no default
 			 */
 			latitude: (number | db.NumericString) | null
 			/**
-			 * **towns.local_government_area**
+			 * **uk_towns.local_government_area**
 			 * - `varchar` in database
 			 * - Nullable, no default
 			 */
 			local_government_area: string | null
 			/**
-			 * **towns.longitude**
+			 * **uk_towns.longitude**
 			 * - `numeric` in database
 			 * - Nullable, no default
 			 */
 			longitude: (number | db.NumericString) | null
 			/**
-			 * **towns.name**
+			 * **uk_towns.name**
 			 * - `varchar` in database
 			 * - Nullable, no default
 			 */
 			name: string | null
 			/**
-			 * **towns.northing**
+			 * **uk_towns.northing**
 			 * - `int4` in database
 			 * - Nullable, no default
 			 */
 			northing: number | null
 			/**
-			 * **towns.nuts_region**
+			 * **uk_towns.nuts_region**
 			 * - `varchar` in database
 			 * - Nullable, no default
 			 */
 			nuts_region: string | null
 			/**
-			 * **towns.postcode_sector**
+			 * **uk_towns.postcode_sector**
 			 * - `varchar` in database
 			 * - Nullable, no default
 			 */
 			postcode_sector: string | null
 			/**
-			 * **towns.type**
+			 * **uk_towns.type**
 			 * - `varchar` in database
 			 * - Nullable, no default
 			 */
@@ -1190,7 +1195,7 @@ declare module 'zapatos/schema' {
 		}
 		export interface Whereable {
 			/**
-			 * **towns.country**
+			 * **uk_towns.country**
 			 * - `varchar` in database
 			 * - Nullable, no default
 			 */
@@ -1201,7 +1206,7 @@ declare module 'zapatos/schema' {
 				| db.ParentColumn
 				| db.SQLFragment<any, string | db.Parameter<string> | db.SQLFragment | db.ParentColumn>
 			/**
-			 * **towns.county**
+			 * **uk_towns.county**
 			 * - `varchar` in database
 			 * - Nullable, no default
 			 */
@@ -1212,7 +1217,7 @@ declare module 'zapatos/schema' {
 				| db.ParentColumn
 				| db.SQLFragment<any, string | db.Parameter<string> | db.SQLFragment | db.ParentColumn>
 			/**
-			 * **towns.easting**
+			 * **uk_towns.easting**
 			 * - `int4` in database
 			 * - Nullable, no default
 			 */
@@ -1223,7 +1228,7 @@ declare module 'zapatos/schema' {
 				| db.ParentColumn
 				| db.SQLFragment<any, number | db.Parameter<number> | db.SQLFragment | db.ParentColumn>
 			/**
-			 * **towns.elevation**
+			 * **uk_towns.elevation**
 			 * - `int4` in database
 			 * - Nullable, no default
 			 */
@@ -1234,7 +1239,7 @@ declare module 'zapatos/schema' {
 				| db.ParentColumn
 				| db.SQLFragment<any, number | db.Parameter<number> | db.SQLFragment | db.ParentColumn>
 			/**
-			 * **towns.grid_reference**
+			 * **uk_towns.grid_reference**
 			 * - `varchar` in database
 			 * - Nullable, no default
 			 */
@@ -1245,7 +1250,7 @@ declare module 'zapatos/schema' {
 				| db.ParentColumn
 				| db.SQLFragment<any, string | db.Parameter<string> | db.SQLFragment | db.ParentColumn>
 			/**
-			 * **towns.id**
+			 * **uk_towns.id**
 			 * - `int4` in database
 			 * - `NOT NULL`, no default
 			 */
@@ -1256,7 +1261,7 @@ declare module 'zapatos/schema' {
 				| db.ParentColumn
 				| db.SQLFragment<any, number | db.Parameter<number> | db.SQLFragment | db.ParentColumn>
 			/**
-			 * **towns.latitude**
+			 * **uk_towns.latitude**
 			 * - `numeric` in database
 			 * - Nullable, no default
 			 */
@@ -1270,7 +1275,7 @@ declare module 'zapatos/schema' {
 						(number | db.NumericString) | db.Parameter<number | db.NumericString> | db.SQLFragment | db.ParentColumn
 				  >
 			/**
-			 * **towns.local_government_area**
+			 * **uk_towns.local_government_area**
 			 * - `varchar` in database
 			 * - Nullable, no default
 			 */
@@ -1281,7 +1286,7 @@ declare module 'zapatos/schema' {
 				| db.ParentColumn
 				| db.SQLFragment<any, string | db.Parameter<string> | db.SQLFragment | db.ParentColumn>
 			/**
-			 * **towns.longitude**
+			 * **uk_towns.longitude**
 			 * - `numeric` in database
 			 * - Nullable, no default
 			 */
@@ -1295,7 +1300,7 @@ declare module 'zapatos/schema' {
 						(number | db.NumericString) | db.Parameter<number | db.NumericString> | db.SQLFragment | db.ParentColumn
 				  >
 			/**
-			 * **towns.name**
+			 * **uk_towns.name**
 			 * - `varchar` in database
 			 * - Nullable, no default
 			 */
@@ -1306,7 +1311,7 @@ declare module 'zapatos/schema' {
 				| db.ParentColumn
 				| db.SQLFragment<any, string | db.Parameter<string> | db.SQLFragment | db.ParentColumn>
 			/**
-			 * **towns.northing**
+			 * **uk_towns.northing**
 			 * - `int4` in database
 			 * - Nullable, no default
 			 */
@@ -1317,7 +1322,7 @@ declare module 'zapatos/schema' {
 				| db.ParentColumn
 				| db.SQLFragment<any, number | db.Parameter<number> | db.SQLFragment | db.ParentColumn>
 			/**
-			 * **towns.nuts_region**
+			 * **uk_towns.nuts_region**
 			 * - `varchar` in database
 			 * - Nullable, no default
 			 */
@@ -1328,7 +1333,7 @@ declare module 'zapatos/schema' {
 				| db.ParentColumn
 				| db.SQLFragment<any, string | db.Parameter<string> | db.SQLFragment | db.ParentColumn>
 			/**
-			 * **towns.postcode_sector**
+			 * **uk_towns.postcode_sector**
 			 * - `varchar` in database
 			 * - Nullable, no default
 			 */
@@ -1339,7 +1344,7 @@ declare module 'zapatos/schema' {
 				| db.ParentColumn
 				| db.SQLFragment<any, string | db.Parameter<string> | db.SQLFragment | db.ParentColumn>
 			/**
-			 * **towns.type**
+			 * **uk_towns.type**
 			 * - `varchar` in database
 			 * - Nullable, no default
 			 */
@@ -1352,43 +1357,43 @@ declare module 'zapatos/schema' {
 		}
 		export interface Insertable {
 			/**
-			 * **towns.country**
+			 * **uk_towns.country**
 			 * - `varchar` in database
 			 * - Nullable, no default
 			 */
 			country?: string | db.Parameter<string> | null | db.DefaultType | db.SQLFragment
 			/**
-			 * **towns.county**
+			 * **uk_towns.county**
 			 * - `varchar` in database
 			 * - Nullable, no default
 			 */
 			county?: string | db.Parameter<string> | null | db.DefaultType | db.SQLFragment
 			/**
-			 * **towns.easting**
+			 * **uk_towns.easting**
 			 * - `int4` in database
 			 * - Nullable, no default
 			 */
 			easting?: number | db.Parameter<number> | null | db.DefaultType | db.SQLFragment
 			/**
-			 * **towns.elevation**
+			 * **uk_towns.elevation**
 			 * - `int4` in database
 			 * - Nullable, no default
 			 */
 			elevation?: number | db.Parameter<number> | null | db.DefaultType | db.SQLFragment
 			/**
-			 * **towns.grid_reference**
+			 * **uk_towns.grid_reference**
 			 * - `varchar` in database
 			 * - Nullable, no default
 			 */
 			grid_reference?: string | db.Parameter<string> | null | db.DefaultType | db.SQLFragment
 			/**
-			 * **towns.id**
+			 * **uk_towns.id**
 			 * - `int4` in database
 			 * - `NOT NULL`, no default
 			 */
 			id: number | db.Parameter<number> | db.SQLFragment
 			/**
-			 * **towns.latitude**
+			 * **uk_towns.latitude**
 			 * - `numeric` in database
 			 * - Nullable, no default
 			 */
@@ -1399,13 +1404,13 @@ declare module 'zapatos/schema' {
 				| db.DefaultType
 				| db.SQLFragment
 			/**
-			 * **towns.local_government_area**
+			 * **uk_towns.local_government_area**
 			 * - `varchar` in database
 			 * - Nullable, no default
 			 */
 			local_government_area?: string | db.Parameter<string> | null | db.DefaultType | db.SQLFragment
 			/**
-			 * **towns.longitude**
+			 * **uk_towns.longitude**
 			 * - `numeric` in database
 			 * - Nullable, no default
 			 */
@@ -1416,31 +1421,31 @@ declare module 'zapatos/schema' {
 				| db.DefaultType
 				| db.SQLFragment
 			/**
-			 * **towns.name**
+			 * **uk_towns.name**
 			 * - `varchar` in database
 			 * - Nullable, no default
 			 */
 			name?: string | db.Parameter<string> | null | db.DefaultType | db.SQLFragment
 			/**
-			 * **towns.northing**
+			 * **uk_towns.northing**
 			 * - `int4` in database
 			 * - Nullable, no default
 			 */
 			northing?: number | db.Parameter<number> | null | db.DefaultType | db.SQLFragment
 			/**
-			 * **towns.nuts_region**
+			 * **uk_towns.nuts_region**
 			 * - `varchar` in database
 			 * - Nullable, no default
 			 */
 			nuts_region?: string | db.Parameter<string> | null | db.DefaultType | db.SQLFragment
 			/**
-			 * **towns.postcode_sector**
+			 * **uk_towns.postcode_sector**
 			 * - `varchar` in database
 			 * - Nullable, no default
 			 */
 			postcode_sector?: string | db.Parameter<string> | null | db.DefaultType | db.SQLFragment
 			/**
-			 * **towns.type**
+			 * **uk_towns.type**
 			 * - `varchar` in database
 			 * - Nullable, no default
 			 */
@@ -1448,7 +1453,7 @@ declare module 'zapatos/schema' {
 		}
 		export interface Updatable {
 			/**
-			 * **towns.country**
+			 * **uk_towns.country**
 			 * - `varchar` in database
 			 * - Nullable, no default
 			 */
@@ -1460,7 +1465,7 @@ declare module 'zapatos/schema' {
 				| db.SQLFragment
 				| db.SQLFragment<any, string | db.Parameter<string> | null | db.DefaultType | db.SQLFragment>
 			/**
-			 * **towns.county**
+			 * **uk_towns.county**
 			 * - `varchar` in database
 			 * - Nullable, no default
 			 */
@@ -1472,7 +1477,7 @@ declare module 'zapatos/schema' {
 				| db.SQLFragment
 				| db.SQLFragment<any, string | db.Parameter<string> | null | db.DefaultType | db.SQLFragment>
 			/**
-			 * **towns.easting**
+			 * **uk_towns.easting**
 			 * - `int4` in database
 			 * - Nullable, no default
 			 */
@@ -1484,7 +1489,7 @@ declare module 'zapatos/schema' {
 				| db.SQLFragment
 				| db.SQLFragment<any, number | db.Parameter<number> | null | db.DefaultType | db.SQLFragment>
 			/**
-			 * **towns.elevation**
+			 * **uk_towns.elevation**
 			 * - `int4` in database
 			 * - Nullable, no default
 			 */
@@ -1496,7 +1501,7 @@ declare module 'zapatos/schema' {
 				| db.SQLFragment
 				| db.SQLFragment<any, number | db.Parameter<number> | null | db.DefaultType | db.SQLFragment>
 			/**
-			 * **towns.grid_reference**
+			 * **uk_towns.grid_reference**
 			 * - `varchar` in database
 			 * - Nullable, no default
 			 */
@@ -1508,7 +1513,7 @@ declare module 'zapatos/schema' {
 				| db.SQLFragment
 				| db.SQLFragment<any, string | db.Parameter<string> | null | db.DefaultType | db.SQLFragment>
 			/**
-			 * **towns.id**
+			 * **uk_towns.id**
 			 * - `int4` in database
 			 * - `NOT NULL`, no default
 			 */
@@ -1518,7 +1523,7 @@ declare module 'zapatos/schema' {
 				| db.SQLFragment
 				| db.SQLFragment<any, number | db.Parameter<number> | db.SQLFragment>
 			/**
-			 * **towns.latitude**
+			 * **uk_towns.latitude**
 			 * - `numeric` in database
 			 * - Nullable, no default
 			 */
@@ -1537,7 +1542,7 @@ declare module 'zapatos/schema' {
 						| db.SQLFragment
 				  >
 			/**
-			 * **towns.local_government_area**
+			 * **uk_towns.local_government_area**
 			 * - `varchar` in database
 			 * - Nullable, no default
 			 */
@@ -1549,7 +1554,7 @@ declare module 'zapatos/schema' {
 				| db.SQLFragment
 				| db.SQLFragment<any, string | db.Parameter<string> | null | db.DefaultType | db.SQLFragment>
 			/**
-			 * **towns.longitude**
+			 * **uk_towns.longitude**
 			 * - `numeric` in database
 			 * - Nullable, no default
 			 */
@@ -1568,7 +1573,7 @@ declare module 'zapatos/schema' {
 						| db.SQLFragment
 				  >
 			/**
-			 * **towns.name**
+			 * **uk_towns.name**
 			 * - `varchar` in database
 			 * - Nullable, no default
 			 */
@@ -1580,7 +1585,7 @@ declare module 'zapatos/schema' {
 				| db.SQLFragment
 				| db.SQLFragment<any, string | db.Parameter<string> | null | db.DefaultType | db.SQLFragment>
 			/**
-			 * **towns.northing**
+			 * **uk_towns.northing**
 			 * - `int4` in database
 			 * - Nullable, no default
 			 */
@@ -1592,7 +1597,7 @@ declare module 'zapatos/schema' {
 				| db.SQLFragment
 				| db.SQLFragment<any, number | db.Parameter<number> | null | db.DefaultType | db.SQLFragment>
 			/**
-			 * **towns.nuts_region**
+			 * **uk_towns.nuts_region**
 			 * - `varchar` in database
 			 * - Nullable, no default
 			 */
@@ -1604,7 +1609,7 @@ declare module 'zapatos/schema' {
 				| db.SQLFragment
 				| db.SQLFragment<any, string | db.Parameter<string> | null | db.DefaultType | db.SQLFragment>
 			/**
-			 * **towns.postcode_sector**
+			 * **uk_towns.postcode_sector**
 			 * - `varchar` in database
 			 * - Nullable, no default
 			 */
@@ -1616,7 +1621,7 @@ declare module 'zapatos/schema' {
 				| db.SQLFragment
 				| db.SQLFragment<any, string | db.Parameter<string> | null | db.DefaultType | db.SQLFragment>
 			/**
-			 * **towns.type**
+			 * **uk_towns.type**
 			 * - `varchar` in database
 			 * - Nullable, no default
 			 */
@@ -1628,7 +1633,7 @@ declare module 'zapatos/schema' {
 				| db.SQLFragment
 				| db.SQLFragment<any, string | db.Parameter<string> | null | db.DefaultType | db.SQLFragment>
 		}
-		export type UniqueIndex = 'towns_pkey'
+		export type UniqueIndex = 'uk_towns_pkey'
 		export type Column = keyof Selectable
 		export type OnlyCols<T extends readonly Column[]> = Pick<Selectable, T[number]>
 		export type SQLExpression =
@@ -1651,56 +1656,56 @@ declare module 'zapatos/schema' {
 			| links.Table
 			| locations.Table
 			| pgmigrations.Table
-			| towns.Table
+			| uk_towns.Table
 		export type Selectable =
 			| business_locations.Selectable
 			| businesses.Selectable
 			| links.Selectable
 			| locations.Selectable
 			| pgmigrations.Selectable
-			| towns.Selectable
+			| uk_towns.Selectable
 		export type JSONSelectable =
 			| business_locations.JSONSelectable
 			| businesses.JSONSelectable
 			| links.JSONSelectable
 			| locations.JSONSelectable
 			| pgmigrations.JSONSelectable
-			| towns.JSONSelectable
+			| uk_towns.JSONSelectable
 		export type Whereable =
 			| business_locations.Whereable
 			| businesses.Whereable
 			| links.Whereable
 			| locations.Whereable
 			| pgmigrations.Whereable
-			| towns.Whereable
+			| uk_towns.Whereable
 		export type Insertable =
 			| business_locations.Insertable
 			| businesses.Insertable
 			| links.Insertable
 			| locations.Insertable
 			| pgmigrations.Insertable
-			| towns.Insertable
+			| uk_towns.Insertable
 		export type Updatable =
 			| business_locations.Updatable
 			| businesses.Updatable
 			| links.Updatable
 			| locations.Updatable
 			| pgmigrations.Updatable
-			| towns.Updatable
+			| uk_towns.Updatable
 		export type UniqueIndex =
 			| business_locations.UniqueIndex
 			| businesses.UniqueIndex
 			| links.UniqueIndex
 			| locations.UniqueIndex
 			| pgmigrations.UniqueIndex
-			| towns.UniqueIndex
+			| uk_towns.UniqueIndex
 		export type Column =
 			| business_locations.Column
 			| businesses.Column
 			| links.Column
 			| locations.Column
 			| pgmigrations.Column
-			| towns.Column
+			| uk_towns.Column
 
 		export type AllBaseTables = [
 			business_locations.Table,
@@ -1708,7 +1713,7 @@ declare module 'zapatos/schema' {
 			links.Table,
 			locations.Table,
 			pgmigrations.Table,
-			towns.Table,
+			uk_towns.Table,
 		]
 		export type AllForeignTables = []
 		export type AllViews = []
@@ -1719,7 +1724,7 @@ declare module 'zapatos/schema' {
 			links.Table,
 			locations.Table,
 			pgmigrations.Table,
-			towns.Table,
+			uk_towns.Table,
 		]
 	}
 
@@ -1750,7 +1755,7 @@ declare module 'zapatos/schema' {
 		links: links.Selectable
 		locations: locations.Selectable
 		pgmigrations: pgmigrations.Selectable
-		towns: towns.Selectable
+		uk_towns: uk_towns.Selectable
 	}[T]
 
 	export type JSONSelectableForTable<T extends Table> = {
@@ -1759,7 +1764,7 @@ declare module 'zapatos/schema' {
 		links: links.JSONSelectable
 		locations: locations.JSONSelectable
 		pgmigrations: pgmigrations.JSONSelectable
-		towns: towns.JSONSelectable
+		uk_towns: uk_towns.JSONSelectable
 	}[T]
 
 	export type WhereableForTable<T extends Table> = {
@@ -1768,7 +1773,7 @@ declare module 'zapatos/schema' {
 		links: links.Whereable
 		locations: locations.Whereable
 		pgmigrations: pgmigrations.Whereable
-		towns: towns.Whereable
+		uk_towns: uk_towns.Whereable
 	}[T]
 
 	export type InsertableForTable<T extends Table> = {
@@ -1777,7 +1782,7 @@ declare module 'zapatos/schema' {
 		links: links.Insertable
 		locations: locations.Insertable
 		pgmigrations: pgmigrations.Insertable
-		towns: towns.Insertable
+		uk_towns: uk_towns.Insertable
 	}[T]
 
 	export type UpdatableForTable<T extends Table> = {
@@ -1786,7 +1791,7 @@ declare module 'zapatos/schema' {
 		links: links.Updatable
 		locations: locations.Updatable
 		pgmigrations: pgmigrations.Updatable
-		towns: towns.Updatable
+		uk_towns: uk_towns.Updatable
 	}[T]
 
 	export type UniqueIndexForTable<T extends Table> = {
@@ -1795,7 +1800,7 @@ declare module 'zapatos/schema' {
 		links: links.UniqueIndex
 		locations: locations.UniqueIndex
 		pgmigrations: pgmigrations.UniqueIndex
-		towns: towns.UniqueIndex
+		uk_towns: uk_towns.UniqueIndex
 	}[T]
 
 	export type ColumnForTable<T extends Table> = {
@@ -1804,7 +1809,7 @@ declare module 'zapatos/schema' {
 		links: links.Column
 		locations: locations.Column
 		pgmigrations: pgmigrations.Column
-		towns: towns.Column
+		uk_towns: uk_towns.Column
 	}[T]
 
 	export type SQLForTable<T extends Table> = {
@@ -1813,6 +1818,6 @@ declare module 'zapatos/schema' {
 		links: links.SQL
 		locations: locations.SQL
 		pgmigrations: pgmigrations.SQL
-		towns: towns.SQL
+		uk_towns: uk_towns.SQL
 	}[T]
 }

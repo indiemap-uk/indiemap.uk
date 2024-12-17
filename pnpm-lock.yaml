@@ -193,6 +193,9 @@ importers:
       debug:
         specifier: ^4.3.7
         version: 4.3.7
+      maplibre-gl:
+        specifier: 4.7.1
+        version: 4.7.1
       pg:
         specifier: ^8.13.0
         version: 8.13.0
