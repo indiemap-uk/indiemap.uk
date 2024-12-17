@@ -2,7 +2,7 @@ import {debounce} from '$lib/debounce'
 import {TownSearchResultSchema, TownSearchSchema, type TownSearchType} from '@i/core/town'
 import * as v from 'valibot'
 
-export const searchTowns = (query: TownSearchType) => {
+const townAPISearch = (query: TownSearchType) => {
 	const q = v.safeParse(TownSearchSchema, query)
 
 	if (!q.success) {
@@ -21,4 +21,4 @@ export const searchTowns = (query: TownSearchType) => {
 		})
 }
 
-export const debouncedSearchTowns = debounce(searchTowns, 300)
+export const townsSearch = debounce(townAPISearch, 300)

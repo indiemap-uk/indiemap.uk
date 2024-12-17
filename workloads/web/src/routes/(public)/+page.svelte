@@ -1,5 +1,5 @@
 <script lang="ts">
-	import {debouncedSearchTowns} from '$lib/town/searchTowns'
+	import {alogliaTownSearch} from '$lib/town/algoliaTownSearch'
 	import * as algolia from '@algolia/autocomplete-js'
 	import '@algolia/autocomplete-theme-classic'
 	import {onMount} from 'svelte'
@@ -9,33 +9,9 @@
 			container: '#search',
 			placeholder: 'What are you looking for?',
 			getSources() {
-				return [
-					// Towns
-					{
-						sourceId: 'towns',
-						getItems({query}) {
-							if (query.length < 3) {
-								return []
-							}
-
-							return debouncedSearchTowns(query)
-						},
-						getItemInputValue({item}) {
-							return `${item.name} in ${item.county}`
-						},
-						templates: {
-							item({item}) {
-								return `${item.name} in ${item.county}`
-							},
-							noResults() {
-								return 'No results'
-							},
-						},
-					},
-				]
+				return [alogliaTownSearch]
 			},
 		})
-		// }
 	})
 </script>
 
