@@ -12,7 +12,6 @@
 	"dependencies": {
 		"@i/core": "workspace:*",
 		"debug": "^4.3.7",
-		"ky": "^1.7.2",
 		"valibot": "0.42.1"
 	},
 	"devDependencies": {
