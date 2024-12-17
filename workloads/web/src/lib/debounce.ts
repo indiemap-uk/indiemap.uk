@@ -1,3 +1,7 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+//@ts-nocheck -- This is a copied module, it's fine as is.
+
 /**
  * Coppied from https://github.com/unjs/perfect-debounce/blob/main/src/index.ts
  *
