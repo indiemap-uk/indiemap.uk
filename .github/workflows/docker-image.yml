@@ -16,6 +16,7 @@ on:
       - '*.json'
       - '**/*.spec.ts'
       - '**/*.md'
+      - '*.toml'
       - '.eslintrc.*'
       - '.prettierrc.*'
       - '.prettier*'
