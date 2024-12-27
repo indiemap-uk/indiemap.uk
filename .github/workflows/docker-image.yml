@@ -4,6 +4,29 @@ description: Build and push Docker image then trigger a deploy
 on:
   push:
     branches: ['main']
+    paths-ignore:
+      - 'api/**/*'
+      - 'modules/repository/migrations/**'
+      - 'modules/repository/towns/**'
+      - 'modules/repository/docker-compose.yaml'
+      - 'modules/repository/zapatosconfig.json'
+      - 'modules/mock-data/**'
+      - 'workloads/web/.storybook/**'
+      - 'workloads/web/src/**/*.stories.svelte'
+      - '*.json'
+      - '**/*.spec.ts'
+      - '**/*.md'
+      - '.eslintrc.*'
+      - '.prettierrc.*'
+      - '.prettier*'
+      - '.eslint*'
+      - '.editorconfig'
+      - '.envrc*'
+      - '**/.gitignore'
+
+on:
+  push:
+    branches: ['main']
 
 permissions:
   contents: read
