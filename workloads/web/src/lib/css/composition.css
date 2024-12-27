@@ -27,9 +27,19 @@
 }
 
 /** Two columns of content next to each other, equeal height and width */
-.split {
+/* .split {
 	display: grid;
 	grid-template-columns: 1fr 1fr;
+} */
+.split {
+	display: flex;
+	flex-wrap: wrap;
+}
+
+.split > * {
+	flex-grow: 1;
+	flex-shrink: 1;
+	flex-basis: var(--split, 400px);
 }
 
 /**

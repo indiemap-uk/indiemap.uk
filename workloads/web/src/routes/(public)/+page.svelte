@@ -30,31 +30,32 @@
 	})
 </script>
 
-<div class="caged">
-	<div id="search"></div>
-</div>
+<div id="search"></div>
 
-<div class="sticky-2 | h-100">
-	<div class="split">
-		<div>
-			<h2>Latest businesses</h2>
+<div class="split">
+	<div>
+		<h2>Latest businesses</h2>
 
-			<ul>
-				{#each data.businesses as business}
-					<li>
-						<a href={`/business/${business.id}`}>{business.name} ({business.town.name}, {business.town.county})</a>
-					</li>
-				{/each}
-			</ul>
-		</div>
+		<ul>
+			{#each data.businesses as business}
+				<li>
+					<a href={`/business/${business.id}`}>{business.name} ({business.town.name}, {business.town.county})</a>
+				</li>
+			{/each}
+		</ul>
+	</div>
+	<div class="map">
 		<IndieMap {points} center={centerOfUK} />
 	</div>
 </div>
 
 <style>
-	.caged > div {
-		margin-inline: auto;
+	#search {
 		margin-bottom: 3rem;
+	}
+
+	.split {
+		--split: 400px;
 	}
 
 	ul {

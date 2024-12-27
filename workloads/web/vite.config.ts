@@ -8,7 +8,7 @@ export default defineConfig(() => {
 	if (process.env.BUNDLE_STATS === 'yes') {
 		plugins.push(
 			visualizer({
-				emitFile: !process.env.SKIP_BUNDLE_STATS,
+				emitFile: true,
 				filename: 'stats.html',
 			}),
 		)

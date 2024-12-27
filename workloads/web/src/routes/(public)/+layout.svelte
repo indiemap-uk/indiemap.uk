@@ -14,7 +14,7 @@
 	<script async defer src="https://scripts.withcabin.com/hello.js"></script>
 </svelte:head>
 
-<div class="sticky-3 | min-vh-100">
+<div class="sticky-3 | min-vh-100 px-3">
 	<header class="caged left-right level | w-100 mx-a">
 		<h1 class=""><a href="/" class="passive">Indiemap</a></h1>
 
@@ -26,6 +26,7 @@
 		{/if}
 	</header>
 
+	<!-- Center the content in a resticted width -->
 	<main class="caged | w-100 mx-a">
 		{@render children()}
 	</main>

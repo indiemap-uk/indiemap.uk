@@ -32,8 +32,6 @@
 		e.preventDefault()
 		editTown = !editTown
 	}
-
-	$inspect({$errors})
 </script>
 
 {#if Object.keys($errors).length}
