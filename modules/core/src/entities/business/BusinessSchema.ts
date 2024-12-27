@@ -1,7 +1,8 @@
 import * as v from 'valibot'
 
+import {NameSearchSchema} from '../NameSearchSchema.js'
 import {TimestampSchema} from '../TimestampSchemas.js'
-import {TownSchema} from '../town/index.js'
+import {TownIDSearchSchema, TownSchema} from '../town/index.js'
 import {BusinessIdSchema} from './BusinessId.js'
 
 const BusinessResolvedReferences = v.object({
@@ -12,7 +13,7 @@ const BusinessResolvedReferences = v.object({
  * A schema representing a Business, this includes references to other entities.
  **/
 export const BusinessSchema = v.object({
-	description: v.nullish(v.pipe(v.string(), v.trim(), v.minLength(5), v.maxLength(500))),
+	description: v.nullish(v.pipe(v.string(), v.trim(), v.minLength(5), v.maxLength(1000))),
 	id: BusinessIdSchema,
 	name: v.pipe(
 		v.string(),
@@ -48,4 +49,31 @@ export const BusinessCreateSchema = v.object({
 	...v.omit(BusinessSchema, ['id', 'createdAt', 'updatedAt']).entries,
 	createdAt: v.undefinedable(v.date()),
 	updatedAt: v.undefinedable(v.date()),
+})
+
+/**
+ * Business search schema
+ * Either {name and town ID} or {name and town name}.
+ */
+export const BusinessSearchSchema = v.object({
+	/** Business name starts with */
+	name: v.nullish(NameSearchSchema),
+	/** Town ID */
+	townId: v.nullish(TownIDSearchSchema),
+})
+
+/**
+ * Options to influence the list of businesses.
+ * Use `order.by` keys matching the core schema (camelCase, not snake_case)
+ */
+export const BusinessListArgsSchema = v.object({
+	limit: v.optional(v.number(), 10),
+	offset: v.optional(v.number(), 0),
+	order: v.optional(
+		v.object({
+			by: v.optional(v.pipe(v.string(), v.keyof(BusinessSchema))),
+			direction: v.optional(v.picklist(['ASC', 'DESC'])),
+		}),
+		{by: 'id', direction: 'ASC'},
+	),
 })

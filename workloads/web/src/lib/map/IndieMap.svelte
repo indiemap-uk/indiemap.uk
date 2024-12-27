@@ -1,21 +1,47 @@
 <script lang="ts">
 	import {browser} from '$app/environment'
 	import {getMapCenterContext} from '$lib/map/mapCenterState.svelte'
-	import type {BusinessResolvedType} from '@i/core/business'
 	import {MapLibre, Marker, NavigationControl, Popup} from 'svelte-maplibre'
 	import {boundsOfUK, centerOfUK} from './UK'
 
+	const {
+		points,
+		center,
+		zoom = 5,
+	}: {
+		center?: {lon: number; lat: number}
+		points: Array<{lon: number; lat: number; label: string}>
+		zoom?: number
+	} = $props()
+
 	const mapCenterState = getMapCenterContext()
 
-	const center = $derived.by(() =>
-		mapCenterState.location
-			? {lat: mapCenterState.location.latitude, lon: mapCenterState.location.longitude}
-			: centerOfUK,
-	)
+	const mapCenter = $derived.by(() => {
+		if (center) {
+			return {
+				lat: center.lat,
+				lon: center.lon,
+			}
+		}
 
-	const zoom = $derived(mapCenterState.location ? 10 : 6)
+		if (mapCenterState.location) {
+			return {
+				lat: mapCenterState.location.latitude,
+				lon: mapCenterState.location.longitude,
+			}
+		}
 
-	const {businesses}: {businesses: Promise<BusinessResolvedType[]>} = $props()
+		if (points.length === 1) {
+			return {
+				lat: points[0].lat,
+				lon: points[0].lon,
+			}
+		}
+
+		return centerOfUK
+	})
+
+	$inspect({mapCenter})
 
 	const prefersDarkMode = browser && window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches
 
@@ -29,29 +55,27 @@
 	maxPitch={0}
 	dragRotate={false}
 	maxBounds={boundsOfUK}
-	{center}
+	center={mapCenter}
 	{zoom}
 	class="map"
 	standardControls={false}
 	style={mapStyle}
 >
 	<NavigationControl position="top-left" showCompass={false} />
-	{#await businesses then business}
-		{#each business as business}
-			<Marker lngLat={[business.town.longitude, business.town.latitude]} class="_marker">
-				<Popup>
-					<div class="_popup">{business.name}</div>
-				</Popup>
-			</Marker>
-		{/each}
-	{/await}
+	{#each points as point}
+		<Marker lngLat={[point.lon, point.lat]} class="_marker">
+			<Popup>
+				<div class="_popup">{point.label}</div>
+			</Popup>
+		</Marker>
+	{/each}
 </MapLibre>
 
 <style>
 	:global(.map) {
 		/* z-index: otherwise the control buttons (+/-) would draw over other elements, e.g. select dropdowns */
 		z-index: 0;
-		height: 500px;
+		height: 600px;
 	}
 
 	._popup {

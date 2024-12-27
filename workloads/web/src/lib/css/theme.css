@@ -9,6 +9,7 @@
 	/* form */
 	--input-height: 2.5em;
 	--input-bg: var(--secondary-color-bg);
+	--input-bg-rgb: var(--secondary-color-bg-rgb);
 	--input-border-color: var(--secondary-color-border);
 	--input-border-width: 2px;
 	--input-border-style: solid;
@@ -47,12 +48,17 @@
 	color-scheme: light;
 
 	--bg-color: white;
-	--text-color-0: var(--op-gray-6); /* muted */
-	--text-color-1: var(--op-gray-10); /* normal */
-	--text-color-2: var(--op-gray-12); /* strong */
+	--text-color-0: var(--op-gray-6);
+	/* muted */
+	--text-color-1: var(--op-gray-10);
+	/* normal */
+	--text-color-2: var(--op-gray-12);
+	/* strong */
 	--heading-color: var(--op-gray-8);
 
 	--primary-color-ink: var(--op-purple-8);
+	/* Manual copy-paste from Open Props */
+	--primary-color-ink-rgb: 156, 54, 181;
 	--primary-color-ink-hover: var(--op-purple-10);
 	--primary-color-bg: var(--op-purple-0);
 	--primary-color-bg-hover: var(--op-purple-2);
@@ -60,6 +66,7 @@
 	--secondary-color-ink: var(--op-gray-8);
 	--secondary-color-ink-hover: var(--op-gray-10);
 	--secondary-color-bg: var(--op-gray-0);
+	--secondary-color-bg-rgb: 248, 249, 250;
 	--secondary-color-bg-hover: var(--op-gray-2);
 	--secondary-color-border: var(--op-gray-2);
 	--secondary-color-border-hover: var(--op-gray-4);
@@ -82,6 +89,7 @@
 		--heading-color: var(--op-gray-5);
 
 		--primary-color-ink: var(--op-purple-4);
+		--primary-color-ink-rgb: 218, 119, 242;
 		--primary-color-ink-hover: var(--op-purple-3);
 		--primary-color-bg: var(--op-purple-12);
 		--primary-color-bg-hover: var(--op-purple-11);
@@ -89,6 +97,7 @@
 		--secondary-color-ink: var(--op-gray-5);
 		--secondary-color-ink-hover: var(--op-gray-4);
 		--secondary-color-bg: var(--op-gray-10);
+		--secondary-color-bg-rgb: 22, 25, 29;
 		--secondary-color-bg-hover: var(--op-gray-9);
 		--secondary-color-border: var(--op-gray-9);
 		--secondary-color-border-hover: var(--op-gray-8);

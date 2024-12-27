@@ -13,8 +13,10 @@
 		"build-storybook": "storybook build"
 	},
 	"dependencies": {
-		"@auth/sveltekit": "^1.7.3",
+		"@algolia/autocomplete-js": "^1.17.8",
+		"@algolia/autocomplete-theme-classic": "^1.17.8",
 		"@auth/pg-adapter": "^1.7.4",
+		"@auth/sveltekit": "^1.7.3",
 		"@i/core": "workspace:*",
 		"@i/geocoding": "workspace:*",
 		"@i/repository": "workspace:*",
@@ -22,13 +24,13 @@
 		"@tabler/icons-svelte": "^3.24.0",
 		"dayjs": "^1.11.13",
 		"debug": "^4.3.7",
+		"maplibre-gl": "4.7.1",
+		"pg": "^8.13.0",
 		"svelecte": "5.0.0-next.16",
 		"svelte-maplibre": "1.0.0-next.7",
 		"sveltekit-flash-message": "^2.4.4",
 		"sveltekit-superforms": "^2.20.0",
-		"valibot": "0.42.1",
-		"pg": "^8.13.0",
-		"maplibre-gl": "4.7.1"
+		"valibot": "0.42.1"
 	},
 	"devDependencies": {
 		"@chromatic-com/storybook": "^3.2.2",
@@ -47,8 +49,8 @@
 		"@types/debug": "^4.1.12",
 		"@types/pg": "^8.11.10",
 		"autoprefixer": "^10.4.20",
-		"storybook": "^8.4.7",
 		"rollup-plugin-visualizer": "^5.12.0",
+		"storybook": "^8.4.7",
 		"svelte": "^5.0.0-next.1",
 		"svelte-check": "^4.0.0",
 		"typescript": "^5.0.0",

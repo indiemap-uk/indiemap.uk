@@ -1,0 +1,32 @@
+:root {
+	--aa-primary-color-rgb: var(--primary-color-ink-rgb);
+	--aa-input-background-color-rgb: var(--input-bg-rgb);
+	--aa-background-color-rgb: var(--input-bg-rgb);
+
+	--aa-text-color-rgb: var(--text-color-1);
+
+	/* Hover over items in a list */
+	--aa-selected-color-rgb: 255, 255, 255;
+	--aa-selected-color-rgb-alpha: 0.1;
+}
+
+.aa-Item {
+	padding: 0;
+	padding-inline-start: 1ch;
+	margin: 0;
+}
+
+li.aa-Item a {
+	/* Add big click target to links in results  */
+	display: flex;
+	gap: 1ch;
+	height: 100%;
+	width: 100%;
+	align-items: center;
+
+	text-decoration: none;
+}
+
+li.aa-Item a span {
+	font-weight: lighter;
+}

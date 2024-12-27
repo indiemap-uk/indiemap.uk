@@ -1,7 +1,10 @@
 export const load = async ({locals}) => {
-	const businesses = locals.container.businessService.list({
+	const businesses = await locals.container.businessService.list({
 		limit: 20,
-		order: {by: 'updatedAt', direction: 'DESC'},
+		order: {
+			by: 'createdAt',
+			direction: 'DESC',
+		},
 	})
 
 	return {

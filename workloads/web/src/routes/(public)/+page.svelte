@@ -1,61 +1,64 @@
 <script lang="ts">
-	import {page} from '$app/stores'
+	import {alogliaBusinessSearch} from '$lib/business/algoliaBusinessSearch'
 	import IndieMap from '$lib/map/IndieMap.svelte'
-	import TownSearch from '$lib/town/TownSearch.svelte'
-	import UserLocator from '$lib/userLocation/UserLocator.svelte'
-	import {getFlash} from 'sveltekit-flash-message'
+	import {centerOfUK} from '$lib/map/UK.js'
+	import {alogliaTownSearch} from '$lib/town/algoliaTownSearch'
+	import * as algolia from '@algolia/autocomplete-js'
+	import type {BusinessResolvedType} from '@i/core/business'
+	import type {TownSearchResultType} from '@i/core/town'
+	import {onMount} from 'svelte'
 
 	const {data} = $props()
 
-	const flash = getFlash(page)
+	const points = $derived(
+		data.businesses.map((business) => ({
+			lat: business.town.latitude,
+			lon: business.town.longitude,
+			label: business.name,
+		})),
+	)
 
-	const mapMap = new Map([
-		['England', '🏴󠁧󠁢󠁥󠁮󠁧󠁿'],
-		['Scotland', '🏴󠁧󠁢󠁳󠁣󠁴󠁿'],
-		['Wales', '🏴󠁧󠁢󠁷󠁬󠁳󠁿'],
-	])
+	onMount(() => {
+		algolia.autocomplete<BusinessResolvedType | TownSearchResultType>({
+			container: '#search',
+			placeholder: 'What are you looking for?',
+			// @ts-ignore - not sure how to set multiple sources type-safely
+			getSources() {
+				return [alogliaBusinessSearch, alogliaTownSearch]
+			},
+		})
+	})
 </script>
 
-{#if $flash}
-	<div class="notification">{$flash.message}</div>
-{/if}
+<div class="caged">
+	<div id="search"></div>
+</div>
 
 <div class="sticky-2 | h-100">
-	<div class="level | gap-3 | _locator">
-		<UserLocator />
-		or
-		<TownSearch />
-	</div>
-
 	<div class="split">
-		<div class="">
-			<h2 class="">The List</h2>
+		<div>
+			<h2>Latest businesses</h2>
 
-			<!-- When I grow up I want to be a separate component! -->
 			<ul>
-				{#await data.businesses}
-					Loading...
-				{:then businesses}
-					{#each businesses as business}
-						<li>
-							{business.name} in {business.town.name}, {business.town.county}
-							{mapMap.get(business.town.country) ?? '🇬🇧'}
-						</li>
-					{/each}
-				{/await}
+				{#each data.businesses as business}
+					<li>
+						<a href={`/business/${business.id}`}>{business.name} ({business.town.name}, {business.town.county})</a>
+					</li>
+				{/each}
 			</ul>
 		</div>
-		<div>
-			<h2>The Map</h2>
-			<IndieMap businesses={data.businesses} />
-		</div>
+		<IndieMap {points} center={centerOfUK} />
 	</div>
 </div>
 
 <style>
-	._locator {
-		margin-block-start: 0rem;
-		margin-block-end: 3rem;
+	.caged > div {
 		margin-inline: auto;
+		margin-bottom: 3rem;
+	}
+
+	ul {
+		list-style: none;
+		padding: 0;
 	}
 </style>

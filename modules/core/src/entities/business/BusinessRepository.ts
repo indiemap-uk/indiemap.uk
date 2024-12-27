@@ -1,4 +1,10 @@
-import type {BusinessCreateType, BusinessIdType, BusinessResolvedType, BusinessType} from './BusinessType.js'
+import type {
+	BusinessCreateType,
+	BusinessIdType,
+	BusinessResolvedType,
+	BusinessSearchType,
+	BusinessType,
+} from './BusinessType.js'
 
 export interface BusinessListArgs {
 	limit?: number
@@ -14,5 +20,6 @@ export type BusinessRepository = {
 	delete(id: BusinessIdType): Promise<void>
 	getById(id: BusinessIdType): Promise<BusinessResolvedType | null>
 	list(args?: BusinessListArgs): Promise<BusinessResolvedType[]>
+	search(query: BusinessSearchType, args?: BusinessListArgs): Promise<BusinessResolvedType[]>
 	update(data: BusinessType): Promise<BusinessResolvedType>
 }

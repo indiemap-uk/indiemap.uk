@@ -6,5 +6,5 @@ export interface TownRepository {
 	getRandom(): Promise<TownType>
 	/** Returns a bunch of random towns */
 	getRandoms(count: number): Promise<TownType[]>
-	search(q: string): Promise<TownSearchResultType[]>
+	search(q: string, hasBusiness?: boolean): Promise<TownSearchResultType[]>
 }

@@ -1,12 +1,11 @@
 <script lang="ts">
 	import dayjs from 'dayjs'
 	import type {BusinessCRUDType} from '@i/core/business'
-	import type {TownSearchResultType, TownSearchType} from '@i/core/town'
+	import type {TownSearchResultType} from '@i/core/town'
 	import type {SuperValidated} from 'sveltekit-superforms'
 
 	import {browser} from '$app/environment'
 	import IconPencil from '@tabler/icons-svelte/icons/pencil'
-	import IconUser from '@tabler/icons-svelte/icons/user'
 	import Svelecte from 'svelecte'
 	import SuperDebug, {superForm} from 'sveltekit-superforms'
 

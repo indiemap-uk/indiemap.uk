@@ -16,7 +16,7 @@
 
 <div class="sticky-3 | min-vh-100">
 	<header class="caged left-right level | w-100 mx-a">
-		<h1 class="">Indiemap</h1>
+		<h1 class=""><a href="/" class="passive">Indiemap</a></h1>
 
 		{#if data.session}
 			<SignOutBar

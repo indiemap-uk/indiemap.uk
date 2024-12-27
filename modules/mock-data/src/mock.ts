@@ -15,9 +15,14 @@ const EnvSchema = v.object({
 	 * The full DB URL, e.g. postgres://indie:indie@localhost:5431/indie?sslmode=disable
 	 */
 	DATABASE_URL: v.string(),
+	/** The number of towns to generate */
+	TOWNS: v.nullish(v.pipe(v.string(), v.transform(Number), v.number())),
 })
 
-const numberOfTowns = 500
+debug('Parsing env')
+const env = v.parse(EnvSchema, process.env)
+
+const numberOfTowns = env.TOWNS ?? 500
 const businessPerTownMin = 1
 const businessPerTownMax = 20
 const locationsPerBusinessMin = 0
@@ -37,8 +42,6 @@ const mock = async () => {
 		numberOfTowns,
 	})
 
-	debug('Parsing env')
-	const env = v.parse(EnvSchema, process.env)
 	debug('Creating container')
 	const container = getContainer(env)
 	debug('Running checks')
@@ -61,7 +64,7 @@ const mock = async () => {
 			const updatedAt = faker.helpers.maybe(() => faker.date.between({from: createdAt, to: new Date()}))
 			const b = await container.businessService.create({
 				createdAt,
-				description: faker.company.catchPhrase(),
+				description: faker.lorem.paragraphs(faker.number.int({max: 5, min: 1})),
 				name: faker.company.name(),
 				townId: town.id,
 				updatedAt: updatedAt ?? createdAt,

@@ -5,15 +5,17 @@ import {
 	type BusinessCreateType,
 	type BusinessIdType,
 	type BusinessListArgs,
+	BusinessListArgsSchema,
 	type BusinessRepository,
 	BusinessResolvedSchema,
 	BusinessSchema,
+	BusinessSearchSchema,
+	type BusinessSearchType,
 	type BusinessType,
 	newBusinessId,
 } from '@i/core/business'
 import {snakeCase} from 'es-toolkit'
 import * as v from 'valibot'
-import * as db from 'zapatos/db'
 
 import {CRUDRepositoryPostgres} from './CRUDRepositoryPostgres.js'
 import {dbToEntity} from './dbToEntity.js'
@@ -34,13 +36,13 @@ export class BusinessRepositoryPostgres extends CRUDRepositoryPostgres implement
 			objToSnake<s.businesses.Insertable>(v.parse(BusinessCreateSchema, data)),
 		)
 
-		const record = await db.insert('businesses', toInsert).run(this.pool)
+		const record = await this.db.insert('businesses', toInsert).run(this.pool)
 
 		return dbToEntity(record, BusinessSchema)
 	}
 
 	async delete(id: BusinessIdType) {
-		const deleted = await db.deletes('businesses', {id: id.toString()}).run(this.pool)
+		const deleted = await this.db.deletes('businesses', {id: id.toString()}).run(this.pool)
 
 		if (deleted.length !== 1) {
 			throw new Error(`Delete error, deleted length is not 1 but ${deleted.length}`)
@@ -48,13 +50,13 @@ export class BusinessRepositoryPostgres extends CRUDRepositoryPostgres implement
 	}
 
 	async getById(id: BusinessIdType) {
-		return db
+		return this.db
 			.selectOne(
 				'businesses',
 				{id: id.toString()},
 				{
 					lateral: {
-						town: db.selectExactlyOne('uk_towns', {id: db.parent('town_id')}),
+						town: this.db.selectExactlyOne('uk_towns', {id: this.db.parent('town_id')}),
 					},
 				},
 			)
@@ -63,39 +65,70 @@ export class BusinessRepositoryPostgres extends CRUDRepositoryPostgres implement
 	}
 
 	async list(userArgs: BusinessListArgs) {
-		const args = {
-			limit: userArgs.limit ?? 10,
-			offset: userArgs.offset ?? 0,
-			order: {
-				by: snakeCase(userArgs.order?.by ?? 'id') as s.SQLForTable<'businesses'>,
-				direction: userArgs.order?.direction ?? 'ASC',
-			},
-		}
+		const args = v.parse(BusinessListArgsSchema, userArgs) as Required<BusinessListArgs>
 
-		const records = await db
-			.select('businesses', db.all, {
+		const records = await this.db
+			.select('businesses', this.db.all, {
 				lateral: {
-					town: db.selectExactlyOne('uk_towns', {id: db.parent('town_id')}),
+					town: this.db.selectExactlyOne('uk_towns', {id: this.db.parent('town_id')}),
 				},
 				limit: args.limit,
 				offset: args.offset,
-				order: args.order,
+				order: {
+					by: snakeCase(args.order.by) as s.SQLForTable<'businesses'>,
+					direction: args.order.direction,
+				},
 			})
 			.run(this.pool)
 
 		return records.map((r) => this.toResolvedBusiness(r))
 	}
 
+	async search(userQuery: BusinessSearchType, userArgs: BusinessListArgs = {}) {
+		const query = v.parse(BusinessSearchSchema, userQuery)
+		const args = v.parse(BusinessListArgsSchema, userArgs) as Required<BusinessListArgs>
+
+		const nameWhere = query.name
+			? {name: this.db.sql`LOWER(${this.db.self}) LIKE(${this.db.param(`${query.name?.toLowerCase()}%`)})`}
+			: {}
+		const townIdWhere = query.townId ? {town_id: this.db.sql`town_id = ${this.db.param(query.townId)}`} : {}
+
+		const records = await this.db
+			.select(
+				'businesses',
+				{
+					...nameWhere,
+					...townIdWhere,
+				},
+				{
+					lateral: {
+						town: this.db.selectExactlyOne('uk_towns', {
+							id: this.db.parent('town_id'),
+						}),
+					},
+					limit: args.limit,
+					offset: args.offset,
+					order: {
+						by: snakeCase(args.order.by) as s.SQLForTable<'businesses'>,
+						direction: args.order.direction,
+					},
+				},
+			)
+			.run(this.pool)
+
+		return records.filter((r) => r.town !== null).map((r) => this.toResolvedBusiness(r))
+	}
+
 	async update(data: BusinessType) {
 		const toUpdate = objToSnake<s.businesses.Updatable>(v.parse(BusinessSchema, data))
 
-		const record = await db.update('businesses', toUpdate, {id: data.id.toString()}).run(this.pool)
+		const record = await this.db.update('businesses', toUpdate, {id: data.id.toString()}).run(this.pool)
 
 		if (!record?.[0]) {
 			throw new Error('Update failed, no record returned')
 		}
 
-		const town = await db.selectExactlyOne('uk_towns', {id: record[0].town_id}).run(this.pool)
+		const town = await this.db.selectExactlyOne('uk_towns', {id: record[0].town_id}).run(this.pool)
 
 		return this.toResolvedBusiness(record[0], town)
 	}

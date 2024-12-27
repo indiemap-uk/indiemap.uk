@@ -1,11 +1,11 @@
 import type * as s from 'zapatos/schema'
 
 import {
+	TownNameSearchSchema,
 	type TownRepository,
 	TownSchema,
 	TownSearchResultSchema,
 	type TownSearchResultType,
-	TownSearchSchema,
 } from '@i/core/town'
 import Big from 'big.js'
 import * as v from 'valibot'
@@ -39,21 +39,32 @@ export class TownRepositoryPostgres extends CRUDRepositoryPostgres implements To
 		return records.map(this.toSchema)
 	}
 
-	async search(qInput: string): Promise<TownSearchResultType[]> {
-		const q = v.parse(TownSearchSchema, qInput)
+	/**
+	 * @param qInput the first characters of the town name
+	 * @param hasBusiness filter towns that has businesses
+	 */
+	async search(qInput: string, hasBusiness = false): Promise<TownSearchResultType[]> {
+		const q = v.parse(TownNameSearchSchema, qInput)
 
-		const records = await this.db.sql`SELECT id, name, county, latitude, longitude
-		FROM ${'uk_towns'}
+		const join = hasBusiness
+			? this.db.sql`JOIN ${'businesses'} ON ${'businesses'}.${'town_id'} = ${'uk_towns'}.${'id'}`
+			: this.db.sql``
+
+		const records = await this.db.sql<
+			s.uk_towns.SQL,
+			s.uk_towns.Selectable[]
+		>`SELECT DISTINCT ${'uk_towns'}.${'id'}, ${'uk_towns'}.${'name'}, county, latitude, longitude
+		FROM ${'uk_towns'} ${join}
 		WHERE ${{
-			name: this.db.sql`LOWER(${this.db.self}) LIKE(${this.db.param(`${q.toLowerCase()}%`)})`,
+			name: this.db.sql`LOWER(${'uk_towns'}.${'name'}) LIKE(${this.db.param(`${q.toLowerCase()}%`)})`,
 		}}
 		LIMIT 25`.run(this.pool)
 
 		return records.map((r) =>
 			v.parse(TownSearchResultSchema, {
 				...r,
-				latitude: Big(r.latitude).toNumber(),
-				longitude: Big(r.longitude).toNumber(),
+				latitude: Big(r.latitude as string).toNumber(),
+				longitude: Big(r.longitude as string).toNumber(),
 			}),
 		)
 	}

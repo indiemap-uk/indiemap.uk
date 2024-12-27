@@ -1,5 +1,11 @@
 import type {BusinessListArgs, BusinessRepository} from './BusinessRepository.js'
-import type {BusinessCreateType, BusinessIdType, BusinessType} from './BusinessType.js'
+import type {
+	BusinessCreateType,
+	BusinessIdType,
+	BusinessResolvedType,
+	BusinessSearchType,
+	BusinessType,
+} from './BusinessType.js'
 
 export class BusinessService {
 	constructor(private readonly businessRepository: BusinessRepository) {}
@@ -18,6 +24,10 @@ export class BusinessService {
 
 	async list(args?: BusinessListArgs) {
 		return this.businessRepository.list(args)
+	}
+
+	async search(query: BusinessSearchType, args?: BusinessListArgs): Promise<BusinessResolvedType[]> {
+		return this.businessRepository.search(query, args)
 	}
 
 	async update(business: BusinessType) {

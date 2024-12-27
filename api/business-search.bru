@@ -1,0 +1,16 @@
+meta {
+  name: business-search
+  type: http
+  seq: 4
+}
+
+get {
+  url: http://localhost:5173/api/business/search
+  body: none
+  auth: none
+}
+
+params:query {
+  ~townId: 49019
+  ~name: Dec
+}

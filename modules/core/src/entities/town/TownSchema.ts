@@ -1,5 +1,7 @@
 import * as v from 'valibot'
 
+import {NameSearchSchema} from '../NameSearchSchema.js'
+
 /** Towns are not editable, so there is no create- or update schema */
 export const TownSchema = v.object({
 	country: v.string(),
@@ -18,6 +20,7 @@ export const TownSchema = v.object({
 	type: v.string(),
 })
 
-export const TownSearchSchema = v.pipe(v.string(), v.minLength(3), v.maxLength(20))
+export const TownNameSearchSchema = NameSearchSchema
+export const TownIDSearchSchema = v.pipe(v.number(), v.minValue(1), v.maxValue(99_999))
 
 export const TownSearchResultSchema = v.pick(TownSchema, ['id', 'name', 'county', 'latitude', 'longitude'])

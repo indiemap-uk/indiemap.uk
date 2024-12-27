@@ -1,6 +1,7 @@
 * {
 	font-family: var(--font-family-generic);
 }
+
 html {
 	background-color: var(--bg-color);
 	color: var(--text-color-1);
@@ -42,17 +43,27 @@ p {
 }
 
 a {
-	/* currentColor: same for visited etc */
-	color: currentColor;
+	color: var(--text-color-1);
 	font-family: var(--op-font-classical-humanist);
 	text-decoration: underline;
-	text-decoration-color: var(--primary-color-ink); /* Adjust the color and opacity as needed */
-	text-decoration-thickness: 2px; /* Adjust the thickness as needed */
+	text-decoration-color: var(--primary-color-ink);
+	/* Adjust the color and opacity as needed */
+	text-decoration-thickness: 2px;
+	/* Adjust the thickness as needed */
 }
 
 a:hover {
 	color: var(--primary-color-ink-hover);
 	text-decoration: none;
+}
+
+a.passive {
+	color: currentColor;
+	text-decoration: none;
+}
+
+a.big-target {
+	position: relative;
 }
 
 table {
