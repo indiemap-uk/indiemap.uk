@@ -26,13 +26,8 @@ type BusinessResolvedRecord = s.businesses.JSONSelectable & {town: s.uk_towns.JS
 
 export class BusinessRepositoryPostgres extends CRUDRepositoryPostgres implements BusinessRepository {
 	async create(data: BusinessCreateType) {
-		const createDate = new Date().toISOString()
 		const toInsert = Object.assign(
-			{
-				created_at: createDate,
-				id: newBusinessId(),
-				updated_at: createDate,
-			},
+			{id: newBusinessId()},
 			objToSnake<s.businesses.Insertable>(v.parse(BusinessCreateSchema, data)),
 		)
 

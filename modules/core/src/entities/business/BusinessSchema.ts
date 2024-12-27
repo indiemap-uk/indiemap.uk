@@ -42,14 +42,14 @@ export const BusinessCRUDSchema = v.object({
 })
 
 /**
- * Schema for creating an entity
- * The dates are optional, so the user doesn't have to set it but the mock-data script can.
+ * User schema for creating an entity
  */
-export const BusinessCreateSchema = v.object({
-	...v.omit(BusinessSchema, ['id', 'createdAt', 'updatedAt']).entries,
-	createdAt: v.undefinedable(v.date()),
-	updatedAt: v.undefinedable(v.date()),
-})
+export const BusinessUserCreateSchema = v.omit(BusinessSchema, ['id', 'createdAt', 'updatedAt'])
+
+/**
+ * Schema for creating an entity via the repository (requires dates set by the service)
+ */
+export const BusinessCreateSchema = v.omit(BusinessSchema, ['id'])
 
 /**
  * Business search schema

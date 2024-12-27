@@ -60,15 +60,16 @@ const mock = async () => {
 		const businessInTownTarget = faker.number.int({max: businessPerTownMax, min: businessPerTownMin})
 		let businessesInTown = 0
 		while (businessesInTown < businessInTownTarget) {
-			const createdAt = faker.date.past({years: 2})
-			const updatedAt = faker.helpers.maybe(() => faker.date.between({from: createdAt, to: new Date()}))
-			const b = await container.businessService.create({
-				createdAt,
-				description: faker.lorem.paragraphs(faker.number.int({max: 5, min: 1})),
-				name: faker.company.name(),
-				townId: town.id,
-				updatedAt: updatedAt ?? createdAt,
-			})
+			const createdAt = faker.date.past({years: 2}).toISOString()
+			const updatedAt = faker.helpers.maybe(() => faker.date.between({from: createdAt, to: new Date()}))?.toISOString()
+			const b = await container.businessService.create(
+				{
+					description: faker.lorem.paragraphs(faker.number.int({max: 5, min: 1})),
+					name: faker.company.name(),
+					townId: town.id,
+				},
+				{createdAt, updatedAt: updatedAt ?? createdAt},
+			)
 
 			businessesInTown++
 			businesses.push(b)

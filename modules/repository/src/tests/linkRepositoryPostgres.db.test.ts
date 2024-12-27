@@ -34,11 +34,11 @@ describe('link Repository Postgres', () => {
 		const town = await townRepository.getRandom()
 
 		const newBusiness: BusinessCreateType = {
-			createdAt: new Date(),
+			createdAt: new Date().toISOString(),
 			description: 'description',
 			name: 'name',
 			townId: town.id,
-			updatedAt: new Date(),
+			updatedAt: new Date().toISOString(),
 		}
 
 		const business = await businessRepository.create(newBusiness)

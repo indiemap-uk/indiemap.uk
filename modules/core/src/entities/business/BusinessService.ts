@@ -1,17 +1,28 @@
 import type {BusinessListArgs, BusinessRepository} from './BusinessRepository.js'
 import type {
-	BusinessCreateType,
 	BusinessIdType,
 	BusinessResolvedType,
 	BusinessSearchType,
 	BusinessType,
+	BusinessUserCreateType,
 } from './BusinessType.js'
 
 export class BusinessService {
 	constructor(private readonly businessRepository: BusinessRepository) {}
 
-	async create(newBusiness: BusinessCreateType) {
-		return this.businessRepository.create(newBusiness)
+	/**
+	 * Creates a new business
+	 *
+	 * @param newBusiness The new business to create
+	 * @param dates Optional dates to override the current date (used for mass mock data generation)
+	 */
+	async create(newBusiness: BusinessUserCreateType, dates?: {createdAt?: string; updatedAt?: string}) {
+		return this.businessRepository.create({
+			...newBusiness,
+			createdAt: new Date().toISOString(),
+			updatedAt: new Date().toISOString(),
+			...dates,
+		})
 	}
 
 	delete(id: BusinessIdType) {
