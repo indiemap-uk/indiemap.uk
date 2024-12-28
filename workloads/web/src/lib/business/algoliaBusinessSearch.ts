@@ -24,7 +24,7 @@ export const alogliaBusinessSearch: AutocompleteSource<BusinessResolvedType> = {
 			return items.length ? html`<span class="aa-SourceHeaderTitle">Businesses</span>` : ''
 		},
 		item({html, item}) {
-			return html`<a href="/business/${item.id}">${item.name} <span>${item.town.name}</span></a>`
+			return html`<a href="/business/${item.id}">${item.name} <span>${item.town ? item.town.name : ''}</span></a>`
 		},
 	},
 }

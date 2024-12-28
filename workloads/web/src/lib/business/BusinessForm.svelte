@@ -16,7 +16,7 @@
 		/** sForm is the superform instance */
 		sForm: SuperValidated<BusinessCRUDType>
 		/** town is the currently selected town (if any) */
-		town?: TownSearchResultType
+		town?: TownSearchResultType | null
 	} = $props()
 	const {constraints, enhance, errors, form, isTainted, message, tainted} = superForm(sForm, {invalidateAll: 'force'})
 
@@ -98,28 +98,17 @@
 
 	<label class="label" for="townId">Town</label>
 	<div class="field is-grouped">
-		{#if editTown}
-			<Svelecte
-				renderer={townOptionRenderer}
-				minQuery={3}
-				name="townId"
-				bind:value={$form.townId}
-				fetch="/api/town/search?q=[query]"
-				valueField="id"
-				labelField="name"
-				options={defaultOptions}
-			/>
-		{:else}
-			<input type="hidden" value={$form.townId} name="townId" />
-			<button class="button is-white" onclick={toggleTownEdit}>
-				<span class="icon">
-					<IconPencil />
-				</span>
-				<span>
-					{town?.name}, {town?.county}
-				</span>
-			</button>
-		{/if}
+		<Svelecte
+			renderer={townOptionRenderer}
+			minQuery={3}
+			name="townId"
+			bind:value={$form.townId}
+			fetch="/api/town/search?q=[query]"
+			valueField="id"
+			labelField="name"
+			options={defaultOptions}
+		/>
+		<button class="button" type="button" onclick={() => ($form.townId = null)}>Clear</button>
 	</div>
 
 	<div class="level">

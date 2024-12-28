@@ -5,10 +5,6 @@ import {TimestampSchema} from '../TimestampSchemas.js'
 import {TownIDSearchSchema, TownSchema} from '../town/index.js'
 import {BusinessIdSchema} from './BusinessId.js'
 
-const BusinessResolvedReferences = v.object({
-	town: TownSchema,
-})
-
 /**
  * A schema representing a Business, this includes references to other entities.
  **/
@@ -21,13 +17,13 @@ export const BusinessSchema = v.object({
 		v.minLength(2, 'At least two characters'),
 		v.maxLength(100, 'At most 100 characters'),
 	),
-	townId: TownSchema.entries.id,
+	townId: v.nullable(TownSchema.entries.id),
 	...TimestampSchema.entries,
 })
 
 export const BusinessResolvedSchema = v.object({
 	...BusinessSchema.entries,
-	...BusinessResolvedReferences.entries,
+	town: v.nullish(TownSchema),
 })
 
 /**

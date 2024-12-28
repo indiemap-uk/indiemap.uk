@@ -4,9 +4,11 @@
 
 	const {data} = $props()
 
-	const points = [
-		{lat: data.business.town.latitude, lon: data.business.town.longitude, label: data.business.name},
-	].concat(
+	const points = data.business.town
+		? [{lat: data.business.town.latitude, lon: data.business.town.longitude, label: data.business.name}]
+		: []
+
+	points.concat(
 		data.locations.map((location) => ({
 			lat: location.latitude,
 			lon: location.longitude,
@@ -22,11 +24,13 @@
 <div class="split">
 	<div>
 		<h2>{data.business.name}</h2>
-		<p class="location">
-			<MapPinIcon size={16} />
+		{#if data.business.town}
+			<p class="location">
+				<MapPinIcon size={16} />
 
-			<a href={`/town/${data.business.townId}`}>{data.business.town.name}, {data.business.town.county}</a>
-		</p>
+				<a href={`/town/${data.business.townId}`}>{data.business.town.name}, {data.business.town.county}</a>
+			</p>
+		{/if}
 
 		<p>{data.business.description}</p>
 
@@ -55,7 +59,9 @@
 		</ul>
 	</div>
 	<div>
-		<IndieMap {points} center={points[0]} zoom={8} />
+		{#if points.length > 0}
+			<IndieMap {points} center={points[0]} zoom={8} />
+		{/if}
 	</div>
 </div>
 

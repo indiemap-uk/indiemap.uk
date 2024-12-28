@@ -25,7 +25,13 @@
 							<strong>{business.name}</strong>
 						</a>
 					</td>
-					<td>{business.town.name}, {business.town.county}</td>
+					<td>
+						{#if business.town}
+							{business.town.name}, {business.town.county}
+						{:else}
+							<em>-</em>
+						{/if}
+					</td>
 					<td>{business.description}</td>
 				</tr>
 			{/each}

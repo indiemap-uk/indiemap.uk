@@ -123,7 +123,7 @@ export class BusinessRepositoryPostgres extends CRUDRepositoryPostgres implement
 			throw new Error('Update failed, no record returned')
 		}
 
-		const town = await this.db.selectExactlyOne('uk_towns', {id: record[0].town_id}).run(this.pool)
+		const town = await this.db.selectOne('uk_towns', {id: record[0].town_id}).run(this.pool)
 
 		return this.toResolvedBusiness(record[0], town)
 	}
