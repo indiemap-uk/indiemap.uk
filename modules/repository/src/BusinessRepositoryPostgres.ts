@@ -44,11 +44,13 @@ export class BusinessRepositoryPostgres extends CRUDRepositoryPostgres implement
 		}
 	}
 
-	async getById(id: BusinessIdType) {
+	async getById(id: BusinessIdType, status?: BusinessType['status']) {
+		const statusWhere = status ? {status} : {}
+
 		return this.db
 			.selectOne(
 				'businesses',
-				{id: id.toString()},
+				{id: id.toString(), ...statusWhere},
 				{
 					lateral: {
 						town: this.db.selectExactlyOne('uk_towns', {id: this.db.parent('town_id')}),
@@ -59,26 +61,6 @@ export class BusinessRepositoryPostgres extends CRUDRepositoryPostgres implement
 			.then((record) => (record ? this.toResolvedBusiness(record) : null))
 	}
 
-	async list(userArgs: BusinessListArgs) {
-		const args = v.parse(BusinessListArgsSchema, userArgs) as Required<BusinessListArgs>
-
-		const records = await this.db
-			.select('businesses', this.db.all, {
-				lateral: {
-					town: this.db.selectExactlyOne('uk_towns', {id: this.db.parent('town_id')}),
-				},
-				limit: args.limit,
-				offset: args.offset,
-				order: {
-					by: snakeCase(args.order.by) as s.SQLForTable<'businesses'>,
-					direction: args.order.direction,
-				},
-			})
-			.run(this.pool)
-
-		return records.map((r) => this.toResolvedBusiness(r))
-	}
-
 	async search(userQuery: BusinessSearchType, userArgs: BusinessListArgs = {}) {
 		const query = v.parse(BusinessSearchSchema, userQuery)
 		const args = v.parse(BusinessListArgsSchema, userArgs) as Required<BusinessListArgs>
@@ -87,6 +69,7 @@ export class BusinessRepositoryPostgres extends CRUDRepositoryPostgres implement
 			? {name: this.db.sql`LOWER(${this.db.self}) LIKE(${this.db.param(`${query.name?.toLowerCase()}%`)})`}
 			: {}
 		const townIdWhere = query.townId ? {town_id: this.db.sql`town_id = ${this.db.param(query.townId)}`} : {}
+		const statusWhere = query.status ? {status: query.status} : {}
 
 		const records = await this.db
 			.select(
@@ -94,6 +77,7 @@ export class BusinessRepositoryPostgres extends CRUDRepositoryPostgres implement
 				{
 					...nameWhere,
 					...townIdWhere,
+					...statusWhere,
 				},
 				{
 					lateral: {
@@ -111,21 +95,21 @@ export class BusinessRepositoryPostgres extends CRUDRepositoryPostgres implement
 			)
 			.run(this.pool)
 
-		return records.filter((r) => r.town !== null).map((r) => this.toResolvedBusiness(r))
+		return records.map((r) => this.toResolvedBusiness(r))
 	}
 
 	async update(data: BusinessType) {
 		const toUpdate = objToSnake<s.businesses.Updatable>(v.parse(BusinessSchema, data))
 
-		const record = await this.db.update('businesses', toUpdate, {id: data.id.toString()}).run(this.pool)
+		const [record] = await this.db.update('businesses', toUpdate, {id: data.id.toString()}).run(this.pool)
 
-		if (!record?.[0]) {
+		if (!record) {
 			throw new Error('Update failed, no record returned')
 		}
 
-		const town = await this.db.selectOne('uk_towns', {id: record[0].town_id}).run(this.pool)
+		const town = record.town_id ? await this.db.selectOne('uk_towns', {id: record.town_id}).run(this.pool) : undefined
 
-		return this.toResolvedBusiness(record[0], town)
+		return this.toResolvedBusiness(record, town)
 	}
 
 	private toResolvedBusiness(

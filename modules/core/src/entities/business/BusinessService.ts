@@ -29,12 +29,8 @@ export class BusinessService {
 		return this.businessRepository.delete(id)
 	}
 
-	async getById(id: BusinessIdType) {
-		return this.businessRepository.getById(id)
-	}
-
-	async list(args?: BusinessListArgs) {
-		return this.businessRepository.list(args)
+	async getById(id: BusinessIdType, status?: BusinessType['status']) {
+		return this.businessRepository.getById(id, status)
 	}
 
 	async search(query: BusinessSearchType, args?: BusinessListArgs): Promise<BusinessResolvedType[]> {

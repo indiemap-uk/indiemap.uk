@@ -1,11 +1,10 @@
 <script lang="ts">
-	import dayjs from 'dayjs'
 	import type {BusinessCRUDType} from '@i/core/business'
 	import type {TownSearchResultType} from '@i/core/town'
+	import dayjs from 'dayjs'
 	import type {SuperValidated} from 'sveltekit-superforms'
 
 	import {browser} from '$app/environment'
-	import IconPencil from '@tabler/icons-svelte/icons/pencil'
 	import Svelecte from 'svelecte'
 	import SuperDebug, {superForm} from 'sveltekit-superforms'
 
@@ -109,6 +108,14 @@
 			options={defaultOptions}
 		/>
 		<button class="button" type="button" onclick={() => ($form.townId = null)}>Clear</button>
+	</div>
+
+	<div class="field">
+		<label class="label" for="status">Status</label>
+		<select class="select" bind:value={$form.status} name="status">
+			<option value="live">Live</option>
+			<option value="draft">Draft</option>
+		</select>
 	</div>
 
 	<div class="level">

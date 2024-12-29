@@ -12,14 +12,15 @@
 	<table class="table is-striped is-hoverable is-fullwidth">
 		<thead>
 			<tr>
+				<th>STATUS</th>
 				<th>NAME</th>
 				<th>TOWN</th>
-				<th>DESCRIPTION</th>
 			</tr>
 		</thead>
 		<tbody>
-			{#each data.businesses as business, bidx}
+			{#each data.businesses as business}
 				<tr>
+					<td>{business.status}</td>
 					<td class="is-family-monospace">
 						<a href={`/admin/business/${business.id.toString()}`}>
 							<strong>{business.name}</strong>
@@ -32,7 +33,6 @@
 							<em>-</em>
 						{/if}
 					</td>
-					<td>{business.description}</td>
 				</tr>
 			{/each}
 		</tbody>

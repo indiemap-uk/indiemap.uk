@@ -18,8 +18,11 @@ export interface BusinessListArgs {
 export type BusinessRepository = {
 	create(data: BusinessCreateType): Promise<BusinessType>
 	delete(id: BusinessIdType): Promise<void>
-	getById(id: BusinessIdType): Promise<BusinessResolvedType | null>
-	list(args?: BusinessListArgs): Promise<BusinessResolvedType[]>
-	search(query: BusinessSearchType, args?: BusinessListArgs): Promise<BusinessResolvedType[]>
+	getById(id: BusinessIdType, status?: BusinessType['status']): Promise<BusinessResolvedType | null>
+	search(
+		query: BusinessSearchType,
+		args?: BusinessListArgs,
+		status?: BusinessType['status'],
+	): Promise<BusinessResolvedType[]>
 	update(data: BusinessType): Promise<BusinessResolvedType>
 }

@@ -162,11 +162,17 @@ declare module 'zapatos/schema' {
 			 */
 			name: string
 			/**
+			 * **businesses.status**
+			 * - `text` in database
+			 * - `NOT NULL`, default: `'live'::text`
+			 */
+			status: string
+			/**
 			 * **businesses.town_id**
 			 * - `int4` in database
-			 * - `NOT NULL`, no default
+			 * - Nullable, no default
 			 */
-			town_id: number
+			town_id: number | null
 			/**
 			 * **businesses.updated_at**
 			 * - `timestamptz` in database
@@ -200,11 +206,17 @@ declare module 'zapatos/schema' {
 			 */
 			name: string
 			/**
+			 * **businesses.status**
+			 * - `text` in database
+			 * - `NOT NULL`, default: `'live'::text`
+			 */
+			status: string
+			/**
 			 * **businesses.town_id**
 			 * - `int4` in database
-			 * - `NOT NULL`, no default
+			 * - Nullable, no default
 			 */
-			town_id: number
+			town_id: number | null
 			/**
 			 * **businesses.updated_at**
 			 * - `timestamptz` in database
@@ -261,9 +273,20 @@ declare module 'zapatos/schema' {
 				| db.ParentColumn
 				| db.SQLFragment<any, string | db.Parameter<string> | db.SQLFragment | db.ParentColumn>
 			/**
+			 * **businesses.status**
+			 * - `text` in database
+			 * - `NOT NULL`, default: `'live'::text`
+			 */
+			status?:
+				| string
+				| db.Parameter<string>
+				| db.SQLFragment
+				| db.ParentColumn
+				| db.SQLFragment<any, string | db.Parameter<string> | db.SQLFragment | db.ParentColumn>
+			/**
 			 * **businesses.town_id**
 			 * - `int4` in database
-			 * - `NOT NULL`, no default
+			 * - Nullable, no default
 			 */
 			town_id?:
 				| number
@@ -316,11 +339,17 @@ declare module 'zapatos/schema' {
 			 */
 			name: string | db.Parameter<string> | db.SQLFragment
 			/**
+			 * **businesses.status**
+			 * - `text` in database
+			 * - `NOT NULL`, default: `'live'::text`
+			 */
+			status?: string | db.Parameter<string> | db.DefaultType | db.SQLFragment
+			/**
 			 * **businesses.town_id**
 			 * - `int4` in database
-			 * - `NOT NULL`, no default
+			 * - Nullable, no default
 			 */
-			town_id: number | db.Parameter<number> | db.SQLFragment
+			town_id?: number | db.Parameter<number> | null | db.DefaultType | db.SQLFragment
 			/**
 			 * **businesses.updated_at**
 			 * - `timestamptz` in database
@@ -376,15 +405,28 @@ declare module 'zapatos/schema' {
 				| db.SQLFragment
 				| db.SQLFragment<any, string | db.Parameter<string> | db.SQLFragment>
 			/**
+			 * **businesses.status**
+			 * - `text` in database
+			 * - `NOT NULL`, default: `'live'::text`
+			 */
+			status?:
+				| string
+				| db.Parameter<string>
+				| db.DefaultType
+				| db.SQLFragment
+				| db.SQLFragment<any, string | db.Parameter<string> | db.DefaultType | db.SQLFragment>
+			/**
 			 * **businesses.town_id**
 			 * - `int4` in database
-			 * - `NOT NULL`, no default
+			 * - Nullable, no default
 			 */
 			town_id?:
 				| number
 				| db.Parameter<number>
+				| null
+				| db.DefaultType
 				| db.SQLFragment
-				| db.SQLFragment<any, number | db.Parameter<number> | db.SQLFragment>
+				| db.SQLFragment<any, number | db.Parameter<number> | null | db.DefaultType | db.SQLFragment>
 			/**
 			 * **businesses.updated_at**
 			 * - `timestamptz` in database
