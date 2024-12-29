@@ -27,7 +27,4 @@
 		url="/api/town/search?q=[query]"
 		onChange={onTownChange}
 	/>
-	<!-- <button class="button" data-button-variant="secondary" data-button-size="small">
-		<span>Search</span>
-	</button> -->
 </div>
