@@ -37,10 +37,15 @@ export class OpenRouterError {
 	) {}
 }
 
+/**
+ * chat: returns an Answer, see AnswerSchema
+ */
 export class OpenRouterService extends Context.Tag('OpenRouterService')<
 	OpenRouterService,
 	{
-		readonly chat: (args: ChatArgs) => Effect.Effect<string, OpenRouterError | SqlError.SqlError>
+		readonly chat: (
+			args: ChatArgs,
+		) => Effect.Effect<Schema.Schema.Type<typeof AnswerSchema>, OpenRouterError | SqlError.SqlError>
 	}
 >() {}
 
@@ -90,9 +95,10 @@ export const OpenRouter = Effect.gen(function* () {
 					try: () => response.json(),
 				})
 
-				let answer = parsed.choices?.[0]?.message?.content
-				yield* Console.log('answer in OpenRouter.ts', answer)
-				answer = Schema.decodeSync(AnswerSchema)(JSON.parse(answer))
+				const jsonResponse = parsed.choices?.[0]?.message?.content
+				yield* Console.log('jsonResponse in OpenRouter.ts', jsonResponse)
+
+				const answer = Schema.decodeUnknownSync(AnswerSchema)(JSON.parse(jsonResponse))
 
 				return answer
 			}),
