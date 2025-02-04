@@ -27,5 +27,7 @@
 		"target": "es2023",
 		"verbatimModuleSyntax": true
 	},
-	"include": ["src"]
+	"include": [
+		"src"
+	]
 }

@@ -1,0 +1,23 @@
+{
+	"name": "@i/scraper",
+	"scripts": {},
+	"dependencies": {
+		"@effect/experimental": "^0.36.1",
+		"@effect/platform": "^0.72.1",
+		"@effect/platform-node": "^0.71.1",
+		"@effect/sql": "^0.25.1",
+		"@effect/sql-sqlite-node": "^0.29.1",
+		"@types/jsdom": "^21.1.7",
+		"dom-to-semantic-markdown": "^1.2.16",
+		"effect": "^3.12.1",
+		"jsdom": "^26.0.0"
+	},
+	"devDependencies": {
+		"@i/tsconfig": "workspace:*",
+		"tsx": "^4.19.2"
+	},
+	"version": "1.0.0",
+	"private": true,
+	"license": "UNLICENSED",
+	"type": "module"
+}

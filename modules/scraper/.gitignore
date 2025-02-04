@@ -1,0 +1,5 @@
+node_modules
+kv.db
+*.db-wal
+*.db-shm
+.envrc
