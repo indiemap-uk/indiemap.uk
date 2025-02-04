@@ -5,5 +5,5 @@
 For now:
 
 ```sh
-pnpm tsx src/main.ts https://...,https://...
+pnpm tsx src/cli.ts https://...,https://...
 ```

@@ -9,9 +9,11 @@ import {KVStore, KVStoreService} from './services/KVStore.js'
 import {OpenRouter, OpenRouterService} from './services/OpenRouter.js'
 
 /**
+This is a CLI version that can be used for quick testing during develpoment.
+
 An example run:
 
-tsx src/main.ts url1,url2,url3
+tsx src/cli.ts url1,url2,url3
 
 The 1st URL is special: the whole HTML will be processed including all metadata.
 Only the main content of the other URLs are process, everything else is ignored.
