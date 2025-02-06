@@ -8,12 +8,8 @@
 		"emitDecoratorMetadata": true,
 		"experimentalDecorators": true,
 		"paths": {
-			"#lib/*": [
-				"./src"
-			],
+			"#lib/*": ["./src"]
 		}
 	},
-	"include": [
-		"src",
-	]
+	"include": ["src"]
 }

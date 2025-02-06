@@ -6,8 +6,8 @@ import tseslint from 'typescript-eslint'
 
 /** @type {import('eslint').Linter.Config[]} */
 export default [
-	{ files: ['**/*.{js,mjs,cjs,ts}'] },
-	{ languageOptions: { globals: { ...globals.browser, ...globals.node } } },
+	{files: ['**/*.{js,mjs,cjs,ts}']},
+	{languageOptions: {globals: {...globals.browser, ...globals.node}}},
 	pluginJs.configs.recommended,
 	...tseslint.configs.recommended,
 	perfectionist.configs['recommended-natural'],
@@ -16,9 +16,9 @@ export default [
 		ignores: ['**/build/', '**/.svelte-kit/', '**/dist/', '**/zapatos/schema.d.ts'],
 	},
 	{
-		"rules": {
-			// In Effect code there's a lot of no-yield 
-			"require-yield": off
-		}
-	}
+		rules: {
+			// In Effect code there's a lot of no-yield
+			'require-yield': off,
+		},
+	},
 ]
