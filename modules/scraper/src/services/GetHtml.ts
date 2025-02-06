@@ -1,6 +1,8 @@
-import {HttpClient} from '@effect/platform'
 import type {HttpClientError} from '@effect/platform/HttpClientError'
+
+import {HttpClient} from '@effect/platform'
 import {Context, Effect} from 'effect'
+
 import {KVStoreService} from './KVStore.js'
 
 export class GetHtmlError {

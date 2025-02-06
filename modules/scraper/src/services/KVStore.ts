@@ -1,7 +1,8 @@
+import type {SqlError} from '@effect/sql/SqlError'
+
 import {Reactivity} from '@effect/experimental'
 import {NodeFileSystem} from '@effect/platform-node'
 import {SqliteClient} from '@effect/sql-sqlite-node'
-import type {SqlError} from '@effect/sql/SqlError'
 import {Context, Effect} from 'effect'
 
 /**
@@ -11,7 +12,7 @@ export class KVStoreService extends Context.Tag('KVStoreService')<
 	KVStoreService,
 	{
 		readonly get: (key: string) => Effect.Effect<string | undefined, SqlError>
-		readonly set: (key: string, value: string) => Effect.Effect<void | undefined, SqlError>
+		readonly set: (key: string, value: string) => Effect.Effect<undefined | void, SqlError>
 	}
 >() {}
 

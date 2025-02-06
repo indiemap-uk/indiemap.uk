@@ -1,17 +1,16 @@
 import {FetchHttpClient} from '@effect/platform'
-import {NodeRuntime} from '@effect/platform-node'
 import {Console, Effect, Layer} from 'effect'
 
+import {program} from './program.js'
 import {GetHtml, GetHtmlService} from './services/GetHtml.js'
 import {KVStore, KVStoreService} from './services/KVStore.js'
 import {OpenRouter, OpenRouterService} from './services/OpenRouter.js'
-import {program} from './program.js'
 
 /**
 The entry point for using the scraper as a library
 */
 
-export const scraper = ({urls, openRouterKey}: {openRouterKey: string; urls: string[]}) => {
+export const scraper = ({openRouterKey, urls}: {openRouterKey: string; urls: string[]}) => {
 	const KVLive = Layer.effect(KVStoreService, KVStore)
 
 	const GetHtmlLive = Layer.effect(GetHtmlService, GetHtml).pipe(
@@ -21,7 +20,7 @@ export const scraper = ({urls, openRouterKey}: {openRouterKey: string; urls: str
 
 	const OpenRouterLive = Layer.effect(OpenRouterService, OpenRouter).pipe(Layer.provide(KVLive))
 
-	const main = Effect.provide(program({urls, openRouterKey}), GetHtmlLive).pipe(
+	const main = Effect.provide(program({openRouterKey, urls}), GetHtmlLive).pipe(
 		Effect.provide(KVLive),
 		Effect.provide(OpenRouterLive),
 		Effect.scoped,

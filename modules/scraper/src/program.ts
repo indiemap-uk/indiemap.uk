@@ -1,11 +1,12 @@
-import {Effect, Console} from 'effect'
+import {Console, Effect} from 'effect'
+
 import {siteSummaryInstructions} from './llm/propmpts.js'
 import {GetHtmlService} from './services/GetHtml.js'
 import {HtmlToMd} from './services/HtmlToMd.js'
 import {KVStoreService} from './services/KVStore.js'
 import {OpenRouterService} from './services/OpenRouter.js'
 
-export const program = ({urls, openRouterKey}: {openRouterKey: string; urls: string[]}) =>
+export const program = ({openRouterKey, urls}: {openRouterKey: string; urls: string[]}) =>
 	Effect.gen(function* () {
 		const runId =
 			new Date().toISOString().slice(0, 19).replace(/[T:]/g, '-').replaceAll('-', '') +

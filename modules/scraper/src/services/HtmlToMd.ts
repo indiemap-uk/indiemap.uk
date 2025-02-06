@@ -4,18 +4,13 @@ import {JSDOM} from 'jsdom'
 
 export const HtmlToMd = (html: string, options: ConversionOptions = {}) => {
 	const dom = new JSDOM(html)
-	let markdown: string
-	try {
-		markdown = convertHtmlToMarkdown(html, {
-			refifyUrls: false,
-			enableTableColumnTracking: true,
-			overrideDOMParser: new dom.window.DOMParser(),
-			includeMetaData: 'extended',
-			...options,
-		})
-	} catch (e) {
-		throw e
-	}
+	const markdown = convertHtmlToMarkdown(html, {
+		enableTableColumnTracking: true,
+		includeMetaData: 'extended',
+		overrideDOMParser: new dom.window.DOMParser(),
+		refifyUrls: false,
+		...options,
+	})
 
 	return Effect.succeed(markdown)
 }

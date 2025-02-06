@@ -2,10 +2,10 @@ import {FetchHttpClient} from '@effect/platform'
 import {NodeRuntime} from '@effect/platform-node'
 import {Console, Effect, Layer} from 'effect'
 
+import {program} from './program.js'
 import {GetHtml, GetHtmlService} from './services/GetHtml.js'
 import {KVStore, KVStoreService} from './services/KVStore.js'
 import {OpenRouter, OpenRouterService} from './services/OpenRouter.js'
-import {program} from './program.js'
 
 /**
 This is a CLI version that can be used for quick testing during develpoment.
@@ -37,7 +37,7 @@ const GetHtmlLive = Layer.effect(GetHtmlService, GetHtml).pipe(
 
 const OpenRouterLive = Layer.effect(OpenRouterService, OpenRouter).pipe(Layer.provide(KVLive))
 
-const main = Effect.provide(program({urls, openRouterKey: process.env.OPENROUTER_API_KEY}), GetHtmlLive).pipe(
+const main = Effect.provide(program({openRouterKey: process.env.OPENROUTER_API_KEY, urls}), GetHtmlLive).pipe(
 	Effect.provide(KVLive),
 	Effect.provide(OpenRouterLive),
 	Effect.scoped,

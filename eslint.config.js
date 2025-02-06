@@ -18,7 +18,7 @@ export default [
 	{
 		rules: {
 			// In Effect code there's a lot of no-yield
-			'require-yield': off,
+			'require-yield': 'off',
 		},
 	},
 ]
