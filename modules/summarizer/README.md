@@ -1,6 +1,6 @@
-# Scraper
+# Summarizer
 
-> LLM powered web scraping for Indiemap
+> LLM powered business information summarizer
 
 For now:
 

@@ -1,5 +1,5 @@
 {
-	"name": "@i/scraper",
+	"name": "@i/summarizer",
 	"scripts": {},
 	"dependencies": {
 		"@effect/experimental": "^0.36.1",
