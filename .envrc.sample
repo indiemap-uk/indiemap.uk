@@ -12,3 +12,9 @@ export AUTH_SECRET=
 
 # https://geocodify.com API key for geocoding lookups
 export GEOCODIFY_API_KEY=
+
+# https://platform.openai.com/settings/organization/api-keys
+export OPENAI_API_KEY=
+
+# https://jina.ai/api-dashboard/key-manager API key for fetching markdown from URLs for the business summarizer
+export JINA_API_KEY=

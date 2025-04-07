@@ -5,7 +5,7 @@ import {TimestampSchema} from '../TimestampSchemas.js'
 import {TownIDSearchSchema, TownSchema} from '../town/index.js'
 import {BusinessIdSchema} from './BusinessId.js'
 
-const townStatus = v.picklist(['live', 'draft'])
+const businessStatus = v.picklist(['live', 'draft'])
 
 /**
  * A schema representing a Business, this includes references to other entities.
@@ -20,7 +20,7 @@ export const BusinessSchema = v.object({
 		v.maxLength(100, 'At most 100 characters'),
 	),
 	/** The status of the business, live by default. Not available to users when draft. */
-	status: v.optional(townStatus),
+	status: v.optional(businessStatus, 'live'),
 	townId: v.nullable(TownSchema.entries.id),
 	...TimestampSchema.entries,
 })
@@ -59,7 +59,7 @@ export const BusinessSearchSchema = v.object({
 	/** Business name starts with */
 	name: v.nullish(NameSearchSchema),
 	/** The status to filter on */
-	status: v.nullish(townStatus),
+	status: v.nullish(businessStatus),
 	/** Town ID */
 	townId: v.nullish(TownIDSearchSchema),
 })

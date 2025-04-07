@@ -2,12 +2,22 @@
 
 > All the wonderful stuff made by independent creators in the UK
 
+## Env setup
+
+If you start from scratch:
+
+```sh
+cp .envrc.sample .envrc
+```
+
+## First run
+
 ```sh
 pnpm install
-pnpm -F repository db # starts a postgres server in a docker container
-# Make sure DATABASE_URL is in your env!
-cp .envrc.sample .envrc
-direnv allow
-pnpm -F repository db:up # runs the migrations, create tables and loads town data
+# starts a postgres server in a docker container
+pnpm -F repository db
+# runs the migrations, create tables and loads town data
+pnpm -F repository db:up
+# starts the web app
 pnpm -F web dev
 ```
