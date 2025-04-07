@@ -37,6 +37,7 @@ describe('link Repository Postgres', () => {
 			createdAt: new Date().toISOString(),
 			description: 'description',
 			name: 'name',
+			status: 'live',
 			townId: town.id,
 			updatedAt: new Date().toISOString(),
 		}

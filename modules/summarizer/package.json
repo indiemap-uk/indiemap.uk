@@ -3,6 +3,11 @@
 	"scripts": {
 		"cli": "tsx src/cli.ts"
 	},
+	"exports": {
+		"./SummarizerService": "./src/SummarizerService.ts",
+		"./KVSQLiteStore": "./src/services/KVSQLiteStore.ts",
+		"./MarkdownServiceJinaAi": "./src/services/MarkdownServiceJinaAi.ts"
+	},
 	"dependencies": {
 		"@ai-sdk/openai": "^1.3.7",
 		"@keyv/sqlite": "^4.0.2",

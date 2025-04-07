@@ -1,6 +1,6 @@
 import {KVSQLiteStore} from './services/KVSQLiteStore.js'
-import { MarkdownServiceJinaAi } from './services/MarkdownServiceJinaAi.js'
-import {summarizeUrls} from './summarizeUrls.js'
+import {MarkdownServiceJinaAi} from './services/MarkdownServiceJinaAi.js'
+import {SummarizerService} from './SummarizerService.js'
 
 /**
 This is a CLI version that can be used for quick testing during develpoment.
@@ -13,7 +13,8 @@ const urls = process.argv[2]?.split(',')
 const openAiApiKey = process.env.OPENAI_API_KEY as string
 const kvstore = new KVSQLiteStore('cli.db')
 const markdownService = new MarkdownServiceJinaAi(process.env.JINA_API_KEY as string)
+const summarizerService = new SummarizerService(kvstore, markdownService, openAiApiKey)
 
-summarizeUrls({kvstore, markdownService, openAiApiKey, urls: urls ?? []}).then((summary) => {
+summarizerService.summarizeUrls(urls ?? []).then((summary) => {
 	console.log('summary:', summary)
 })

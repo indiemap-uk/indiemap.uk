@@ -11,11 +11,15 @@ import {
 	LocationRepositoryPostgres,
 	TownRepositoryPostgres,
 } from '@i/repository'
+import {KVSQLiteStore} from '@i/summarizer/KVSQLiteStore'
+import {MarkdownServiceJinaAi} from '@i/summarizer/MarkdownServiceJinaAi'
+import {SummarizerService} from '@i/summarizer/SummarizerService'
 
 import type {ContainerEnvType} from './ContainerEnvSchema'
 
-export const getContainer = (env: ContainerEnvType) => {
+export const getContainer = async (env: ContainerEnvType) => {
 	const pool = getPool(env.DATABASE_URL)
+	await pool.query('SET search_path TO public, authjs')
 
 	const townRepository = new TownRepositoryPostgres(pool, getDb())
 	const townService = new TownService(townRepository)
@@ -31,5 +35,10 @@ export const getContainer = (env: ContainerEnvType) => {
 
 	const geocodingService = new GeocodingServiceGeocodify(env.GEOCODIFY_API_KEY)
 
-	return {businessService, geocodingService, linkService, locationService, townService}
+	const kvstore = new KVSQLiteStore()
+	const markdownService = new MarkdownServiceJinaAi(env.JINA_API_KEY)
+	const openAiApiKey = env.OPENAI_API_KEY
+	const summarizerService = new SummarizerService(kvstore, markdownService, openAiApiKey)
+
+	return {businessService, geocodingService, linkService, locationService, summarizerService, townService}
 }

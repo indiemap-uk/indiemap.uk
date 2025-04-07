@@ -236,6 +236,9 @@ importers:
       '@i/repository':
         specifier: workspace:*
         version: link:../../modules/repository
+      '@i/summarizer':
+        specifier: workspace:*
+        version: link:../../modules/summarizer
       '@sheepdog/svelte':
         specifier: ^0.12.1
         version: 0.12.1(svelte@5.16.0)

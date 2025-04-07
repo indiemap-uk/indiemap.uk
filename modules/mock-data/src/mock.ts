@@ -66,6 +66,7 @@ const mock = async () => {
 				{
 					description: faker.lorem.paragraphs(faker.number.int({max: 5, min: 1})),
 					name: faker.company.name(),
+					status: 'live',
 					townId: town.id,
 				},
 				{createdAt, updatedAt: updatedAt ?? createdAt},

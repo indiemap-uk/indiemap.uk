@@ -11,9 +11,9 @@ import {sequence} from '@sveltejs/kit/hooks'
 import {redirect} from 'sveltekit-flash-message/server'
 import * as v from 'valibot'
 
-const prepareEnv: Handle = ({event, resolve}) => {
+const prepareEnv: Handle = async ({event, resolve}) => {
 	const env = checkEnv(dynamicPrivateEnv)
-	const container = getContainer(v.parse(ContainerEnvSchema, env))
+	const container = await getContainer(v.parse(ContainerEnvSchema, env))
 
 	event.locals.env = env as ServerEnvType
 	event.locals.container = container

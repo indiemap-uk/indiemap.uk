@@ -20,6 +20,7 @@
 		"@i/core": "workspace:*",
 		"@i/geocoding": "workspace:*",
 		"@i/repository": "workspace:*",
+		"@i/summarizer": "workspace:*",
 		"@sheepdog/svelte": "^0.12.1",
 		"@tabler/icons-svelte": "^3.26.0",
 		"dayjs": "^1.11.13",

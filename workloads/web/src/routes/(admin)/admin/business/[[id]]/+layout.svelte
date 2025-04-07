@@ -1,10 +1,12 @@
 <script lang="ts">
-	import {page} from '$app/stores'
+	import {page} from '$app/state'
 	const {children, data} = $props()
 
+	// Match the URL to an active tab
 	const activeTab = $derived.by(() => {
-		if ($page.url.pathname.includes('links')) return 'links'
-		if ($page.url.pathname.includes('locations')) return 'locations'
+		if (page.url.pathname.endsWith('links')) return 'links'
+		if (page.url.pathname.endsWith('locations')) return 'locations'
+		if (page.url.pathname.endsWith('generate')) return 'generate'
 		return 'info'
 	})
 </script>
@@ -21,15 +23,22 @@
 
 <div class="tabs">
 	<ul>
-		<li class:is-active={activeTab === 'info'}>
-			<a href={`/admin/business/${data.business?.id}`}>Business info</a>
-		</li>
 		{#if data.business}
+			<li class:is-active={activeTab === 'info'}>
+				<a href={`/admin/business/${data.business?.id}`}>Business info</a>
+			</li>
 			<li class:is-active={activeTab === 'links'}>
 				<a href={`/admin/business/${data.business.id}/links`}>Links</a>
 			</li>
 			<li class:is-active={activeTab === 'locations'}>
 				<a href={`/admin/business/${data.business.id}/locations`}>Locations</a>
+			</li>
+		{:else}
+			<li class:is-active={activeTab === 'info'}>
+				<a href={`/admin/business/`}>Add Business</a>
+			</li>
+			<li class:is-active={activeTab === 'generate'}>
+				<a href={`/admin/business/generate`}>Generate by URLs</a>
 			</li>
 		{/if}
 	</ul>
