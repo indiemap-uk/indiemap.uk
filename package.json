@@ -22,5 +22,6 @@
 	"version": "1.0.0",
 	"private": true,
 	"license": "UNLICENSED",
-	"type": "module"
+	"type": "module",
+	"packageManager": "pnpm@10.7.1"
 }

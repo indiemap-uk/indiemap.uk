@@ -15,4 +15,10 @@ export default [
 	{
 		ignores: ['**/build/', '**/.svelte-kit/', '**/dist/', '**/zapatos/schema.d.ts'],
 	},
+	{
+		rules: {
+			// In Effect code there's a lot of no-yield
+			'require-yield': 'off',
+		},
+	},
 ]

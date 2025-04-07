@@ -1,5 +1,5 @@
 packages:
-  # Workloads are deployable applications
-  - 'workloads/*'
-  # Supporting code lives in the modules folder
-  - 'modules/*'
+  - workloads/*
+  - modules/*
+onlyBuiltDependencies:
+  - sqlite3

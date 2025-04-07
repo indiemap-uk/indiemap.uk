@@ -1,7 +1,5 @@
-# Package Managers
-package-lock.json
 pnpm-lock.yaml
-yarn.lock
+llm-food/**
 **/zapatos/schema.d.ts
 **/.svelte-kit
 workloads/web/src/lib/css/open-props.min.css
