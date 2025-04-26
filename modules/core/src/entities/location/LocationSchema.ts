@@ -16,7 +16,7 @@ const LocationCoreSchema = v.object({
 	address: v.pipe(v.string(), v.trim(), v.maxLength(300)),
 	businessId: BusinessIdSchema,
 	id: LocationIdSchema,
-	label: v.optional(v.pipe(v.string(), v.trim(), v.maxLength(50))),
+	label: v.nullable(v.pipe(v.string(), v.trim(), v.maxLength(50))),
 })
 
 /**

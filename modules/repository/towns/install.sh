@@ -19,4 +19,4 @@ docker run \
     -w /data \
     --network host \
     -e DATABASE_URL=$DATABASE_URL \
-    postgres bash -c 'psql $DATABASE_URL -f towns.sql'
+    docker.io/bitnami/postgresql:17 bash -c 'psql $DATABASE_URL -f towns.sql'

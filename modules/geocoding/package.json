@@ -12,8 +12,8 @@
 	"dependencies": {
 		"@i/core": "workspace:*",
 		"debug": "^4.4.0",
-		"ky": "^1.7.4",
-		"valibot": "1.0.0-beta.9"
+		"ky": "^1.8.0",
+		"valibot": "^1.0.0"
 	},
 	"devDependencies": {
 		"@i/tsconfig": "workspace:*",

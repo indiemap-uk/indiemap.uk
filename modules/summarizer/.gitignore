@@ -1,5 +1,2 @@
 node_modules
-cli.db
-*.db-wal
-*.db-shm
 .envrc

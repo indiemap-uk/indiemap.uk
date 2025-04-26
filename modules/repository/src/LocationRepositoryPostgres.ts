@@ -90,7 +90,6 @@ export class LocationRepositoryPostgres extends CRUDRepositoryPostgres implement
 
 	async update(data: LocationType) {
 		const toUpdate = v.parse(LocationDBSchema, data)
-		console.log('toUpdate in LocationRepositoryPostgres.ts', toUpdate)
 
 		await this.db.update('locations', toUpdate, {id: data.id.toString()}).run(this.pool)
 

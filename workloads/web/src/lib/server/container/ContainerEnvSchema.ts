@@ -14,6 +14,14 @@ export const ContainerEnvSchema = v.object({
 	 */
 	JINA_API_KEY: v.string(),
 	/**
+	 * The keyv postgres schema
+	 */
+	KEYV_SCHEMA: v.optional(v.string(), 'public'),
+	/**
+	 * The keyv postgres table
+	 */
+	KEYV_TABLE: v.optional(v.string(), 'keyv'),
+	/**
 	 * The OpenAI API key. Get if from https://platform.openai.com/settings/organization/api-keys
 	 */
 	OPENAI_API_KEY: v.string(),

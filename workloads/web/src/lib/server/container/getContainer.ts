@@ -11,7 +11,7 @@ import {
 	LocationRepositoryPostgres,
 	TownRepositoryPostgres,
 } from '@i/repository'
-import {KVSQLiteStore} from '@i/summarizer/KVSQLiteStore'
+import {KVPostgresStore} from '@i/summarizer/KVPostgresStore'
 import {MarkdownServiceJinaAi} from '@i/summarizer/MarkdownServiceJinaAi'
 import {SummarizerService} from '@i/summarizer/SummarizerService'
 
@@ -35,7 +35,7 @@ export const getContainer = async (env: ContainerEnvType) => {
 
 	const geocodingService = new GeocodingServiceGeocodify(env.GEOCODIFY_API_KEY)
 
-	const kvstore = new KVSQLiteStore()
+	const kvstore = new KVPostgresStore({schema: env.KEYV_SCHEMA, table: env.KEYV_TABLE, uri: env.DATABASE_URL})
 	const markdownService = new MarkdownServiceJinaAi(env.JINA_API_KEY)
 	const openAiApiKey = env.OPENAI_API_KEY
 	const summarizerService = new SummarizerService(kvstore, markdownService, openAiApiKey)

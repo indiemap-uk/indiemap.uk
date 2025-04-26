@@ -13,7 +13,7 @@ export class MarkdownServiceJinaAi implements MarkdownService {
 	}
 
 	public async get(url: string): Promise<string> {
-		const response = await fetch(`https://eu.r.jina.ai/${url}`, {
+		const response = await fetch(`https://eu-r-beta.jina.ai/${url}`, {
 			headers: {
 				Authorization: `Bearer ${this.#apiKey}`,
 				'X-Locale': 'en-GB',

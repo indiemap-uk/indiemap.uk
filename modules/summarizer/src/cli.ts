@@ -1,4 +1,7 @@
-import {KVSQLiteStore} from './services/KVSQLiteStore.js'
+import * as v from 'valibot'
+
+import {EnvSchema} from './EnvSchema.js'
+import {KVPostgresStore} from './services/KVPostgresStore.js'
 import {MarkdownServiceJinaAi} from './services/MarkdownServiceJinaAi.js'
 import {SummarizerService} from './SummarizerService.js'
 
@@ -10,10 +13,14 @@ An example run:
 tsx src/cli.ts url1,url2,url3
 */
 const urls = process.argv[2]?.split(',')
-const openAiApiKey = process.env.OPENAI_API_KEY as string
-const kvstore = new KVSQLiteStore('cli.db')
-const markdownService = new MarkdownServiceJinaAi(process.env.JINA_API_KEY as string)
-const summarizerService = new SummarizerService(kvstore, markdownService, openAiApiKey)
+const env = v.parse(EnvSchema, process.env)
+const kvstore = new KVPostgresStore({
+	schema: 'public',
+	table: 'keyv',
+	uri: env.DATABASE_URL,
+})
+const markdownService = new MarkdownServiceJinaAi(env.JINA_API_KEY)
+const summarizerService = new SummarizerService(kvstore, markdownService, env.OPENAI_API_KEY)
 
 summarizerService.summarizeUrls(urls ?? []).then((summary) => {
 	console.log('summary:', summary)
