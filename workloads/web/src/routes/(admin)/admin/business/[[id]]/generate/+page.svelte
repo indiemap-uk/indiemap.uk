@@ -2,7 +2,7 @@
 	import {superForm} from 'sveltekit-superforms/client'
 
 	const {data} = $props()
-	const {form, enhance} = superForm(data.form)
+	const {form, enhance, submitting} = superForm(data.form)
 </script>
 
 <p>Generate a business from a list of URLs</p>
@@ -19,7 +19,13 @@
 
 	<div class="field">
 		<div class="control">
-			<button class="button is-primary" type="submit">Generate Business</button>
+			<button class="button is-primary" type="submit" disabled={$submitting}>
+				{#if $submitting}
+					Generating...
+				{:else}
+					Generate Business
+				{/if}
+			</button>
 		</div>
 	</div>
 </form>
