@@ -1,5 +1,3 @@
-import type {KVStore} from '@i/repository/KVStore'
-
 import {createOpenAI} from '@ai-sdk/openai'
 import {toJsonSchema} from '@valibot/to-json-schema'
 import {generateObject, jsonSchema} from 'ai'
@@ -8,7 +6,6 @@ import {SummaryResponseSchema, type SummaryResponseType} from './SummaryResponse
 
 interface Args {
 	apiKey: string
-	kvstore: KVStore
 	model: string
 	systemPrompt: string
 	userPrompt: string

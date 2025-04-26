@@ -40,7 +40,9 @@ export const actions = {
 				townId: null,
 			}
 			const business = await locals.container.businessService.create(b)
-			businessId = business.id
+
+			// Save the URLs we used to generate this business
+			await locals.container.kvstore.set(`llmurls:${business.id}`, urls)
 
 			if (summary.links) {
 				for (const url of summary.links) {
@@ -53,6 +55,8 @@ export const actions = {
 					await locals.container.linkService.create(link)
 				}
 			}
+
+			businessId = business.id
 		} catch (e) {
 			console.error(e)
 			return fail(500, {form})

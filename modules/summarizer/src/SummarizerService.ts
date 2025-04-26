@@ -3,6 +3,7 @@ import type {KVStore} from '@i/repository/KVStore'
 import crypto from 'crypto'
 import Debug from 'debug'
 
+import type {SummaryResponseType} from './llm/SummaryResponseSchema.js'
 import type {MarkdownService} from './services/MarkdownService.js'
 
 import {siteSummaryInstructions} from './llm/propmpts.js'
@@ -27,9 +28,6 @@ export class SummarizerService {
 
 	/**
 	 * Given a list of URLs, generates a summary of a business.
-	 *
-	 * The 1st URL is special: the whole HTML will be processed including all metadata.
-	 * Only the main content of the other URLs are process, everything else is ignored.
 	 */
 	public async summarizeUrls(urls: string[]) {
 		debug('Starting summarization for %d URLs', urls.length)
@@ -38,11 +36,10 @@ export class SummarizerService {
 			throw new Error('No URLs provided. Pass it as $program url1,url2,url3')
 		}
 
-		const urlsHash = crypto.createHash('md5').update(urls.join(',')).digest('hex')
-		const cachedSummary = await this.kvstore.get(`summary:${urlsHash}`)
+		const cachedSummary = await this.getSummary(urls)
 		if (cachedSummary) {
-			debug('Using cached summary for %s', urlsHash)
-			return JSON.parse(cachedSummary)
+			debug('Using cached summary for URLs %o', urls)
+			return cachedSummary
 		}
 
 		debug('Fetching markdown for URLs: %o', urls)
@@ -68,7 +65,6 @@ export class SummarizerService {
 		debug('Calling LLM to summarize business')
 		const summary = await summarizeBusiness({
 			apiKey: this.openAiApiKey,
-			kvstore: this.kvstore,
 			model: 'gpt-4',
 			systemPrompt: siteSummaryInstructions,
 			userPrompt: combinedMarkdown,
@@ -76,17 +72,22 @@ export class SummarizerService {
 		debug('Summary generated: %o', summary)
 
 		// Save the summary in the cache
-		await this.kvstore.set(`summary:${urlsHash}`, JSON.stringify(summary))
-
-		const runId =
-			new Date().toISOString().slice(0, 19).replace(/[T:]/g, '-').replaceAll('-', '') +
-			Math.random().toString(36).substring(2, 15)
-
-		this.kvstore.set(`${runId}:01 urls`, urls.join(','))
-		this.kvstore.set(`${runId}:02 llm:systemPrompt`, siteSummaryInstructions)
-		this.kvstore.set(`${runId}:03 llm:userPrompt`, combinedMarkdown)
-		this.kvstore.set(`${runId}:04 llm:summary`, JSON.stringify(summary, null, 4))
+		await this.setSummary(urls, summary)
 
 		return summary
+	}
+
+	private getSummary(urls: string[]) {
+		return this.kvstore.get<SummaryResponseType>(this.summaryKey(urls))
+	}
+
+	private setSummary(urls: string[], summary: SummaryResponseType) {
+		return this.kvstore.set(this.summaryKey(urls), summary)
+	}
+
+	private summaryKey(urls: string[]) {
+		const hash = crypto.createHash('md5').update(urls.join(',')).digest('hex')
+
+		return `llmsummary:${hash}`
 	}
 }

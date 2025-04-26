@@ -40,5 +40,5 @@ export const getContainer = async (env: ContainerEnvType) => {
 	const openAiApiKey = env.OPENAI_API_KEY
 	const summarizerService = new SummarizerService(kvstore, markdownService, openAiApiKey)
 
-	return {businessService, geocodingService, linkService, locationService, summarizerService, townService}
+	return {businessService, geocodingService, kvstore, linkService, locationService, summarizerService, townService}
 }
