@@ -11,7 +11,7 @@ import {
 	LocationRepositoryPostgres,
 	TownRepositoryPostgres,
 } from '@i/repository'
-import {KVPostgresStore} from '@i/summarizer/KVPostgresStore'
+import {KVPostgresStore} from '@i/repository/KVPostgresStore'
 import {MarkdownServiceJinaAi} from '@i/summarizer/MarkdownServiceJinaAi'
 import {SummarizerService} from '@i/summarizer/SummarizerService'
 

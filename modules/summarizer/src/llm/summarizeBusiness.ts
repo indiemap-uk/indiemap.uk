@@ -1,8 +1,8 @@
+import type {KVStore} from '@i/repository/KVStore'
+
 import {createOpenAI} from '@ai-sdk/openai'
 import {toJsonSchema} from '@valibot/to-json-schema'
 import {generateObject, jsonSchema} from 'ai'
-
-import type {KVStore} from '../services/KVStore.js'
 
 import {SummaryResponseSchema, type SummaryResponseType} from './SummaryResponseSchema.js'
 

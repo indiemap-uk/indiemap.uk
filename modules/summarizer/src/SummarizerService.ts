@@ -1,7 +1,8 @@
+import type {KVStore} from '@i/repository/KVStore'
+
 import crypto from 'crypto'
 import Debug from 'debug'
 
-import type {KVStore} from './services/KVStore.js'
 import type {MarkdownService} from './services/MarkdownService.js'
 
 import {siteSummaryInstructions} from './llm/propmpts.js'

@@ -1,7 +1,7 @@
+import {KVPostgresStore} from '@i/repository/KVPostgresStore'
 import * as v from 'valibot'
 
 import {EnvSchema} from './EnvSchema.js'
-import {KVPostgresStore} from './services/KVPostgresStore.js'
 import {MarkdownServiceJinaAi} from './services/MarkdownServiceJinaAi.js'
 import {SummarizerService} from './SummarizerService.js'
 
