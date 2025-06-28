@@ -35,6 +35,7 @@ export const actions = {
 
 			const b: BusinessUserCreateType = {
 				description: summary.longDescription,
+				generatedFromUrls: urls,
 				name: summary.businessTitle,
 				status: 'draft',
 				townId: null,

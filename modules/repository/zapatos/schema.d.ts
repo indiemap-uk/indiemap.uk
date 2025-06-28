@@ -150,6 +150,12 @@ declare module 'zapatos/schema' {
 			 */
 			description: string | null
 			/**
+			 * **businesses.generated_from_urls**
+			 * - `jsonb` in database
+			 * - Nullable, default: `'[]'::jsonb`
+			 */
+			generated_from_urls: db.JSONValue | null
+			/**
 			 * **businesses.id**
 			 * - `varchar` in database
 			 * - `NOT NULL`, no default
@@ -193,6 +199,12 @@ declare module 'zapatos/schema' {
 			 * - Nullable, no default
 			 */
 			description: string | null
+			/**
+			 * **businesses.generated_from_urls**
+			 * - `jsonb` in database
+			 * - Nullable, default: `'[]'::jsonb`
+			 */
+			generated_from_urls: db.JSONValue | null
 			/**
 			 * **businesses.id**
 			 * - `varchar` in database
@@ -250,6 +262,17 @@ declare module 'zapatos/schema' {
 				| db.SQLFragment
 				| db.ParentColumn
 				| db.SQLFragment<any, string | db.Parameter<string> | db.SQLFragment | db.ParentColumn>
+			/**
+			 * **businesses.generated_from_urls**
+			 * - `jsonb` in database
+			 * - Nullable, default: `'[]'::jsonb`
+			 */
+			generated_from_urls?:
+				| db.JSONValue
+				| db.Parameter<db.JSONValue>
+				| db.SQLFragment
+				| db.ParentColumn
+				| db.SQLFragment<any, db.JSONValue | db.Parameter<db.JSONValue> | db.SQLFragment | db.ParentColumn>
 			/**
 			 * **businesses.id**
 			 * - `varchar` in database
@@ -327,6 +350,12 @@ declare module 'zapatos/schema' {
 			 */
 			description?: string | db.Parameter<string> | null | db.DefaultType | db.SQLFragment
 			/**
+			 * **businesses.generated_from_urls**
+			 * - `jsonb` in database
+			 * - Nullable, default: `'[]'::jsonb`
+			 */
+			generated_from_urls?: db.JSONValue | db.Parameter<db.JSONValue> | null | db.DefaultType | db.SQLFragment
+			/**
 			 * **businesses.id**
 			 * - `varchar` in database
 			 * - `NOT NULL`, no default
@@ -385,6 +414,18 @@ declare module 'zapatos/schema' {
 				| db.SQLFragment
 				| db.SQLFragment<any, string | db.Parameter<string> | null | db.DefaultType | db.SQLFragment>
 			/**
+			 * **businesses.generated_from_urls**
+			 * - `jsonb` in database
+			 * - Nullable, default: `'[]'::jsonb`
+			 */
+			generated_from_urls?:
+				| db.JSONValue
+				| db.Parameter<db.JSONValue>
+				| null
+				| db.DefaultType
+				| db.SQLFragment
+				| db.SQLFragment<any, db.JSONValue | db.Parameter<db.JSONValue> | null | db.DefaultType | db.SQLFragment>
+			/**
 			 * **businesses.id**
 			 * - `varchar` in database
 			 * - `NOT NULL`, no default
@@ -442,6 +483,116 @@ declare module 'zapatos/schema' {
 				  >
 		}
 		export type UniqueIndex = 'businesses_pkey'
+		export type Column = keyof Selectable
+		export type OnlyCols<T extends readonly Column[]> = Pick<Selectable, T[number]>
+		export type SQLExpression =
+			| Table
+			| db.ColumnNames<Updatable | (keyof Updatable)[]>
+			| db.ColumnValues<Updatable>
+			| Whereable
+			| Column
+			| db.ParentColumn
+			| db.GenericSQLExpression
+		export type SQL = SQLExpression | SQLExpression[]
+	}
+
+	/**
+	 * **keyv**
+	 * - Table in database
+	 */
+	export namespace keyv {
+		export type Table = 'keyv'
+		export interface Selectable {
+			/**
+			 * **keyv.key**
+			 * - `varchar` in database
+			 * - `NOT NULL`, no default
+			 */
+			key: string
+			/**
+			 * **keyv.value**
+			 * - `text` in database
+			 * - Nullable, no default
+			 */
+			value: string | null
+		}
+		export interface JSONSelectable {
+			/**
+			 * **keyv.key**
+			 * - `varchar` in database
+			 * - `NOT NULL`, no default
+			 */
+			key: string
+			/**
+			 * **keyv.value**
+			 * - `text` in database
+			 * - Nullable, no default
+			 */
+			value: string | null
+		}
+		export interface Whereable {
+			/**
+			 * **keyv.key**
+			 * - `varchar` in database
+			 * - `NOT NULL`, no default
+			 */
+			key?:
+				| string
+				| db.Parameter<string>
+				| db.SQLFragment
+				| db.ParentColumn
+				| db.SQLFragment<any, string | db.Parameter<string> | db.SQLFragment | db.ParentColumn>
+			/**
+			 * **keyv.value**
+			 * - `text` in database
+			 * - Nullable, no default
+			 */
+			value?:
+				| string
+				| db.Parameter<string>
+				| db.SQLFragment
+				| db.ParentColumn
+				| db.SQLFragment<any, string | db.Parameter<string> | db.SQLFragment | db.ParentColumn>
+		}
+		export interface Insertable {
+			/**
+			 * **keyv.key**
+			 * - `varchar` in database
+			 * - `NOT NULL`, no default
+			 */
+			key: string | db.Parameter<string> | db.SQLFragment
+			/**
+			 * **keyv.value**
+			 * - `text` in database
+			 * - Nullable, no default
+			 */
+			value?: string | db.Parameter<string> | null | db.DefaultType | db.SQLFragment
+		}
+		export interface Updatable {
+			/**
+			 * **keyv.key**
+			 * - `varchar` in database
+			 * - `NOT NULL`, no default
+			 */
+			key?:
+				| string
+				| db.Parameter<string>
+				| db.SQLFragment
+				| db.SQLFragment<any, string | db.Parameter<string> | db.SQLFragment>
+			/**
+			 * **keyv.value**
+			 * - `text` in database
+			 * - Nullable, no default
+			 */
+			value?:
+				| string
+				| db.Parameter<string>
+				| null
+				| db.DefaultType
+				| db.SQLFragment
+				| db.SQLFragment<any, string | db.Parameter<string> | null | db.DefaultType | db.SQLFragment>
+		}
+		export type UniqueIndex = 'keyv_pkey'
 		export type Column = keyof Selectable
 		export type OnlyCols<T extends readonly Column[]> = Pick<Selectable, T[number]>
 		export type SQLExpression =
@@ -1044,6 +1195,156 @@ declare module 'zapatos/schema' {
 				| db.SQLFragment<any, (db.TimestampString | Date) | db.Parameter<db.TimestampString | Date> | db.SQLFragment>
 		}
 		export type UniqueIndex = 'pgmigrations_pkey'
+		export type Column = keyof Selectable
+		export type OnlyCols<T extends readonly Column[]> = Pick<Selectable, T[number]>
+		export type SQLExpression =
+			| Table
+			| db.ColumnNames<Updatable | (keyof Updatable)[]>
+			| db.ColumnValues<Updatable>
+			| Whereable
+			| Column
+			| db.ParentColumn
+			| db.GenericSQLExpression
+		export type SQL = SQLExpression | SQLExpression[]
+	}
+
+	/**
+	 * **session**
+	 * - Table in database
+	 */
+	export namespace session {
+		export type Table = 'session'
+		export interface Selectable {
+			/**
+			 * **session.expire**
+			 * - `timestamp` in database
+			 * - `NOT NULL`, no default
+			 */
+			expire: Date
+			/**
+			 * **session.sess**
+			 * - `json` in database
+			 * - `NOT NULL`, no default
+			 */
+			sess: db.JSONValue
+			/**
+			 * **session.sid**
+			 * - `varchar` in database
+			 * - `NOT NULL`, no default
+			 */
+			sid: string
+		}
+		export interface JSONSelectable {
+			/**
+			 * **session.expire**
+			 * - `timestamp` in database
+			 * - `NOT NULL`, no default
+			 */
+			expire: db.TimestampString
+			/**
+			 * **session.sess**
+			 * - `json` in database
+			 * - `NOT NULL`, no default
+			 */
+			sess: db.JSONValue
+			/**
+			 * **session.sid**
+			 * - `varchar` in database
+			 * - `NOT NULL`, no default
+			 */
+			sid: string
+		}
+		export interface Whereable {
+			/**
+			 * **session.expire**
+			 * - `timestamp` in database
+			 * - `NOT NULL`, no default
+			 */
+			expire?:
+				| (db.TimestampString | Date)
+				| db.Parameter<db.TimestampString | Date>
+				| db.SQLFragment
+				| db.ParentColumn
+				| db.SQLFragment<
+						any,
+						(db.TimestampString | Date) | db.Parameter<db.TimestampString | Date> | db.SQLFragment | db.ParentColumn
+				  >
+			/**
+			 * **session.sess**
+			 * - `json` in database
+			 * - `NOT NULL`, no default
+			 */
+			sess?:
+				| db.JSONValue
+				| db.Parameter<db.JSONValue>
+				| db.SQLFragment
+				| db.ParentColumn
+				| db.SQLFragment<any, db.JSONValue | db.Parameter<db.JSONValue> | db.SQLFragment | db.ParentColumn>
+			/**
+			 * **session.sid**
+			 * - `varchar` in database
+			 * - `NOT NULL`, no default
+			 */
+			sid?:
+				| string
+				| db.Parameter<string>
+				| db.SQLFragment
+				| db.ParentColumn
+				| db.SQLFragment<any, string | db.Parameter<string> | db.SQLFragment | db.ParentColumn>
+		}
+		export interface Insertable {
+			/**
+			 * **session.expire**
+			 * - `timestamp` in database
+			 * - `NOT NULL`, no default
+			 */
+			expire: (db.TimestampString | Date) | db.Parameter<db.TimestampString | Date> | db.SQLFragment
+			/**
+			 * **session.sess**
+			 * - `json` in database
+			 * - `NOT NULL`, no default
+			 */
+			sess: db.JSONValue | db.Parameter<db.JSONValue> | db.SQLFragment
+			/**
+			 * **session.sid**
+			 * - `varchar` in database
+			 * - `NOT NULL`, no default
+			 */
+			sid: string | db.Parameter<string> | db.SQLFragment
+		}
+		export interface Updatable {
+			/**
+			 * **session.expire**
+			 * - `timestamp` in database
+			 * - `NOT NULL`, no default
+			 */
+			expire?:
+				| (db.TimestampString | Date)
+				| db.Parameter<db.TimestampString | Date>
+				| db.SQLFragment
+				| db.SQLFragment<any, (db.TimestampString | Date) | db.Parameter<db.TimestampString | Date> | db.SQLFragment>
+			/**
+			 * **session.sess**
+			 * - `json` in database
+			 * - `NOT NULL`, no default
+			 */
+			sess?:
+				| db.JSONValue
+				| db.Parameter<db.JSONValue>
+				| db.SQLFragment
+				| db.SQLFragment<any, db.JSONValue | db.Parameter<db.JSONValue> | db.SQLFragment>
+			/**
+			 * **session.sid**
+			 * - `varchar` in database
+			 * - `NOT NULL`, no default
+			 */
+			sid?:
+				| string
+				| db.Parameter<string>
+				| db.SQLFragment
+				| db.SQLFragment<any, string | db.Parameter<string> | db.SQLFragment>
+		}
+		export type UniqueIndex = 'session_pkey'
 		export type Column = keyof Selectable
 		export type OnlyCols<T extends readonly Column[]> = Pick<Selectable, T[number]>
 		export type SQLExpression =
@@ -1695,66 +1996,84 @@ declare module 'zapatos/schema' {
 		export type Table =
 			| business_locations.Table
 			| businesses.Table
+			| keyv.Table
 			| links.Table
 			| locations.Table
 			| pgmigrations.Table
+			| session.Table
 			| uk_towns.Table
 		export type Selectable =
 			| business_locations.Selectable
 			| businesses.Selectable
+			| keyv.Selectable
 			| links.Selectable
 			| locations.Selectable
 			| pgmigrations.Selectable
+			| session.Selectable
 			| uk_towns.Selectable
 		export type JSONSelectable =
 			| business_locations.JSONSelectable
 			| businesses.JSONSelectable
+			| keyv.JSONSelectable
 			| links.JSONSelectable
 			| locations.JSONSelectable
 			| pgmigrations.JSONSelectable
+			| session.JSONSelectable
 			| uk_towns.JSONSelectable
 		export type Whereable =
 			| business_locations.Whereable
 			| businesses.Whereable
+			| keyv.Whereable
 			| links.Whereable
 			| locations.Whereable
 			| pgmigrations.Whereable
+			| session.Whereable
 			| uk_towns.Whereable
 		export type Insertable =
 			| business_locations.Insertable
 			| businesses.Insertable
+			| keyv.Insertable
 			| links.Insertable
 			| locations.Insertable
 			| pgmigrations.Insertable
+			| session.Insertable
 			| uk_towns.Insertable
 		export type Updatable =
 			| business_locations.Updatable
 			| businesses.Updatable
+			| keyv.Updatable
 			| links.Updatable
 			| locations.Updatable
 			| pgmigrations.Updatable
+			| session.Updatable
 			| uk_towns.Updatable
 		export type UniqueIndex =
 			| business_locations.UniqueIndex
 			| businesses.UniqueIndex
+			| keyv.UniqueIndex
 			| links.UniqueIndex
 			| locations.UniqueIndex
 			| pgmigrations.UniqueIndex
+			| session.UniqueIndex
 			| uk_towns.UniqueIndex
 		export type Column =
 			| business_locations.Column
 			| businesses.Column
+			| keyv.Column
 			| links.Column
 			| locations.Column
 			| pgmigrations.Column
+			| session.Column
 			| uk_towns.Column
 
 		export type AllBaseTables = [
 			business_locations.Table,
 			businesses.Table,
+			keyv.Table,
 			links.Table,
 			locations.Table,
 			pgmigrations.Table,
+			session.Table,
 			uk_towns.Table,
 		]
 		export type AllForeignTables = []
@@ -1763,9 +2082,11 @@ declare module 'zapatos/schema' {
 		export type AllTablesAndViews = [
 			business_locations.Table,
 			businesses.Table,
+			keyv.Table,
 			links.Table,
 			locations.Table,
 			pgmigrations.Table,
+			session.Table,
 			uk_towns.Table,
 		]
 	}
@@ -1794,72 +2115,88 @@ declare module 'zapatos/schema' {
 	export type SelectableForTable<T extends Table> = {
 		business_locations: business_locations.Selectable
 		businesses: businesses.Selectable
+		keyv: keyv.Selectable
 		links: links.Selectable
 		locations: locations.Selectable
 		pgmigrations: pgmigrations.Selectable
+		session: session.Selectable
 		uk_towns: uk_towns.Selectable
 	}[T]
 
 	export type JSONSelectableForTable<T extends Table> = {
 		business_locations: business_locations.JSONSelectable
 		businesses: businesses.JSONSelectable
+		keyv: keyv.JSONSelectable
 		links: links.JSONSelectable
 		locations: locations.JSONSelectable
 		pgmigrations: pgmigrations.JSONSelectable
+		session: session.JSONSelectable
 		uk_towns: uk_towns.JSONSelectable
 	}[T]
 
 	export type WhereableForTable<T extends Table> = {
 		business_locations: business_locations.Whereable
 		businesses: businesses.Whereable
+		keyv: keyv.Whereable
 		links: links.Whereable
 		locations: locations.Whereable
 		pgmigrations: pgmigrations.Whereable
+		session: session.Whereable
 		uk_towns: uk_towns.Whereable
 	}[T]
 
 	export type InsertableForTable<T extends Table> = {
 		business_locations: business_locations.Insertable
 		businesses: businesses.Insertable
+		keyv: keyv.Insertable
 		links: links.Insertable
 		locations: locations.Insertable
 		pgmigrations: pgmigrations.Insertable
+		session: session.Insertable
 		uk_towns: uk_towns.Insertable
 	}[T]
 
 	export type UpdatableForTable<T extends Table> = {
 		business_locations: business_locations.Updatable
 		businesses: businesses.Updatable
+		keyv: keyv.Updatable
 		links: links.Updatable
 		locations: locations.Updatable
 		pgmigrations: pgmigrations.Updatable
+		session: session.Updatable
 		uk_towns: uk_towns.Updatable
 	}[T]
 
 	export type UniqueIndexForTable<T extends Table> = {
 		business_locations: business_locations.UniqueIndex
 		businesses: businesses.UniqueIndex
+		keyv: keyv.UniqueIndex
 		links: links.UniqueIndex
 		locations: locations.UniqueIndex
 		pgmigrations: pgmigrations.UniqueIndex
+		session: session.UniqueIndex
 		uk_towns: uk_towns.UniqueIndex
 	}[T]
 
 	export type ColumnForTable<T extends Table> = {
 		business_locations: business_locations.Column
 		businesses: businesses.Column
+		keyv: keyv.Column
 		links: links.Column
 		locations: locations.Column
 		pgmigrations: pgmigrations.Column
+		session: session.Column
 		uk_towns: uk_towns.Column
 	}[T]
 
 	export type SQLForTable<T extends Table> = {
 		business_locations: business_locations.SQL
 		businesses: businesses.SQL
+		keyv: keyv.SQL
 		links: links.SQL
 		locations: locations.SQL
 		pgmigrations: pgmigrations.SQL
+		session: session.SQL
 		uk_towns: uk_towns.SQL
 	}[T]
 }

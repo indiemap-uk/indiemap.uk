@@ -30,6 +30,7 @@ export class BusinessRepositoryPostgres extends CRUDRepositoryPostgres implement
 			{id: newBusinessId()},
 			objToSnake<s.businesses.Insertable>(v.parse(BusinessCreateSchema, data)),
 		)
+		toInsert.generated_from_urls = JSON.stringify(toInsert.generated_from_urls || [])
 
 		const record = await this.db.insert('businesses', toInsert).run(this.pool)
 
