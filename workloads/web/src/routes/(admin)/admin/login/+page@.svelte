@@ -6,6 +6,6 @@
 
 <div class="container is-fluid has-text-centered">
 	<div class="section is-medium">
-		<button class="button mx-auto" onclick={() => signIn()}>Admin Sign In</button>
+		<a class="button mx-auto" href="/auth/signin">Admin Sign In</a>
 	</div>
 </div>
