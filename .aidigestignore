@@ -5,15 +5,14 @@ node_modules
 .editorconfig
 .envrc
 .envrc.sample
-.eslintcache
 .git-town.toml
 .github/workflows/docker-image.yml
 .github/workflows/migrate-db.yaml
 .gitignore
 .prettierignore
 .prettierrc
+.oxlintrc.json
 api/*
-eslint.config.js
 **/tsconfig.tsbuildinfo
 **/*.css
 **/*.test.ts

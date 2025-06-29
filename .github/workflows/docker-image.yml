@@ -17,11 +17,10 @@ on:
       - '**/*.spec.ts'
       - '**/*.md'
       - '*.toml'
-      - '.eslintrc.*'
       - '.prettierrc.*'
       - '.prettier*'
-      - '.eslint*'
       - '.editorconfig'
+      - '.oxlintrc.json'
       - '.envrc*'
       - '**/.gitignore'
 
