@@ -18,7 +18,7 @@ export const businesses = pgTable(
 		townId: integer('town_id'),
 		updatedAt: timestamp('updated_at', {withTimezone: true, mode: 'string'}).notNull(),
 		status: text().default('live').notNull(),
-		generatedFromUrls: jsonb('generated_from_urls').default([]),
+		generatedFromUrls: text().array().notNull().default([]),
 	},
 	(table) => [
 		foreignKey({
