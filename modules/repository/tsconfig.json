@@ -7,5 +7,5 @@
 			"#data/*": ["./data"]
 		}
 	},
-	"include": ["src", "data", "migrations", "zapatos"]
+	"include": ["src", "data", "migrations"]
 }

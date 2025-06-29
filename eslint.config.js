@@ -13,7 +13,7 @@ export default [
 	perfectionist.configs['recommended-natural'],
 	prettier,
 	{
-		ignores: ['**/build/', '**/.svelte-kit/', '**/dist/', '**/zapatos/schema.d.ts'],
+		ignores: ['**/build/', '**/.svelte-kit/', '**/dist/'],
 	},
 	{
 		rules: {

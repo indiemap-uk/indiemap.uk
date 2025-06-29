@@ -143,9 +143,6 @@ importers:
       valibot:
         specifier: ^1.0.0
         version: 1.0.0(typescript@5.8.3)
-      zapatos:
-        specifier: ^6.5.0
-        version: 6.5.0(@types/pg@8.11.11)(pg@8.14.1)(typescript@5.8.3)
     devDependencies:
       '@i/tsconfig':
         specifier: workspace:*
@@ -2662,9 +2659,6 @@ packages:
   json-buffer@3.0.1:
     resolution: {integrity: sha512-4bV5BfR2mqfQTJm+V5tPPdf+ZpuhiIvTuAB5g8kcrXOZpTT/QwwVRWBywX1ozr6lEuPdbHxwaJlm9G6mI2sfSQ==}
 
-  json-custom-numbers@3.1.1:
-    resolution: {integrity: sha512-rYIAIuiIRy58aax2tuZb7HawKFATBG848PiguybJh/R+pvC8jxjEOVBQHj4J3U2D4/Y4acBCO4A/glILW8wPoA==}
-
   json-schema-to-ts@3.1.1:
     resolution: {integrity: sha512-+DWg8jCJG2TEnpy7kOm/7/AxaYoaRbjVB4LFZLySZlWn8exGs3A4OLJR966cVvU26N7X9TWxl+Jsw7dzAqKT6g==}
     engines: {node: '>=16'}
@@ -3844,14 +3838,6 @@ packages:
 
   yup@1.6.1:
     resolution: {integrity: sha512-JED8pB50qbA4FOkDol0bYF/p60qSEDQqBD0/qeIrUCG1KbPBIQ776fCUNb9ldbPcSTxA69g/47XTo4TqWiuXOA==}
-
-  zapatos@6.5.0:
-    resolution: {integrity: sha512-YvA9kqap/wA4mrqq+OoITB49iTo054pcm1pQ1bBqx0E50RYOCznplGEH8GatksYpIEDwUWUNfonvbUiT7UVf4g==}
-    hasBin: true
-    peerDependencies:
-      '@types/pg': '>=7.14.3'
-      pg: '>=7.18.2'
-      typescript: '>=4.1'
 
   zimmerframe@1.1.2:
     resolution: {integrity: sha512-rAbqEGa8ovJy4pyBxZM70hg4pE6gDgaQ0Sl9M3enG3I0d6H4XSAM3GeNGLKnsBpuijUow064sf7ww1nutC5/3w==}
@@ -6272,8 +6258,6 @@ snapshots:
 
   json-buffer@3.0.1: {}
 
-  json-custom-numbers@3.1.1: {}
-
   json-schema-to-ts@3.1.1:
     dependencies:
       '@babel/runtime': 7.26.0
@@ -7355,13 +7339,6 @@ snapshots:
       toposort: 2.0.2
       type-fest: 2.19.0
     optional: true
-
-  zapatos@6.5.0(@types/pg@8.11.11)(pg@8.14.1)(typescript@5.8.3):
-    dependencies:
-      '@types/pg': 8.11.11
-      json-custom-numbers: 3.1.1
-      pg: 8.14.1
-      typescript: 5.8.3
 
   zimmerframe@1.1.2: {}
 

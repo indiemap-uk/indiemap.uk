@@ -9,7 +9,6 @@ on:
       - 'modules/repository/migrations/**'
       - 'modules/repository/towns/**'
       - 'modules/repository/docker-compose.yaml'
-      - 'modules/repository/zapatosconfig.json'
       - 'modules/mock-data/**'
       - 'workloads/web/.storybook/**'
       - 'workloads/web/src/**/*.stories.svelte'
