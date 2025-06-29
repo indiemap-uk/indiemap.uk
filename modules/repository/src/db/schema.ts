@@ -64,7 +64,7 @@ export const ukTowns = pgTable('uk_towns', {
 	elevation: integer(),
 	postcodeSector: varchar('postcode_sector', {length: 6}),
 	localGovernmentArea: varchar('local_government_area', {length: 44}),
-	nutsRegion: varchar({length: 24}),
+	nutsRegion: varchar('nuts_region', {length: 24}),
 	type: varchar({length: 13}),
 })
 
