@@ -3,7 +3,7 @@ import {relations} from 'drizzle-orm'
 import {integer, numeric, pgTable, text, timestamp, varchar, pgEnum, primaryKey} from 'drizzle-orm/pg-core'
 
 // Enums for better type safety
-export const businessStatusEnum = pgEnum('business_status', ['live', 'draft'])
+const businessStatusEnum = pgEnum('business_status', ['live', 'draft'])
 
 export const keyv = pgTable('keyv', {
 	key: varchar({length: 255}).primaryKey().notNull(),
