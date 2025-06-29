@@ -18,12 +18,10 @@ export class KVPostgresStore implements KVStore {
 		})
 	}
 
-	// eslint-disable-next-line @typescript-eslint/no-explicit-any
 	public get<T = any>(key: string) {
 		return this.#keyv.get<T>(key)
 	}
 
-	// eslint-disable-next-line @typescript-eslint/no-explicit-any
 	public set<T = any>(key: string, value: T) {
 		return this.#keyv.set<T>(key, value)
 	}

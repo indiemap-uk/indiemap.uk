@@ -1,5 +1,3 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
-// eslint-disable-next-line @typescript-eslint/ban-ts-comment
 //@ts-nocheck -- This is a copied module, it's fine as is.
 
 /**

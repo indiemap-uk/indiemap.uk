@@ -2,5 +2,6 @@ packages:
   - workloads/*
   - modules/*
 onlyBuiltDependencies:
+  - esbuild
   - sqlite3
 injectWorkspacePackages: true
