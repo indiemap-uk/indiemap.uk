@@ -55,21 +55,8 @@ CREATE TABLE "locations" (
 	"longitude" numeric(8, 5)
 );
 --> statement-breakpoint
-CREATE TABLE "session" (
-	"sid" varchar PRIMARY KEY NOT NULL,
-	"sess" json NOT NULL,
-	"expire" timestamp(6) NOT NULL
-);
---> statement-breakpoint
-CREATE TABLE "pgmigrations" (
-	"id" serial PRIMARY KEY NOT NULL,
-	"name" varchar(255) NOT NULL,
-	"run_on" timestamp NOT NULL
-);
---> statement-breakpoint
 ALTER TABLE "businesses" ADD CONSTRAINT "businesses_town_id_fkey" FOREIGN KEY ("town_id") REFERENCES "public"."uk_towns"("id") ON DELETE set null ON UPDATE cascade;--> statement-breakpoint
 ALTER TABLE "links" ADD CONSTRAINT "links_business_id_fkey" FOREIGN KEY ("business_id") REFERENCES "public"."businesses"("id") ON DELETE cascade ON UPDATE cascade;--> statement-breakpoint
 ALTER TABLE "business_locations" ADD CONSTRAINT "business_locations_business_id_fkey" FOREIGN KEY ("business_id") REFERENCES "public"."businesses"("id") ON DELETE cascade ON UPDATE cascade;--> statement-breakpoint
 ALTER TABLE "business_locations" ADD CONSTRAINT "business_locations_location_id_fkey" FOREIGN KEY ("location_id") REFERENCES "public"."locations"("id") ON DELETE cascade ON UPDATE cascade;--> statement-breakpoint
-CREATE INDEX "IDX_session_expire" ON "session" USING btree ("expire" timestamp_ops);
 */

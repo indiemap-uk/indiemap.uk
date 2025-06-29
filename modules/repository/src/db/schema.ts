@@ -1,18 +1,5 @@
-import {
-	pgTable,
-	varchar,
-	text,
-	foreignKey,
-	check,
-	timestamp,
-	integer,
-	jsonb,
-	numeric,
-	index,
-	json,
-	serial,
-} from 'drizzle-orm/pg-core'
 import {sql} from 'drizzle-orm'
+import {check, foreignKey, integer, numeric, pgTable, text, timestamp, varchar} from 'drizzle-orm/pg-core'
 
 export const keyv = pgTable('keyv', {
 	key: varchar({length: 255}).primaryKey().notNull(),
@@ -77,7 +64,7 @@ export const ukTowns = pgTable('uk_towns', {
 	elevation: integer(),
 	postcodeSector: varchar('postcode_sector', {length: 6}),
 	localGovernmentArea: varchar('local_government_area', {length: 44}),
-	nutsRegion: varchar('nuts_region', {length: 24}),
+	nutsRegion: varchar({length: 24}),
 	type: varchar({length: 13}),
 })
 
@@ -111,20 +98,4 @@ export const locations = pgTable('locations', {
 	label: text(),
 	latitude: numeric({precision: 8, scale: 5}),
 	longitude: numeric({precision: 8, scale: 5}),
-})
-
-export const session = pgTable(
-	'session',
-	{
-		sid: varchar().primaryKey().notNull(),
-		sess: json().notNull(),
-		expire: timestamp({precision: 6, mode: 'string'}).notNull(),
-	},
-	(table) => [index('IDX_session_expire').using('btree', table.expire.asc().nullsLast().op('timestamp_ops'))],
-)
-
-export const pgmigrations = pgTable('pgmigrations', {
-	id: serial().primaryKey().notNull(),
-	name: varchar({length: 255}).notNull(),
-	runOn: timestamp('run_on', {mode: 'string'}).notNull(),
 })
