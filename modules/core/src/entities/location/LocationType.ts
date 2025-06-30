@@ -1,11 +1,11 @@
 import * as v from 'valibot'
 
 import type {
-	LocationCreateSchema,
-	LocationCRUDListSchema,
-	LocationIdSchema,
-	LocationSchema,
-	LocationUserCreateSchema,
+  LocationCRUDListSchema,
+  LocationCreateSchema,
+  LocationIdSchema,
+  LocationSchema,
+  LocationUserCreateSchema,
 } from './LocationSchema.js'
 
 export type LocationCreateType = v.InferOutput<typeof LocationCreateSchema>

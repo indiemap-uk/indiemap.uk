@@ -1,7 +1,7 @@
 {
-	"db": {
-		"connectionString": "{{DATABASE_URL}}"
-	},
-	"customJSONParsingForLargeNumbers": true,
-	"outDir": "."
+  "db": {
+    "connectionString": "{{DATABASE_URL}}"
+  },
+  "customJSONParsingForLargeNumbers": true,
+  "outDir": "."
 }

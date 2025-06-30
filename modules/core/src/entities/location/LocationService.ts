@@ -4,21 +4,21 @@ import type {LocationRepository} from './LocationRepository.js'
 import type {LocationIdType, LocationType, LocationUserCreateType} from './LocationType.js'
 
 export class LocationService {
-	constructor(private readonly locationRepository: LocationRepository) {}
+  constructor(private readonly locationRepository: LocationRepository) {}
 
-	async create(newLocation: LocationUserCreateType, geocodingResult: GeocodingResultType) {
-		return this.locationRepository.create({...newLocation, ...geocodingResult})
-	}
+  async create(newLocation: LocationUserCreateType, geocodingResult: GeocodingResultType) {
+    return this.locationRepository.create({...newLocation, ...geocodingResult})
+  }
 
-	delete(id: LocationIdType) {
-		return this.locationRepository.delete(id)
-	}
+  delete(id: LocationIdType) {
+    return this.locationRepository.delete(id)
+  }
 
-	async getByBusinessId(id: BusinessIdType) {
-		return this.locationRepository.getByBusinessId(id)
-	}
+  async getByBusinessId(id: BusinessIdType) {
+    return this.locationRepository.getByBusinessId(id)
+  }
 
-	async update(location: LocationType) {
-		await this.locationRepository.update(location)
-	}
+  async update(location: LocationType) {
+    await this.locationRepository.update(location)
+  }
 }

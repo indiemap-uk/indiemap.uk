@@ -3,21 +3,21 @@ import type {LinkRepository} from './LinkRepository.js'
 import type {LinkCreateType, LinkIdType, LinkType} from './LinkType.js'
 
 export class LinkService {
-	constructor(private readonly linkRepository: LinkRepository) {}
+  constructor(private readonly linkRepository: LinkRepository) {}
 
-	async create(newLink: LinkCreateType) {
-		return this.linkRepository.create(newLink)
-	}
+  async create(newLink: LinkCreateType) {
+    return this.linkRepository.create(newLink)
+  }
 
-	delete(id: LinkIdType) {
-		return this.linkRepository.delete(id)
-	}
+  delete(id: LinkIdType) {
+    return this.linkRepository.delete(id)
+  }
 
-	async getByBusinessId(id: BusinessIdType) {
-		return this.linkRepository.getByBusinessId(id)
-	}
+  async getByBusinessId(id: BusinessIdType) {
+    return this.linkRepository.getByBusinessId(id)
+  }
 
-	async update(link: LinkType) {
-		await this.linkRepository.update(link)
-	}
+  async update(link: LinkType) {
+    await this.linkRepository.update(link)
+  }
 }

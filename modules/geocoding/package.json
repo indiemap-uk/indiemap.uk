@@ -1,26 +1,26 @@
 {
-	"name": "@i/geocoding",
-	"imports": {
-		"#lib": "./src/*"
-	},
-	"exports": {
-		".": "./src/index.ts"
-	},
-	"scripts": {
-		"typecheck": "tsc --noEmit"
-	},
-	"dependencies": {
-		"@i/core": "workspace:*",
-		"debug": "^4.4.0",
-		"ky": "^1.8.0",
-		"valibot": "^1.0.0"
-	},
-	"devDependencies": {
-		"@i/tsconfig": "workspace:*",
-		"@types/debug": "^4.1.12"
-	},
-	"version": "1.0.0",
-	"private": true,
-	"license": "UNLICENSED",
-	"type": "module"
+  "name": "@i/geocoding",
+  "imports": {
+    "#lib": "./src/*"
+  },
+  "exports": {
+    ".": "./src/index.ts"
+  },
+  "scripts": {
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@i/core": "workspace:*",
+    "debug": "^4.4.0",
+    "ky": "^1.8.0",
+    "valibot": "^1.0.0"
+  },
+  "devDependencies": {
+    "@i/tsconfig": "workspace:*",
+    "@types/debug": "^4.1.12"
+  },
+  "version": "1.0.0",
+  "private": true,
+  "license": "UNLICENSED",
+  "type": "module"
 }

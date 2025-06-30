@@ -9,8 +9,6 @@ node_modules
 .github/workflows/docker-image.yml
 .github/workflows/migrate-db.yaml
 .gitignore
-.prettierignore
-.prettierrc
 .oxlintrc.json
 api/*
 **/tsconfig.tsbuildinfo

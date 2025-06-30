@@ -1,6 +1,6 @@
 import * as v from 'valibot'
 
-import {LinkCreateSchema, LinkCRUDListSchema, LinkCRUDSchema, LinkIdSchema, LinkSchema} from './LinkSchema.js'
+import {LinkCRUDListSchema, LinkCRUDSchema, LinkCreateSchema, LinkIdSchema, LinkSchema} from './LinkSchema.js'
 
 export type LinkCreateType = v.InferOutput<typeof LinkCreateSchema>
 export type LinkCRUDListType = v.InferOutput<typeof LinkCRUDListSchema>

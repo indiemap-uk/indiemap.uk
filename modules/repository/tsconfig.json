@@ -1,11 +1,11 @@
 {
-	"extends": "@i/tsconfig",
-	"compilerOptions": {
-		"allowJs": true,
-		"paths": {
-			"#lib/*": ["./src"],
-			"#data/*": ["./data"]
-		}
-	},
-	"include": ["src", "data", "migrations", "zapatos"]
+  "extends": "@i/tsconfig",
+  "compilerOptions": {
+    "allowJs": true,
+    "paths": {
+      "#lib/*": ["./src"],
+      "#data/*": ["./data"]
+    }
+  },
+  "include": ["src", "data", "migrations", "zapatos"]
 }

@@ -1,13 +1,13 @@
 {
-	"extends": "@i/tsconfig",
-	"include": [
-		"src",
-		// Had to explicitly add this here, adding it in @i/repository/tsconfig was not enough
-		"../repository/zapatos"
-	],
-	"compilerOptions": {
-		"paths": {
-			"#lib/*": ["./src"]
-		}
-	}
+  "extends": "@i/tsconfig",
+  "include": [
+    "src",
+    // Had to explicitly add this here, adding it in @i/repository/tsconfig was not enough
+    "../repository/zapatos"
+  ],
+  "compilerOptions": {
+    "paths": {
+      "#lib/*": ["./src"]
+    }
+  }
 }

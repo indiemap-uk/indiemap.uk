@@ -45,10 +45,10 @@ npm install --save @keyv/etcd
 npm install --save @keyv/memcache
 ```
 
-First, create a new Keyv instance. 
+First, create a new Keyv instance.
 
 ```js
-import Keyv from 'keyv';
+import Keyv from 'keyv'
 ```
 
 # Type-safe Usage
@@ -58,9 +58,9 @@ You can create a `Keyv` instance with a generic type to enforce type safety for 
 ## Example with Instance-level Generic Type:
 
 ```ts
-const keyv = new Keyv<number>(); // Instance handles only numbers
-await keyv.set('key1', 123);
-const value = await keyv.get('key1'); // value is inferred as number
+const keyv = new Keyv<number>() // Instance handles only numbers
+await keyv.set('key1', 123)
+const value = await keyv.get('key1') // value is inferred as number
 ```
 
 ## Example with Method-level Generic Type:
@@ -68,13 +68,13 @@ const value = await keyv.get('key1'); // value is inferred as number
 You can also specify a type directly in the `get` or `set` methods, allowing flexibility for different types of values within the same instance.
 
 ```ts
-const keyv = new Keyv(); // Generic type not specified at instance level
+const keyv = new Keyv() // Generic type not specified at instance level
 
-await keyv.set<string>('key2', 'some string'); // Method-level type for this value
-const strValue = await keyv.get<string>('key2'); // Explicitly typed as string
+await keyv.set<string>('key2', 'some string') // Method-level type for this value
+const strValue = await keyv.get<string>('key2') // Explicitly typed as string
 
-await keyv.set<number>('key3', 456); // Storing a number in the same instance
-const numValue = await keyv.get<number>('key3'); // Explicitly typed as number
+await keyv.set<number>('key3', 456) // Storing a number in the same instance
+const numValue = await keyv.get<number>('key3') // Explicitly typed as number
 ```
 
 This makes `Keyv` highly adaptable to different data types while maintaining type safety.
@@ -85,42 +85,42 @@ Once you have created your Keyv instance you can use it as a simple key-value st
 
 ```js
 // redis
-import KeyvRedis from '@keyv/redis';
+import KeyvRedis from '@keyv/redis'
 
-const keyv = new Keyv(new KeyvRedis('redis://user:pass@localhost:6379'));
+const keyv = new Keyv(new KeyvRedis('redis://user:pass@localhost:6379'))
 ```
 
 You can also pass in a storage adapter with other options such as `ttl` and `namespace` (example using `sqlite`):
 
 ```js
-//sqlite
-import KeyvSqlite from '@keyv/sqlite';
+// sqlite
+import KeyvSqlite from '@keyv/sqlite'
 
-const keyvSqlite = new KeyvSqlite('sqlite://path/to/database.sqlite');
-const keyv = new Keyv({ store: keyvSqlite, ttl: 5000, namespace: 'cache' });
+const keyvSqlite = new KeyvSqlite('sqlite://path/to/database.sqlite')
+const keyv = new Keyv({store: keyvSqlite, ttl: 5000, namespace: 'cache'})
 ```
 
 To handle an event you can do the following:
 
 ```js
 // Handle DB connection errors
-keyv.on('error', err => console.log('Connection Error', err));
+keyv.on('error', err => console.log('Connection Error', err))
 ```
 
 Now lets do an end-to-end example using `Keyv` and the `Redis` storage adapter:
 
 ```js
-import Keyv from 'keyv';
-import KeyvRedis from '@keyv/redis';
+import KeyvRedis from '@keyv/redis'
+import Keyv from 'keyv'
 
-const keyvRedis = new KeyvRedis('redis://user:pass@localhost:6379');
-const keyv = new Keyv({ store: keyvRedis });
+const keyvRedis = new KeyvRedis('redis://user:pass@localhost:6379')
+const keyv = new Keyv({store: keyvRedis})
 
-await keyv.set('foo', 'expires in 1 second', 1000); // true
-await keyv.set('foo', 'never expires'); // true
-await keyv.get('foo'); // 'never expires'
-await keyv.delete('foo'); // true
-await keyv.clear(); // undefined
+await keyv.set('foo', 'expires in 1 second', 1000) // true
+await keyv.set('foo', 'never expires') // true
+await keyv.get('foo') // 'never expires'
+await keyv.delete('foo') // true
+await keyv.clear() // undefined
 ```
 
 It's is just that simple! Keyv is designed to be simple and easy to use.
@@ -130,16 +130,16 @@ It's is just that simple! Keyv is designed to be simple and easy to use.
 You can namespace your Keyv instance to avoid key collisions and allow you to clear only a certain namespace while using the same database.
 
 ```js
-const users = new Keyv(new KeyvRedis('redis://user:pass@localhost:6379'), { namespace: 'users' });
-const cache = new Keyv(new KeyvRedis('redis://user:pass@localhost:6379'), { namespace: 'cache' });
+const users = new Keyv(new KeyvRedis('redis://user:pass@localhost:6379'), {namespace: 'users'})
+const cache = new Keyv(new KeyvRedis('redis://user:pass@localhost:6379'), {namespace: 'cache'})
 
-await users.set('foo', 'users'); // true
-await cache.set('foo', 'cache'); // true
-await users.get('foo'); // 'users'
-await cache.get('foo'); // 'cache'
-await users.clear(); // undefined
-await users.get('foo'); // undefined
-await cache.get('foo'); // 'cache'
+await users.set('foo', 'users') // true
+await cache.set('foo', 'cache') // true
+await users.get('foo') // 'users'
+await cache.get('foo') // 'cache'
+await users.clear() // undefined
+await users.get('foo') // undefined
+await cache.get('foo') // 'cache'
 ```
 
 # Events
@@ -149,20 +149,20 @@ If there is no listener for the `'error'` event, an uncaught exception will be t
 To disable the `'error'` event, pass `emitErrors: false` in the constructor options.
 
 ```js
-const keyv = new Keyv({ emitErrors: false });
+const keyv = new Keyv({emitErrors: false})
 ```
 
 In addition it will emit `clear` and `disconnect` events when the corresponding methods are called.
 
 ```js
-const keyv = new Keyv();
-const handleConnectionError = err => console.log('Connection Error', err);
-const handleClear = () => console.log('Cache Cleared');
-const handleDisconnect = () => console.log('Disconnected');
+const keyv = new Keyv()
+const handleConnectionError = err => console.log('Connection Error', err)
+const handleClear = () => console.log('Cache Cleared')
+const handleDisconnect = () => console.log('Disconnected')
 
-keyv.on('error', handleConnectionError);
-keyv.on('clear', handleClear);
-keyv.on('disconnect', handleDisconnect);
+keyv.on('error', handleConnectionError)
+keyv.on('clear', handleClear)
+keyv.on('disconnect', handleDisconnect)
 ```
 
 # Hooks
@@ -183,33 +183,32 @@ POST_DELETE
 You can access this by importing `KeyvHooks` from the main Keyv package.
 
 ```js
-import Keyv, { KeyvHooks } from 'keyv';
+import Keyv, {KeyvHooks} from 'keyv'
 ```
 
 ```js
-//PRE_SET hook
-const keyv = new Keyv();
-keyv.hooks.addHandler(KeyvHooks.PRE_SET, (key, value) => console.log(`Setting key ${key} to ${value}`));
+// PRE_SET hook
+const keyv = new Keyv()
+keyv.hooks.addHandler(KeyvHooks.PRE_SET, (key, value) => console.log(`Setting key ${key} to ${value}`))
 
-//POST_SET hook
-const keyv = new Keyv();
-keyv.hooks.addHandler(KeyvHooks.POST_SET, (key, value) => console.log(`Set key ${key} to ${value}`));
+// POST_SET hook
+const keyv = new Keyv()
+keyv.hooks.addHandler(KeyvHooks.POST_SET, (key, value) => console.log(`Set key ${key} to ${value}`))
 ```
 
 In these examples you can also manipulate the value before it is set. For example, you could add a prefix to all keys.
 
 ```js
-const keyv = new Keyv();
+const keyv = new Keyv()
 keyv.hooks.addHandler(KeyvHooks.PRE_SET, (key, value) => {
-  console.log(`Setting key ${key} to ${value}`);
-  key = `prefix-${key}`;
-});
+  console.log(`Setting key ${key} to ${value}`)
+  key = `prefix-${key}`
+})
 ```
 
 Now this key will have prefix- added to it before it is set.
 
 In `PRE_DELETE` and `POST_DELETE` hooks, the value could be a single item or an `Array`. This is based on the fact that `delete` can accept a single key or an `Array` of keys.
-
 
 # Custom Serializers
 
@@ -218,7 +217,7 @@ Keyv uses [`buffer`](https://nodejs.org/api/buffer.html) for data serialization 
 You can optionally provide your own serialization functions to support extra data types or to serialize to something other than JSON.
 
 ```js
-const keyv = new Keyv({ serialize: JSON.stringify, deserialize: JSON.parse });
+const keyv = new Keyv({serialize: JSON.stringify, deserialize: JSON.parse})
 ```
 
 **Warning:** Using custom serializers means you lose any guarantee of data consistency. You should do extensive testing with your serialisation functions and chosen storage engine.
@@ -226,51 +225,51 @@ const keyv = new Keyv({ serialize: JSON.stringify, deserialize: JSON.parse });
 If you do not want to use serialization you can set the `serialize` and `deserialize` functions to `undefined`. This will also turn off compression.
 
 ```js
-const keyv = new Keyv();
-keyv.serialize = undefined;
-keyv.deserialize = undefined;
+const keyv = new Keyv()
+keyv.serialize = undefined
+keyv.deserialize = undefined
 ```
 
 # Official Storage Adapters
 
 The official storage adapters are covered by [over 150 integration tests](https://github.com/jaredwray/keyv/actions/workflows/tests.yaml) to guarantee consistent behaviour. They are lightweight, efficient wrappers over the DB clients making use of indexes and native TTLs where available.
 
-Database | Adapter | Native TTL
----|---|---
-Redis | [@keyv/redis](https://github.com/jaredwray/keyv/tree/master/packages/redis) | Yes
-Valkey | [@keyv/valkey](https://github.com/jaredwray/keyv/tree/master/packages/valkey) | Yes
-MongoDB | [@keyv/mongo](https://github.com/jaredwray/keyv/tree/master/packages/mongo) | Yes 
-SQLite | [@keyv/sqlite](https://github.com/jaredwray/keyv/tree/master/packages/sqlite) | No 
-PostgreSQL | [@keyv/postgres](https://github.com/jaredwray/keyv/tree/master/packages/postgres) | No 
-MySQL | [@keyv/mysql](https://github.com/jaredwray/keyv/tree/master/packages/mysql) | No 
-Etcd | [@keyv/etcd](https://github.com/jaredwray/keyv/tree/master/packages/etcd) | Yes
-Memcache | [@keyv/memcache](https://github.com/jaredwray/keyv/tree/master/packages/memcache) | Yes
+| Database   | Adapter                                                                           | Native TTL |
+| ---------- | --------------------------------------------------------------------------------- | ---------- |
+| Redis      | [@keyv/redis](https://github.com/jaredwray/keyv/tree/master/packages/redis)       | Yes        |
+| Valkey     | [@keyv/valkey](https://github.com/jaredwray/keyv/tree/master/packages/valkey)     | Yes        |
+| MongoDB    | [@keyv/mongo](https://github.com/jaredwray/keyv/tree/master/packages/mongo)       | Yes        |
+| SQLite     | [@keyv/sqlite](https://github.com/jaredwray/keyv/tree/master/packages/sqlite)     | No         |
+| PostgreSQL | [@keyv/postgres](https://github.com/jaredwray/keyv/tree/master/packages/postgres) | No         |
+| MySQL      | [@keyv/mysql](https://github.com/jaredwray/keyv/tree/master/packages/mysql)       | No         |
+| Etcd       | [@keyv/etcd](https://github.com/jaredwray/keyv/tree/master/packages/etcd)         | Yes        |
+| Memcache   | [@keyv/memcache](https://github.com/jaredwray/keyv/tree/master/packages/memcache) | Yes        |
 
 # Third-party Storage Adapters
 
 You can also use third-party storage adapters or build your own. Keyv will wrap these storage adapters in TTL functionality and handle complex types internally.
 
 ```js
-import Keyv from 'keyv';
-import myAdapter from 'my-adapter';
+import Keyv from 'keyv'
+import myAdapter from 'my-adapter'
 
-const keyv = new Keyv({ store: myAdapter });
+const keyv = new Keyv({store: myAdapter})
 ```
 
 Any store that follows the [`Map`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Map) api will work.
 
 ```js
-new Keyv({ store: new Map() });
+new Keyv({store: new Map()})
 ```
 
 For example, [`quick-lru`](https://github.com/sindresorhus/quick-lru) is a completely unrelated module that implements the Map API.
 
 ```js
-import Keyv from 'keyv';
-import QuickLRU from 'quick-lru';
+import Keyv from 'keyv'
+import QuickLRU from 'quick-lru'
 
-const lru = new QuickLRU({ maxSize: 1000 });
-const keyv = new Keyv({ store: lru });
+const lru = new QuickLRU({maxSize: 1000})
+const keyv = new Keyv({store: lru})
 ```
 
 The following are third-party storage adapters compatible with Keyv:
@@ -280,7 +279,7 @@ The following are third-party storage adapters compatible with Keyv:
 - [keyv-dynamodb](https://www.npmjs.com/package/keyv-dynamodb) - DynamoDB storage adapter for Keyv
 - [keyv-lru](https://www.npmjs.com/package/keyv-lru) - LRU storage adapter for Keyv
 - [keyv-null](https://www.npmjs.com/package/keyv-null) - Null storage adapter for Keyv
-- [keyv-firestore ](https://github.com/goto-bus-stop/keyv-firestore) – Firebase Cloud Firestore adapter for Keyv
+- [keyv-firestore](https://github.com/goto-bus-stop/keyv-firestore) – Firebase Cloud Firestore adapter for Keyv
 - [keyv-mssql](https://github.com/pmorgan3/keyv-mssql) - Microsoft Sql Server adapter for Keyv
 - [keyv-azuretable](https://github.com/howlowck/keyv-azuretable) - Azure Table Storage/API adapter for Keyv
 - [keyv-arango](https://github.com/TimMikeladze/keyv-arango) - ArangoDB storage adapter for Keyv
@@ -292,32 +291,32 @@ The following are third-party storage adapters compatible with Keyv:
 Keyv supports `gzip`, `brotli` and `lz4` compression. To enable compression, pass the `compress` option to the constructor.
 
 ```js
-import Keyv from 'keyv';
-import KeyvGzip from '@keyv/compress-gzip';
+import KeyvGzip from '@keyv/compress-gzip'
+import Keyv from 'keyv'
 
-const keyvGzip = new KeyvGzip();
-const keyv = new Keyv({ compression: keyvGzip });
+const keyvGzip = new KeyvGzip()
+const keyv = new Keyv({compression: keyvGzip})
 ```
 
 ```js
-import Keyv from 'keyv';
-import KeyvBrotli from '@keyv/compress-brotli';
+import KeyvBrotli from '@keyv/compress-brotli'
+import Keyv from 'keyv'
 
-const keyvBrotli = new KeyvBrotli();
-const keyv = new Keyv({ compression: keyvBrotli });
+const keyvBrotli = new KeyvBrotli()
+const keyv = new Keyv({compression: keyvBrotli})
 ```
 
 ```js
-import Keyv from 'keyv';
-import KeyvLz4 from '@keyv/compress-lz4';
+import KeyvLz4 from '@keyv/compress-lz4'
+import Keyv from 'keyv'
 
-const keyvLz4 = new KeyvLz4();
-const keyv = new Keyv({ compression: keyvLz4 });
+const keyvLz4 = new KeyvLz4()
+const keyv = new Keyv({compression: keyvLz4})
 ```
 
 You can also pass a custom compression function to the `compression` option. Following the pattern of the official compression adapters.
 
-## Want to build your own CompressionAdapter? 
+## Want to build your own CompressionAdapter?
 
 Great! Keyv is designed to be easily extended. You can build your own compression adapter by following the pattern of the official compression adapters based on this interface:
 
@@ -333,10 +332,10 @@ interface CompressionAdapter {
 In addition to the interface, you can test it with our compression test suite using @keyv/test-suite:
 
 ```js
-import { keyvCompresstionTests } from '@keyv/test-suite';
-import KeyvGzip from '@keyv/compress-gzip';
+import KeyvGzip from '@keyv/compress-gzip'
+import {keyvCompresstionTests} from '@keyv/test-suite'
 
-keyvCompresstionTests(test, new KeyvGzip());
+keyvCompresstionTests(test, new KeyvGzip())
 ```
 
 # API
@@ -451,6 +450,7 @@ Deletes an entry.
 Returns a promise which resolves to `true` if the key existed, `false` if not.
 
 ## .deleteMany(keys)
+
 Deletes multiple entries.
 Returns a promise which resolves to an array of booleans indicating if the key existed or not.
 
@@ -469,8 +469,8 @@ Returns a iterable that can be iterated by for-of loops. For example:
 ```js
 // please note that the "await" keyword should be used here
 for await (const [key, value] of this.keyv.iterator()) {
-  console.log(key, value);
-};
+  console.log(key, value)
+}
 ```
 
 # API - Properties
@@ -482,17 +482,17 @@ Type: `String`
 The namespace for the current instance. This will define the namespace for the current instance and the storage adapter. If you set the namespace to `undefined` it will no longer do key prefixing.
 
 ```js
-const keyv = new Keyv({ namespace: 'my-namespace' });
-console.log(keyv.namespace); // 'my-namespace'
+const keyv = new Keyv({namespace: 'my-namespace'})
+console.log(keyv.namespace) // 'my-namespace'
 ```
 
 here is an example of setting the namespace to `undefined`:
 
 ```js
-const keyv = new Keyv();
-console.log(keyv.namespace); // 'keyv' which is default
-keyv.namespace = undefined;
-console.log(keyv.namespace); // undefined
+const keyv = new Keyv()
+console.log(keyv.namespace) // 'keyv' which is default
+keyv.namespace = undefined
+console.log(keyv.namespace) // undefined
 ```
 
 ## .ttl
@@ -503,10 +503,10 @@ Default: `undefined`
 Default TTL. Can be overridden by specififying a TTL on `.set()`. If set to `undefined` it will never expire.
 
 ```js
-const keyv = new Keyv({ ttl: 5000 });
-console.log(keyv.ttl); // 5000
-keyv.ttl = undefined;
-console.log(keyv.ttl); // undefined (never expires)
+const keyv = new Keyv({ttl: 5000})
+console.log(keyv.ttl) // 5000
+keyv.ttl = undefined
+console.log(keyv.ttl) // undefined (never expires)
 ```
 
 ## .store
@@ -514,14 +514,14 @@ console.log(keyv.ttl); // undefined (never expires)
 Type: `Storage adapter instance`<br />
 Default: `new Map()`
 
-The storage adapter instance to be used by Keyv. This will wire up the iterator, events, and more when a set happens. If it is not a valid Map or Storage Adapter it will throw an error. 
+The storage adapter instance to be used by Keyv. This will wire up the iterator, events, and more when a set happens. If it is not a valid Map or Storage Adapter it will throw an error.
 
 ```js
-import KeyvSqlite from '@keyv/sqlite';
-const keyv = new Keyv();
-console.log(keyv.store instanceof Map); // true
-keyv.store = new KeyvSqlite('sqlite://path/to/database.sqlite');
-console.log(keyv.store instanceof KeyvSqlite); // true
+import KeyvSqlite from '@keyv/sqlite'
+const keyv = new Keyv()
+console.log(keyv.store instanceof Map) // true
+keyv.store = new KeyvSqlite('sqlite://path/to/database.sqlite')
+console.log(keyv.store instanceof KeyvSqlite) // true
 ```
 
 ## .serialize
@@ -529,13 +529,13 @@ console.log(keyv.store instanceof KeyvSqlite); // true
 Type: `Function`<br />
 Default: `JSON.stringify`
 
-A custom serialization function used for any value. 
+A custom serialization function used for any value.
 
 ```js
-const keyv = new Keyv();
-console.log(keyv.serialize); // JSON.stringify
-keyv.serialize = value => value.toString();
-console.log(keyv.serialize); // value => value.toString()
+const keyv = new Keyv()
+console.log(keyv.serialize) // JSON.stringify
+keyv.serialize = value => value.toString()
+console.log(keyv.serialize) // value => value.toString()
 ```
 
 ## .deserialize
@@ -546,10 +546,10 @@ Default: `JSON.parse`
 A custom deserialization function used for any value.
 
 ```js
-const keyv = new Keyv();
-console.log(keyv.deserialize); // JSON.parse
-keyv.deserialize = value => parseInt(value);
-console.log(keyv.deserialize); // value => parseInt(value)
+const keyv = new Keyv()
+console.log(keyv.deserialize) // JSON.parse
+keyv.deserialize = value => parseInt(value)
+console.log(keyv.deserialize) // value => parseInt(value)
 ```
 
 ## .compression
@@ -560,12 +560,12 @@ Default: `undefined`
 this is the compression package to use. See [Compression](#compression) for more details. If it is undefined it will not compress (default).
 
 ```js
-import KeyvGzip from '@keyv/compress-gzip';
+import KeyvGzip from '@keyv/compress-gzip'
 
-const keyv = new Keyv();
-console.log(keyv.compression); // undefined
-keyv.compression = new KeyvGzip();
-console.log(keyv.compression); // KeyvGzip
+const keyv = new Keyv()
+console.log(keyv.compression) // undefined
+keyv.compression = new KeyvGzip()
+console.log(keyv.compression) // KeyvGzip
 ```
 
 ## .useKeyPrefix
@@ -576,19 +576,19 @@ Default: `true`
 If set to `true` Keyv will prefix all keys with the namespace. This is useful if you want to avoid collisions with other data in your storage.
 
 ```js
-const keyv = new Keyv({ useKeyPrefix: false });
-console.log(keyv.useKeyPrefix); // false
-keyv.useKeyPrefix = true;
-console.log(keyv.useKeyPrefix); // true
+const keyv = new Keyv({useKeyPrefix: false})
+console.log(keyv.useKeyPrefix) // false
+keyv.useKeyPrefix = true
+console.log(keyv.useKeyPrefix) // true
 ```
 
 # How to Contribute
 
 We welcome contributions to Keyv! 🎉 Here are some guides to get you started with contributing:
 
-* [Contributing](https://github.com/jaredwray/keyv/blob/main/CONTRIBUTING.md) - Learn about how to contribute to Keyv
-* [Code of Conduct](https://github.com/jaredwray/keyv/blob/main/CODE_OF_CONDUCT.md) - Learn about the Keyv Code of Conduct
-* [How to Contribute](https://github.com/jaredwray/keyv/blob/main/README.md) - How do develop in the Keyv mono repo! 
+- [Contributing](https://github.com/jaredwray/keyv/blob/main/CONTRIBUTING.md) - Learn about how to contribute to Keyv
+- [Code of Conduct](https://github.com/jaredwray/keyv/blob/main/CODE_OF_CONDUCT.md) - Learn about the Keyv Code of Conduct
+- [How to Contribute](https://github.com/jaredwray/keyv/blob/main/README.md) - How do develop in the Keyv mono repo!
 
 # License
 

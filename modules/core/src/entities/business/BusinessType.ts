@@ -2,13 +2,13 @@ import * as v from 'valibot'
 
 import {BusinessIdSchema} from './BusinessId.js'
 import {
-	BusinessCreateSchema,
-	BusinessCRUDSchema,
-	BusinessListArgsSchema,
-	BusinessResolvedSchema,
-	BusinessSchema,
-	BusinessSearchSchema,
-	BusinessUserCreateSchema,
+  BusinessCRUDSchema,
+  BusinessCreateSchema,
+  BusinessListArgsSchema,
+  BusinessResolvedSchema,
+  BusinessSchema,
+  BusinessSearchSchema,
+  BusinessUserCreateSchema,
 } from './BusinessSchema.js'
 
 export type BusinessCreateType = v.InferOutput<typeof BusinessCreateSchema>

@@ -1,50 +1,50 @@
 {
-	"name": "@i/repository",
-	"imports": {
-		"#lib": "./src/*",
-		"#db": "./db/*"
-	},
-	"exports": {
-		".": "./src/index.ts",
-		"./KVPostgresStore": "./src/kvStore/KVPostgresStore.ts",
-		"./KVStore": "./src/kvStore/KVStore.ts"
-	},
-	"scripts": {
-		"typecheck": "tsc --noEmit",
-		"test": "vitest run --exclude '**/*.db.test.ts'",
-		"tdd": "vitest --exclude '**/*.db.test.ts'",
-		"test:db": "vitest run **/**/*.db.test.ts",
-		"db": "docker-compose --project-name indiedb up -d",
-		"db:up": "pnpm db && pnpm mig:up && pnpm towns",
-		"db:reset": "pnpm mig:down 999 && pnpm mig:up && pnpm towns",
-		"db:gen": "zapatos && prettier ./zapatos --write",
-		"mig:new": "node-pg-migrate create",
-		"mig:up": "node-pg-migrate up",
-		"mig:down": "node-pg-migrate down",
-		"mig:redo": "node-pg-migrate redo",
-		"towns": "cd towns && sh ./install.sh"
-	},
-	"dependencies": {
-		"@i/core": "workspace:*",
-		"big.js": "^6.2.2",
-		"debug": "^4.4.0",
-		"es-toolkit": "^1.34.1",
-		"pg": "^8.14.1",
-		"valibot": "^1.0.0",
-		"zapatos": "^6.5.0",
-		"@keyv/postgres": "^2.1.4",
-		"keyv": "5.3.2"
-	},
-	"devDependencies": {
-		"@i/tsconfig": "workspace:*",
-		"@types/big.js": "6.2.2",
-		"@types/debug": "^4.1.12",
-		"@types/pg": "^8.11.11",
-		"node-pg-migrate": "^7.9.1",
-		"type-fest": "^4.39.1"
-	},
-	"version": "1.0.0",
-	"private": true,
-	"license": "UNLICENSED",
-	"type": "module"
+  "name": "@i/repository",
+  "imports": {
+    "#lib": "./src/*",
+    "#db": "./db/*"
+  },
+  "exports": {
+    ".": "./src/index.ts",
+    "./KVPostgresStore": "./src/kvStore/KVPostgresStore.ts",
+    "./KVStore": "./src/kvStore/KVStore.ts"
+  },
+  "scripts": {
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run --exclude '**/*.db.test.ts'",
+    "tdd": "vitest --exclude '**/*.db.test.ts'",
+    "test:db": "vitest run **/**/*.db.test.ts",
+    "db": "docker-compose --project-name indiedb up -d",
+    "db:up": "pnpm db && pnpm mig:up && pnpm towns",
+    "db:reset": "pnpm mig:down 999 && pnpm mig:up && pnpm towns",
+    "db:gen": "zapatos && prettier ./zapatos --write",
+    "mig:new": "node-pg-migrate create",
+    "mig:up": "node-pg-migrate up",
+    "mig:down": "node-pg-migrate down",
+    "mig:redo": "node-pg-migrate redo",
+    "towns": "cd towns && sh ./install.sh"
+  },
+  "dependencies": {
+    "@i/core": "workspace:*",
+    "big.js": "^6.2.2",
+    "debug": "^4.4.0",
+    "es-toolkit": "^1.34.1",
+    "pg": "^8.14.1",
+    "valibot": "^1.0.0",
+    "zapatos": "^6.5.0",
+    "@keyv/postgres": "^2.1.4",
+    "keyv": "5.3.2"
+  },
+  "devDependencies": {
+    "@i/tsconfig": "workspace:*",
+    "@types/big.js": "6.2.2",
+    "@types/debug": "^4.1.12",
+    "@types/pg": "^8.11.11",
+    "node-pg-migrate": "^7.9.1",
+    "type-fest": "^4.39.1"
+  },
+  "version": "1.0.0",
+  "private": true,
+  "license": "UNLICENSED",
+  "type": "module"
 }

@@ -1,30 +1,30 @@
 {
-	"name": "@i/core",
-	"imports": {
-		"#lib": "./src/*"
-	},
-	"exports": {
-		"./business": "./src/entities/business/index.ts",
-		"./town": "./src/entities/town/index.ts",
-		"./link": "./src/entities/link/index.ts",
-		"./location": "./src/entities/location/index.ts",
-		"./geocoding": "./src/entities/geocoding/index.ts",
-		"./summary": "./src/entities/summary/index.ts"
-	},
-	"scripts": {
-		"typecheck": "tsc --noEmit"
-	},
-	"dependencies": {
-		"debug": "^4.4.0",
-		"typeid-js": "^1.2.0",
-		"valibot": "^1.0.0"
-	},
-	"devDependencies": {
-		"@i/tsconfig": "workspace:*",
-		"@types/debug": "^4.1.12"
-	},
-	"version": "1.0.0",
-	"private": true,
-	"license": "UNLICENSED",
-	"type": "module"
+  "name": "@i/core",
+  "imports": {
+    "#lib": "./src/*"
+  },
+  "exports": {
+    "./business": "./src/entities/business/index.ts",
+    "./town": "./src/entities/town/index.ts",
+    "./link": "./src/entities/link/index.ts",
+    "./location": "./src/entities/location/index.ts",
+    "./geocoding": "./src/entities/geocoding/index.ts",
+    "./summary": "./src/entities/summary/index.ts"
+  },
+  "scripts": {
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "debug": "^4.4.0",
+    "typeid-js": "^1.2.0",
+    "valibot": "^1.0.0"
+  },
+  "devDependencies": {
+    "@i/tsconfig": "workspace:*",
+    "@types/debug": "^4.1.12"
+  },
+  "version": "1.0.0",
+  "private": true,
+  "license": "UNLICENSED",
+  "type": "module"
 }

@@ -1,24 +1,23 @@
 {
-	"name": "@indeimap/indiemap",
-	"scripts": {
-		"typecheck": "pnpm --filter !tsconfig --filter !web recursive exec tsc --noEmit && pnpm -F web check",
-		"test": "pnpm --filter !tsconfig recursive run test",
-		"validate": "pnpm run lint && pnpm run typecheck && pnpm run test",
-		"validate!": "pnpm run lint:fix && pnpm run typecheck && pnpm run test",
-		"lint": "oxlint && prettier --cache --check .",
-		"lint:fix": "oxlint --fix && prettier --cache --write ."
-	},
-	"devDependencies": {
-		"globals": "^15.15.0",
-		"oxlint": "^1.3.0",
-		"prettier": "^3.5.3",
-		"prettier-plugin-svelte": "^3.3.3",
-		"typescript": "^5.8.3",
-		"vitest": "^2.1.9"
-	},
-	"version": "1.0.0",
-	"private": true,
-	"license": "UNLICENSED",
-	"type": "module",
-	"packageManager": "pnpm@10.7.1"
+  "name": "@indeimap/indiemap",
+  "scripts": {
+    "typecheck": "pnpm --filter !tsconfig --filter !web recursive exec tsc --noEmit && pnpm -F web check",
+    "test": "pnpm --filter !tsconfig recursive run test",
+    "validate": "pnpm run lint && pnpm run typecheck && pnpm run test",
+    "validate!": "pnpm run lint:fix && pnpm run typecheck && pnpm run test",
+    "lint": "oxlint && dprint check",
+    "lint:fix": "oxlint --fix && dprint fmt"
+  },
+  "devDependencies": {
+    "dprint": "^0.50.0",
+    "globals": "^15.15.0",
+    "oxlint": "^1.3.0",
+    "typescript": "^5.8.3",
+    "vitest": "^2.1.9"
+  },
+  "version": "1.0.0",
+  "private": true,
+  "license": "UNLICENSED",
+  "type": "module",
+  "packageManager": "pnpm@10.7.1"
 }

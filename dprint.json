@@ -1,0 +1,43 @@
+{
+  "lineWidth": 120,
+  "typescript": {
+    "quoteStyle": "preferSingle",
+    "spaceSurroundingProperties": false,
+    "objectExpression.spaceSurroundingProperties": false,
+    "objectPattern.spaceSurroundingProperties": false,
+    "typeLiteral.spaceSurroundingProperties": false,
+    "exportDeclaration.spaceSurroundingNamedExports": false,
+    "importDeclaration.spaceSurroundingNamedImports": false,
+    "spaceAround": false,
+    "binaryExpression.operatorPosition": "sameLine",
+    "indentWidth": 2,
+    "lineWidth": 120,
+    "quoteProps": "asNeeded",
+    "semiColons": "asi",
+    "typeAssertion.spaceBeforeExpression": false,
+    "module.sortImportDeclarations": "caseSensitive",
+    "module.sortExportDeclarations": "caseSensitive",
+    "importDeclaration.sortNamedImports": "caseSensitive",
+    "importDeclaration.sortTypeOnlyImports": "first"
+  },
+  "json": {
+    "indentWidth": 2
+  },
+  "markdown": {
+    "emphasisKind": "asterisks",
+    "strongKind": "asterisks"
+  },
+  "dockerfile": {},
+  "yaml": {
+    "quotes": "preferSingle"
+  },
+  "excludes": ["**/node_modules", "**/dist", "**/lib"],
+  "plugins": [
+    "https://plugins.dprint.dev/typescript-0.93.4.wasm",
+    "https://plugins.dprint.dev/json-0.19.4.wasm",
+    "https://plugins.dprint.dev/markdown-0.17.8.wasm",
+    "https://plugins.dprint.dev/dockerfile-0.3.2.wasm",
+    "https://plugins.dprint.dev/g-plane/pretty_yaml-v0.5.0.wasm",
+    "https://plugins.dprint.dev/g-plane/markup_fmt-v0.22.0.wasm"
+  ]
+}

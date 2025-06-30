@@ -1,15 +1,15 @@
 {
-	"extends": "@i/tsconfig",
-	"compilerOptions": {
-		"allowJs": false,
-		"declaration": true,
-		"declarationMap": true,
-		"downlevelIteration": true,
-		"emitDecoratorMetadata": true,
-		"experimentalDecorators": true,
-		"paths": {
-			"#lib/*": ["./src"]
-		}
-	},
-	"include": ["src"]
+  "extends": "@i/tsconfig",
+  "compilerOptions": {
+    "allowJs": false,
+    "declaration": true,
+    "declarationMap": true,
+    "downlevelIteration": true,
+    "emitDecoratorMetadata": true,
+    "experimentalDecorators": true,
+    "paths": {
+      "#lib/*": ["./src"]
+    }
+  },
+  "include": ["src"]
 }

@@ -9,27 +9,27 @@ const businessStatus = v.picklist(['live', 'draft'])
 
 /**
  * A schema representing a Business, this includes references to other entities.
- **/
+ */
 export const BusinessSchema = v.object({
-	description: v.nullish(v.pipe(v.string(), v.trim(), v.minLength(5), v.maxLength(1000))),
-	/** The list of URLs the business was generated from (if any) */
-	generatedFromUrls: v.nullish(v.array(v.string())),
-	id: BusinessIdSchema,
-	name: v.pipe(
-		v.string(),
-		v.trim(),
-		v.minLength(2, 'At least two characters'),
-		v.maxLength(100, 'At most 100 characters'),
-	),
-	/** The status of the business, live by default. Not available to users when draft. */
-	status: v.optional(businessStatus, 'live'),
-	townId: v.nullable(TownSchema.entries.id),
-	...TimestampSchema.entries,
+  description: v.nullish(v.pipe(v.string(), v.trim(), v.minLength(5), v.maxLength(1000))),
+  /** The list of URLs the business was generated from (if any) */
+  generatedFromUrls: v.nullish(v.array(v.string())),
+  id: BusinessIdSchema,
+  name: v.pipe(
+    v.string(),
+    v.trim(),
+    v.minLength(2, 'At least two characters'),
+    v.maxLength(100, 'At most 100 characters'),
+  ),
+  /** The status of the business, live by default. Not available to users when draft. */
+  status: v.optional(businessStatus, 'live'),
+  townId: v.nullable(TownSchema.entries.id),
+  ...TimestampSchema.entries,
 })
 
 export const BusinessResolvedSchema = v.object({
-	...BusinessSchema.entries,
-	town: v.nullish(TownSchema),
+  ...BusinessSchema.entries,
+  town: v.nullish(TownSchema),
 })
 
 /**
@@ -39,8 +39,8 @@ export const BusinessResolvedSchema = v.object({
  * otherwise as an update.
  */
 export const BusinessCRUDSchema = v.object({
-	...BusinessSchema.entries,
-	id: v.nullish(BusinessSchema.entries.id),
+  ...BusinessSchema.entries,
+  id: v.nullish(BusinessSchema.entries.id),
 })
 
 /**
@@ -58,12 +58,12 @@ export const BusinessCreateSchema = v.omit(BusinessSchema, ['id'])
  * Either {name and town ID} or {name and town name}.
  */
 export const BusinessSearchSchema = v.object({
-	/** Business name starts with */
-	name: v.nullish(NameSearchSchema),
-	/** The status to filter on */
-	status: v.nullish(businessStatus),
-	/** Town ID */
-	townId: v.nullish(TownIDSearchSchema),
+  /** Business name starts with */
+  name: v.nullish(NameSearchSchema),
+  /** The status to filter on */
+  status: v.nullish(businessStatus),
+  /** Town ID */
+  townId: v.nullish(TownIDSearchSchema),
 })
 
 /**
@@ -71,13 +71,13 @@ export const BusinessSearchSchema = v.object({
  * Use `order.by` keys matching the core schema (camelCase, not snake_case)
  */
 export const BusinessListArgsSchema = v.object({
-	limit: v.optional(v.number(), 10),
-	offset: v.optional(v.number(), 0),
-	order: v.optional(
-		v.object({
-			by: v.optional(v.pipe(v.string(), v.keyof(BusinessSchema))),
-			direction: v.optional(v.picklist(['ASC', 'DESC'])),
-		}),
-		{by: 'id', direction: 'ASC'},
-	),
+  limit: v.optional(v.number(), 10),
+  offset: v.optional(v.number(), 0),
+  order: v.optional(
+    v.object({
+      by: v.optional(v.pipe(v.string(), v.keyof(BusinessSchema))),
+      direction: v.optional(v.picklist(['ASC', 'DESC'])),
+    }),
+    {by: 'id', direction: 'ASC'},
+  ),
 })

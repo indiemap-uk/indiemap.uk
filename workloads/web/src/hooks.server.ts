@@ -12,50 +12,50 @@ import {redirect} from 'sveltekit-flash-message/server'
 import * as v from 'valibot'
 
 const prepareEnv: Handle = async ({event, resolve}) => {
-	const env = checkEnv(dynamicPrivateEnv)
-	const container = await getContainer(v.parse(ContainerEnvSchema, env))
+  const env = checkEnv(dynamicPrivateEnv)
+  const container = await getContainer(v.parse(ContainerEnvSchema, env))
 
-	event.locals.env = env as ServerEnvType
-	event.locals.container = container
+  event.locals.env = env as ServerEnvType
+  event.locals.container = container
 
-	return resolve(event)
+  return resolve(event)
 }
 
 /** Protects the admin routes **/
 const protectAdmin: Handle = async ({event, resolve}) => {
-	// const env = v.parse(AuthEnvSchema, staticPrivateEnv)
-	const session = await event.locals.auth()
-	const isAdminUser = isAdminEmail(event.locals.env.ADMIN_USER_EMAILS, session?.user.email)
-	const isLoginPage = event.url.pathname === '/admin/login'
-	const isAdminRoute = event.url.pathname.startsWith('/admin') && !isLoginPage
+  // const env = v.parse(AuthEnvSchema, staticPrivateEnv)
+  const session = await event.locals.auth()
+  const isAdminUser = isAdminEmail(event.locals.env.ADMIN_USER_EMAILS, session?.user.email)
+  const isLoginPage = event.url.pathname === '/admin/login'
+  const isAdminRoute = event.url.pathname.startsWith('/admin') && !isLoginPage
 
-	if (isAdminRoute && !isAdminUser) {
-		redirect(303, '/admin/login')
-	}
+  if (isAdminRoute && !isAdminUser) {
+    redirect(303, '/admin/login')
+  }
 
-	if (isLoginPage && isAdminUser) {
-		redirect(303, '/admin')
-	}
+  if (isLoginPage && isAdminUser) {
+    redirect(303, '/admin')
+  }
 
-	return resolve(event)
+  return resolve(event)
 }
 
 export const handle = sequence(prepareEnv, authjsHandle, protectAdmin)
 
 export const handleError: HandleServerError = ({error, event, status}) => {
-	console.error('UNEXPECTED ERROR', error)
+  console.error('UNEXPECTED ERROR', error)
 
-	const isAdminRoute = event.url.pathname.startsWith('/admin')
+  const isAdminRoute = event.url.pathname.startsWith('/admin')
 
-	if (!isAdminRoute) {
-		return {
-			message: 'An error occurred',
-			status,
-		}
-	}
+  if (!isAdminRoute) {
+    return {
+      message: 'An error occurred',
+      status,
+    }
+  }
 
-	return {
-		// code is available in pg's AggregateError
-		message: (error as {code?: string}).code ?? 'Unknown error',
-	}
+  return {
+    // code is available in pg's AggregateError
+    message: (error as {code?: string}).code ?? 'Unknown error',
+  }
 }

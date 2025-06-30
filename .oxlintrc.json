@@ -1,8 +1,8 @@
 {
-	"plugins": ["typescript", "unicorn", "oxc", "import", "react"],
-	"rules": {
-		"no-unused-vars": ["error", {"ignoreRestSiblings": true}],
-		"exhaustive-deps": "error",
-		"jsx-key": "error"
-	}
+  "plugins": ["typescript", "unicorn", "oxc", "import", "react"],
+  "rules": {
+    "no-unused-vars": ["error", { "ignoreRestSiblings": true }],
+    "exhaustive-deps": "error",
+    "jsx-key": "error"
+  }
 }

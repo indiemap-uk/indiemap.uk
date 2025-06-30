@@ -4,9 +4,9 @@
  * @returns {Promise<void> | void}
  */
 exports.up = (pgm) => {
-	pgm.alterColumn('businesses', 'town_id', {
-		notNull: false,
-	})
+  pgm.alterColumn('businesses', 'town_id', {
+    notNull: false,
+  })
 }
 
 /**
@@ -15,7 +15,7 @@ exports.up = (pgm) => {
  * @returns {Promise<void> | void}
  */
 exports.down = (pgm) => {
-	pgm.alterColumn('businesses', 'town_id', {
-		notNull: true,
-	})
+  pgm.alterColumn('businesses', 'town_id', {
+    notNull: true,
+  })
 }

@@ -9,10 +9,10 @@ exports.shorthands = undefined
  * @returns {Promise<void> | void}
  */
 exports.up = (pgm) => {
-	pgm.createSchema('authjs')
+  pgm.createSchema('authjs')
 
-	// Schema from https://authjs.dev/getting-started/adapters/pg
-	pgm.sql(`
+  // Schema from https://authjs.dev/getting-started/adapters/pg
+  pgm.sql(`
         CREATE TABLE authjs.verification_token
         (
         identifier TEXT NOT NULL,
@@ -69,12 +69,12 @@ exports.up = (pgm) => {
  * @returns {Promise<void> | void}
  */
 exports.down = (pgm) => {
-	pgm.sql(`
+  pgm.sql(`
         DROP TABLE IF EXISTS authjs.verification_token;
         DROP TABLE IF EXISTS authjs.accounts;
         DROP TABLE IF EXISTS authjs.sessions;
         DROP TABLE IF EXISTS authjs.users;
     `)
 
-	pgm.dropSchema('authjs')
+  pgm.dropSchema('authjs')
 }

@@ -2,20 +2,20 @@ import {createOpenAI} from '@ai-sdk/openai'
 import {toJsonSchema} from '@valibot/to-json-schema'
 import {generateObject, jsonSchema} from 'ai'
 
-import {SummaryResponseSchema, type SummaryResponseType} from './SummaryResponseSchema.js'
+import {type SummaryResponseType, SummaryResponseSchema} from './SummaryResponseSchema.js'
 
 interface Args {
-	apiKey: string
-	model: string
-	systemPrompt: string
-	userPrompt: string
+  apiKey: string
+  model: string
+  systemPrompt: string
+  userPrompt: string
 }
 
 /**
  * Based on a combined HTML document, enerates the summary of a business as a JSON object using an LLM
- * 
+ *
  * An example response looks like this, for https://www.lightleadeddesigns.com/:
- * 
+ *
  * ```json
  * summary: {
  * businessTitle: 'Light Leaded Designs',
@@ -40,28 +40,28 @@ interface Args {
   ```
  */
 export const summarizeBusiness = async ({
-	apiKey,
-	model = 'gpt-4o',
-	systemPrompt,
-	userPrompt,
+  apiKey,
+  model = 'gpt-4o',
+  systemPrompt,
+  userPrompt,
 }: Args): Promise<SummaryResponseType> => {
-	if (!apiKey) {
-		throw new Error('No API key provided')
-	}
+  if (!apiKey) {
+    throw new Error('No API key provided')
+  }
 
-	const openai = createOpenAI({
-		apiKey,
-		compatibility: 'strict',
-	})
+  const openai = createOpenAI({
+    apiKey,
+    compatibility: 'strict',
+  })
 
-	const summaryJsonSchema = toJsonSchema(SummaryResponseSchema)
+  const summaryJsonSchema = toJsonSchema(SummaryResponseSchema)
 
-	const {object} = await generateObject<SummaryResponseType>({
-		model: openai(model),
-		prompt: userPrompt,
-		schema: jsonSchema(summaryJsonSchema),
-		system: systemPrompt,
-	})
+  const {object} = await generateObject<SummaryResponseType>({
+    model: openai(model),
+    prompt: userPrompt,
+    schema: jsonSchema(summaryJsonSchema),
+    system: systemPrompt,
+  })
 
-	return object
+  return object
 }

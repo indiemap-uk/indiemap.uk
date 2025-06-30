@@ -1,9 +1,9 @@
 {
-	"extends": "@i/tsconfig",
-	"include": ["src"],
-	"compilerOptions": {
-		"paths": {
-			"#lib/*": ["./src"]
-		}
-	}
+  "extends": "@i/tsconfig",
+  "include": ["src"],
+  "compilerOptions": {
+    "paths": {
+      "#lib/*": ["./src"]
+    }
+  }
 }

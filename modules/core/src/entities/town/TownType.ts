@@ -1,6 +1,6 @@
 import * as v from 'valibot'
 
-import {TownNameSearchSchema, TownSchema, type TownSearchResultSchema} from './TownSchema.js'
+import {type TownSearchResultSchema, TownNameSearchSchema, TownSchema} from './TownSchema.js'
 
 export type TownNameSearchType = v.InferOutput<typeof TownNameSearchSchema>
 

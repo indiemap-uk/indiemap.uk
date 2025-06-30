@@ -5,6 +5,6 @@ import * as v from 'valibot'
  * retured from a geocoding service.
  */
 export const GeocodingResultSchema = v.object({
-	latitude: v.number('Latitude missing'),
-	longitude: v.number('Longitude missing'),
+  latitude: v.number('Latitude missing'),
+  longitude: v.number('Longitude missing'),
 })

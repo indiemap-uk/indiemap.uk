@@ -1,10 +1,10 @@
 {
-	"extends": "@i/tsconfig",
-	"compilerOptions": {
-		"allowJs": true,
-		"paths": {
-			"#lib/*": ["./src"]
-		}
-	},
-	"include": ["src"]
+  "extends": "@i/tsconfig",
+  "compilerOptions": {
+    "allowJs": true,
+    "paths": {
+      "#lib/*": ["./src"]
+    }
+  },
+  "include": ["src"]
 }

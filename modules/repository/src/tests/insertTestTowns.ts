@@ -3,7 +3,7 @@ import type {Pool} from 'pg'
 import * as db from 'zapatos/db'
 
 export const insertTestTowns = async (pool: Pool) => {
-	await db.sql`
+  await db.sql`
 	INSERT INTO "public"."uk_towns" VALUES
   (1,'Aaron''s Hill','Surrey','England','SU957435',495783,143522,51.18291,-0.63098,78,'GU7 2','Waverley District','South East','Suburban Area'),
   (2,'Abbas Combe','Somerset','England','ST707226',370749,122688,51.00283,-2.41825,91,'BA8 0','Somerset','South West','Village'),

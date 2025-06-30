@@ -2,5 +2,6 @@ packages:
   - workloads/*
   - modules/*
 onlyBuiltDependencies:
+  - dprint
   - sqlite3
 injectWorkspacePackages: true

@@ -1,4 +1,4 @@
-import {fromString, type TypeID} from 'typeid-js'
+import {type TypeID, fromString} from 'typeid-js'
 import * as v from 'valibot'
 
 /**
@@ -18,17 +18,17 @@ import * as v from 'valibot'
  * @returns A Valibot schema for TypeId<prefix>
  */
 export const TypeIDSchema = <T extends string>(prefix: T) =>
-	v.custom<TypeID<T>>(
-		(value: unknown) => {
-			if (typeof value !== 'string') return false
+  v.custom<TypeID<T>>(
+    (value: unknown) => {
+      if (typeof value !== 'string') return false
 
-			try {
-				fromString(value, prefix)
-				return true
-			} catch {
-				return false
-			}
-		},
-		(issue) =>
-			`${issue.received} is not a valid "${prefix}" TypeID. Valid example: "${prefix}_00041061050r3gg28a1c60t3gf"`,
-	)
+      try {
+        fromString(value, prefix)
+        return true
+      } catch {
+        return false
+      }
+    },
+    (issue) =>
+      `${issue.received} is not a valid "${prefix}" TypeID. Valid example: "${prefix}_00041061050r3gg28a1c60t3gf"`,
+  )
