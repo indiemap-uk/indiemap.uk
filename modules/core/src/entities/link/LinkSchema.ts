@@ -9,7 +9,7 @@ export const newLinkId = newIdFn(linkIdPrefix)
 export const LinkSchema = v.object({
   businessId: v.string(),
   id: LinkIdSchema,
-  label: v.optional(v.pipe(v.string(), v.trim())),
+  label: v.nullish(v.pipe(v.string(), v.trim())),
   url: v.pipe(v.string(), v.trim(), v.url(), v.maxLength(250)),
 })
 

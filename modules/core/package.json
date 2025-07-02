@@ -9,7 +9,8 @@
     "./link": "./src/entities/link/index.ts",
     "./location": "./src/entities/location/index.ts",
     "./geocoding": "./src/entities/geocoding/index.ts",
-    "./summary": "./src/entities/summary/index.ts"
+    "./summary": "./src/entities/summary/index.ts",
+    "./schema": "./src/schema/index.ts"
   },
   "scripts": {
     "typecheck": "tsc --noEmit"

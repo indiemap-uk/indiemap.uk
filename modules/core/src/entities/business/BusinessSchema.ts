@@ -14,7 +14,7 @@ const businessStatus = v.picklist(['live', 'draft'])
  * A schema representing a Business, this includes references to other entities.
  */
 export const BusinessSchema = v.object({
-  description: v.optional(v.pipe(v.string(), v.trim(), v.minLength(5), v.maxLength(1000))),
+  description: v.nullish(v.pipe(v.string(), v.trim(), v.minLength(5), v.maxLength(1000))),
   /** The list of URLs the business was generated from (if any) */
   generatedFromUrls: v.optional(v.array(v.string()), []),
   id: v.string(),

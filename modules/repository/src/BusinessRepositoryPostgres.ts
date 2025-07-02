@@ -15,6 +15,7 @@ import {
   BusinessSearchSchema,
   newBusinessId,
 } from '@i/core/business'
+import {parseSchema} from '@i/core/schema'
 import {and, asc, desc, eq, ilike} from 'drizzle-orm'
 import * as v from 'valibot'
 import {CRUDRepositoryPostgres} from './CRUDRepositoryPostgres.js'
@@ -151,44 +152,35 @@ export class BusinessRepositoryPostgres extends CRUDRepositoryPostgres implement
     business: typeof businesses.$inferSelect
     town: typeof ukTowns.$inferSelect | null
   }): BusinessResolvedType {
-    try {
-      const townData = record.town
-        ? {
-          id: record.town.id,
-          name: record.town.name,
-          county: record.town.county,
-          country: record.town.country,
-          gridReference: record.town.gridReference,
-          easting: record.town.easting,
-          northing: record.town.northing,
-          latitude: record.town.latitude ? parseFloat(record.town.latitude) : 0,
-          longitude: record.town.longitude ? parseFloat(record.town.longitude) : 0,
-          elevation: record.town.elevation,
-          postcodeSector: record.town.postcodeSector,
-          localGovernmentArea: record.town.localGovernmentArea,
-          nutsRegion: record.town.nutsRegion,
-          type: record.town.type,
-        }
-        : null
-
-      return v.parse(BusinessResolvedSchema, {
-        id: record.business.id,
-        name: record.business.name,
-        description: record.business.description,
-        status: record.business.status,
-        townId: record.business.townId,
-        generatedFromUrls: record.business.generatedFromUrls,
-        createdAt: record.business.createdAt,
-        updatedAt: record.business.updatedAt,
-        town: townData,
-      })
-    } catch (error: unknown) {
-      if (v.isValiError(error)) {
-        console.error('Validation error', v.summarize(error.issues))
-        throw new Error(`Valibot error in toResolvedBusinessSchema`)
-      } else {
-        throw error
+    const townData = record.town
+      ? {
+        id: record.town.id,
+        name: record.town.name,
+        county: record.town.county,
+        country: record.town.country,
+        gridReference: record.town.gridReference,
+        easting: record.town.easting,
+        northing: record.town.northing,
+        latitude: record.town.latitude ? parseFloat(record.town.latitude) : 0,
+        longitude: record.town.longitude ? parseFloat(record.town.longitude) : 0,
+        elevation: record.town.elevation,
+        postcodeSector: record.town.postcodeSector,
+        localGovernmentArea: record.town.localGovernmentArea,
+        nutsRegion: record.town.nutsRegion,
+        type: record.town.type,
       }
-    }
+      : undefined
+
+    return parseSchema(BusinessResolvedSchema, {
+      id: record.business.id,
+      name: record.business.name,
+      description: record.business.description,
+      status: record.business.status,
+      townId: record.business.townId,
+      generatedFromUrls: record.business.generatedFromUrls,
+      createdAt: record.business.createdAt,
+      updatedAt: record.business.updatedAt,
+      town: townData,
+    })
   }
 }

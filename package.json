@@ -3,8 +3,10 @@
   "scripts": {
     "typecheck": "pnpm --filter !tsconfig --filter !web recursive exec tsc --noEmit && pnpm -F web check",
     "test": "pnpm --filter !tsconfig recursive run test",
+    "test:db": "pnpm --filter !tsconfig recursive run test:db",
     "validate": "pnpm run lint && pnpm run typecheck && pnpm run test",
     "validate!": "pnpm run lint:fix && pnpm run typecheck && pnpm run test",
+    "validate:local": "pnpm run lint:fix && pnpm run typecheck && pnpm run test && pnpm run test:db",
     "lint": "oxlint && dprint check",
     "lint:fix": "oxlint --fix && dprint fmt"
   },
