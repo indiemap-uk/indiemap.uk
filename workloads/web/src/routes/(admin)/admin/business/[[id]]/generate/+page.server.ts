@@ -49,7 +49,6 @@ export const actions = {
         for (const url of summary.links) {
           const link: LinkCreateType = {
             businessId: business.id,
-            label: null,
             url: url,
           }
 
