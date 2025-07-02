@@ -1,4 +1,3 @@
-import {BusinessIdSchema} from '@i/core/business'
 import {error} from '@sveltejs/kit'
 import * as v from 'valibot'
 
@@ -13,7 +12,7 @@ export const load: LayoutServerLoad = async ({locals, params}) => {
 
   // ID provided = edit business form
   const {businessService} = locals.container
-  const business = await businessService.getById(v.parse(BusinessIdSchema, params.id))
+  const business = await businessService.getById(v.parse(v.string(), params.id))
   if (!business) {
     throw error(404, 'Business not found')
   }

@@ -1,64 +1,88 @@
-import type * as s from 'zapatos/schema'
-
 import {
   type TownRepository,
   type TownSearchResultType,
+  type TownType,
   TownNameSearchSchema,
   TownSchema,
   TownSearchResultSchema,
 } from '@i/core/town'
 import Big from 'big.js'
+import Debug from 'debug'
 import * as v from 'valibot'
 
+const debug = Debug('indie:repository:town')
+
+import {eq, ilike, sql} from 'drizzle-orm'
 import {CRUDRepositoryPostgres} from './CRUDRepositoryPostgres.js'
+import {businesses, ukTowns} from './db/schema/schema.js'
 
 export class TownRepositoryPostgres extends CRUDRepositoryPostgres implements TownRepository {
   async getById(id: number) {
-    const record = await this.db.selectExactlyOne('uk_towns', {id}).run(this.pool)
+    const records = await this.db
+      .select()
+      .from(ukTowns)
+      .where(eq(ukTowns.id, id))
+      .limit(1)
 
-    return this.toSchema(record)
+    return this.toSchema(this.ensure1(records))
   }
 
   async getRandom() {
-    const records = (await this.db.sql`SELECT * FROM ${'uk_towns'} ORDER BY random() LIMIT 1`.run(
-      this.pool,
-    )) as s.uk_towns.Selectable[]
+    const records = await this.db
+      .select()
+      .from(ukTowns)
+      .orderBy(sql`random()`)
+      .limit(1)
 
-    if (!records?.[0]) {
-      throw new Error('No random town found')
-    }
-
-    return this.toSchema(records[0])
+    return this.toSchema(this.ensure1(records))
   }
 
   async getRandoms(count: number) {
-    const records = (await this.db.sql`SELECT * FROM ${'uk_towns'} ORDER BY random() LIMIT ${this.db.param(count)}`.run(
-      this.pool,
-    )) as s.uk_towns.Selectable[]
+    const records = await this.db
+      .select()
+      .from(ukTowns)
+      .orderBy(sql`random()`)
+      .limit(count)
 
     return records.map(this.toSchema)
   }
 
   /**
-   * @param qInput the first characters of the town name
-   * @param hasBusiness filter towns that has businesses
+   * @param qInput the first 3+ characters of the town name
+   * @param hasBusiness when true only returns towns that have businesses
    */
-  async search(qInput: string, hasBusiness = false): Promise<TownSearchResultType[]> {
-    const q = v.parse(TownNameSearchSchema, qInput)
+  async search(args: {q: string; hasBusiness?: boolean; limit?: number}): Promise<TownSearchResultType[]> {
+    const q = v.parse(TownNameSearchSchema, args.q)
+    const {hasBusiness = false, limit = 25} = args
+    const shape = {
+      id: ukTowns.id,
+      name: ukTowns.name,
+      county: ukTowns.county,
+      latitude: ukTowns.latitude,
+      longitude: ukTowns.longitude,
+    }
 
-    const join = hasBusiness
-      ? this.db.sql`JOIN ${'businesses'} ON ${'businesses'}.${'town_id'} = ${'uk_towns'}.${'id'}`
-      : this.db.sql``
+    let records: any[] = []
 
-    const records = await this.db.sql<
-      s.uk_towns.SQL,
-      s.uk_towns.Selectable[]
-    >`SELECT DISTINCT ${'uk_towns'}.${'id'}, ${'uk_towns'}.${'name'}, county, latitude, longitude
-		FROM ${'uk_towns'} ${join}
-		WHERE ${{
-      name: this.db.sql`LOWER(${'uk_towns'}.${'name'}) LIKE(${this.db.param(`${q.toLowerCase()}%`)})`,
-    }}
-		LIMIT 25`.run(this.pool)
+    if (!hasBusiness) {
+      records = await this.db
+        .select(shape)
+        .from(ukTowns)
+        .where(ilike(ukTowns.name, `${q}%`))
+        .limit(limit)
+    }
+
+    if (hasBusiness) {
+      records = await this.db
+        .select(shape)
+        .from(ukTowns)
+        .where(ilike(ukTowns.name, `${q}%`))
+        .innerJoin(
+          businesses,
+          eq(businesses.townId, ukTowns.id),
+        )
+        .limit(limit)
+    }
 
     return records.map((r) =>
       v.parse(TownSearchResultSchema, {
@@ -69,7 +93,20 @@ export class TownRepositoryPostgres extends CRUDRepositoryPostgres implements To
     )
   }
 
-  private toSchema = (record: s.uk_towns.JSONSelectable | s.uk_towns.Selectable) => {
+  /* Since create is only used for mock data, we don't really care about validation */
+  async create(town: TownType): Promise<TownType> {
+    await this.db.insert(ukTowns).values({
+      ...town,
+      latitude: town.latitude.toString(),
+      longitude: town.longitude.toString(),
+    })
+
+    debug(`created town with id ${town.id}`)
+
+    return this.getById(town.id)
+  }
+
+  private toSchema = (record: typeof ukTowns.$inferSelect) => {
     try {
       return v.parse(TownSchema, {
         ...record,
@@ -78,10 +115,11 @@ export class TownRepositoryPostgres extends CRUDRepositoryPostgres implements To
       })
     } catch (error: unknown) {
       if (v.isValiError(error)) {
-        console.error('Validation error', JSON.stringify(error.issues, null, 2))
+        console.error('Validation error', v.summarize(error.issues))
+        throw new Error(`Valibot error`)
+      } else {
+        throw error
       }
-
-      throw error
     }
   }
 }

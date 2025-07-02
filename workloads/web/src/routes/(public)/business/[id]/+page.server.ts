@@ -1,9 +1,8 @@
-import {BusinessIdSchema} from '@i/core/business'
 import {error} from '@sveltejs/kit'
 import * as v from 'valibot'
 
 export const load = async ({locals, params}) => {
-  const businessId = v.safeParse(BusinessIdSchema, params.id)
+  const businessId = v.safeParse(v.string(), params.id)
   if (!businessId.success) {
     throw error(404, 'Not found')
   }

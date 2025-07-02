@@ -1,11 +1,11 @@
 {
   "extends": "@i/tsconfig",
   "compilerOptions": {
-    "allowJs": true,
+    "rootDir": ".",
     "paths": {
       "#lib/*": ["./src"],
       "#data/*": ["./data"]
     }
   },
-  "include": ["src", "data", "migrations", "zapatos"]
+  "include": ["src", "data", "migrations"]
 }

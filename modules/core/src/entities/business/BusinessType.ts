@@ -1,6 +1,5 @@
 import * as v from 'valibot'
 
-import {BusinessIdSchema} from './BusinessId.js'
 import {
   BusinessCRUDSchema,
   BusinessCreateSchema,
@@ -13,7 +12,7 @@ import {
 
 export type BusinessCreateType = v.InferOutput<typeof BusinessCreateSchema>
 export type BusinessCRUDType = v.InferOutput<typeof BusinessCRUDSchema>
-export type BusinessIdType = v.InferOutput<typeof BusinessIdSchema>
+export type BusinessIdType = string
 export type BusinessListArgsTYpe = v.InferOutput<typeof BusinessListArgsSchema>
 export type BusinessResolvedType = v.InferOutput<typeof BusinessResolvedSchema>
 export type BusinessSearchType = v.InferOutput<typeof BusinessSearchSchema>

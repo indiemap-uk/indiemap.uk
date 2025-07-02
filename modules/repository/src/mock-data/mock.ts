@@ -68,6 +68,7 @@ const mock = async () => {
           name: faker.company.name(),
           status: 'live',
           townId: town.id,
+          generatedFromUrls: [],
         },
         {createdAt, updatedAt: updatedAt ?? createdAt},
       )

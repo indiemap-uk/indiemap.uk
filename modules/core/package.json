@@ -16,8 +16,8 @@
   },
   "dependencies": {
     "debug": "^4.4.0",
-    "typeid-js": "^1.2.0",
-    "valibot": "^1.0.0"
+    "nanoid": "^5.1.5",
+    "valibot": "^1.1.0"
   },
   "devDependencies": {
     "@i/tsconfig": "workspace:*",

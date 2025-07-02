@@ -17,6 +17,6 @@ export class TownService {
   }
 
   async search(q: TownNameSearchType, hasBusiness = false): Promise<TownSearchResultType[]> {
-    return this.townRepository.search(q, hasBusiness)
+    return this.townRepository.search({q, hasBusiness})
   }
 }

@@ -1,5 +1,4 @@
 import type {BusinessIdType} from '@i/core/business'
-import type * as s from 'zapatos/schema'
 
 import {
   type LinkCreateType,
@@ -10,37 +9,63 @@ import {
   LinkSchema,
   newLinkId,
 } from '@i/core/link'
+import {eq} from 'drizzle-orm'
 import * as v from 'valibot'
-import * as db from 'zapatos/db'
 
 import {CRUDRepositoryPostgres} from './CRUDRepositoryPostgres.js'
-import {objToCamel} from './objToCamel.js'
-import {objToSnake} from './objToSnake.js'
+import {links} from './db/schema/schema.js'
 
 export class LinkRepositoryPostgres extends CRUDRepositoryPostgres implements LinkRepository {
   async create(data: LinkCreateType) {
-    const toInsert = Object.assign({id: newLinkId()}, objToSnake<s.links.Insertable>(v.parse(LinkCreateSchema, data)))
+    const validatedData = v.parse(LinkCreateSchema, data)
+    const id = newLinkId()
 
-    const record = await db.insert('links', toInsert).run(this.pool)
+    const toInsert = {
+      ...validatedData,
+      id: id.toString(),
+      businessId: validatedData.businessId.toString(),
+    }
 
-    return v.parse(LinkSchema, objToCamel(record))
+    const record = await this.db
+      .insert(links)
+      .values(toInsert)
+      .returning()
+
+    return v.parse(LinkSchema, record[0])
   }
 
   async delete(id: LinkIdType) {
-    await db.deletes('links', {id: id.toString()}).run(this.pool)
+    await this.db
+      .delete(links)
+      .where(eq(links.id, id.toString()))
   }
 
   async getByBusinessId(id: BusinessIdType) {
-    const records = await db
-      .select('links', {business_id: id.toString()}, {order: {by: 'id', direction: 'ASC'}})
-      .run(this.pool)
+    const records = await this.db
+      .select()
+      .from(links)
+      .where(eq(links.businessId, id.toString()))
+      .orderBy(links.id)
 
-    return records.map(objToCamel).map((r) => v.parse(LinkSchema, r))
+    return records.map((r) =>
+      v.parse(LinkSchema, {
+        ...r,
+        id: r.id,
+        businessId: r.businessId,
+      })
+    )
   }
 
   async update(data: LinkType): Promise<void> {
-    const toUpdate = objToSnake<s.links.Updatable>(v.parse(LinkSchema, data))
+    const validatedData = v.parse(LinkSchema, data)
 
-    await db.update('links', toUpdate, {id: data.id.toString()}).run(this.pool)
+    await this.db
+      .update(links)
+      .set({
+        ...validatedData,
+        id: validatedData.id.toString(),
+        businessId: validatedData.businessId.toString(),
+      })
+      .where(eq(links.id, validatedData.id.toString()))
   }
 }

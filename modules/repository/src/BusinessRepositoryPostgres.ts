@@ -1,12 +1,13 @@
-import type * as s from 'zapatos/schema'
-
+import type {
+  BusinessCreateType,
+  BusinessIdType,
+  BusinessListArgs,
+  BusinessRepository,
+  BusinessResolvedType,
+  BusinessSearchType,
+  BusinessType,
+} from '@i/core/business'
 import {
-  type BusinessCreateType,
-  type BusinessIdType,
-  type BusinessListArgs,
-  type BusinessRepository,
-  type BusinessSearchType,
-  type BusinessType,
   BusinessCreateSchema,
   BusinessListArgsSchema,
   BusinessResolvedSchema,
@@ -14,111 +15,180 @@ import {
   BusinessSearchSchema,
   newBusinessId,
 } from '@i/core/business'
-import {snakeCase} from 'es-toolkit'
+import {and, asc, desc, eq, ilike} from 'drizzle-orm'
 import * as v from 'valibot'
-
 import {CRUDRepositoryPostgres} from './CRUDRepositoryPostgres.js'
-import {dbToEntity} from './dbToEntity.js'
-import {objToSnake} from './objToSnake.js'
-
-type BusinessCoreRecord = s.businesses.JSONSelectable | s.businesses.Selectable
-type BusinessResolvedRecord = s.businesses.JSONSelectable & {town: s.uk_towns.JSONSelectable}
+import {businesses, ukTowns} from './db/schema/schema.js'
 
 export class BusinessRepositoryPostgres extends CRUDRepositoryPostgres implements BusinessRepository {
-  async create(data: BusinessCreateType) {
-    const toInsert = Object.assign(
-      {id: newBusinessId()},
-      objToSnake<s.businesses.Insertable>(v.parse(BusinessCreateSchema, data)),
-    )
-    toInsert.generated_from_urls = JSON.stringify(toInsert.generated_from_urls || [])
+  async create(data: BusinessCreateType): Promise<BusinessType> {
+    const validatedData = v.parse(BusinessCreateSchema, data)
+    const id = newBusinessId()
 
-    const record = await this.db.insert('businesses', toInsert).run(this.pool)
-
-    return dbToEntity(record, BusinessSchema)
-  }
-
-  async delete(id: BusinessIdType) {
-    const deleted = await this.db.deletes('businesses', {id: id.toString()}).run(this.pool)
-
-    if (deleted.length !== 1) {
-      throw new Error(`Delete error, deleted length is not 1 but ${deleted.length}`)
+    const toInsert = {
+      ...validatedData,
+      id: id.toString(),
     }
+
+    await this.db
+      .insert(businesses)
+      .values(toInsert)
+
+    return this.getByIdSafe(id)
   }
 
-  async getById(id: BusinessIdType, status?: BusinessType['status']) {
-    const statusWhere = status ? {status} : {}
-
-    return this.db
-      .selectOne(
-        'businesses',
-        {id: id.toString(), ...statusWhere},
-        {
-          lateral: {
-            town: this.db.selectExactlyOne('uk_towns', {id: this.db.parent('town_id')}),
-          },
-        },
-      )
-      .run(this.pool)
-      .then((record) => (record ? this.toResolvedBusiness(record) : null))
+  async delete(id: BusinessIdType): Promise<void> {
+    await this.db
+      .delete(businesses)
+      .where(eq(businesses.id, id.toString()))
   }
 
-  async search(userQuery: BusinessSearchType, userArgs: BusinessListArgs = {}) {
+  async getByIdSafe(id: BusinessIdType, status?: BusinessType['status']): Promise<BusinessResolvedType> {
+    const business = await this.getById(id, status)
+    if (!business) {
+      throw new Error(`Business with id ${id} not found`)
+    }
+
+    return business
+  }
+
+  async getById(id: BusinessIdType, status?: BusinessType['status']): Promise<BusinessResolvedType | null> {
+    const conditions = [eq(businesses.id, id.toString())]
+
+    if (status) {
+      conditions.push(eq(businesses.status, status))
+    }
+
+    const records = await this.db
+      .select({
+        business: businesses,
+        town: ukTowns,
+      })
+      .from(businesses)
+      .leftJoin(ukTowns, eq(businesses.townId, ukTowns.id))
+      .where(and(...conditions))
+      .limit(1)
+
+    if (records.length === 0) {
+      return null
+    }
+
+    return this.toResolvedBusinessSchema(this.ensure1(records))
+  }
+
+  async search(
+    userQuery: BusinessSearchType,
+    userArgs: BusinessListArgs = {},
+  ): Promise<BusinessResolvedType[]> {
     const query = v.parse(BusinessSearchSchema, userQuery)
     const args = v.parse(BusinessListArgsSchema, userArgs) as Required<BusinessListArgs>
 
-    const nameWhere = query.name
-      ? {name: this.db.sql`LOWER(${this.db.self}) LIKE(${this.db.param(`${query.name?.toLowerCase()}%`)})`}
-      : {}
-    const townIdWhere = query.townId ? {town_id: this.db.sql`town_id = ${this.db.param(query.townId)}`} : {}
-    const statusWhere = query.status ? {status: query.status} : {}
+    const conditions = []
 
-    const records = await this.db
-      .select(
-        'businesses',
-        {
-          ...nameWhere,
-          ...townIdWhere,
-          ...statusWhere,
-        },
-        {
-          lateral: {
-            town: this.db.selectExactlyOne('uk_towns', {
-              id: this.db.parent('town_id'),
-            }),
-          },
-          limit: args.limit,
-          offset: args.offset,
-          order: {
-            by: snakeCase(args.order.by) as s.SQLForTable<'businesses'>,
-            direction: args.order.direction,
-          },
-        },
-      )
-      .run(this.pool)
-
-    return records.map((r) => this.toResolvedBusiness(r))
-  }
-
-  async update(data: BusinessType) {
-    const toUpdate = objToSnake<s.businesses.Updatable>(v.parse(BusinessSchema, data))
-
-    const [record] = await this.db.update('businesses', toUpdate, {id: data.id.toString()}).run(this.pool)
-
-    if (!record) {
-      throw new Error('Update failed, no record returned')
+    if (query.name) {
+      conditions.push(ilike(businesses.name, `${query.name.toLowerCase()}%`))
     }
 
-    const town = record.town_id ? await this.db.selectOne('uk_towns', {id: record.town_id}).run(this.pool) : undefined
+    if (query.townId) {
+      conditions.push(eq(businesses.townId, query.townId))
+    }
 
-    return this.toResolvedBusiness(record, town)
+    if (query.status) {
+      conditions.push(eq(businesses.status, query.status))
+    }
+
+    // Determine order
+    let orderColumn
+    switch (args.order.by) {
+      case 'name':
+        orderColumn = businesses.name
+        break
+      case 'status':
+        orderColumn = businesses.status
+        break
+      case 'createdAt':
+        orderColumn = businesses.createdAt
+        break
+      case 'updatedAt':
+        orderColumn = businesses.updatedAt
+        break
+      default:
+        orderColumn = businesses.id
+    }
+    const orderDirection = args.order.direction === 'DESC' ? desc(orderColumn) : asc(orderColumn)
+
+    const records = await this.db
+      .select({
+        business: businesses,
+        town: ukTowns,
+      })
+      .from(businesses)
+      .leftJoin(ukTowns, eq(businesses.townId, ukTowns.id))
+      .where(conditions.length > 0 ? and(...conditions) : undefined)
+      .orderBy(orderDirection)
+      .limit(args.limit)
+      .offset(args.offset)
+
+    return records.map(record => this.toResolvedBusinessSchema(record))
   }
 
-  private toResolvedBusiness(
-    record: BusinessCoreRecord | BusinessResolvedRecord,
-    townRecord?: s.uk_towns.JSONSelectable,
-  ) {
-    const town = 'town' in record ? record.town : townRecord
+  async update(data: BusinessType): Promise<BusinessResolvedType> {
+    const validatedData = v.parse(BusinessSchema, data)
 
-    return dbToEntity({...record, town}, BusinessResolvedSchema)
+    await this.db
+      .update(businesses)
+      .set({
+        ...validatedData,
+        id: validatedData.id.toString(),
+        updatedAt: new Date().toISOString(),
+      })
+      .where(eq(businesses.id, data.id.toString()))
+
+    return this.getByIdSafe(validatedData.id)
+  }
+
+  private toResolvedBusinessSchema(record: {
+    business: typeof businesses.$inferSelect
+    town: typeof ukTowns.$inferSelect | null
+  }): BusinessResolvedType {
+    try {
+      const townData = record.town
+        ? {
+          id: record.town.id,
+          name: record.town.name,
+          county: record.town.county,
+          country: record.town.country,
+          gridReference: record.town.gridReference,
+          easting: record.town.easting,
+          northing: record.town.northing,
+          latitude: record.town.latitude ? parseFloat(record.town.latitude) : 0,
+          longitude: record.town.longitude ? parseFloat(record.town.longitude) : 0,
+          elevation: record.town.elevation,
+          postcodeSector: record.town.postcodeSector,
+          localGovernmentArea: record.town.localGovernmentArea,
+          nutsRegion: record.town.nutsRegion,
+          type: record.town.type,
+        }
+        : null
+
+      return v.parse(BusinessResolvedSchema, {
+        id: record.business.id,
+        name: record.business.name,
+        description: record.business.description,
+        status: record.business.status,
+        townId: record.business.townId,
+        generatedFromUrls: record.business.generatedFromUrls,
+        createdAt: record.business.createdAt,
+        updatedAt: record.business.updatedAt,
+        town: townData,
+      })
+    } catch (error: unknown) {
+      if (v.isValiError(error)) {
+        console.error('Validation error', v.summarize(error.issues))
+        throw new Error(`Valibot error in toResolvedBusinessSchema`)
+      } else {
+        throw error
+      }
+    }
   }
 }

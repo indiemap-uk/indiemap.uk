@@ -1,7 +1,4 @@
 import type {BusinessIdType} from '@i/core/business'
-import type {Pool} from 'pg'
-import type {SnakeCasedProperties} from 'type-fest'
-import type * as s from 'zapatos/schema'
 
 import {
   type LocationCreateType,
@@ -11,87 +8,97 @@ import {
   LocationSchema,
   newLocationId,
 } from '@i/core/location'
-import Big from 'big.js'
-import Debug from 'debug'
-import {omit} from 'es-toolkit'
+import {eq} from 'drizzle-orm'
 import * as v from 'valibot'
-import * as zdb from 'zapatos/db'
 
 import {CRUDRepositoryPostgres} from './CRUDRepositoryPostgres.js'
-import {objToCamel} from './objToCamel.js'
-import {objToSnake} from './objToSnake.js'
-
-const LocationDBSchema = v.pipe(
-  LocationSchema,
-  v.transform((input) => objToSnake<SnakeCasedProperties<LocationType>>(input)),
-  v.transform((input) => omit({...input, id: input.id.toString()}, ['business_id'])),
-)
+import {businessLocations, locations} from './db/schema/schema.js'
 
 export class LocationRepositoryPostgres extends CRUDRepositoryPostgres implements LocationRepository {
-  debug: debug.Debugger
-
-  constructor(pool: Pool, db: typeof zdb) {
-    super(pool, db)
-    this.debug = Debug('indie:reop:LocationPostgres')
-  }
-
   async create(data: LocationCreateType) {
-    const toInsert: s.locations.Insertable = {
-      address: data.address,
-      id: newLocationId(),
-      label: data.label ?? '',
-      latitude: data.latitude,
-      longitude: data.longitude,
+    const validatedData = v.parse(LocationSchema, data)
+    const id = newLocationId()
+
+    const toInsert = {
+      id: id.toString(),
+      address: validatedData.address,
+      label: validatedData.label ?? '',
+      latitude: validatedData.latitude.toString(),
+      longitude: validatedData.longitude.toString(),
     }
 
-    return this.db.readCommitted<LocationType>(this.pool, async (txnClient) => {
-      const record = await this.db.insert('locations', toInsert).run(txnClient)
+    return await this.db.transaction(async (tx) => {
+      const locationRecord = await tx
+        .insert(locations)
+        .values(toInsert)
+        .returning()
 
-      await this.db
-        .insert('business_locations', {
-          business_id: data.businessId.toString(),
-          location_id: record.id,
+      const locationResult = this.ensure1(locationRecord)
+
+      await tx
+        .insert(businessLocations)
+        .values({
+          businessId: data.businessId.toString(),
+          locationId: locationResult.id,
         })
-        .run(txnClient)
 
-      return v.parse(
-        LocationSchema,
-        objToCamel({
-          ...record,
-          businessId: data.businessId,
-        }),
-      )
+      return v.parse(LocationSchema, {
+        id: locationResult.id,
+        address: locationResult.address,
+        label: locationResult.label,
+        latitude: parseFloat(locationResult.latitude ?? '0'),
+        longitude: parseFloat(locationResult.longitude ?? '0'),
+        businessId: data.businessId,
+      })
     })
   }
 
   async delete(id: LocationIdType) {
-    await this.db.deletes('locations', {id: id.toString()}).run(this.pool)
+    await this.db
+      .delete(locations)
+      .where(eq(locations.id, id.toString()))
   }
 
   async getByBusinessId(id: BusinessIdType) {
-    type SQL = s.business_locations.SQL | s.locations.SQL
-    type Selectable = s.business_locations.Selectable & s.locations.Selectable
-    const records = await this.db.sql<SQL, Selectable[]>`SELECT 
-			l.address, bl.business_id, l.id, l."label", l.latitude, l.longitude
-			FROM ${'locations'} l
-			INNER JOIN ${'business_locations'} bl
-			ON l.id = bl.location_id
-			WHERE bl.business_id = ${this.db.param(id)}`.run(this.pool)
+    const records = await this.db
+      .select({
+        id: locations.id,
+        address: locations.address,
+        label: locations.label,
+        latitude: locations.latitude,
+        longitude: locations.longitude,
+        businessId: businessLocations.businessId,
+      })
+      .from(locations)
+      .innerJoin(businessLocations, eq(locations.id, businessLocations.locationId))
+      .where(eq(businessLocations.businessId, id.toString()))
 
-    return records
-      .map((r) => ({
-        ...r,
-        latitude: new Big(r.latitude ?? 0).toNumber(),
-        longitude: new Big(r.longitude ?? 0).toNumber(),
-      }))
-      .map(objToCamel)
-      .map((r) => v.parse(LocationSchema, r))
+    return records.map((r) =>
+      v.parse(LocationSchema, {
+        id: r.id,
+        address: r.address,
+        label: r.label,
+        latitude: parseFloat(r.latitude ?? '0'),
+        longitude: parseFloat(r.longitude ?? '0'),
+        businessId: r.businessId,
+      })
+    )
   }
 
   async update(data: LocationType) {
-    const toUpdate = v.parse(LocationDBSchema, data)
+    const validatedData = v.parse(LocationSchema, data)
 
-    await this.db.update('locations', toUpdate, {id: data.id.toString()}).run(this.pool)
+    const toUpdate = {
+      address: validatedData.address,
+      label: validatedData.label,
+      latitude: validatedData.latitude.toString(),
+      longitude: validatedData.longitude.toString(),
+    }
+
+    await this.db
+      .update(locations)
+      .set(toUpdate)
+      .where(eq(locations.id, data.id.toString()))
 
     return data
   }

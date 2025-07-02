@@ -1,4 +1,4 @@
-import {BusinessCRUDSchema, BusinessIdSchema, BusinessSchema, BusinessUserCreateSchema} from '@i/core/business'
+import {BusinessCRUDSchema, BusinessSchema, BusinessUserCreateSchema} from '@i/core/business'
 import {fail, redirect} from '@sveltejs/kit'
 import {message, superValidate} from 'sveltekit-superforms'
 import {valibot} from 'sveltekit-superforms/adapters'
@@ -44,7 +44,7 @@ export const actions = {
   delete: async ({locals, request}) => {
     const formData = await request.formData()
 
-    await locals.container.businessService.delete(v.parse(BusinessIdSchema, formData.get('id')))
+    await locals.container.businessService.delete(v.parse(v.string(), formData.get('id')))
 
     return redirect(301, '/admin/businesses')
   },

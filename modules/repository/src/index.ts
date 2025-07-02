@@ -1,6 +1,0 @@
-export {BusinessRepositoryPostgres} from './BusinessRepositoryPostgres.js'
-export {LinkRepositoryPostgres} from './LinkRepositoryPostgres.js'
-export {LocationRepositoryPostgres} from './LocationRepositoryPostgres.js'
-export {TownRepositoryPostgres} from './TownRepositoryPostgres.js'
-export {getDb} from './getDb.js'
-export {getPool} from './getPool.js'

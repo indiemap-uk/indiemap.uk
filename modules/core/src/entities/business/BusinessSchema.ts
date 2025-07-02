@@ -1,9 +1,12 @@
 import * as v from 'valibot'
 
+import {newIdFn} from '../../id/newIdFn.js'
 import {NameSearchSchema} from '../NameSearchSchema.js'
 import {TimestampSchema} from '../TimestampSchemas.js'
 import {TownIDSearchSchema, TownSchema} from '../town/index.js'
-import {BusinessIdSchema} from './BusinessId.js'
+
+const businessIdPrefix = 'bsn'
+export const newBusinessId = newIdFn(businessIdPrefix)
 
 const businessStatus = v.picklist(['live', 'draft'])
 
@@ -13,8 +16,8 @@ const businessStatus = v.picklist(['live', 'draft'])
 export const BusinessSchema = v.object({
   description: v.nullish(v.pipe(v.string(), v.trim(), v.minLength(5), v.maxLength(1000))),
   /** The list of URLs the business was generated from (if any) */
-  generatedFromUrls: v.nullish(v.array(v.string())),
-  id: BusinessIdSchema,
+  generatedFromUrls: v.nullish(v.array(v.string()), []),
+  id: v.string(),
   name: v.pipe(
     v.string(),
     v.trim(),

@@ -27,6 +27,14 @@
           "arguments": ["fmt", "--stdin", "{buffer_path}"]
         }
       }
+    },
+    "JSON": {
+      "formatter": {
+        "external": {
+          "command": "dprint",
+          "arguments": ["fmt", "--stdin", "{buffer_path}"]
+        }
+      }
     }
   },
   "format_on_save": "on",

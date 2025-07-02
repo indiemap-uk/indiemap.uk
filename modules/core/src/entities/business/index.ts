@@ -1,4 +1,3 @@
-export * from './BusinessId.js'
 export type * from './BusinessRepository.js'
 export * from './BusinessSchema.js'
 export * from './BusinessService.js'

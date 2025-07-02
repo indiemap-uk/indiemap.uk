@@ -1,12 +1,9 @@
 import * as v from 'valibot'
 
-import {TypeIDSchema} from '../../id/TypeIDSchema.js'
 import {newIdFn} from '../../id/newIdFn.js'
-import {BusinessIdSchema} from '../business/BusinessId.js'
 import {GeocodingResultSchema} from '../geocoding/GeocodingSchema.js'
 
 const locationIdPrefix = 'loc'
-export const LocationIdSchema = TypeIDSchema(locationIdPrefix)
 export const newLocationId = newIdFn(locationIdPrefix)
 
 /**
@@ -14,8 +11,8 @@ export const newLocationId = newIdFn(locationIdPrefix)
  */
 const LocationCoreSchema = v.object({
   address: v.pipe(v.string(), v.trim(), v.maxLength(300)),
-  businessId: BusinessIdSchema,
-  id: LocationIdSchema,
+  businessId: v.string(),
+  id: v.string(),
   label: v.nullable(v.pipe(v.string(), v.trim(), v.maxLength(50))),
 })
 
@@ -26,7 +23,7 @@ const LocationCoreSchema = v.object({
 export const LocationUserCreateSchema = v.omit(
   v.object({
     ...LocationCoreSchema.entries,
-    businessId: BusinessIdSchema,
+    businessId: v.string(),
   }),
   ['id'],
 )
@@ -55,7 +52,7 @@ export const LocationCRUDSchema = v.object({
  * The schema to edit a list of locations.
  */
 export const LocationCRUDListSchema = v.object({
-  businessId: BusinessIdSchema,
+  businessId: v.string(),
   deletedLocations: v.array(LocationSchema),
   locations: v.array(LocationCRUDSchema),
 })

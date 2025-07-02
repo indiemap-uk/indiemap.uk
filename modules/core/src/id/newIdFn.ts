@@ -1,3 +1,3 @@
-import {typeidUnboxed} from 'typeid-js'
+import {nanoid} from 'nanoid'
 
-export const newIdFn = (prefix: string) => () => typeidUnboxed(prefix)
+export const newIdFn = (prefix: string) => () => `${prefix}_${nanoid()}`
