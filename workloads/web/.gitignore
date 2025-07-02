@@ -22,5 +22,3 @@ vite.config.ts.timestamp-*
 
 *storybook.log
 deploy
-
-summarizer.sqlite

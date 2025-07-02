@@ -6,6 +6,5 @@ onlyBuiltDependencies:
   - dprint
   - esbuild
   - protobufjs
-  - sqlite3
   - ssh2
 injectWorkspacePackages: true
