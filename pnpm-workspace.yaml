@@ -7,4 +7,5 @@ onlyBuiltDependencies:
   - esbuild
   - protobufjs
   - ssh2
+  - svelte-preprocess
 injectWorkspacePackages: true
