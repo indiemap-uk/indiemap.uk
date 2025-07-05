@@ -12,11 +12,6 @@ export const timestamps = {
 
 export const businessStatusEnum = pgEnum('business_status', ['live', 'draft'])
 
-export const keyv = pgTable('keyv', {
-  key: varchar({length: 255}).primaryKey().notNull(),
-  value: text(),
-})
-
 export const ukTowns = pgTable('uk_towns', {
   id: integer().primaryKey().notNull(),
   name: varchar({length: 56}),
