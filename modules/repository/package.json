@@ -24,8 +24,8 @@
     "mig:up": "drizzle-kit migrate",
     "mig:push": "drizzle-kit push",
     "towns": "cd towns && sh ./install.sh",
-    "mock": "DEBUG=indie:* tsx src/mock-data/mock.ts",
-    "mock:towns": "DEBUG=indie:* tsx src/mock-data/towns.ts"
+    "mock": "tsx src/mock-data/mock.ts",
+    "mock:towns": "tsx src/mock-data/towns.ts"
   },
   "dependencies": {
     "@i/core": "workspace:*",

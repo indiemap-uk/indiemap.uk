@@ -5,6 +5,7 @@ import {
   type LocationIdType,
   type LocationRepository,
   type LocationType,
+  LocationCreateSchema,
   LocationSchema,
   newLocationId,
 } from '@i/core/location'
@@ -16,7 +17,7 @@ import {businessLocations, locations} from './db/schema/schema.js'
 
 export class LocationRepositoryPostgres extends CRUDRepositoryPostgres implements LocationRepository {
   async create(data: LocationCreateType) {
-    const validatedData = v.parse(LocationSchema, data)
+    const validatedData = v.parse(LocationCreateSchema, data)
     const id = newLocationId()
 
     const toInsert = {

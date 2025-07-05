@@ -21,10 +21,7 @@ const LocationCoreSchema = v.object({
  * It lacks geocoding results, as those will be generated based on the user-provided address.
  */
 export const LocationUserCreateSchema = v.omit(
-  v.object({
-    ...LocationCoreSchema.entries,
-    businessId: v.string(),
-  }),
+  LocationCoreSchema,
   ['id'],
 )
 
