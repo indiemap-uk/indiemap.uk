@@ -8,7 +8,9 @@
     "validate!": "pnpm run lint:fix && pnpm run typecheck && pnpm run test",
     "validate:local": "pnpm run lint:fix && pnpm run typecheck && pnpm run test && pnpm run test:db",
     "lint": "oxlint && dprint check",
-    "lint:fix": "oxlint --fix && dprint fmt"
+    "lint:fix": "oxlint --fix && dprint fmt",
+    "docker:build": "docker build -t ghcr.io/indiemap-uk/indiemap:latest --file workloads/web/Dockerfile .",
+    "docker:run": "docker-compose up"
   },
   "devDependencies": {
     "dprint": "^0.50.0",

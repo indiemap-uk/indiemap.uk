@@ -6,16 +6,26 @@ import {isAdminEmail} from '$lib/authZ/isAdminEmail'
 import {checkEnv} from '$lib/server/checkEnv'
 import {ContainerEnvSchema} from '$lib/server/container/ContainerEnvSchema'
 import {getContainer} from '$lib/server/container/getContainer'
-import {type Handle, type HandleServerError} from '@sveltejs/kit'
+import {type Handle, type HandleServerError, type ServerInit} from '@sveltejs/kit'
 import {sequence} from '@sveltejs/kit/hooks'
 import {redirect} from 'sveltekit-flash-message/server'
 import * as v from 'valibot'
+
+let container: Awaited<ReturnType<typeof getContainer>> | null = null
+
+export const init: ServerInit = async () => {
+  const env = checkEnv(dynamicPrivateEnv)
+  container = await getContainer(v.parse(ContainerEnvSchema, env))
+}
 
 const prepareEnv: Handle = async ({event, resolve}) => {
   const env = checkEnv(dynamicPrivateEnv)
   event.locals.env = env as ServerEnvType
 
-  const container = await getContainer(v.parse(ContainerEnvSchema, env))
+  if (!container) {
+    throw new Error('Container not initialized')
+  }
+
   event.locals.container = container
 
   return resolve(event)

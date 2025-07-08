@@ -1,0 +1,23 @@
+services:
+  app:
+    image: ghcr.io/indiemap-uk/indiemap:latest
+    environment:
+      - ADMIN_USER_EMAILS
+      - AUTH_RESEND_KEY
+      - AUTH_SECRET
+      # Run this database with `pnpm -F repository db`
+      - DATABASE_URL=postgres://indie:indie@postgresql:5432/indie?sslmode=disable
+      - GEOCODIFY_API_KEY
+      - JINA_API_KEY
+      - OPENAI_API_KEY
+    ports:
+      - "3333:3333"
+    restart: unless-stopped
+    networks:
+      - default
+      - external_postgres_network
+
+networks:
+  external_postgres_network:
+    external: true
+    name: indiedb_default
