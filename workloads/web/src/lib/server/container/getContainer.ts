@@ -15,7 +15,9 @@ import {TownRepositoryPostgres} from '@i/repository/TownRepositoryPostgres'
 import {getDb} from '@i/repository/getDb'
 import type {ContainerEnvType} from './ContainerEnvSchema'
 
-export const getContainer = async (env: ContainerEnvType) => {
+let containerInstance: Awaited<ReturnType<typeof createContainerInstance>> | null = null
+
+const createContainerInstance = async (env: ContainerEnvType) => {
   const {db, pool} = getDb(env.DATABASE_URL)
   await pool.query('SET search_path TO public, authjs')
 
@@ -61,4 +63,13 @@ export const getContainer = async (env: ContainerEnvType) => {
     townService,
     workerService,
   }
+}
+
+export const getContainer = async (env: ContainerEnvType) => {
+  if (containerInstance) {
+    return containerInstance
+  }
+
+  containerInstance = await createContainerInstance(env)
+  return containerInstance
 }
