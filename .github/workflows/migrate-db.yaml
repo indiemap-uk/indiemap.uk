@@ -6,7 +6,7 @@ on:
     branches:
       - main
     paths:
-      - "modules/repository/migrations/*"
+      - 'modules/repository/migrations/*'
 
 jobs:
   migrate:
@@ -21,8 +21,8 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v3
         with:
-          node-version: "lts/*"
-          cache: "pnpm"
+          node-version: 'lts/*'
+          cache: 'pnpm'
 
       - name: Install dependencies
         run: pnpm install --prefer-offline -F repository...

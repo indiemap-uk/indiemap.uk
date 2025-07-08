@@ -13,9 +13,9 @@ import * as v from 'valibot'
 
 const prepareEnv: Handle = async ({event, resolve}) => {
   const env = checkEnv(dynamicPrivateEnv)
-  const container = await getContainer(v.parse(ContainerEnvSchema, env))
-
   event.locals.env = env as ServerEnvType
+
+  const container = await getContainer(v.parse(ContainerEnvSchema, env))
   event.locals.container = container
 
   return resolve(event)
@@ -23,9 +23,11 @@ const prepareEnv: Handle = async ({event, resolve}) => {
 
 /** Protects the admin routes **/
 const protectAdmin: Handle = async ({event, resolve}) => {
-  // const env = v.parse(AuthEnvSchema, staticPrivateEnv)
   const session = await event.locals.auth()
-  const isAdminUser = isAdminEmail(event.locals.env.ADMIN_USER_EMAILS, session?.user.email)
+  const isAdminUser = isAdminEmail(
+    event.locals.env.ADMIN_USER_EMAILS,
+    session?.user.email,
+  )
   const isLoginPage = event.url.pathname === '/admin/login'
   const isAdminRoute = event.url.pathname.startsWith('/admin') && !isLoginPage
 
@@ -40,7 +42,11 @@ const protectAdmin: Handle = async ({event, resolve}) => {
   return resolve(event)
 }
 
-export const handle = sequence(prepareEnv, authjsHandle, protectAdmin)
+export const handle = sequence(
+  prepareEnv,
+  authjsHandle,
+  protectAdmin,
+)
 
 export const handleError: HandleServerError = ({error, event, status}) => {
   console.error('UNEXPECTED ERROR', error)

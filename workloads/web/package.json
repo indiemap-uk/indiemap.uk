@@ -21,6 +21,7 @@
     "@i/geocoding": "workspace:*",
     "@i/repository": "workspace:*",
     "@i/summarizer": "workspace:*",
+    "@i/worker": "workspace:*",
     "@tabler/icons-svelte": "^3.31.0",
     "dayjs": "^1.11.13",
     "debug": "^4.4.0",

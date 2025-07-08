@@ -1,0 +1,28 @@
+{
+  "name": "@i/worker",
+  "exports": {
+    "./WorkerService": "./src/WorkerService.ts",
+    "./WorkerEnvSchema": "./src/WorkerEnvSchema.ts",
+    "./schemas": "./src/schemas/index.ts"
+  },
+  "scripts": {
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@i/core": "workspace:*",
+    "@i/geocoding": "workspace:*",
+    "@i/repository": "workspace:*",
+    "@i/summarizer": "workspace:*",
+    "debug": "^4.4.0",
+    "graphile-worker": "^0.16.6",
+    "valibot": "^1.1.0"
+  },
+  "devDependencies": {
+    "@i/tsconfig": "workspace:*",
+    "@types/debug": "^4.1.12"
+  },
+  "version": "1.0.0",
+  "private": true,
+  "license": "UNLICENSED",
+  "type": "module"
+}

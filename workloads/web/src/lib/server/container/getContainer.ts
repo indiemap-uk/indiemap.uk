@@ -6,6 +6,7 @@ import {GeocodingServiceGeocodify} from '@i/geocoding'
 import {KVPostgresStore} from '@i/repository/KVPostgresStore'
 import {MarkdownServiceJinaAi} from '@i/summarizer/MarkdownServiceJinaAi'
 import {SummarizerService} from '@i/summarizer/SummarizerService'
+import {WorkerService} from '@i/worker/WorkerService'
 
 import {BusinessRepositoryPostgres} from '@i/repository/BusinessRepositoryPostgres'
 import {LinkRepositoryPostgres} from '@i/repository/LinkRepositoryPostgres'
@@ -37,5 +38,27 @@ export const getContainer = async (env: ContainerEnvType) => {
   const openAiApiKey = env.OPENAI_API_KEY
   const summarizerService = new SummarizerService(kvstore, markdownService, openAiApiKey)
 
-  return {businessService, geocodingService, kvstore, linkService, locationService, summarizerService, townService}
+  const workerService = new WorkerService({DATABASE_URL: env.DATABASE_URL})
+  await workerService.start()
+
+  process.on('sveltekit:shutdown', async (reason) => {
+    console.info('SvelteKit has shutdown because of', reason)
+
+    console.info('Stopping Graphile Worker...')
+    await workerService.stop()
+
+    console.info('Closing database connection...')
+    await pool.end()
+  })
+
+  return {
+    businessService,
+    geocodingService,
+    kvstore,
+    linkService,
+    locationService,
+    summarizerService,
+    townService,
+    workerService,
+  }
 }
