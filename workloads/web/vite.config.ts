@@ -14,5 +14,13 @@ export default defineConfig(() => {
     )
   }
 
-  return {plugins}
+  return {
+    plugins,
+    server: {
+      watch: {
+        // Do NOT ignore the workspace packages
+        ignored: ['!**/node_modules/@i/**'],
+      },
+    },
+  }
 })
