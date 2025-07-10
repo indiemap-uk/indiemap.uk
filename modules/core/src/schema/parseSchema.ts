@@ -1,5 +1,8 @@
 import * as v from 'valibot'
 
+/**
+ * Parse a schema and return the output or throws a human-readable error message.
+ */
 export const parseSchema = <const TSchema extends v.BaseSchema<unknown, unknown, v.BaseIssue<unknown>>>(
   schema: TSchema,
   data: unknown,

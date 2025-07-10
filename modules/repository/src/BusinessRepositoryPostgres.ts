@@ -177,7 +177,6 @@ export class BusinessRepositoryPostgres extends CRUDRepositoryPostgres implement
       description: record.business.description,
       status: record.business.status,
       townId: record.business.townId,
-      generatedFromUrls: record.business.generatedFromUrls,
       createdAt: record.business.createdAt,
       updatedAt: record.business.updatedAt,
       town: townData,

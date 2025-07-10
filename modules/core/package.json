@@ -8,6 +8,7 @@
     "./town": "./src/entities/town/index.ts",
     "./link": "./src/entities/link/index.ts",
     "./location": "./src/entities/location/index.ts",
+    "./source": "./src/entities/source/index.ts",
     "./geocoding": "./src/entities/geocoding/index.ts",
     "./summary": "./src/entities/summary/index.ts",
     "./schema": "./src/schema/index.ts"

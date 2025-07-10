@@ -3,16 +3,16 @@ import {LinkService} from '@i/core/link'
 import {LocationService} from '@i/core/location'
 import {TownService} from '@i/core/town'
 import {GeocodingServiceGeocodify} from '@i/geocoding'
+import {BusinessRepositoryPostgres} from '@i/repository/BusinessRepositoryPostgres'
 import {KVPostgresStore} from '@i/repository/KVPostgresStore'
+import {LinkRepositoryPostgres} from '@i/repository/LinkRepositoryPostgres'
+import {LocationRepositoryPostgres} from '@i/repository/LocationRepositoryPostgres'
+import {SourceRepositoryPostgres} from '@i/repository/SourceRepositoryPostgres'
+import {TownRepositoryPostgres} from '@i/repository/TownRepositoryPostgres'
+import {getDb} from '@i/repository/getDb'
 import {MarkdownServiceJinaAi} from '@i/summarizer/MarkdownServiceJinaAi'
 import {SummarizerService} from '@i/summarizer/SummarizerService'
 import {WorkerService} from '@i/worker/WorkerService'
-
-import {BusinessRepositoryPostgres} from '@i/repository/BusinessRepositoryPostgres'
-import {LinkRepositoryPostgres} from '@i/repository/LinkRepositoryPostgres'
-import {LocationRepositoryPostgres} from '@i/repository/LocationRepositoryPostgres'
-import {TownRepositoryPostgres} from '@i/repository/TownRepositoryPostgres'
-import {getDb} from '@i/repository/getDb'
 import type {ContainerEnvType} from './ContainerEnvSchema'
 
 export const getContainer = async (env: ContainerEnvType) => {
@@ -34,11 +34,21 @@ export const getContainer = async (env: ContainerEnvType) => {
   const geocodingService = new GeocodingServiceGeocodify(env.GEOCODIFY_API_KEY)
 
   const kvstore = new KVPostgresStore({schema: env.KEYV_SCHEMA, table: env.KEYV_TABLE, uri: env.DATABASE_URL})
+  await kvstore.init()
   const markdownService = new MarkdownServiceJinaAi(env.JINA_API_KEY)
   const openAiApiKey = env.OPENAI_API_KEY
-  const summarizerService = new SummarizerService(kvstore, markdownService, openAiApiKey)
+  const summarizerService = new SummarizerService(openAiApiKey)
 
-  const workerService = new WorkerService({DATABASE_URL: env.DATABASE_URL})
+  const sourceRepository = new SourceRepositoryPostgres(db)
+
+  const workerService = new WorkerService({DATABASE_URL: env.DATABASE_URL}, {
+    businessService,
+    kvstore,
+    linkService,
+    markdownService,
+    sourceRepository,
+    summarizerService,
+  })
   await workerService.start()
 
   process.on('sveltekit:shutdown', async (reason) => {
@@ -57,7 +67,7 @@ export const getContainer = async (env: ContainerEnvType) => {
     kvstore,
     linkService,
     locationService,
-    summarizerService,
+    sourceRepository,
     townService,
     workerService,
   }

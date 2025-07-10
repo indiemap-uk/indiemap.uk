@@ -1,13 +1,10 @@
-import type {KVStore} from '@i/repository/KVStore'
-
-import crypto from 'crypto'
 import Debug from 'debug'
 
-import type {SummaryResponseType} from './llm/SummaryResponseSchema.js'
-import type {MarkdownService} from './services/MarkdownService.js'
-
-import {siteSummaryInstructions} from './llm/propmpts.js'
-import {summarizeBusiness} from './llm/summarizeBusiness.js'
+import {createOpenAI} from '@ai-sdk/openai'
+import {toJsonSchema} from '@valibot/to-json-schema'
+import {generateObject, jsonSchema} from 'ai'
+import {type SummaryResponseType, SummaryResponseSchema} from './SummaryResponseSchema.js'
+import {siteSummaryInstructions} from './propmpts.js'
 
 const debug = Debug('indie:summarizer:SummarizerService')
 
@@ -16,78 +13,60 @@ const debug = Debug('indie:summarizer:SummarizerService')
  * and passing them to an LLM.
  */
 export class SummarizerService {
-  private kvstore: KVStore
-  private markdownService: MarkdownService
-  private openAiApiKey: string
+  #openAiApiKey: string
 
-  constructor(kvstore: KVStore, markdownService: MarkdownService, openAiApiKey: string) {
-    this.kvstore = kvstore
-    this.markdownService = markdownService
-    this.openAiApiKey = openAiApiKey
+  constructor(openAiApiKey: string) {
+    this.#openAiApiKey = openAiApiKey
   }
 
   /**
-   * Given a list of URLs, generates a summary of a business.
+   * Based on a combined HTML document, enerates the summary of a business as a JSON object using an LLM
+   *
+   * An example response looks like this, for https://www.lightleadeddesigns.com/:
+   *
+   * ```json
+   * summary: {
+   *   businessTitle: 'Light Leaded Designs',
+   *   shortDescription: 'Traditional stained glass leadlight window maker. All styles including Victorian, Edwardian, Art Deco, Art Nouveau, modern stained glass bespoke made by Light Leaded Designs',
+   *   longDescription: 'Situated in the Rossendale Valley, Lancashire. I specialize in the design & manufacture of traditional stained glass & leaded lights. Styles from the traditional Edwardian, Victorian & Art deco through to Modern & Contemporary design. For any repairs or the re-leading of existing windows the work would have to be brought to my workshop. I also resize existing leaded windows in readiness for encapsulation inside double glazed units.',
+   *   links: [
+   *     'https://www.instagram.com/light_leaded_designs/',
+   *     'http://www.facebook.com/LightLeadedDesigns',
+   *     'https://www.tiktok.com/@lightleadeddesigns'
+   *   ],
+   *   products: [
+   *     'Traditional stained glass',
+   *     'Leaded lights',
+   *     'Edwardian style stained glass',
+   *     'Victorian style stained glass',
+   *     'Art deco style stained glass',
+   *     'Modern & Contemporary design stained glass'
+   *   ],
+   *   madeInUk: 'all',
+   *   meta: ''
+   * }
+   * ```
    */
-  public async summarizeUrls(urls: string[]) {
-    debug('Starting summarization for %d URLs', urls.length)
-
-    if (!urls.length) {
-      throw new Error('No URLs provided. Pass it as $program url1,url2,url3')
-    }
-
-    const cachedSummary = await this.getSummary(urls)
-    if (cachedSummary) {
-      debug('Using cached summary for URLs %o', urls)
-      return cachedSummary
-    }
-
-    debug('Fetching markdown for URLs: %o', urls)
-    const markdowns = await Promise.all(
-      urls.map(async (url) => {
-        const cached = await this.kvstore.get(`md:${url}`)
-        if (cached) {
-          debug('Using cached markdown for %s', url)
-          return cached
-        }
-
-        debug('Fetching markdown for %s', url)
-        const markdown = await this.markdownService.get(url)
-        await this.kvstore.set(`md:${url}`, markdown)
-
-        return markdown
-      }),
-    )
-
+  public async makeBusinessSummary(markdowns: string[]): Promise<SummaryResponseType> {
     const combinedMarkdown = markdowns.join('\n\n---\n\n')
     debug('Combined markdown length: %d characters', combinedMarkdown.length)
 
     debug('Calling LLM to summarize business')
-    const summary = await summarizeBusiness({
-      apiKey: this.openAiApiKey,
-      model: 'gpt-4',
-      systemPrompt: siteSummaryInstructions,
-      userPrompt: combinedMarkdown,
+
+    const openai = createOpenAI({
+      apiKey: this.#openAiApiKey,
+      compatibility: 'strict',
     })
-    debug('Summary generated: %o', summary)
 
-    // Save the summary in the cache
-    await this.setSummary(urls, summary)
+    const summaryJsonSchema = toJsonSchema(SummaryResponseSchema)
 
-    return summary
-  }
+    const {object} = await generateObject<SummaryResponseType>({
+      model: openai('gpt-4'),
+      prompt: combinedMarkdown,
+      schema: jsonSchema(summaryJsonSchema),
+      system: siteSummaryInstructions,
+    })
 
-  private getSummary(urls: string[]) {
-    return this.kvstore.get<SummaryResponseType>(this.summaryKey(urls))
-  }
-
-  private setSummary(urls: string[], summary: SummaryResponseType) {
-    return this.kvstore.set(this.summaryKey(urls), summary)
-  }
-
-  private summaryKey(urls: string[]) {
-    const hash = crypto.createHash('md5').update(urls.join(',')).digest('hex')
-
-    return `llmsummary:${hash}`
+    return object
   }
 }

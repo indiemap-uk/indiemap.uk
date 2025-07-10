@@ -1,8 +1,22 @@
 import {parseSchema} from '@i/core/schema'
-import {type WorkerEnvType, WorkerEnvSchema} from './WorkerEnvSchema.js'
 
 import Debug from 'debug'
 import {type Runner, type WorkerUtils, makeWorkerUtils, run} from 'graphile-worker'
+import * as v from 'valibot'
+import type {WorkerServices} from './Services.js'
+import {fetchMarkdown} from './tasks/fetchMarkdown.js'
+import {makeBusinessFromSource} from './tasks/makeBusinessFromSource.js'
+import {makeBusinessFromSummary} from './tasks/makeBusinessSummary.js'
+import {watchMarkdown} from './tasks/watchMarkdown.js'
+
+const WorkerEnvSchema = v.object({
+  /**
+   * The full DB URL, e.g. postgres://indie:indie@localhost:5431/indie?sslmode=disable
+   */
+  DATABASE_URL: v.string(),
+})
+
+type WorkerEnvType = v.InferOutput<typeof WorkerEnvSchema>
 
 const debug = Debug('indie:worker:WorkerService')
 
@@ -10,11 +24,13 @@ export class WorkerService {
   #dbUrl: string
   #runner?: Runner
   #utils?: WorkerUtils
+  #services: WorkerServices
 
-  constructor(env: WorkerEnvType) {
+  constructor(env: WorkerEnvType, s: WorkerServices) {
     const {DATABASE_URL} = parseSchema(WorkerEnvSchema, env)
 
     this.#dbUrl = DATABASE_URL
+    this.#services = s
   }
 
   async start() {
@@ -25,11 +41,13 @@ export class WorkerService {
     try {
       this.#runner = await run({
         connectionString: this.#dbUrl,
+        /** ⬇️ TASK LIST ⬇️ **/
         taskList: {
-          hello: async (payload: any, helpers) => {
-            const {name} = payload
-            helpers.logger.info(`Hello, ${name}`)
-          },
+          makeBusinessFromSource: makeBusinessFromSource(),
+          fetchMarkdown: fetchMarkdown(this.#services),
+          watchMarkdown: watchMarkdown(this.#services),
+          makeBusinessSummary: makeBusinessFromSummary(this.#services),
+          makeBusinessFromSummary: makeBusinessFromSummary(this.#services),
         },
       })
 

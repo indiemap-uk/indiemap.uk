@@ -18,6 +18,12 @@ export class KVPostgresStore implements KVStore {
     })
   }
 
+  /** Use .init to force-creating the database table */
+  async init() {
+    await this.#keyv.set('init', 'init')
+    await this.#keyv.delete('init')
+  }
+
   public get<T = any>(key: string) {
     return this.#keyv.get<T>(key)
   }

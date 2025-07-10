@@ -3,7 +3,22 @@ import {page} from '$app/stores'
 import SignOutBar from '$lib/user/SignOutBar.svelte'
 import IconHomeFilled from '@tabler/icons-svelte/icons/home-filled'
 
+import {getFlash} from 'sveltekit-flash-message'
+
 const {children, data} = $props()
+const flash = getFlash(page)
+
+let showFlash = $state(true)
+
+// Auto-hide flash message after 5 seconds
+$effect(() => {
+  if ($flash) {
+    showFlash = true
+    setTimeout(() => {
+      showFlash = false
+    }, 5000)
+  }
+})
 
 const menu = [
   [
@@ -57,6 +72,11 @@ const menu = [
 
   <main>
     <div class="container">
+      {#if $flash && showFlash}
+        <div class="notification is-{$flash.type}">
+          {$flash.message}
+        </div>
+      {/if}
       {@render children()}
     </div>
   </main>

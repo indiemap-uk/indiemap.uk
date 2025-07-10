@@ -35,7 +35,6 @@ export const businesses = pgTable('businesses', {
   name: varchar().notNull(),
   status: businessStatusEnum().default('live').notNull(),
   townId: integer().references(() => ukTowns.id, {onUpdate: 'cascade', onDelete: 'set null'}),
-  generatedFromUrls: text().array().notNull().default([]),
   ...timestamps,
 })
 
@@ -75,6 +74,16 @@ export const businessLocations = pgTable(
   (table) => [primaryKey({columns: [table.businessId, table.locationId]})],
 )
 
+export const sources = pgTable('sources', {
+  id: varchar({length: 90}).primaryKey().notNull(),
+  urls: varchar().array().notNull(),
+  businessId: varchar({length: 90})
+    .references(() => businesses.id, {
+      onUpdate: 'cascade',
+      onDelete: 'set null',
+    }),
+})
+
 /**
  * RELATIONS
  */
@@ -90,6 +99,7 @@ export const businessesRelations = relations(businesses, ({one, many}) => ({
   }),
   links: many(links),
   locations: many(businessLocations),
+  sources: many(sources),
 }))
 
 export const linksRelations = relations(links, ({one}) => ({
@@ -111,5 +121,12 @@ export const businessLocationsRelations = relations(businessLocations, ({one}) =
   location: one(locations, {
     fields: [businessLocations.locationId],
     references: [locations.id],
+  }),
+}))
+
+export const sourcesRelations = relations(sources, ({one}) => ({
+  business: one(businesses, {
+    fields: [sources.businessId],
+    references: [businesses.id],
   }),
 }))

@@ -22,6 +22,20 @@
       "when": 1751730230795,
       "tag": "0002_early_steve_rogers",
       "breakpoints": true
+    },
+    {
+      "idx": 3,
+      "version": "7",
+      "when": 1752053609899,
+      "tag": "0003_slimy_impossible_man",
+      "breakpoints": true
+    },
+    {
+      "idx": 4,
+      "version": "7",
+      "when": 1752075898144,
+      "tag": "0004_foamy_wilson_fisk",
+      "breakpoints": true
     }
   ]
 }

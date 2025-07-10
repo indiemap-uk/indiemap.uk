@@ -15,8 +15,6 @@ const businessStatus = v.picklist(['live', 'draft'])
  */
 export const BusinessSchema = v.object({
   description: v.nullish(v.pipe(v.string(), v.trim(), v.minLength(5), v.maxLength(1000))),
-  /** The list of URLs the business was generated from (if any) */
-  generatedFromUrls: v.optional(v.array(v.string()), []),
   id: v.string(),
   name: v.pipe(
     v.string(),

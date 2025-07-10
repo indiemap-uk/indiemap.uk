@@ -1,7 +1,5 @@
-import type {BusinessUserCreateType} from '@i/core/business'
-import type {LinkCreateType} from '@i/core/link'
-
 import {fail, redirect} from '@sveltejs/kit'
+import {setFlash} from 'sveltekit-flash-message/server'
 import {valibot} from 'sveltekit-superforms/adapters'
 import {superValidate} from 'sveltekit-superforms/server'
 import * as v from 'valibot'
@@ -19,49 +17,21 @@ export const load = async () => {
 }
 
 export const actions = {
-  default: async ({locals, request}) => {
+  default: async ({locals, request, cookies}) => {
     const form = await superValidate(request, valibot(SeedSchema))
 
     if (!form.valid) {
       console.error('error in form', form.errors)
       return fail(400, {form})
     }
+    const urls = form.data.urls.split('\n')
 
-    let businessId
+    const source = await locals.container.sourceRepository.create({urls})
 
-    try {
-      const urls = form.data.urls.split('\n')
-      const summary = await locals.container.summarizerService.summarizeUrls(urls)
+    await locals.container.workerService.addJob('makeBusinessFromSource', source)
 
-      const b: BusinessUserCreateType = {
-        description: summary.longDescription,
-        generatedFromUrls: urls,
-        name: summary.businessTitle,
-        status: 'draft',
-        townId: null,
-      }
-      const business = await locals.container.businessService.create(b)
+    setFlash({message: 'Business generation started! Check back in a few minutes.', type: 'success'}, cookies)
 
-      // Save the URLs we used to generate this business
-      await locals.container.kvstore.set(`llmurls:${business.id}`, urls)
-
-      if (summary.links) {
-        for (const url of summary.links) {
-          const link: LinkCreateType = {
-            businessId: business.id,
-            url: url,
-          }
-
-          await locals.container.linkService.create(link)
-        }
-      }
-
-      businessId = business.id
-    } catch (e) {
-      console.error(e)
-      return fail(500, {form})
-    }
-
-    redirect(303, `/admin/business/${businessId.toString()}`)
+    redirect(303, `/admin/businesses`)
   },
 } satisfies Actions
