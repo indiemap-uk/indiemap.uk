@@ -28,6 +28,13 @@ const menu = [
       ['Add', '/admin/business'],
     ],
   ],
+  [
+    'Source',
+    [
+      ['List', '/admin/sources'],
+      ['Add', '/admin/source'],
+    ],
+  ],
 ]
 </script>
 

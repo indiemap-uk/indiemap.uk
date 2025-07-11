@@ -73,4 +73,13 @@ export class SourceRepositoryPostgres extends CRUDRepositoryPostgres implements 
       .set(validatedData)
       .where(eq(sources.id, validatedData.id))
   }
+
+  async search(): Promise<SourceType[]> {
+    const records = await this.db
+      .select()
+      .from(sources)
+      .limit(100)
+
+    return records.map(record => v.parse(SourceSchema, record))
+  }
 }

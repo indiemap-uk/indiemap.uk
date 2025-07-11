@@ -13,11 +13,19 @@ export class SourceService {
     return this.sourceRepository.delete(id)
   }
 
+  async getById(id: string) {
+    return this.sourceRepository.getById(id)
+  }
+
   async getByBusinessId(id: BusinessIdType) {
     return this.sourceRepository.getByBusinessId(id)
   }
 
   async update(source: SourceType) {
     await this.sourceRepository.update(source)
+  }
+
+  async search() {
+    return this.sourceRepository.search()
   }
 }
