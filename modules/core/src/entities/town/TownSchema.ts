@@ -23,3 +23,15 @@ export const TownNameSearchSchema = NameSearchSchema
 export const TownIDSearchSchema = v.pipe(v.number(), v.minValue(1), v.maxValue(99_999))
 
 export const TownSearchResultSchema = v.pick(TownSchema, ['id', 'name', 'county', 'latitude', 'longitude'])
+
+export const TownListArgsSchema = v.object({
+  limit: v.optional(v.number(), 10),
+  offset: v.optional(v.number(), 0),
+  order: v.optional(
+    v.object({
+      by: v.optional(v.picklist(['businessCount', 'name']), 'businessCount'),
+      direction: v.optional(v.picklist(['ASC', 'DESC']), 'DESC'),
+    }),
+    {by: 'businessCount', direction: 'DESC'},
+  ),
+})

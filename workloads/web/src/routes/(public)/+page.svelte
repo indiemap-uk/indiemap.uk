@@ -1,69 +1,36 @@
 <script lang="ts">
-import {alogliaBusinessSearch} from '$lib/business/algoliaBusinessSearch'
-import IndieMap from '$lib/map/IndieMap.svelte'
-import {centerOfUK} from '$lib/map/UK.js'
-import {alogliaTownSearch} from '$lib/town/algoliaTownSearch'
-import * as algolia from '@algolia/autocomplete-js'
-import {type BusinessResolvedType, hasTown} from '@i/core/business'
-import type {TownSearchResultType} from '@i/core/town'
-import {onMount} from 'svelte'
-
 const {data} = $props()
-
-const points = $derived(
-  data.businesses.filter(hasTown).map((business) => ({
-    lat: business.town.latitude,
-    lon: business.town.longitude,
-    label: business.name,
-  })),
-)
-
-onMount(() => {
-  algolia.autocomplete<BusinessResolvedType | TownSearchResultType>({
-    container: '#search',
-    placeholder: 'What are you looking for?',
-    // @ts-ignore - not sure how to set multiple sources type-safely
-    getSources() {
-      return [alogliaBusinessSearch, alogliaTownSearch]
-    },
-  })
-})
 </script>
 
-<div id="search"></div>
+<svelte:head>
+  <title>Indiemap.uk</title>
+</svelte:head>
 
-<div class="split">
-  <div>
-    <h2>Latest businesses</h2>
-
-    <ul>
-      {#each data.businesses as business}
+<main>
+  <h2>Latest</h2>
+  <ul>
+    {#await data.latestBusinesses then business}
+      {#each business as business}
         <li>
-          <a href={`/business/${business.id}`}>{business.name}
-            {#if business.town}
-              ({business.town.name}, {business.town.county})
-            {/if}
-          </a>
+          <a href={`/business/${business.id}`}>{business.name}</a>
+          {#if business.town}
+            in <a href={`/town/${business.town?.id}`}>{business.town?.name}, {business.town?.county}</a>
+          {/if}
         </li>
       {/each}
-    </ul>
-  </div>
-  <div class="map">
-    <IndieMap {points} center={centerOfUK} />
-  </div>
-</div>
+    {/await}
+  </ul>
+  <p><a href="/businesses">All businesses</a></p>
 
-<style>
-#search {
-	margin-bottom: 3rem;
-}
-
-.split {
-	--split: 400px;
-}
-
-ul {
-	list-style: none;
-	padding: 0;
-}
-</style>
+  <h2>Top Towns</h2>
+  <ul>
+    {#await data.townsWithBusiness then towns}
+      {#each towns as town}
+        <li>
+          <a href={`/town/${town.id}`}>{town.name}, {town.county}</a> ({town.businessCount})
+        </li>
+      {/each}
+    {/await}
+  </ul>
+  <p><a href="/towns">All towns</a></p>
+</main>

@@ -62,12 +62,15 @@ export const getContainer = async (env: ContainerEnvType) => {
   })
 
   return {
+    businessRepository,
     businessService,
     geocodingService,
     kvstore,
     linkService,
     locationService,
     sourceRepository,
+    summarizerService,
+    townRepository,
     townService,
     workerService,
   }

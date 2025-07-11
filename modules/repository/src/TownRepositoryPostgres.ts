@@ -1,7 +1,9 @@
 import {
+  type TownListArgsType,
   type TownRepository,
   type TownSearchResultType,
   type TownType,
+  TownListArgsSchema,
   TownNameSearchSchema,
   TownSchema,
   TownSearchResultSchema,
@@ -12,7 +14,7 @@ import * as v from 'valibot'
 
 const debug = Debug('indie:repository:town')
 
-import {eq, ilike, sql} from 'drizzle-orm'
+import {asc, count, desc, eq, gte, ilike, sql} from 'drizzle-orm'
 import {CRUDRepositoryPostgres} from './CRUDRepositoryPostgres.js'
 import {businesses, ukTowns} from './db/schema/schema.js'
 
@@ -51,7 +53,11 @@ export class TownRepositoryPostgres extends CRUDRepositoryPostgres implements To
    * @param qInput the first 3+ characters of the town name
    * @param hasBusiness when true only returns towns that have businesses
    */
-  async search(args: {q: string; hasBusiness?: boolean; limit?: number}): Promise<TownSearchResultType[]> {
+  async search(args: {
+    q: string
+    hasBusiness?: boolean
+    limit?: number
+  }): Promise<TownSearchResultType[]> {
     const q = v.parse(TownNameSearchSchema, args.q)
     const {hasBusiness = false, limit = 25} = args
     const shape = {
@@ -77,10 +83,7 @@ export class TownRepositoryPostgres extends CRUDRepositoryPostgres implements To
         .select(shape)
         .from(ukTowns)
         .where(ilike(ukTowns.name, `${q}%`))
-        .innerJoin(
-          businesses,
-          eq(businesses.townId, ukTowns.id),
-        )
+        .innerJoin(businesses, eq(businesses.townId, ukTowns.id))
         .limit(limit)
     }
 
@@ -104,6 +107,46 @@ export class TownRepositoryPostgres extends CRUDRepositoryPostgres implements To
     debug(`created town with id ${town.id}`)
 
     return this.getById(town.id)
+  }
+
+  async townsWithBusiness(userArgs?: TownListArgsType): Promise<Array<TownType & {businessCount: number}>> {
+    const args = v.parse(TownListArgsSchema, userArgs ?? {})
+
+    // Determine order
+    let orderColumn
+    switch (args.order.by) {
+      case 'businessCount':
+        orderColumn = count(businesses.id)
+        break
+      case 'name':
+        orderColumn = ukTowns.name
+        break
+      default:
+        orderColumn = count(businesses.id)
+    }
+    const orderDirection = args.order.direction === 'DESC' ? desc(orderColumn) : asc(orderColumn)
+
+    const records = await this.db
+      .select({
+        uk_towns: ukTowns,
+        business_count: count(businesses.id).as('business_count'),
+      })
+      .from(ukTowns)
+      .innerJoin(businesses, eq(businesses.townId, ukTowns.id))
+      .groupBy(ukTowns.id, ukTowns.name, ukTowns.county, ukTowns.country)
+      .having(gte(count(businesses.id), 1))
+      .orderBy(orderDirection)
+      .limit(args.limit)
+      .offset(args.offset)
+
+    // drizzle-orm returns { uk_towns: ... } when using .select(ukTowns)
+    return records.map((r) => {
+      const town = this.toSchema(r.uk_towns)
+      return {
+        ...town,
+        businessCount: r.business_count,
+      }
+    })
   }
 
   private toSchema = (record: typeof ukTowns.$inferSelect) => {

@@ -32,8 +32,8 @@ const toggleDebug = () => {
   {/if}
 
   <p style="text-align: right;">
-    <a href="#" onclick={toggleDebug}>
+    <button onclick={toggleDebug}>
       <small>{showDebug ? 'Hide' : 'Show'} SuperDebug</small>
-    </a>
+    </button>
   </p>
 {/if}

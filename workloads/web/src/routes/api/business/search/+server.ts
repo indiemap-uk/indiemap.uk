@@ -1,4 +1,4 @@
-import {type BusinessSearchType, BusinessSearchSchema} from '@i/core/business'
+import {type BusinessListArgs, type BusinessSearchType, BusinessSearchSchema} from '@i/core/business'
 import {error, json} from '@sveltejs/kit'
 import Debug from 'debug'
 import * as v from 'valibot'
@@ -27,7 +27,27 @@ export const GET = async ({locals, url}) => {
     error(400, qParse.issues.map((i) => `${i.path?.[0].key}: ${i.message}`).join(', '))
   }
 
-  const results = await locals.container.businessService.search(qParse.output)
+  // Handle pagination parameters
+  const limit = parseInt(url.searchParams.get('limit') || '20')
+  const offset = parseInt(url.searchParams.get('offset') || '0')
+  const orderBy = url.searchParams.get('orderBy') || 'name'
+  const orderDirection = url.searchParams.get('orderDirection') || 'ASC'
 
-  return json(results)
+  const args: BusinessListArgs = {
+    limit,
+    offset,
+    order: {
+      by: orderBy as keyof BusinessSearchType,
+      direction: orderDirection as 'ASC' | 'DESC',
+    },
+  }
+
+  const results = await locals.container.businessRepository.search(qParse.output, args)
+
+  return json({
+    businesses: results,
+    offset,
+    limit,
+    hasMore: results.length === limit,
+  })
 }

@@ -1,11 +1,3 @@
 @import url('./reset.css');
-@import url('./open-props.min.css');
 @import url('./theme.css');
 @import url('./global.css');
-@import url('./composition.css');
-@import url('./utility.css');
-@import url('./blocks/block.css');
-@import url('./form.css');
-@import url('./exceptions.css');
-@import url('./algolia.css');
-@import url('./map.css');
