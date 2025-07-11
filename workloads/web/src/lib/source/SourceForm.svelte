@@ -3,7 +3,7 @@ import {SourceCreateSchema, SourceSchema} from '@i/core/source'
 import {superForm} from 'sveltekit-superforms'
 import {valibot} from 'sveltekit-superforms/adapters'
 
-const {sForm} = $props()
+const {sForm, business} = $props()
 
 const {form, errors, enhance, submitting, message} = superForm(sForm, {
   validators: valibot(sForm.data.id ? SourceSchema : SourceCreateSchema),
@@ -29,15 +29,15 @@ function handleUrlsChange(event: Event) {
     <input type="hidden" name="id" value={$form.id} />
   {/if}
 
-  {#if $form.businessId}
+  {#if business}
     <div class="field">
-      <label class="label" for="businessId">Business ID</label>
+      <label class="label" for="business">Business</label>
       <div class="control">
         <input
-          id="businessId"
+          id="business"
           class="input"
           type="text"
-          value={$form.businessId}
+          value={business.name}
           readonly
           disabled
         />

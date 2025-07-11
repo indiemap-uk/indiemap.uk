@@ -1,6 +1,6 @@
 import type {BusinessIdType} from '../business/BusinessType.js'
 import type {SourceRepository} from './SourceRepository.js'
-import type {SourceCreateType, SourceType} from './SourceType.js'
+import type {SourceCreateType, SourceResolvedType, SourceType} from './SourceType.js'
 
 export class SourceService {
   constructor(private readonly sourceRepository: SourceRepository) {}
@@ -13,7 +13,7 @@ export class SourceService {
     return this.sourceRepository.delete(id)
   }
 
-  async getById(id: string) {
+  async getById(id: string): Promise<SourceResolvedType | null> {
     return this.sourceRepository.getById(id)
   }
 
@@ -25,7 +25,7 @@ export class SourceService {
     await this.sourceRepository.update(source)
   }
 
-  async search() {
+  async search(): Promise<SourceResolvedType[]> {
     return this.sourceRepository.search()
   }
 }

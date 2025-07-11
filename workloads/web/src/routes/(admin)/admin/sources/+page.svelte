@@ -14,8 +14,7 @@ const {data} = $props()
       <tr>
         <th>ID</th>
         <th>URLS</th>
-        <th>BUSINESS ID</th>
-        <th>ACTIONS</th>
+        <th>BUSINESS</th>
       </tr>
     </thead>
     <tbody>
@@ -38,18 +37,13 @@ const {data} = $props()
             </div>
           </td>
           <td>
-            {#if source.businessId}
-              <a href={`/admin/business/${source.businessId}`} class="tag is-info">
-                {source.businessId}
+            {#if source.business}
+              <a href={`/admin/business/${source.business.id}`} class="tag is-info">
+                {source.business.name}
               </a>
             {:else}
               <em>-</em>
             {/if}
-          </td>
-          <td>
-            <a href={`/admin/source/${source.id}`} class="button is-small is-primary">
-              Edit
-            </a>
           </td>
         </tr>
       {/each}

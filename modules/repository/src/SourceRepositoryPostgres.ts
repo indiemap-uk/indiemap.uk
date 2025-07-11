@@ -1,8 +1,11 @@
+import {parseSchema} from '@i/core/schema'
 import {
   type SourceCreateType,
   type SourceRepository,
+  type SourceResolvedType,
   type SourceType,
   SourceCreateSchema,
+  SourceResolvedSchema,
   SourceSchema,
   newSourceId,
 } from '@i/core/source'
@@ -10,7 +13,7 @@ import {eq} from 'drizzle-orm'
 import * as v from 'valibot'
 
 import {CRUDRepositoryPostgres} from './CRUDRepositoryPostgres.js'
-import {sources} from './db/schema/schema.js'
+import {businesses, sources} from './db/schema/schema.js'
 
 export class SourceRepositoryPostgres extends CRUDRepositoryPostgres implements SourceRepository {
   async create(data: SourceCreateType) {
@@ -37,18 +40,22 @@ export class SourceRepositoryPostgres extends CRUDRepositoryPostgres implements 
       .where(eq(sources.id, id))
   }
 
-  async getById(id: string) {
-    const record = await this.db
-      .select()
+  async getById(id: string): Promise<SourceResolvedType | null> {
+    const records = await this.db
+      .select({
+        source: sources,
+        business: businesses,
+      })
       .from(sources)
+      .leftJoin(businesses, eq(sources.businessId, businesses.id))
       .where(eq(sources.id, id))
       .limit(1)
 
-    if (record.length === 0) {
+    if (records.length === 0) {
       return null
     }
 
-    return v.parse(SourceSchema, record[0])
+    return this.toResolvedSourceSchema(this.ensure1(records))
   }
 
   async getByBusinessId(id: string) {
@@ -74,12 +81,40 @@ export class SourceRepositoryPostgres extends CRUDRepositoryPostgres implements 
       .where(eq(sources.id, validatedData.id))
   }
 
-  async search(): Promise<SourceType[]> {
+  async search(): Promise<SourceResolvedType[]> {
     const records = await this.db
-      .select()
+      .select({
+        source: sources,
+        business: businesses,
+      })
       .from(sources)
+      .leftJoin(businesses, eq(sources.businessId, businesses.id))
       .limit(100)
 
-    return records.map(record => v.parse(SourceSchema, record))
+    return records.map(record => this.toResolvedSourceSchema(record))
+  }
+
+  private toResolvedSourceSchema(record: {
+    source: typeof sources.$inferSelect
+    business: typeof businesses.$inferSelect | null
+  }): SourceResolvedType {
+    const businessData = record.business
+      ? {
+        id: record.business.id,
+        name: record.business.name,
+        description: record.business.description,
+        status: record.business.status,
+        townId: record.business.townId,
+        createdAt: record.business.createdAt,
+        updatedAt: record.business.updatedAt,
+      }
+      : undefined
+
+    return parseSchema(SourceResolvedSchema, {
+      id: record.source.id,
+      urls: record.source.urls,
+      businessId: record.source.businessId,
+      business: businessData,
+    })
   }
 }
