@@ -28,6 +28,7 @@ table {
 		}
 
 		& td {
+			vertical-align: top;
 			padding-block: 0.5rem;
 			padding-inline: 0.5rem;
 		}
