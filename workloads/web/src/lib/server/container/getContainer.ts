@@ -49,6 +49,7 @@ export const getContainer = async (env: ContainerEnvType) => {
     linkService,
     markdownService,
     sourceRepository,
+    sourceService,
     summarizerService,
   })
   await workerService.start()
