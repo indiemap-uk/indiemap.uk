@@ -27,8 +27,8 @@ const {image, name}: {image?: string; name?: null | string} = $props()
 	gap: 1rem;
 
 	img {
-		width: 4rem;
-		height: 4rem;
+		width: 3rem;
+		height: 3rem;
 		border-radius: 50%;
 	}
 }
