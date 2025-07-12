@@ -6,6 +6,6 @@ export type SourceRepository = {
   create(data: SourceCreateType): Promise<SourceType>
   delete(id: string): Promise<void>
   getByBusinessId(id: BusinessIdType): Promise<SourceType | null>
-  update(data: SourceType): Promise<void>
+  update(data: SourceUpdateType): Promise<void>
   search(): Promise<SourceResolvedType[]>
 }

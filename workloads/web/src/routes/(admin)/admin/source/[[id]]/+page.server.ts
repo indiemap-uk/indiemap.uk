@@ -73,7 +73,7 @@ export const actions = {
     await locals.container.sourceService.delete(v.parse(v.string(), form.data.id))
 
     setFlash({message: 'Deleted', type: 'success'}, cookies)
-    return redirect(301, '/admin/sources')
+    throw redirect(301, '/admin/sources')
   },
 
   update: async ({locals, request}) => {
@@ -94,7 +94,7 @@ export const actions = {
     }
   },
 
-  makeBusiness: async ({locals, request}) => {
+  makeBusiness: async ({locals, request, cookies}) => {
     const form = await superValidate(request, valibot(SourceSchema))
 
     if (!form.valid) {
@@ -106,7 +106,7 @@ export const actions = {
       await locals.container.workerService.addJob('makeBusinessFromSource', parseSchema(SourceSchema, form.data))
 
       setFlash({message: 'Business generation started! Check results in a few minutes.', type: 'success'}, cookies)
-      return redirect(301, '/admin/businesses')
+      throw redirect(301, '/admin/businesses')
     } catch (error) {
       console.error(error)
       return fail(500, {form})
