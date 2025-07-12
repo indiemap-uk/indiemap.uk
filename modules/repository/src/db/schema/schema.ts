@@ -82,6 +82,7 @@ export const sources = pgTable('sources', {
       onUpdate: 'cascade',
       onDelete: 'set null',
     }),
+  ...timestamps,
 })
 
 /**

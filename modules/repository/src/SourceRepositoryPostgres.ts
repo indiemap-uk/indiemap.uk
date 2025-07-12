@@ -19,11 +19,14 @@ export class SourceRepositoryPostgres extends CRUDRepositoryPostgres implements 
   async create(data: SourceCreateType) {
     const validatedData = v.parse(SourceCreateSchema, data)
     const id = newSourceId()
+    const now = new Date().toISOString()
 
     const toInsert = {
       id: id.toString(),
       businessId: validatedData.businessId,
       urls: validatedData.urls,
+      createdAt: now,
+      updatedAt: now,
     }
 
     const record = await this.db
@@ -74,10 +77,14 @@ export class SourceRepositoryPostgres extends CRUDRepositoryPostgres implements 
 
   async update(data: SourceType): Promise<void> {
     const validatedData = v.parse(SourceSchema, data)
+    const now = new Date().toISOString()
 
     await this.db
       .update(sources)
-      .set(validatedData)
+      .set({
+        ...validatedData,
+        updatedAt: now,
+      })
       .where(eq(sources.id, validatedData.id))
   }
 
