@@ -31,8 +31,6 @@ const {values: urlsValues, errors: urlsErrors, valueErrors: urlsValueErrors} = a
 <form method="POST" action="?/{$form.id ? 'update' : 'create'}" use:enhance class="admin flow">
   {#if $form.id}
     <input type="hidden" name="id" value={$form.id} />
-    <input type="hidden" name="createdAt" value={$form.createdAt} />
-    <input type="hidden" name="updatedAt" value={$form.updatedAt} />
   {/if}
 
   {#if business}

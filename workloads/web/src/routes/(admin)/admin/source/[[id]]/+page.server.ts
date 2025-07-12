@@ -1,4 +1,5 @@
-import {SourceCreateSchema, SourceSchema} from '@i/core/source'
+import {parseSchema} from '@i/core/schema'
+import {SourceCreateSchema, SourceSchema, SourceUpdateSchema} from '@i/core/source'
 import {fail, redirect} from '@sveltejs/kit'
 import {setFlash} from 'sveltekit-flash-message/server'
 import {message, setError, superValidate} from 'sveltekit-superforms'
@@ -59,15 +60,41 @@ export const actions = {
     return redirect(301, '/admin/sources')
   },
 
-  delete: async ({locals, request}) => {
-    const formData = await request.formData()
+  delete: async ({locals, request, cookies}) => {
+    const form = await superValidate(request, valibot(SourceUpdateSchema))
 
-    await locals.container.sourceService.delete(v.parse(v.string(), formData.get('id')))
+    if (!form.valid) {
+      console.error(form.errors)
+      return fail(400, {form})
+    }
 
+    console.log('form.data', form.data)
+
+    await locals.container.sourceService.delete(v.parse(v.string(), form.data.id))
+
+    setFlash({message: 'Deleted', type: 'success'}, cookies)
     return redirect(301, '/admin/sources')
   },
 
   update: async ({locals, request}) => {
+    const form = await superValidate(request, valibot(SourceUpdateSchema))
+
+    if (!form.valid) {
+      console.error(form.errors)
+      return fail(400, {form})
+    }
+
+    try {
+      await locals.container.sourceService.update(form.data)
+
+      return message(form, 'Source updated')
+    } catch (error) {
+      console.error(error)
+      return fail(500, {form})
+    }
+  },
+
+  makeBusiness: async ({locals, request}) => {
     const form = await superValidate(request, valibot(SourceSchema))
 
     if (!form.valid) {
@@ -76,10 +103,10 @@ export const actions = {
     }
 
     try {
-      const parsed = v.parse(SourceSchema, form.data)
-      await locals.container.sourceService.update(parsed)
+      await locals.container.workerService.addJob('makeBusinessFromSource', parseSchema(SourceSchema, form.data))
 
-      return message(form, 'Source updated')
+      setFlash({message: 'Business generation started! Check results in a few minutes.', type: 'success'}, cookies)
+      return redirect(301, '/admin/businesses')
     } catch (error) {
       console.error(error)
       return fail(500, {form})

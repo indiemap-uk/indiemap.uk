@@ -4,10 +4,11 @@ import type {Task} from 'graphile-worker'
 import {SourceSchema} from '@i/core/source'
 
 /**
- * THIS IS THE ENTRY POINT / INITIAL TASK!
+ * THIS IS THE ENTRY POINT / INITIAL TASK FOR MAKING A BUSINESS FROM A SOURCE
+ *
  * Takes a Source ID and kicks off a saga to generate a business from the URLs.
  *
- * Reminde: a Source is a list of URLs
+ * Reminder: a Source is a list of URLs
  */
 export const makeBusinessFromSource = (): Task => async (payload, h) => {
   const p = parseSchema(SourceSchema, payload)

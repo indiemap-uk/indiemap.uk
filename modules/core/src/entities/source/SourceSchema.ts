@@ -14,7 +14,8 @@ export const SourceSchema = v.object({
   ...TimestampSchema.entries,
 })
 
-export const SourceCreateSchema = v.omit(SourceSchema, ['id'])
+export const SourceCreateSchema = v.omit(SourceSchema, ['id', 'createdAt', 'updatedAt'])
+export const SourceUpdateSchema = v.omit(SourceSchema, ['createdAt', 'updatedAt'])
 
 export const SourceResolvedSchema = v.object({
   ...SourceSchema.entries,

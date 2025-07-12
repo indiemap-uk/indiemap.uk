@@ -3,10 +3,11 @@ import {
   type SourceCreateType,
   type SourceRepository,
   type SourceResolvedType,
-  type SourceType,
+  type SourceUpdateType,
   SourceCreateSchema,
   SourceResolvedSchema,
   SourceSchema,
+  SourceUpdateSchema,
   newSourceId,
 } from '@i/core/source'
 import {desc, eq} from 'drizzle-orm'
@@ -75,8 +76,8 @@ export class SourceRepositoryPostgres extends CRUDRepositoryPostgres implements 
     return v.parse(SourceSchema, records[0])
   }
 
-  async update(data: SourceType): Promise<void> {
-    const validatedData = v.parse(SourceSchema, data)
+  async update(data: SourceUpdateType) {
+    const validatedData = v.parse(SourceUpdateSchema, data)
     const now = new Date().toISOString()
 
     await this.db

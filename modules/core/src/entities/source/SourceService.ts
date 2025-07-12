@@ -1,6 +1,6 @@
 import type {BusinessIdType} from '../business/BusinessType.js'
 import type {SourceRepository} from './SourceRepository.js'
-import type {SourceCreateType, SourceResolvedType, SourceType} from './SourceType.js'
+import type {SourceCreateType, SourceResolvedType, SourceUpdateType} from './SourceType.js'
 
 export class SourceService {
   constructor(private readonly sourceRepository: SourceRepository) {}
@@ -21,7 +21,7 @@ export class SourceService {
     return this.sourceRepository.getByBusinessId(id)
   }
 
-  async update(source: SourceType) {
+  async update(source: SourceUpdateType) {
     await this.sourceRepository.update(source)
   }
 
