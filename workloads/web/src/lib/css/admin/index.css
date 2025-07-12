@@ -1,0 +1,41 @@
+body {
+	/* Many thanks to https://modernfontstacks.com/ */
+	font-family: system-ui, sans-serif;
+	font-weight: normal;
+
+	a {
+		text-decoration: none;
+		&:hover {
+			text-decoration: underline;
+		}
+	}
+}
+
+table {
+	&.admin-data-table {
+		width: 100%;
+		border-collapse: collapse;
+
+		& thead th {
+			padding-block: 1rem;
+		}
+
+		& th {
+			text-align: left;
+		}
+		& tr:nth-child(even) {
+			background-color: #f0f0f0;
+		}
+
+		& td {
+			padding-block: 0.5rem;
+			padding-inline: 0.5rem;
+		}
+	}
+}
+
+nav.breadcrumb ul {
+	display: inline-flex;
+	list-style: none;
+	gap: 1rem;
+}

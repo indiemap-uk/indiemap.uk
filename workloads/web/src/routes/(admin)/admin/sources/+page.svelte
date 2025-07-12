@@ -9,7 +9,7 @@ const {data} = $props()
 <div class="block">
   <h1 class="title">Sources</h1>
 
-  <table class="table is-striped is-hoverable is-fullwidth">
+  <table class="admin-data-table">
     <thead>
       <tr>
         <th>ID</th>
