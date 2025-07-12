@@ -1,4 +1,8 @@
 <script lang="ts">
+// Import the main and admin css:
+import '$lib/css/index.css'
+import '$lib/css/admin/index.css'
+
 import {page} from '$app/stores'
 import SignOutBar from '$lib/user/SignOutBar.svelte'
 import IconHomeFilled from '@tabler/icons-svelte/icons/home-filled'
@@ -28,33 +32,33 @@ const menu = [
       ['Add', '/admin/business'],
     ],
   ],
+  [
+    'Source',
+    [
+      ['List', '/admin/sources'],
+      ['Add', '/admin/source'],
+    ],
+  ],
 ]
 </script>
 
 <div class="grid">
   <header>
-    <div class="columns">
-      <nav class="column breadcrumb">
-        <ul>
-          <li>
-            <a href="/">
-              <IconHomeFilled />
-            </a>
-          </li>
-          <li class:is-active={$page.url.pathname === '/admin'}><a href="/admin">Admin</a></li>
-        </ul>
-      </nav>
+    <nav class="breadcrumb">
+      <ul>
+        <li>
+          <a href="/">
+            <IconHomeFilled />
+          </a>
+        </li>
+        <li class:is-active={$page.url.pathname === '/admin'}><a href="/admin">Admin</a></li>
+      </ul>
+    </nav>
 
-      <div class="column has-text-right level">
-        <div class="level-left"></div>
-        <div class="level-right">
-          <SignOutBar
-            name={data.session?.user.name ?? data.session?.user.email}
-            image={data.session?.user.image ?? data.session?.user.libravatar}
-          />
-        </div>
-      </div>
-    </div>
+    <SignOutBar
+      name={data.session?.user.name ?? data.session?.user.email}
+      image={data.session?.user.image ?? data.session?.user.libravatar}
+    />
   </header>
 
   <aside class="menu">
@@ -102,6 +106,10 @@ const menu = [
 
 header {
 	grid-area: header;
+
+	display: flex;
+	flex-direction: row;
+	justify-content: space-between;
 
 	padding-block: 2rem;
 	padding-inline: 1rem;

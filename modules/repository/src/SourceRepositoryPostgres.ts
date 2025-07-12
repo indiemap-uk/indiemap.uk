@@ -1,26 +1,33 @@
+import {parseSchema} from '@i/core/schema'
 import {
   type SourceCreateType,
   type SourceRepository,
-  type SourceType,
+  type SourceResolvedType,
+  type SourceUpdateType,
   SourceCreateSchema,
+  SourceResolvedSchema,
   SourceSchema,
+  SourceUpdateSchema,
   newSourceId,
 } from '@i/core/source'
-import {eq} from 'drizzle-orm'
+import {desc, eq} from 'drizzle-orm'
 import * as v from 'valibot'
 
 import {CRUDRepositoryPostgres} from './CRUDRepositoryPostgres.js'
-import {sources} from './db/schema/schema.js'
+import {businesses, sources} from './db/schema/schema.js'
 
 export class SourceRepositoryPostgres extends CRUDRepositoryPostgres implements SourceRepository {
   async create(data: SourceCreateType) {
     const validatedData = v.parse(SourceCreateSchema, data)
     const id = newSourceId()
+    const now = new Date().toISOString()
 
     const toInsert = {
       id: id.toString(),
       businessId: validatedData.businessId,
       urls: validatedData.urls,
+      createdAt: now,
+      updatedAt: now,
     }
 
     const record = await this.db
@@ -37,18 +44,22 @@ export class SourceRepositoryPostgres extends CRUDRepositoryPostgres implements 
       .where(eq(sources.id, id))
   }
 
-  async getById(id: string) {
-    const record = await this.db
-      .select()
+  async getById(id: string): Promise<SourceResolvedType | null> {
+    const records = await this.db
+      .select({
+        source: sources,
+        business: businesses,
+      })
       .from(sources)
+      .leftJoin(businesses, eq(sources.businessId, businesses.id))
       .where(eq(sources.id, id))
       .limit(1)
 
-    if (record.length === 0) {
+    if (records.length === 0) {
       return null
     }
 
-    return v.parse(SourceSchema, record[0])
+    return this.toResolvedSourceSchema(this.ensure1(records))
   }
 
   async getByBusinessId(id: string) {
@@ -65,12 +76,52 @@ export class SourceRepositoryPostgres extends CRUDRepositoryPostgres implements 
     return v.parse(SourceSchema, records[0])
   }
 
-  async update(data: SourceType): Promise<void> {
-    const validatedData = v.parse(SourceSchema, data)
+  async update(data: SourceUpdateType) {
+    const validatedData = v.parse(SourceUpdateSchema, data)
+    const now = new Date().toISOString()
 
     await this.db
       .update(sources)
-      .set(validatedData)
+      .set({
+        ...validatedData,
+        updatedAt: now,
+      })
       .where(eq(sources.id, validatedData.id))
+  }
+
+  async search(): Promise<SourceResolvedType[]> {
+    const records = await this.db
+      .select({
+        source: sources,
+        business: businesses,
+      })
+      .from(sources)
+      .orderBy(desc(sources.updatedAt))
+      .leftJoin(businesses, eq(sources.businessId, businesses.id))
+      .limit(100)
+
+    return records.map(record => this.toResolvedSourceSchema(record))
+  }
+
+  private toResolvedSourceSchema(record: {
+    source: typeof sources.$inferSelect
+    business: typeof businesses.$inferSelect | null
+  }): SourceResolvedType {
+    const businessData = record.business
+      ? {
+        id: record.business.id,
+        name: record.business.name,
+        description: record.business.description,
+        status: record.business.status,
+        townId: record.business.townId,
+        createdAt: record.business.createdAt,
+        updatedAt: record.business.updatedAt,
+      }
+      : undefined
+
+    return parseSchema(SourceResolvedSchema, {
+      business: businessData,
+      ...record.source,
+    })
   }
 }

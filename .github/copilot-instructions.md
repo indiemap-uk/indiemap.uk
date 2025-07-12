@@ -11,7 +11,7 @@ Do not write "should" in test descriptions, say what the code does in present te
 To verify the project, run this command:
 
 ```sh
-pnpm vaidate
+pnpm validate
 ```
 
 # Tools

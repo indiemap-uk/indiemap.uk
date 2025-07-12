@@ -1,6 +1,7 @@
 import {BusinessService} from '@i/core/business'
 import {LinkService} from '@i/core/link'
 import {LocationService} from '@i/core/location'
+import {SourceService} from '@i/core/source'
 import {TownService} from '@i/core/town'
 import {GeocodingServiceGeocodify} from '@i/geocoding'
 import {BusinessRepositoryPostgres} from '@i/repository/BusinessRepositoryPostgres'
@@ -40,6 +41,7 @@ export const getContainer = async (env: ContainerEnvType) => {
   const summarizerService = new SummarizerService(openAiApiKey)
 
   const sourceRepository = new SourceRepositoryPostgres(db)
+  const sourceService = new SourceService(sourceRepository)
 
   const workerService = new WorkerService({DATABASE_URL: env.DATABASE_URL}, {
     businessService,
@@ -47,6 +49,7 @@ export const getContainer = async (env: ContainerEnvType) => {
     linkService,
     markdownService,
     sourceRepository,
+    sourceService,
     summarizerService,
   })
   await workerService.start()
@@ -69,6 +72,7 @@ export const getContainer = async (env: ContainerEnvType) => {
     linkService,
     locationService,
     sourceRepository,
+    sourceService,
     summarizerService,
     townRepository,
     townService,

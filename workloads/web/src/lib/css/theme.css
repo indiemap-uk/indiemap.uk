@@ -1,5 +1,7 @@
 /* Values independent of light/dark */
-:root {}
+:root {
+	--flow-space: 1em;
+}
 
 /* Light theme */
 :root {

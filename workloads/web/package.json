@@ -22,7 +22,7 @@
     "@i/repository": "workspace:*",
     "@i/summarizer": "workspace:*",
     "@i/worker": "workspace:*",
-    "@tabler/icons-svelte": "^3.31.0",
+    "@tabler/icons-svelte": "^3.34.0",
     "dayjs": "^1.11.13",
     "debug": "^4.4.0",
     "maplibre-gl": "4.7.1",
@@ -30,7 +30,7 @@
     "svelecte": "5.0.0-next.16",
     "svelte-maplibre": "1.0.0-next.7",
     "sveltekit-flash-message": "^2.4.6",
-    "sveltekit-superforms": "^2.24.1",
+    "sveltekit-superforms": "^2.27.1",
     "valibot": "^1.1.0"
   },
   "devDependencies": {

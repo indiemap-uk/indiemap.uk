@@ -7,6 +7,7 @@ import type {WorkerServices} from './Services.js'
 import {fetchMarkdown} from './tasks/fetchMarkdown.js'
 import {makeBusinessFromSource} from './tasks/makeBusinessFromSource.js'
 import {makeBusinessFromSummary} from './tasks/makeBusinessSummary.js'
+import {makeSourceFromUrl} from './tasks/makeSourceFromUrl.js'
 import {watchMarkdown} from './tasks/watchMarkdown.js'
 
 const WorkerEnvSchema = v.object({
@@ -48,6 +49,7 @@ export class WorkerService {
           watchMarkdown: watchMarkdown(this.#services),
           makeBusinessSummary: makeBusinessFromSummary(this.#services),
           makeBusinessFromSummary: makeBusinessFromSummary(this.#services),
+          makeSourceFromUrl: makeSourceFromUrl(this.#services),
         },
       })
 

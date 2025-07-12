@@ -44,4 +44,6 @@ const activeTab = $derived.by(() => {
   </ul>
 </div>
 
-{@render children()}
+{#key data.business?.id ?? 'new'}
+  {@render children()}
+{/key}
