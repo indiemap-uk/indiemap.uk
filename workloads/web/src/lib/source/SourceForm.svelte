@@ -75,6 +75,17 @@ function handleUrlsChange(event: Event) {
           {$form.id ? 'Update Source' : 'Create Source'}
         {/if}
       </button>
+
+      {#if !$form.id}
+        <button
+          class="button is-info"
+          type="submit"
+          formaction="?/generate"
+          disabled={$submitting}
+        >
+          Generate from the 1st URL
+        </button>
+      {/if}
     </div>
 
     <div class="control">
