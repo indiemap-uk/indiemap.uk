@@ -1,5 +1,6 @@
 <script lang="ts">
-// Import the admin css:
+// Import the main and admin css:
+import '$lib/css/index.css'
 import '$lib/css/admin/index.css'
 
 import {page} from '$app/stores'

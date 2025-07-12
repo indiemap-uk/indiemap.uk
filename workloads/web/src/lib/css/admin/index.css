@@ -40,3 +40,20 @@ nav.breadcrumb ul {
 	list-style: none;
 	gap: 1rem;
 }
+
+form.admin {
+	--flow-space: 2em;
+	max-width: 80ch;
+
+	& input {
+		width: 100%;
+		padding: 0.5rem;
+	}
+
+	.input-group {
+		display: flex;
+		align-items: center;
+		gap: 0.5rem;
+		margin-bottom: 1rem;
+	}
+}
