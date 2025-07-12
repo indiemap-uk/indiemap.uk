@@ -28,4 +28,58 @@ export class SourceService {
   async search(): Promise<SourceResolvedType[]> {
     return this.sourceRepository.search()
   }
+
+  getLinksFromMarkdown(markdown: string): string[] {
+    return this.pickRelevantLinks(this.linksFromMarkdown(markdown))
+  }
+
+  private pickRelevantLinks(links: string[]): string[] {
+    return links.filter(link => {
+      // Filter out non-absolute links (relative paths)
+      if (!link.startsWith('http://') && !link.startsWith('https://')) {
+        return false
+      }
+
+      // Filter out internal anchors
+      if (link.includes('#')) {
+        return false
+      }
+
+      // Filter out mailto links
+      if (link.startsWith('mailto:')) {
+        return false
+      }
+
+      return true
+    })
+  }
+
+  /**
+   * linksFromMarkdown expect a markdown with links placed at the end and returns an array of URLs.
+   *
+   *  The input format matches the jina.ai Reader output.
+   * See tests and https://jina.ai/reader
+   */
+  private linksFromMarkdown(markdown: string): string[] {
+    const linksSectionMarker = 'Links/Buttons:'
+    const linksSectionIndex = markdown.indexOf(linksSectionMarker)
+
+    if (linksSectionIndex === -1) {
+      return []
+    }
+
+    const linksSection = markdown.substring(linksSectionIndex + linksSectionMarker.length)
+    const linkRegex = /\[([^\]]*)\]\(([^)]+)\)/g
+    const links: string[] = []
+
+    let match
+    while ((match = linkRegex.exec(linksSection)) !== null) {
+      const url = match[2]
+      if (url && url.trim()) {
+        links.push(url.trim())
+      }
+    }
+
+    return links
+  }
 }

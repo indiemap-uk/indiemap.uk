@@ -14,7 +14,8 @@
     "./schema": "./src/schema/index.ts"
   },
   "scripts": {
-    "typecheck": "tsc --noEmit"
+    "typecheck": "tsc --noEmit",
+    "test": "vitest"
   },
   "dependencies": {
     "debug": "^4.4.0",
