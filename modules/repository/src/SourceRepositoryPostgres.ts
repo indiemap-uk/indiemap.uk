@@ -9,7 +9,7 @@ import {
   SourceSchema,
   newSourceId,
 } from '@i/core/source'
-import {eq} from 'drizzle-orm'
+import {desc, eq} from 'drizzle-orm'
 import * as v from 'valibot'
 
 import {CRUDRepositoryPostgres} from './CRUDRepositoryPostgres.js'
@@ -95,6 +95,7 @@ export class SourceRepositoryPostgres extends CRUDRepositoryPostgres implements 
         business: businesses,
       })
       .from(sources)
+      .orderBy(desc(sources.updatedAt))
       .leftJoin(businesses, eq(sources.businessId, businesses.id))
       .limit(100)
 
@@ -118,10 +119,8 @@ export class SourceRepositoryPostgres extends CRUDRepositoryPostgres implements 
       : undefined
 
     return parseSchema(SourceResolvedSchema, {
-      id: record.source.id,
-      urls: record.source.urls,
-      businessId: record.source.businessId,
       business: businessData,
+      ...record.source,
     })
   }
 }

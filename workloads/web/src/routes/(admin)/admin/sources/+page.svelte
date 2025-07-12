@@ -1,4 +1,8 @@
 <script lang="ts">
+import dayjs from 'dayjs'
+import relativeTime from 'dayjs/plugin/relativeTime'
+dayjs.extend(relativeTime)
+
 const {data} = $props()
 </script>
 
@@ -12,6 +16,8 @@ const {data} = $props()
   <table class="admin-data-table">
     <thead>
       <tr>
+        <th>UPDATED</th>
+        <th>CREATED</th>
         <th>ID</th>
         <th>URLS</th>
         <th>BUSINESS</th>
@@ -20,9 +26,15 @@ const {data} = $props()
     <tbody>
       {#each data.sources as source}
         <tr>
+          <td>
+            {dayjs().to(dayjs(source.updatedAt))}
+          </td>
+          <td>
+            {dayjs().to(dayjs(source.createdAt))}
+          </td>
           <td class="is-family-monospace">
             <a href={`/admin/source/${source.id}`}>
-              <strong>{source.id}</strong>
+              {source.id}
             </a>
           </td>
           <td>
