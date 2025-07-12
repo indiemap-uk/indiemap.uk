@@ -1,84 +1,93 @@
 <script lang="ts">
+import ToggleSuperDebug from '$lib/components/ToggleSuperDebug.svelte'
 import {SourceCreateSchema, SourceSchema} from '@i/core/source'
-import {superForm} from 'sveltekit-superforms'
+import {arrayProxy, superForm} from 'sveltekit-superforms'
 import {valibot} from 'sveltekit-superforms/adapters'
 
 const {sForm, business} = $props()
 
-const {form, errors, enhance, submitting, message} = superForm(sForm, {
+const superform = superForm(sForm, {
   validators: valibot(sForm.data.id ? SourceSchema : SourceCreateSchema),
+  dataType: 'json',
+  resetForm: false,
+  invalidateAll: true,
+  onUpdated: ({form}) => {
+    if (form.valid) {
+      // Form data will be automatically updated with the server response
+    }
+  },
 })
 
-// Convert URLs array to string for textarea
-const urlsText = $derived($form.urls?.join('\n') ?? '')
-
-// Update form when textarea changes
-function handleUrlsChange(event: Event) {
-  const target = event.target as HTMLTextAreaElement
-  const urls = target.value
-    .split('\n')
-    .map(url => url.trim())
-    .filter(url => url.length > 0)
-
-  $form.urls = urls
-}
+const {form, errors, enhance, submitting, message} = superform
+const {values: urlsValues, errors: urlsErrors, valueErrors: urlsValueErrors} = arrayProxy(superform, 'urls')
 </script>
 
-<form method="POST" action="?/{$form.id ? 'update' : 'create'}" use:enhance>
+{#if $message}
+  <div>
+    {$message}
+  </div>
+{/if}
+
+<form method="POST" action="?/{$form.id ? 'update' : 'create'}" use:enhance class="admin flow">
   {#if $form.id}
     <input type="hidden" name="id" value={$form.id} />
+    <input type="hidden" name="createdAt" value={$form.createdAt} />
+    <input type="hidden" name="updatedAt" value={$form.updatedAt} />
   {/if}
 
   {#if business}
-    <div class="field">
-      <label class="label" for="business">Business</label>
-      <div class="control">
-        <input
-          id="business"
-          class="input"
-          type="text"
-          value={business.name}
-          readonly
-          disabled
-        />
-      </div>
-      <p class="help">This field cannot be edited</p>
-    </div>
+    Business: <a href={`/admin/business/${business.id}`}>
+      {business.name}
+    </a>
   {/if}
 
-  <div class="field">
-    <label class="label" for="urls">URLs</label>
-    <div class="control">
-      <textarea
-        id="urls"
-        name="urls"
-        class="textarea"
-        class:is-danger={$errors.urls}
-        placeholder="Enter URLs (one per line)"
-        rows="8"
-        value={urlsText}
-        oninput={handleUrlsChange}
-        required
-      ></textarea>
-    </div>
-    {#if $errors.urls}
-      <p class="help is-danger">{$errors.urls}</p>
+  <div>
+    <label for="urls">URLs</label>
+
+    {#if $urlsErrors}
+      <p>{$urlsErrors}</p>
     {/if}
+
+    {#each $urlsValues as _, i}
+      <div class="input-group">
+        <input
+          type="text"
+          bind:value={$urlsValues[i]}
+          placeholder="Enter URL"
+        />
+        {#if $urlsValueErrors[i]}
+          <span style="color: red;">{$urlsValueErrors[i]}</span>
+        {/if}
+        <button
+          type="button"
+          onclick={() => {
+            $urlsValues.splice(i, 1)
+            $urlsValues = $urlsValues
+          }}
+        >
+          Remove
+        </button>
+      </div>
+    {/each}
+
+    <button
+      type="button"
+      onclick={() => {
+        $urlsValues = [...$urlsValues, '']
+      }}
+    >
+      Add URL
+    </button>
   </div>
 
-  <div class="field is-grouped">
-    <div class="control">
-      <button class="button is-primary" type="submit" disabled={$submitting}>
-        {#if $submitting}
-          {$form.id ? 'Updating...' : 'Creating...'}
-        {:else}
-          {$form.id ? 'Update Source' : 'Create Source'}
-        {/if}
+  <div class="input-group">
+    <div>
+      <button type="submit" disabled={$submitting}>
+        {$form.id ? 'Update Source' : 'Create Source'}
       </button>
 
       {#if !$form.id}
         <button
-          class="button is-info"
           type="submit"
           formaction="?/generate"
           disabled={$submitting}
@@ -88,14 +97,13 @@ function handleUrlsChange(event: Event) {
       {/if}
     </div>
 
-    <div class="control">
-      <a href="/admin/sources" class="button is-light">Cancel</a>
+    <div>
+      <a href="/admin/sources">Cancel</a>
     </div>
 
     {#if $form.id}
-      <div class="control">
+      <div>
         <button
-          class="button is-danger"
           type="submit"
           formaction="?/delete"
           disabled={$submitting}
@@ -106,10 +114,6 @@ function handleUrlsChange(event: Event) {
       </div>
     {/if}
   </div>
-
-  {#if $message}
-    <div class="notification is-success">
-      {$message}
-    </div>
-  {/if}
 </form>
+
+<ToggleSuperDebug data={$form} />

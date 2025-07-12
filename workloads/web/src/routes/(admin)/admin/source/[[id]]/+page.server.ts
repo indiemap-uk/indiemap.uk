@@ -76,7 +76,8 @@ export const actions = {
     }
 
     try {
-      await locals.container.sourceService.update(v.parse(SourceSchema, form.data))
+      const parsed = v.parse(SourceSchema, form.data)
+      await locals.container.sourceService.update(parsed)
 
       return message(form, 'Source updated')
     } catch (error) {
