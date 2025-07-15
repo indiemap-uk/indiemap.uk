@@ -4,6 +4,7 @@ import Debug from 'debug'
 import {type Runner, type WorkerUtils, makeWorkerUtils, run} from 'graphile-worker'
 import * as v from 'valibot'
 import type {WorkerServices} from './Services.js'
+import {fail} from './tasks/fail.js'
 import {fetchMarkdown} from './tasks/fetchMarkdown.js'
 import {makeBusinessFromSource} from './tasks/makeBusinessFromSource.js'
 import {makeBusinessFromSummary} from './tasks/makeBusinessSummary.js'
@@ -50,6 +51,7 @@ export class WorkerService {
           makeBusinessSummary: makeBusinessFromSummary(this.#services),
           makeBusinessFromSummary: makeBusinessFromSummary(this.#services),
           makeSourceFromUrl: makeSourceFromUrl(this.#services),
+          fail: fail(),
         },
       })
 
@@ -80,6 +82,54 @@ export class WorkerService {
       return await this.#runner.addJob(name, payload)
     } catch (error: unknown) {
       console.error(`Error adding job "${name}" in WorkerService`)
+      throw error
+    }
+  }
+
+  async getJobView() {
+    if (!this.#utils) {
+      throw new Error('Worker utils not initialized')
+    }
+
+    const result = await this.#utils.withPgClient(async pgClient => {
+      const query = `
+        SELECT *
+        FROM graphile_worker.jobs
+        ORDER BY created_at DESC
+      `
+
+      return await pgClient.query(query)
+    })
+
+    return result.rows
+  }
+
+  async deleteJob(jobId: string) {
+    if (!this.#utils) {
+      throw new Error('Worker utils not initialized')
+    }
+
+    try {
+      const updatedJobs = await this.#utils.completeJobs([jobId])
+      debug(`Deleted job ${jobId}`)
+      return updatedJobs
+    } catch (error: unknown) {
+      console.error(`Error deleting job ${jobId} in WorkerService`)
+      throw error
+    }
+  }
+
+  async killJob(jobId: string) {
+    if (!this.#utils) {
+      throw new Error('Worker utils not initialized')
+    }
+
+    try {
+      const updatedJobs = await this.#utils.permanentlyFailJobs([jobId], 'Manually killed by admin')
+      debug(`Killed job ${jobId}`)
+      return updatedJobs
+    } catch (error: unknown) {
+      console.error(`Error killing job ${jobId} in WorkerService`)
       throw error
     }
   }

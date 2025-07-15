@@ -39,6 +39,12 @@ const menu = [
       ['Add', '/admin/source'],
     ],
   ],
+  [
+    'Worker Jobs',
+    [
+      ['List', '/admin/jobs'],
+    ],
+  ],
 ]
 </script>
 
