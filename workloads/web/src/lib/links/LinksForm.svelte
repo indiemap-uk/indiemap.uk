@@ -62,52 +62,50 @@ const restoreLink = (id: LinkIdType) => {
 </script>
 
 {#if $message}
-  <div class="notification is-success">
+  <div>
     {$message}
   </div>
 {/if}
 
-<form method="POST" use:enhance>
+<form method="POST" use:enhance class="admin">
   <input type="hidden" bind:value={$form.businessId} name="businessId" />
 
   {#if !$form.links.length}
-    <p class="block">No links yet</p>
+    <p>No links yet</p>
   {/if}
 
   {#each $form.links as _, i}
-    <div class="field is-grouped">
+    <div>
       <input name="id" type="hidden" value={$form.links[i].id} />
       <input name="businessId" type="hidden" value={$form.links[i].businessId} />
 
-      <div class="control is-expanded">
+      <div>
         <input
           name="label"
-          class="input"
           type="text"
           placeholder="Label"
           bind:value={$form.links[i].label}
           {...$constraints.links?.label}
         />
         {#if $errors.links?.[i]?.label}
-          <span class="help is-danger">{$errors.links?.[i]?.label}</span>
+          <span>{$errors.links?.[i]?.label}</span>
         {/if}
       </div>
-      <div class="control is-expanded">
+      <div>
         <input
           name="url"
-          class="input"
           type="text"
           placeholder="URL"
           bind:value={$form.links[i].url}
           {...$constraints.links?.url}
         />
         {#if $errors.links?.[i]?.url}
-          <span class="help is-danger">{$errors.links?.[i]?.url}</span>
+          <span>{$errors.links?.[i]?.url}</span>
         {/if}
       </div>
-      <div class="control">
-        <button class="button is-rounded is-text" type="button" onclick={() => deleteLink(i, $form.links[i].id)}>
-          <span class="icon">
+      <div>
+        <button type="button" onclick={() => deleteLink(i, $form.links[i].id)}>
+          <span>
             <IconX />
           </span>
         </button>
@@ -115,8 +113,8 @@ const restoreLink = (id: LinkIdType) => {
     </div>
   {/each}
 
-  <div class="block">
-    <button class="button is-secondary" type="button" onclick={addLink}>New link</button>
+  <div>
+    <button type="button" onclick={addLink}>New link</button>
   </div>
 
   {#if $form.deletedLinks.length}
@@ -124,31 +122,29 @@ const restoreLink = (id: LinkIdType) => {
   {/if}
 
   {#each $form.deletedLinks as _, i}
-    <div class="field is-grouped">
+    <div>
       <input name="id" type="hidden" value={$form.deletedLinks[i].id} />
       <input name="businessId" type="hidden" value={$form.deletedLinks[i].businessId} />
 
-      <div class="control is-expanded">
+      <div>
         <input
           name="label"
-          class="input is-static"
           readonly
           type="text"
           placeholder="(no label)"
           value={$form.deletedLinks[i].label}
         />
       </div>
-      <div class="control is-expanded">
-        <input name="url" class="input is-static" readonly type="text" value={$form.deletedLinks[i].url} />
+      <div>
+        <input name="url" readonly type="text" value={$form.deletedLinks[i].url} />
       </div>
-      <div class="control">
+      <div>
         <button
-          class="button is-text"
           type="button"
           onclick={() => restoreLink($form.deletedLinks[i].id)}
           title="Restore this link"
         >
-          <span class="icon">
+          <span>
             <IconArrowBackUp />
           </span>
         </button>
@@ -156,12 +152,12 @@ const restoreLink = (id: LinkIdType) => {
     </div>
   {/each}
 
-  <div class="buttons">
-    <button class="button is-primary" disabled={!isTainted($tainted)} type="submit" formaction="?/links">
+  <div>
+    <button disabled={!isTainted($tainted)} type="submit" formaction="?/links">
       Save links
     </button>
     {#if isTainted($tainted)}
-      <button class="text" type="button" onclick={() => confirm('Sure?') && reset()}>Reset</button>
+      <button type="button" onclick={() => confirm('Sure?') && reset()}>Reset</button>
     {/if}
   </div>
 </form>

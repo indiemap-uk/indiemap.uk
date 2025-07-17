@@ -70,80 +70,75 @@ const restoreLocation = (id: LocationIdType) => {
 </script>
 
 {#if $message}
-  <div class="notification is-success">
+  <div>
     {$message}
   </div>
 {/if}
 
-<form method="POST" use:enhance>
+<form method="POST" use:enhance class="admin">
   <input type="hidden" bind:value={$form.businessId} name="businessId" />
 
   {#if !$form.locations.length}
-    <p class="block">No locations yet</p>
+    <p>No locations yet</p>
   {/if}
 
   {#each $form.locations as _, i}
-    <div class="field is-grouped">
+    <div class="flow">
       <input name="id" type="hidden" value={$form.locations[i].id} />
       <input name="businessId" type="hidden" value={$form.locations[i].businessId} />
 
-      <div class="control">
-        {#if i === 0}<label class="label" for="label">Label</label>{/if}
+      <div>
+        {#if i === 0}<label for="label">Label</label>{/if}
         <input
           name="label"
-          class="input"
           type="text"
           placeholder="Label"
           bind:value={$form.locations[i].label}
           {...$constraints.locations?.label}
         />
         {#if $errors.locations?.[i]?.label}
-          <span class="help is-danger">{$errors.locations?.[i]?.label}</span>
+          <span>{$errors.locations?.[i]?.label}</span>
         {/if}
       </div>
-      <div class="control is-expanded">
-        {#if i === 0}<label class="label" for="address">Address</label>{/if}
+      <div>
+        {#if i === 0}<label for="address">Address</label>{/if}
         <input
           name="address"
-          class="input"
           type="text"
           placeholder="Address"
           bind:value={$form.locations[i].address}
           {...$constraints.locations?.address}
         />
         {#if $errors.locations?.[i]?.address}
-          <span class="help is-danger">{$errors.locations?.[i]?.address}</span>
+          <span>{$errors.locations?.[i]?.address}</span>
         {/if}
       </div>
-      <div class="control">
-        {#if i === 0}<label class="label" for="latitude">Latitude</label>{/if}
+      <div>
+        {#if i === 0}<label for="latitude">Latitude</label>{/if}
         <input
           name="latitude"
           disabled
           type="text"
-          class="input"
           placeholder="(automatic)"
           bind:value={$form.locations[i].latitude}
           {...$constraints.locations?.latitude}
         />
       </div>
-      <div class="control">
-        {#if i === 0}<label class="label" for="longitude">Longitude</label>{/if}
+      <div>
+        {#if i === 0}<label for="longitude">Longitude</label>{/if}
         <input
           name="longitude"
           type="text"
           disabled
-          class="input"
           placeholder="(automatic)"
           bind:value={$form.locations[i].longitude}
           {...$constraints.locations?.longitude}
         />
       </div>
-      <div class="control">
-        {#if i === 0}<label class="label" for="" style="opacity:0">Map</label>{/if}
+      <div>
+        {#if i === 0}<label for="" style="opacity:0">Map</label>{/if}
         {#if $form.locations[i].latitude}
           <a
-            class="button is-ghost"
             href={`https://www.google.com/maps/search/?api=1&query=${$form.locations[i].latitude},${
               $form.locations[i].longitude
             }`}
@@ -151,17 +146,16 @@ const restoreLocation = (id: LocationIdType) => {
             rel="noopener noreferrer"
           >Map</a>
         {:else}
-          <button class="button is-ghost" disabled>Map</button>
+          <button disabled>Map</button>
         {/if}
       </div>
-      <div class="control">
-        {#if i === 0}<label class="label" for="actions" style="opacity:0">Delete</label>{/if}
+      <div>
+        {#if i === 0}<label for="actions" style="opacity:0">Delete</label>{/if}
         <button
-          class="button is-rounded is-text"
           type="button"
           onclick={() => deleteLocation(i, $form.locations[i].id)}
         >
-          <span class="icon">
+          <span>
             <IconX />
           </span>
         </button>
@@ -169,8 +163,8 @@ const restoreLocation = (id: LocationIdType) => {
     </div>
   {/each}
 
-  <div class="block">
-    <button class="button is-secondary" type="button" onclick={addLocation}>New location</button>
+  <div>
+    <button type="button" onclick={addLocation}>New location</button>
   </div>
 
   {#if $form.deletedLocations.length}
@@ -178,31 +172,29 @@ const restoreLocation = (id: LocationIdType) => {
   {/if}
 
   {#each $form.deletedLocations as _, i}
-    <div class="field is-grouped">
+    <div>
       <input name="id" type="hidden" value={$form.deletedLocations[i].id} />
       <input name="businessId" type="hidden" value={$form.deletedLocations[i].businessId} />
 
-      <div class="control is-expanded">
+      <div>
         <input
           name="label"
-          class="input is-static"
           readonly
           type="text"
           placeholder="(no label)"
           value={$form.deletedLocations[i].label}
         />
       </div>
-      <div class="control is-expanded">
-        <input name="address" class="input is-static" readonly type="text" value={$form.deletedLocations[i].address} />
+      <div>
+        <input name="address" readonly type="text" value={$form.deletedLocations[i].address} />
       </div>
-      <div class="control">
+      <div>
         <button
-          class="button is-text"
           type="button"
           onclick={() => restoreLocation($form.deletedLocations[i].id)}
           title="Restore this location"
         >
-          <span class="icon">
+          <span>
             <IconArrowBackUp />
           </span>
         </button>
@@ -210,12 +202,12 @@ const restoreLocation = (id: LocationIdType) => {
     </div>
   {/each}
 
-  <div class="buttons">
-    <button class="button is-primary" disabled={!isTainted($tainted)} type="submit" formaction="?/locations">
+  <div>
+    <button disabled={!isTainted($tainted)} type="submit" formaction="?/locations">
       Save locations
     </button>
     {#if isTainted($tainted)}
-      <button class="text" type="button" onclick={() => confirm('Sure?') && reset()}>Reset</button>
+      <button type="button" onclick={() => confirm('Sure?') && reset()}>Reset</button>
     {/if}
   </div>
 </form>

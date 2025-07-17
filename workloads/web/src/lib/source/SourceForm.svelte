@@ -22,7 +22,7 @@ const {values: urlsValues, errors: urlsErrors, valueErrors: urlsValueErrors} = a
   </div>
 {/if}
 
-<form method="POST" action="?/{$form.id ? 'update' : 'create'}" use:enhance class="admin flow">
+<form method="POST" action="?/{$form.id ? 'update' : 'create'}" use:enhance class="admin">
   {#if $form.id}
     <input type="hidden" name="id" value={$form.id} />
   {/if}

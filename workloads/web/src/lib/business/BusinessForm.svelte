@@ -45,17 +45,16 @@ const toggleTownEdit = (e: Event) => {
 {/if}
 
 {#if $message}
-  <div class="notification is-success">
+  <div>
     {$message}
   </div>
 {/if}
 
-<form method="POST" use:enhance>
+<form method="POST" use:enhance class="admin">
   {#if $form.id}
-    <p class="field">
+    <p>
       <small>Created {dayjs($form.createdAt).format('MMMM D, YYYY h:mm A')}</small>
       {#if $form.createdAt.toString() !== $form.updatedAt.toString()}
-        //
         <small>Updated {dayjs($form.updatedAt).format('MMMM D, YYYY h:mm A')}</small>
       {/if}
     </p>
@@ -65,13 +64,12 @@ const toggleTownEdit = (e: Event) => {
     <input type="hidden" bind:value={$form.updatedAt} name="updatedAt" />
   {/if}
 
-  <div class="field">
-    <label class="label" for="name">Name</label>
-    <div class="control">
+  <div>
+    <label for="name">Name</label>
+    <div>
       <input
         bind:value={$form.name}
         name="name"
-        class="input"
         type="text"
         placeholder="Pin & Needle"
         {...$constraints.name}
@@ -79,24 +77,23 @@ const toggleTownEdit = (e: Event) => {
       />
     </div>
     {#if $errors.name}
-      <p class="help is-danger">{$errors.name}</p>
+      <p>{$errors.name}</p>
     {/if}
   </div>
-  <div class="field">
-    <label class="label" for="description">Description</label>
-    <div class="control">
+  <div>
+    <label for="description">Description</label>
+    <div>
       <textarea
         bind:value={$form.description}
         name="description"
-        class="textarea"
         placeholder="Making Pins & Needles since 1899 (optional)"
         {...$constraints.description}
       ></textarea>
     </div>
   </div>
 
-  <label class="label" for="townId">Town</label>
-  <div class="field is-grouped">
+  <div>
+    <label for="townId">Town</label>
     <Svelecte
       renderer={townOptionRenderer}
       minQuery={3}
@@ -107,45 +104,35 @@ const toggleTownEdit = (e: Event) => {
       labelField="name"
       options={defaultOptions}
     />
-    <button class="button" type="button" onclick={() => ($form.townId = null)}>Clear</button>
+    <button type="button" onclick={() => ($form.townId = null)}>Clear</button>
   </div>
 
-  <div class="field">
-    <label class="label" for="status">Status</label>
-    <select class="select" bind:value={$form.status} name="status">
+  <div>
+    <label for="status">Status</label>
+    <select bind:value={$form.status} name="status">
       <option value="live">Live</option>
       <option value="draft">Draft</option>
     </select>
   </div>
 
-  <div class="level">
-    <div class="level-left">
-      <div class="level-item">
-        <button
-          class="button is-primary"
-          type="submit"
-          disabled={!isTainted($tainted)}
-          formaction={$form.id ? `?/update` : `?/create`}
-        >
-          Save
-        </button>
-      </div>
-    </div>
-    <div class="level-right">
-      <div class="level-item">
-        {#if $form.id}
-          <button
-            formaction="?/delete"
-            name="delete"
-            class="button is-danger"
-            type="submit"
-            onclick={(e) => !confirm('Are you sure?') && e.preventDefault()}
-          >
-            Delete
-          </button>
-        {/if}
-      </div>
-    </div>
+  <div class="input-group">
+    <button
+      type="submit"
+      disabled={!isTainted($tainted)}
+      formaction={$form.id ? `?/update` : `?/create`}
+    >
+      Save
+    </button>
+    {#if $form.id}
+      <button
+        formaction="?/delete"
+        name="delete"
+        type="submit"
+        onclick={(e) => !confirm('Are you sure?') && e.preventDefault()}
+      >
+        Delete
+      </button>
+    {/if}
   </div>
 </form>
 

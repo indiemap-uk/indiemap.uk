@@ -8,23 +8,22 @@ const {form, enhance, submitting} = superForm(data.form)
 <p>Generate a business from a list of URLs</p>
 <br />
 
-<form method="POST" use:enhance>
-  <div class="field">
-    <label class="label" for="urls">URLs</label>
-    <div class="control">
+<form method="POST" use:enhance class="admin">
+  <div>
+    <label for="urls">URLs</label>
+    <div>
       <textarea
         bind:value={$form.urls}
         name="urls"
-        class="textarea"
         placeholder="Enter URLs (one per line)"
         rows="5"
       ></textarea>
     </div>
   </div>
 
-  <div class="field">
-    <div class="control">
-      <button class="button is-primary" type="submit" disabled={$submitting}>
+  <div>
+    <div>
+      <button type="submit" disabled={$submitting}>
         {#if $submitting}
           Generating...
         {:else}

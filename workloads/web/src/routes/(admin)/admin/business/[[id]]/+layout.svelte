@@ -21,28 +21,26 @@ const activeTab = $derived.by(() => {
   <h1 class="title">Add a business</h1>
 {/if}
 
-<div class="tabs">
-  <ul>
-    {#if data.business}
-      <li class:is-active={activeTab === 'info'}>
-        <a href={`/admin/business/${data.business?.id}`}>Business info</a>
-      </li>
-      <li class:is-active={activeTab === 'links'}>
-        <a href={`/admin/business/${data.business.id}/links`}>Links</a>
-      </li>
-      <li class:is-active={activeTab === 'locations'}>
-        <a href={`/admin/business/${data.business.id}/locations`}>Locations</a>
-      </li>
-    {:else}
-      <li class:is-active={activeTab === 'info'}>
-        <a href={`/admin/business/`}>Add Business</a>
-      </li>
-      <li class:is-active={activeTab === 'generate'}>
-        <a href={`/admin/business/generate`}>Generate by URLs</a>
-      </li>
-    {/if}
-  </ul>
-</div>
+<ul class="tabs">
+  {#if data.business}
+    <li class:is-active={activeTab === 'info'}>
+      <a href={`/admin/business/${data.business?.id}`}>Business info</a>
+    </li>
+    <li class:is-active={activeTab === 'links'}>
+      <a href={`/admin/business/${data.business.id}/links`}>Links</a>
+    </li>
+    <li class:is-active={activeTab === 'locations'}>
+      <a href={`/admin/business/${data.business.id}/locations`}>Locations</a>
+    </li>
+  {:else}
+    <li class:is-active={activeTab === 'info'}>
+      <a href={`/admin/business/`}>Add Business</a>
+    </li>
+    <li class:is-active={activeTab === 'generate'}>
+      <a href={`/admin/business/generate`}>Generate by URLs</a>
+    </li>
+  {/if}
+</ul>
 
 {#key data.business?.id ?? 'new'}
   {@render children()}
