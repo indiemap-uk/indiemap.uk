@@ -34,22 +34,26 @@ export const makeBusinessFromSummary = (s: WorkerServices): Task => async (paylo
   }
   const business = await s.businessService.create(b)
 
-  if (summary.links) {
-    for (const url of summary.links) {
-      const link: LinkCreateType = {
-        businessId: business.id,
-        url: url,
-      }
-
-      await s.linkService.create(link)
-    }
-  }
-
+  // Record the business ID in the Source
   await s.sourceRepository.update({
     id: p.source.id,
     urls: p.source.urls,
     businessId: business.id,
   })
+
+  const urls = new Set<string>([
+    ...summary.links ?? [],
+    ...s.sourceService.nonContentUrlsOnly(p.source.urls),
+  ])
+
+  for (const url of urls) {
+    const link: LinkCreateType = {
+      businessId: business.id,
+      url: url,
+    }
+
+    await s.linkService.create(link)
+  }
 
   h.logger.info(`Business created: ${business}`)
 }

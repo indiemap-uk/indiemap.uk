@@ -40,7 +40,7 @@ export class WorkerService {
         connectionString: this.#dbUrl,
         /** ⬇️ TASK LIST ⬇️ **/
         taskList: {
-          makeBusinessFromSource: taks.makeBusinessFromSource(),
+          makeBusinessFromSource: taks.makeBusinessFromSource(this.#services),
           fetchMarkdown: taks.fetchMarkdown(this.#services),
           watchMarkdown: taks.watchMarkdown(this.#services),
           makeBusinessSummary: taks.makeBusinessFromSummary(this.#services),

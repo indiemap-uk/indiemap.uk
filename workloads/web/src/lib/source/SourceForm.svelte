@@ -1,7 +1,7 @@
 <script lang="ts">
 import ToggleSuperDebug from '$lib/components/ToggleSuperDebug.svelte'
 import {SourceCreateSchema, SourceSchema} from '@i/core/source'
-import {IconClipboardSmileFilled} from '@tabler/icons-svelte'
+import {IconClipboard} from '@tabler/icons-svelte'
 import {arrayProxy, superForm} from 'sveltekit-superforms'
 import {valibot} from 'sveltekit-superforms/adapters'
 
@@ -52,7 +52,7 @@ const {values: urlsValues, errors: urlsErrors, valueErrors: urlsValueErrors} = a
             })
           }}
         >
-          <IconClipboardSmileFilled />
+          <IconClipboard />
         </button>
         <input
           type="text"

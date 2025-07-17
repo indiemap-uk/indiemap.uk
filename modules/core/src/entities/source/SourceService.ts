@@ -1,6 +1,7 @@
 import type {BusinessIdType} from '../business/BusinessType.js'
 import type {SourceRepository} from './SourceRepository.js'
 import type {SourceCreateType, SourceResolvedType, SourceUpdateType} from './SourceType.js'
+import {nonContentDomains} from './nonContentDomains.js'
 
 export class SourceService {
   constructor(private readonly sourceRepository: SourceRepository) {}
@@ -31,6 +32,29 @@ export class SourceService {
 
   getLinksFromMarkdown(markdown: string): string[] {
     return this.pickRelevantLinks(this.linksFromMarkdown(markdown))
+  }
+
+  /**
+   * Filters out non-content URLs, i.e. social media pages.
+   * These do not add relevant content (too much noise) when we try to generata a business summary.
+   */
+  contentUrlsOnly(urls: string[]): string[] {
+    return urls.filter(url => {
+      const domain = new URL(url).hostname.replaceAll('www.', '')
+      if (!domain) return false
+      return !nonContentDomains.includes(domain)
+    })
+  }
+
+  /**
+   * Non content URLs only, i.e. social media pages.
+   */
+  nonContentUrlsOnly(urls: string[]): string[] {
+    return urls.filter(url => {
+      const domain = new URL(url).hostname.replaceAll('www.', '')
+      if (!domain) return false
+      return nonContentDomains.includes(domain)
+    })
   }
 
   private pickRelevantLinks(links: string[]): string[] {
