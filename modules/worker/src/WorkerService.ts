@@ -4,12 +4,7 @@ import Debug from 'debug'
 import {type Runner, type WorkerUtils, makeWorkerUtils, run} from 'graphile-worker'
 import * as v from 'valibot'
 import type {WorkerServices} from './Services.js'
-import {fail} from './tasks/fail.js'
-import {fetchMarkdown} from './tasks/fetchMarkdown.js'
-import {makeBusinessFromSource} from './tasks/makeBusinessFromSource.js'
-import {makeBusinessFromSummary} from './tasks/makeBusinessSummary.js'
-import {makeSourceFromUrl} from './tasks/makeSourceFromUrl.js'
-import {watchMarkdown} from './tasks/watchMarkdown.js'
+import {type TaskName, taks} from './tasks/index.js'
 
 const WorkerEnvSchema = v.object({
   /**
@@ -45,13 +40,13 @@ export class WorkerService {
         connectionString: this.#dbUrl,
         /** ⬇️ TASK LIST ⬇️ **/
         taskList: {
-          makeBusinessFromSource: makeBusinessFromSource(),
-          fetchMarkdown: fetchMarkdown(this.#services),
-          watchMarkdown: watchMarkdown(this.#services),
-          makeBusinessSummary: makeBusinessFromSummary(this.#services),
-          makeBusinessFromSummary: makeBusinessFromSummary(this.#services),
-          makeSourceFromUrl: makeSourceFromUrl(this.#services),
-          fail: fail(),
+          makeBusinessFromSource: taks.makeBusinessFromSource(),
+          fetchMarkdown: taks.fetchMarkdown(this.#services),
+          watchMarkdown: taks.watchMarkdown(this.#services),
+          makeBusinessSummary: taks.makeBusinessFromSummary(this.#services),
+          makeBusinessFromSummary: taks.makeBusinessFromSummary(this.#services),
+          makeSourceFromUrl: taks.makeSourceFromUrl(this.#services),
+          fail: taks.fail(),
         },
       })
 
@@ -71,7 +66,7 @@ export class WorkerService {
     }
   }
 
-  async addJob(name: string, payload: any) {
+  async addJob(name: TaskName, payload: any) {
     debug(`Adding job "${name}"`)
 
     if (!this.#runner) {

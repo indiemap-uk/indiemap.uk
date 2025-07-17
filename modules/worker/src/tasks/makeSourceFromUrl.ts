@@ -7,7 +7,7 @@ import type {WorkerServices} from '../Services.js'
 const PayloadSchema = v.pipe(v.string(), v.url())
 
 /**
- * Fetch the markdown for the URl and create a Source entity from the links
+ * Fetch the markdown for the URL and create a Source entity from the links
  * found on the page
  */
 export const makeSourceFromUrl = (s: WorkerServices): Task => async (payload, helpers) => {

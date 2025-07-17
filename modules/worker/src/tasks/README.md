@@ -1,3 +1,7 @@
+# Task Registry
+
+Add tasks to `tasks` in index.ts so that task names can type safe when calling `addJob`.
+
 # Job workflow for creating a business from URL sources
 
 0. Someone has to create a Source, which is a list of URLs.
