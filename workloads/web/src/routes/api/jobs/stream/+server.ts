@@ -13,9 +13,21 @@ export const GET: RequestHandler = async ({locals}) => {
   if (!isAdminUser) {
     throw error(403, 'Forbidden')
   }
+
+  let closed = false
+
   const stream = new ReadableStream({
+    cancel() {
+      closed = true
+    },
+
     start(controller) {
       const sendJobsUpdate = async () => {
+        if (closed) {
+          clearInterval(interval)
+          return
+        }
+
         try {
           const jobs = await locals.container.workerService.getJobView()
           const data = `data: ${JSON.stringify(jobs)}\n\n`
