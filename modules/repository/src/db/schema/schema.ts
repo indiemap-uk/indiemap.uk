@@ -85,6 +85,17 @@ export const sources = pgTable('sources', {
   ...timestamps,
 })
 
+export const products = pgTable('products', {
+  id: varchar({length: 90}).primaryKey().notNull(),
+  originalName: varchar({length: 255}).notNull(),
+  businessId: varchar({length: 90})
+    .references(() => businesses.id, {
+      onUpdate: 'cascade',
+      onDelete: 'set null',
+    }),
+  ...timestamps,
+})
+
 /**
  * RELATIONS
  */
@@ -101,6 +112,7 @@ export const businessesRelations = relations(businesses, ({one, many}) => ({
   links: many(links),
   locations: many(businessLocations),
   sources: many(sources),
+  products: many(products),
 }))
 
 export const linksRelations = relations(links, ({one}) => ({
@@ -128,6 +140,13 @@ export const businessLocationsRelations = relations(businessLocations, ({one}) =
 export const sourcesRelations = relations(sources, ({one}) => ({
   business: one(businesses, {
     fields: [sources.businessId],
+    references: [businesses.id],
+  }),
+}))
+
+export const productsRelations = relations(products, ({one}) => ({
+  business: one(businesses, {
+    fields: [products.businessId],
     references: [businesses.id],
   }),
 }))

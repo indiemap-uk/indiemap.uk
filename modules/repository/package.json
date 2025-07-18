@@ -12,6 +12,7 @@
     "./LinkRepositoryPostgres": "./src/LinkRepositoryPostgres.ts",
     "./LocationRepositoryPostgres": "./src/LocationRepositoryPostgres.ts",
     "./SourceRepositoryPostgres": "./src/SourceRepositoryPostgres.ts",
+    "./ProductRepositoryPostgres": "./src/ProductRepositoryPostgres.ts",
     "./getDb": "./src/getDb.ts"
   },
   "scripts": {

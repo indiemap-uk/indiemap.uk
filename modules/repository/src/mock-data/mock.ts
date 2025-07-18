@@ -6,7 +6,7 @@ import {check} from './check.js'
 import {getContainer} from './getContainer.js'
 import {makeRandomCoord} from './makeRandomCoord.js'
 
-const debug = Debug('indie:mock-data')
+const debug = Debug('indie:mock')
 
 export type Container = ReturnType<typeof getContainer>
 
@@ -29,6 +29,8 @@ const locationsPerBusinessMin = 0
 const locationsPerBusinessMax = 5
 const linksPerBusinessMin = 0
 const linksPerBusinessMax = 5
+const productsPerBusinessMin = 0
+const productsPerBusinessMax = 10
 
 const mock = async () => {
   debug('Starting mock data generation with these params:')
@@ -40,6 +42,8 @@ const mock = async () => {
     locationsPerBusinessMax,
     locationsPerBusinessMin,
     numberOfTowns,
+    productsPerBusinessMax,
+    productsPerBusinessMin,
   })
 
   debug('Creating container')
@@ -52,6 +56,7 @@ const mock = async () => {
   const businesses = []
   let totalLocations = 0
   let totalLinks = 0
+  let totalProducts = 0
 
   // In each town create min-max businesses
   debug('Generating businesses...')
@@ -126,14 +131,34 @@ const mock = async () => {
     totalLinks += linkCount
   }
 
+  // then for each business, create 0-50 random products
+  debug('Creating products...')
+  for (const business of businesses) {
+    const productTargetCount = faker.number.int({max: productsPerBusinessMax, min: productsPerBusinessMin})
+    if (productTargetCount === 0) {
+      continue
+    }
+
+    let productCount = 0
+    while (productCount < productTargetCount) {
+      await container.productService.create({
+        businessId: business.id,
+        originalName: faker.commerce.productName(),
+      })
+      productCount++
+    }
+    totalProducts += productCount
+  }
+
   await container.end()
 
   debug(
-    '🦔 Done! Generated %s businesses in %s towns, %s locations and %s links',
+    '🦔 Done! Generated %s businesses in %s towns, %s locations, %s links and %s products',
     businesses.length,
     numberOfTowns,
     totalLocations,
     totalLinks,
+    totalProducts,
   )
 }
 

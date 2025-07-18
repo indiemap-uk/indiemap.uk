@@ -1,6 +1,7 @@
 import {BusinessService} from '@i/core/business'
 import {LinkService} from '@i/core/link'
 import {LocationService} from '@i/core/location'
+import {ProductService} from '@i/core/product'
 import {SourceService} from '@i/core/source'
 import {TownService} from '@i/core/town'
 import {GeocodingServiceGeocodify} from '@i/geocoding'
@@ -8,6 +9,7 @@ import {BusinessRepositoryPostgres} from '@i/repository/BusinessRepositoryPostgr
 import {KVPostgresStore} from '@i/repository/KVPostgresStore'
 import {LinkRepositoryPostgres} from '@i/repository/LinkRepositoryPostgres'
 import {LocationRepositoryPostgres} from '@i/repository/LocationRepositoryPostgres'
+import {ProductRepositoryPostgres} from '@i/repository/ProductRepositoryPostgres'
 import {SourceRepositoryPostgres} from '@i/repository/SourceRepositoryPostgres'
 import {TownRepositoryPostgres} from '@i/repository/TownRepositoryPostgres'
 import {getDb} from '@i/repository/getDb'
@@ -32,6 +34,9 @@ export const getContainer = async (env: ContainerEnvType) => {
   const locationRepository = new LocationRepositoryPostgres(db)
   const locationService = new LocationService(locationRepository)
 
+  const productRepository = new ProductRepositoryPostgres(db)
+  const productService = new ProductService(productRepository)
+
   const geocodingService = new GeocodingServiceGeocodify(env.GEOCODIFY_API_KEY)
 
   const kvstore = new KVPostgresStore({schema: env.KEYV_SCHEMA, table: env.KEYV_TABLE, uri: env.DATABASE_URL})
@@ -51,6 +56,7 @@ export const getContainer = async (env: ContainerEnvType) => {
     sourceRepository,
     sourceService,
     summarizerService,
+    productService,
   })
   await workerService.start()
 
@@ -77,5 +83,7 @@ export const getContainer = async (env: ContainerEnvType) => {
     townRepository,
     townService,
     workerService,
+    productRepository,
+    productService,
   }
 }

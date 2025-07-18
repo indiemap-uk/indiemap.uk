@@ -6,6 +6,7 @@ import * as v from 'valibot'
 
 import type {BusinessUserCreateType} from '@i/core/business'
 import type {LinkCreateType} from '@i/core/link'
+import type {ProductCreateType} from '@i/core/product'
 import {SourceSchema} from '@i/core/source'
 import type {WorkerServices} from '../Services.js'
 
@@ -53,6 +54,15 @@ export const makeBusinessFromSummary = (s: WorkerServices): Task => async (paylo
     }
 
     await s.linkService.create(link)
+  }
+
+  for (const product of summary.products ?? []) {
+    const p: ProductCreateType = {
+      businessId: business.id,
+      originalName: product,
+    }
+
+    await s.productService.create(p)
   }
 
   h.logger.info(`Business created: ${business}`)

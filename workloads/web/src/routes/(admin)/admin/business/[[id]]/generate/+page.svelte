@@ -6,6 +6,7 @@ const {form, enhance, submitting} = superForm(data.form)
 </script>
 
 <p>Generate a business from a list of URLs</p>
+<p>This will create a new Source from these URLs and process it into a Business</p>
 <br />
 
 <form method="POST" use:enhance class="admin">

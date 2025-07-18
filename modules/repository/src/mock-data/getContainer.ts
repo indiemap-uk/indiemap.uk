@@ -1,10 +1,12 @@
 import {BusinessService} from '@i/core/business'
 import {LinkService} from '@i/core/link'
 import {LocationService} from '@i/core/location'
+import {ProductService} from '@i/core/product'
 import {TownService} from '@i/core/town'
 import {BusinessRepositoryPostgres} from '../BusinessRepositoryPostgres.js'
 import {LinkRepositoryPostgres} from '../LinkRepositoryPostgres.js'
 import {LocationRepositoryPostgres} from '../LocationRepositoryPostgres.js'
+import {ProductRepositoryPostgres} from '../ProductRepositoryPostgres.js'
 import {TownRepositoryPostgres} from '../TownRepositoryPostgres.js'
 import {getDb} from '../getDb.js'
 
@@ -23,7 +25,10 @@ export const getContainer = (env: {DATABASE_URL: string}) => {
   const locationRepository = new LocationRepositoryPostgres(db)
   const locationService = new LocationService(locationRepository)
 
+  const productRepository = new ProductRepositoryPostgres(db)
+  const productService = new ProductService(productRepository)
+
   const end = () => pool.end()
 
-  return {businessService, end, linkService, locationService, townService}
+  return {businessService, end, linkService, locationService, productService, townService}
 }

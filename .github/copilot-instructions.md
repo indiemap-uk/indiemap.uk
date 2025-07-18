@@ -8,10 +8,18 @@ Use vitest for testing.
 
 Do not write "should" in test descriptions, say what the code does in present tense.
 
-To verify the project, run this command:
+# Validation
+
+To verify the project, run in the project root:
 
 ```sh
 pnpm validate
+```
+
+To fix auto-fixable issues, run in the root directory:
+
+```sh
+pnpm lint:fix
 ```
 
 # Tools

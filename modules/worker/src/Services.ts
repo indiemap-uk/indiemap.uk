@@ -1,5 +1,6 @@
 import {BusinessService} from '@i/core/business'
 import type {LinkService} from '@i/core/link'
+import type {ProductService} from '@i/core/product'
 import type {SourceRepository, SourceService} from '@i/core/source'
 import type {KVStore} from '@i/repository/KVStore'
 import type {MarkdownService} from '@i/summarizer/MarkdownService'
@@ -13,4 +14,5 @@ export interface WorkerServices {
   summarizerService: SummarizerService
   businessService: BusinessService
   linkService: LinkService
+  productService: ProductService
 }
