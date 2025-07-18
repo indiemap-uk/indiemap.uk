@@ -61,7 +61,7 @@ export class SummarizerService {
     const summaryJsonSchema = toJsonSchema(SummaryResponseSchema)
 
     const {object} = await generateObject<SummaryResponseType>({
-      model: openai('gpt-4'),
+      model: openai('gpt-4.1'),
       prompt: combinedMarkdown,
       schema: jsonSchema(summaryJsonSchema),
       system: siteSummaryInstructions,
