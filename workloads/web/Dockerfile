@@ -26,7 +26,7 @@ RUN corepack use pnpm@latest
 # Install NPM packages for the Web deployment only
 RUN --mount=type=cache,id=pnpm,target=/pnpm/store pnpm --filter web... install --frozen-lockfile
 # Build the Web deployment
-RUN pnpm --filter web run build
+RUN NODE_OPTIONS="--max-old-space-size=4096" pnpm --filter web run build
 # Create a portable package that runs without additional steps (https://pnpm.io/cli/deploy).
 # Requires "build" from above.
 # See the "files" section in the web/package.json: it must contain the "build" folder.
