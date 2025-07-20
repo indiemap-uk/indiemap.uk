@@ -12,7 +12,7 @@ export const load = async ({locals, params}) => {
     throw error(404, 'Not found')
   }
 
-  const businesses = locals.container.businessService.search({townId}, {limit: 100})
+  const businesses = locals.container.businessService.search({townId, status: 'live'}, {limit: 100})
 
   return {
     businesses,

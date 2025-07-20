@@ -133,6 +133,7 @@ export class TownRepositoryPostgres extends CRUDRepositoryPostgres implements To
       })
       .from(ukTowns)
       .innerJoin(businesses, eq(businesses.townId, ukTowns.id))
+      .where(eq(businesses.status, 'live'))
       .groupBy(ukTowns.id, ukTowns.name, ukTowns.county, ukTowns.country)
       .having(gte(count(businesses.id), 1))
       .orderBy(orderDirection)

@@ -7,7 +7,7 @@ export const load = async ({locals, params}) => {
     throw error(404, 'Not found')
   }
 
-  const business = await locals.container.businessService.getById(businessId.output)
+  const business = await locals.container.businessService.getById(businessId.output, 'live')
   if (!business) {
     throw error(404, 'Not found')
   }
