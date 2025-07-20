@@ -38,6 +38,7 @@ export class WorkerService {
     try {
       this.#runner = await run({
         connectionString: this.#dbUrl,
+        noPreparedStatements: true,
         /** ⬇️ TASK LIST ⬇️ **/
         taskList: {
           makeBusinessFromSource: taks.makeBusinessFromSource(this.#services),
