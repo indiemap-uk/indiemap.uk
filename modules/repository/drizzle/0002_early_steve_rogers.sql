@@ -1,1 +1,0 @@
-DROP TABLE "keyv" CASCADE;

@@ -5,50 +5,8 @@
     {
       "idx": 0,
       "version": "7",
-      "when": 1751329412993,
-      "tag": "0001_cooing_mephisto",
-      "breakpoints": true
-    },
-    {
-      "idx": 1,
-      "version": "7",
-      "when": 1751449651010,
-      "tag": "0001_clammy_wilson_fisk",
-      "breakpoints": true
-    },
-    {
-      "idx": 2,
-      "version": "7",
-      "when": 1751730230795,
-      "tag": "0002_early_steve_rogers",
-      "breakpoints": true
-    },
-    {
-      "idx": 3,
-      "version": "7",
-      "when": 1752053609899,
-      "tag": "0003_slimy_impossible_man",
-      "breakpoints": true
-    },
-    {
-      "idx": 4,
-      "version": "7",
-      "when": 1752075898144,
-      "tag": "0004_foamy_wilson_fisk",
-      "breakpoints": true
-    },
-    {
-      "idx": 5,
-      "version": "7",
-      "when": 1752333429514,
-      "tag": "0005_material_jocasta",
-      "breakpoints": true
-    },
-    {
-      "idx": 6,
-      "version": "7",
-      "when": 1752822829966,
-      "tag": "0006_modern_black_bird",
+      "when": 1753026313229,
+      "tag": "0000_whole_hulk",
       "breakpoints": true
     }
   ]

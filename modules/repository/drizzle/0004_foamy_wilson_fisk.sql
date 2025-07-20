@@ -1,1 +1,0 @@
-ALTER TABLE "businesses" DROP COLUMN "generated_from_urls";
