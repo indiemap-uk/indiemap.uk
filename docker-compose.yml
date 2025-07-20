@@ -5,19 +5,27 @@ services:
       - ADMIN_USER_EMAILS
       - AUTH_RESEND_KEY
       - AUTH_SECRET
-      # Run this database with `pnpm -F repository db`
-      - DATABASE_URL=postgres://indie:indie@postgresql:5432/indie?sslmode=disable
+      - DATABASE_URL=postgresql://indie:indie@postgresql:5432/indie?sslmode=disable
       - GEOCODIFY_API_KEY
       - JINA_API_KEY
       - OPENAI_API_KEY
     ports:
-      - '3333:3333'
+      - "3333:3333"
     restart: unless-stopped
-    networks:
-      - default
-      - external_postgres_network
+    depends_on:
+      - postgresql
+  postgresql:
+    image: docker.io/bitnami/postgresql:17
+    hostname: postgresql
+    ports:
+      - "5431:5432"
+    volumes:
+      - "postgresql_data:/bitnami/postgresql"
+    environment:
+      - POSTGRESQL_DATABASE=indie
+      - POSTGRESQL_USERNAME=indie
+      - POSTGRESQL_PASSWORD=indie
 
-networks:
-  external_postgres_network:
-    external: true
-    name: indiedb_default
+volumes:
+  postgresql_data:
+    driver: local
