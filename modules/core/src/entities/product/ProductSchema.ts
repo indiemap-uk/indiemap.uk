@@ -14,3 +14,18 @@ export const ProductSchema = v.object({
 
 export const ProductCreateSchema = v.omit(ProductSchema, ['id', 'createdAt', 'updatedAt'])
 export const ProductUpdateSchema = v.omit(ProductSchema, ['createdAt', 'updatedAt'])
+
+export const ProductCRUDSchema = v.object({
+  ...ProductCreateSchema.entries,
+  id: v.optional(v.string()),
+})
+
+/**
+ * The schema to edit a list of products.
+ */
+export const ProductCRUDListSchema = v.object({
+  businessId: v.string(),
+  deletedProductIds: v.array(v.string()),
+  products: v.array(ProductSchema),
+  newProducts: v.array(ProductCreateSchema),
+})

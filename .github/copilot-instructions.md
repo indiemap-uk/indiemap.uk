@@ -10,7 +10,7 @@ Do not write "should" in test descriptions, say what the code does in present te
 
 # Validation
 
-To verify the project, run in the project root:
+To verify the project including type checking, building, linting and testing, run in the project root:
 
 ```sh
 pnpm validate

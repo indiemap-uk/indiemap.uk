@@ -19,4 +19,8 @@ export class ProductService {
   async update(product: ProductUpdateType) {
     await this.productRepository.update(product)
   }
+
+  async getByBusinessId(businessId: string): Promise<ProductType[] | null> {
+    return this.productRepository.getByBusinessId(businessId)
+  }
 }

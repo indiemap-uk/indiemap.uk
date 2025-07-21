@@ -6,6 +6,7 @@ const {children, data} = $props()
 const activeTab = $derived.by(() => {
   if (page.url.pathname.endsWith('links')) return 'links'
   if (page.url.pathname.endsWith('locations')) return 'locations'
+  if (page.url.pathname.endsWith('products')) return 'products'
   if (page.url.pathname.endsWith('generate')) return 'generate'
   return 'info'
 })
@@ -31,6 +32,9 @@ const activeTab = $derived.by(() => {
     </li>
     <li class:is-active={activeTab === 'locations'}>
       <a href={`/admin/business/${data.business.id}/locations`}>Locations</a>
+    </li>
+    <li class:is-active={activeTab === 'products'}>
+      <a href={`/admin/business/${data.business.id}/products`}>Products</a>
     </li>
   {:else}
     <li class:is-active={activeTab === 'info'}>

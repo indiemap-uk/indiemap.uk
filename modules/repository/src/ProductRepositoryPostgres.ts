@@ -76,6 +76,6 @@ export class ProductRepositoryPostgres extends CRUDRepositoryPostgres implements
       .from(products)
       .where(eq(products.businessId, businessId))
 
-    return records.map(record => v.parse(ProductSchema, record))
+    return records.map(record => parseSchema(ProductSchema, record))
   }
 }
