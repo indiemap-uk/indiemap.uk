@@ -6,16 +6,18 @@ const {data} = $props()
   <title>{data.town.name}, {data.town.county} on Indiemap.uk</title>
 </svelte:head>
 
-<h2>{data.town.name} ({data.town.county})</h2>
+<main class="content | flow">
+  <h2>{data.town.name}, {data.town.county}</h2>
 
-<ul>
-  {#await data.businesses}
-    Loading...
-  {:then businesses}
-    {#each businesses as business}
-      <li>
-        <a href={`/business/${business.id}`}>{business.name}</a>
-      </li>
-    {/each}
-  {/await}
-</ul>
+  <ul>
+    {#await data.businesses}
+      Loading...
+    {:then businesses}
+      {#each businesses as business}
+        <li>
+          <a href={`/business/${business.id}`}>{business.name}</a>
+        </li>
+      {/each}
+    {/await}
+  </ul>
+</main>

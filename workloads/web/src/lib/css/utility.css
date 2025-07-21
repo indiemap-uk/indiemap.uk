@@ -1,0 +1,23 @@
+.prose-width {
+	max-width: var(--prose-width, 640px);
+}
+
+.color-1 {
+	color: var(--color-1);
+	--link-color: var(--color-1);
+}
+
+.color-2 {
+	color: var(--color-2);
+	--link-color: var(--color-2);
+}
+
+.color-3 {
+	color: var(--color-3);
+	--link-color: var(--color-3);
+}
+
+.color-4 {
+	color: var(--color-4);
+	--link-color: var(--color-4);
+}

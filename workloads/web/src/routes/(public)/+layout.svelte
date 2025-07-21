@@ -8,12 +8,16 @@ const {children} = $props()
   <script async defer src="https://scripts.withcabin.com/hello.js"></script>
 </svelte:head>
 
-<header>
-  <h1 class=""><a href="/" class="">Indiemap</a></h1>
+<header class="content">
+  <h1 class="color-1"><a href="/" class="plain">Indiemap</a></h1>
 </header>
 
-<main class="">
-  {@render children()}
-</main>
+{@render children()}
 
-<footer class="footer"></footer>
+<footer class=""></footer>
+
+<style>
+main {
+	/* --flow-space: 3em; */
+}
+</style>

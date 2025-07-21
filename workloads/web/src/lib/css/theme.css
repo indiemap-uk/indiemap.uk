@@ -1,6 +1,22 @@
 /* Values independent of light/dark */
 :root {
 	--flow-space: 1em;
+
+	--palette-steel-pink: #c70fab;
+	--palette-pacific-cyan: #0eb1d2;
+	--palette-van-dyke: #402a2c;
+	--palette-licorice: #241715;
+
+	--color-1: var(--palette-steel-pink);
+	--color-2: var(--palette-pacific-cyan);
+	--color-3: var(--palette-van-dyke);
+	--color-4: var(--palette-licorice);
+
+	--text-color: var(--color-4);
+	--heading-color: var(--color-3);
+
+	--link-color: var(--color-4);
+	--link-color-hover: var(--color-2);
 }
 
 /* Light theme */

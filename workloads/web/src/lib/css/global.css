@@ -1,5 +1,32 @@
-:root {
-	.flow > * + * {
-		margin-block-start: var(--flow-space, 1em);
+/* Many thanks to https://modernfontstacks.com/ */
+* {
+	font-family:
+		"Iowan Old Style", "Palatino Linotype", "URW Palladio L", P052, serif;
+	font-weight: normal;
+}
+
+* {
+	color: var(--text-color);
+}
+
+a {
+	color: var(--link-color);
+
+	&:hover {
+		color: var(--link-color-hover);
 	}
+
+	&.plain {
+		text-decoration: none;
+	}
+}
+
+h1,
+h2,
+h3 {
+	color: var(--heading-color);
+}
+
+ul {
+	margin-block: 0.5em;
 }

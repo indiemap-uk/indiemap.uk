@@ -1,0 +1,14 @@
+.flow > * + * {
+	margin-block-start: var(--flow-space, 1em);
+}
+
+.flow-lg {
+	--flow-space: 2em;
+}
+.flow-xl {
+	--flow-space: 3em;
+}
+
+.content {
+	padding: var(--content-padding, 1em);
+}
