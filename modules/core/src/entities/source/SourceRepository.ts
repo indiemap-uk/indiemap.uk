@@ -7,5 +7,5 @@ export type SourceRepository = {
   delete(id: string): Promise<void>
   getByBusinessId(id: BusinessIdType): Promise<SourceType | null>
   update(data: SourceUpdateType): Promise<void>
-  search(): Promise<SourceResolvedType[]>
+  search(params: {hasBusiness?: boolean}): Promise<SourceResolvedType[]>
 }

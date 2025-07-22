@@ -26,8 +26,8 @@ export class SourceService {
     await this.sourceRepository.update(source)
   }
 
-  async search(): Promise<SourceResolvedType[]> {
-    return this.sourceRepository.search()
+  async search(params: {hasBusiness?: boolean} = {}): Promise<SourceResolvedType[]> {
+    return this.sourceRepository.search(params)
   }
 
   getLinksFromMarkdown(markdown: string): string[] {

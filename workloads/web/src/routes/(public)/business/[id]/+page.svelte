@@ -1,7 +1,4 @@
 <script lang="ts">
-import IndieMap from '$lib/map/IndieMap.svelte'
-import MapPinIcon from '@tabler/icons-svelte/icons/map-pin'
-
 const {data} = $props()
 </script>
 

@@ -13,6 +13,18 @@ const {data} = $props()
 <div class="block">
   <h1 class="title">Sources</h1>
 
+  <ul class="tabs">
+    <li class:is-active={data.withBusiness === null}>
+      <a href="/admin/sources">Show all</a>
+    </li>
+    <li class:is-active={data.withBusiness === 'false'}>
+      <a href="/admin/sources?withBusiness=false">Without business</a>
+    </li>
+    <li class:is-active={data.withBusiness === 'true'}>
+      <a href="/admin/sources?withBusiness=true">With business</a>
+    </li>
+  </ul>
+
   <table class="admin-data-table">
     <thead>
       <tr>

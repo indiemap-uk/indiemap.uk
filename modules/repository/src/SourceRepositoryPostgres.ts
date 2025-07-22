@@ -10,7 +10,7 @@ import {
   SourceUpdateSchema,
   newSourceId,
 } from '@i/core/source'
-import {desc, eq} from 'drizzle-orm'
+import {and, desc, eq, isNotNull, isNull} from 'drizzle-orm'
 import * as v from 'valibot'
 
 import {CRUDRepositoryPostgres} from './CRUDRepositoryPostgres.js'
@@ -89,7 +89,14 @@ export class SourceRepositoryPostgres extends CRUDRepositoryPostgres implements 
       .where(eq(sources.id, validatedData.id))
   }
 
-  async search(): Promise<SourceResolvedType[]> {
+  async search(params: {hasBusiness?: boolean} = {}): Promise<SourceResolvedType[]> {
+    const conditions = []
+    if (params.hasBusiness === true) {
+      conditions.push(isNotNull(sources.businessId))
+    } else if (params.hasBusiness === false) {
+      conditions.push(isNull(sources.businessId))
+    }
+
     const records = await this.db
       .select({
         source: sources,
@@ -98,6 +105,7 @@ export class SourceRepositoryPostgres extends CRUDRepositoryPostgres implements 
       .from(sources)
       .orderBy(desc(sources.updatedAt))
       .leftJoin(businesses, eq(sources.businessId, businesses.id))
+      .where(conditions.length > 0 ? and(...conditions) : undefined)
       .limit(100)
 
     return records.map(record => this.toResolvedSourceSchema(record))
