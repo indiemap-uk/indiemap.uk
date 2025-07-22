@@ -26,7 +26,7 @@ const {data} = $props()
     <ul>
       {#each data.links as link}
         <li>
-          <a href={link.url} target="_blank" rel="noreferer noopener">{link.label.length ? link.label : link.url}</a>
+          <a href={link.url} target="_blank" rel="noreferer noopener">{link.label?.length ? link.label : link.url}</a>
         </li>
       {/each}
     </ul>

@@ -15,9 +15,3 @@ const {children} = $props()
 {@render children()}
 
 <footer class=""></footer>
-
-<style>
-main {
-	/* --flow-space: 3em; */
-}
-</style>
