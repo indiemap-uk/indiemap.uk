@@ -58,8 +58,8 @@ export const handle = sequence(
   protectAdmin,
 )
 
-export const handleError: HandleServerError = ({error, event, status}) => {
-  console.error('UNEXPECTED ERROR', error)
+export const handleError: HandleServerError = ({error, status, event}) => {
+  event.locals.container.logger.error(error, 'Unexpected error')
 
   const isAdminRoute = event.url.pathname.startsWith('/admin')
 

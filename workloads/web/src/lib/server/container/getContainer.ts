@@ -16,11 +16,14 @@ import {getDb} from '@i/repository/getDb'
 import {MarkdownServiceJinaAi} from '@i/summarizer/MarkdownServiceJinaAi'
 import {SummarizerService} from '@i/summarizer/SummarizerService'
 import {WorkerService} from '@i/worker/WorkerService'
+import pino from 'pino'
 import type {ContainerEnvType} from './ContainerEnvSchema'
 
 export const getContainer = async (env: ContainerEnvType) => {
   const {db, pool} = getDb(env.DATABASE_URL)
   await pool.query('SET search_path TO public, authjs')
+
+  const logger = pino()
 
   const townRepository = new TownRepositoryPostgres(db)
   const townService = new TownService(townRepository)
@@ -77,6 +80,7 @@ export const getContainer = async (env: ContainerEnvType) => {
     kvstore,
     linkService,
     locationService,
+    logger,
     sourceRepository,
     sourceService,
     summarizerService,

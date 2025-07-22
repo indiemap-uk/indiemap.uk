@@ -12,7 +12,8 @@
     "./source": "./src/entities/source/index.ts",
     "./geocoding": "./src/entities/geocoding/index.ts",
     "./summary": "./src/entities/summary/index.ts",
-    "./schema": "./src/schema/index.ts"
+    "./schema": "./src/schema/index.ts",
+    "./logger": "./src/logger/index.ts"
   },
   "scripts": {
     "typecheck": "tsc --noEmit",
