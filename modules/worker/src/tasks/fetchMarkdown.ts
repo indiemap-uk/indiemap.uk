@@ -2,7 +2,7 @@ import {parseSchema} from '@i/core/schema'
 import type {Task} from 'graphile-worker'
 import * as v from 'valibot'
 
-import type {WorkerServices} from '../Services.js'
+import type {TaskDeps} from '../TaskDeps.js'
 
 const PayloadSchema = v.array(v.pipe(v.string(), v.url()))
 
@@ -13,7 +13,7 @@ const PayloadSchema = v.array(v.pipe(v.string(), v.url()))
  * If any promise rejects in the returned array then this job will re-start with the failed URLs.
  * See https://worker.graphile.org/docs/library/add-job#batch-jobs
  */
-export const fetchMarkdown = (s: WorkerServices): Task => async (payload, helpers) => {
+export const fetchMarkdown = (s: TaskDeps): Task => async (payload, helpers) => {
   const urls = parseSchema(PayloadSchema, payload)
   helpers.logger.info(`URLs: ${urls}`)
 

@@ -6,7 +6,9 @@
     "./schemas": "./src/schemas/index.ts"
   },
   "scripts": {
-    "typecheck": "tsc --noEmit"
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run",
+    "tdd": "vitest"
   },
   "dependencies": {
     "@i/core": "workspace:*",
@@ -19,7 +21,8 @@
   },
   "devDependencies": {
     "@i/tsconfig": "workspace:*",
-    "@types/debug": "^4.1.12"
+    "@types/debug": "^4.1.12",
+    "vitest": "^2.1.9"
   },
   "version": "1.0.0",
   "private": true,

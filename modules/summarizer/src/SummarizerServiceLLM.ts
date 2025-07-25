@@ -1,9 +1,9 @@
 import Debug from 'debug'
 
 import {createOpenAI} from '@ai-sdk/openai'
+import {type SummarizerService, type SummaryResponseType, SummaryResponseSchema} from '@i/core/summarizer'
 import {toJsonSchema} from '@valibot/to-json-schema'
 import {generateObject, jsonSchema} from 'ai'
-import {type SummaryResponseType, SummaryResponseSchema} from './SummaryResponseSchema.js'
 import {siteSummaryInstructions} from './propmpts.js'
 
 const debug = Debug('indie:summarizer:SummarizerService')
@@ -12,7 +12,7 @@ const debug = Debug('indie:summarizer:SummarizerService')
  * Service that generates a summary of a business by fetching URLs
  * and passing them to an LLM.
  */
-export class SummarizerService {
+export class SummarizerServiceLLM implements SummarizerService {
   #openAiApiKey: string
 
   constructor(openAiApiKey: string) {

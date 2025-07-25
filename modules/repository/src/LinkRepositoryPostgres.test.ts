@@ -14,7 +14,7 @@ import {businessFactory} from './mock-data/businessFactory.js'
 import {linkFactory} from './mock-data/linkFactory.js'
 import {townFactory} from './mock-data/townFactory.js'
 
-describe('Link Repository Postgres', () => {
+describe('Link Repository Postgres @db', () => {
   let container: StartedPostgreSqlContainer
   let db: PostgresJsDatabase
   let pool: Pool

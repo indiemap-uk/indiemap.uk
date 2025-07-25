@@ -3,7 +3,7 @@ import type {Task} from 'graphile-worker'
 
 import {SourceSchema} from '@i/core/source'
 import * as v from 'valibot'
-import type {WorkerServices} from '../Services.js'
+import type {TaskDeps} from '../TaskDeps.js'
 
 const PayloadSchema = v.object({
   originalSource: SourceSchema,
@@ -14,7 +14,7 @@ const PayloadSchema = v.object({
  * Watch the kv store for all markdown content to be fetced from all URLs.
  * Once they are done, this task kicks off another one to summarize the content.
  */
-export const watchMarkdown = (s: WorkerServices): Task => async (payload, h) => {
+export const watchMarkdown = (s: TaskDeps): Task => async (payload, h) => {
   const p = parseSchema(PayloadSchema, payload)
   h.logger.info(`URLs to watch: ${p.urlsToWatch}`)
 

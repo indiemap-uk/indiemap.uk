@@ -10,7 +10,7 @@ import {getDb} from './getDb.js'
 import {businessFactory} from './mock-data/businessFactory.js'
 import {townFactory} from './mock-data/townFactory.js'
 
-describe('Town Repository Postgres', () => {
+describe('Town Repository Postgres @db', () => {
   let container: StartedPostgreSqlContainer
   let db: PostgresJsDatabase
   let pool: Pool

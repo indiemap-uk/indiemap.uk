@@ -8,9 +8,9 @@ import type {BusinessUserCreateType} from '@i/core/business'
 import type {LinkCreateType} from '@i/core/link'
 import type {ProductCreateType} from '@i/core/product'
 import {SourceSchema} from '@i/core/source'
-import type {WorkerServices} from '../Services.js'
+import type {TaskDeps} from '../TaskDeps.js'
 
-const PayloadSchema = v.object({
+export const MakeBusinessSummaryPayloadSchema = v.object({
   source: SourceSchema,
   markdowns: v.array(v.string()),
 })
@@ -18,8 +18,8 @@ const PayloadSchema = v.object({
 /**
  * Creates a business from an LLM summary using the markdowns provided
  */
-export const makeBusinessFromSummary = (s: WorkerServices): Task => async (payload, h) => {
-  const p = parseSchema(PayloadSchema, payload)
+export const makeBusinessFromSummary = (s: TaskDeps): Task => async (payload, h) => {
+  const p = parseSchema(MakeBusinessSummaryPayloadSchema, payload)
 
   const summary = await s.summarizerService.makeBusinessSummary(p.markdowns)
 
@@ -36,15 +36,18 @@ export const makeBusinessFromSummary = (s: WorkerServices): Task => async (paylo
   const business = await s.businessService.create(b)
 
   // Record the business ID in the Source
-  await s.sourceRepository.update({
+  await s.sourceService.update({
     id: p.source.id,
     urls: p.source.urls,
     businessId: business.id,
   })
 
-  const urls = new Set<string>([
-    ...summary.links ?? [],
-    ...s.sourceService.nonContentUrlsOnly(p.source.urls),
+  const urls = s.linkService.filterOutContentSubpages([
+    // Set => unique only
+    ...new Set<string>([
+      ...summary.links ?? [],
+      ...p.source.urls ?? [],
+    ]),
   ])
 
   for (const url of urls) {

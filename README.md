@@ -34,3 +34,14 @@ To run the docker image connected to the local database:
 ```sh
 pnpm docker:run
 ```
+
+# Tests
+
+Some tests require a database connection, these have `@db` in their name.
+The modules that have such tests add a `test:db` script to package.json and
+the normal test script ignores the `@db` tests:
+
+```json
+  "test": "vitest run -t '^(?!.*@db).*$' --hideSkippedTests",
+  "test:db": "vitest run -t '@db' --hideSkippedTests",
+```

@@ -14,7 +14,7 @@ import {SourceRepositoryPostgres} from '@i/repository/SourceRepositoryPostgres'
 import {TownRepositoryPostgres} from '@i/repository/TownRepositoryPostgres'
 import {getDb} from '@i/repository/getDb'
 import {MarkdownServiceJinaAi} from '@i/summarizer/MarkdownServiceJinaAi'
-import {SummarizerService} from '@i/summarizer/SummarizerService'
+import {SummarizerServiceLLM} from '@i/summarizer/SummarizerServiceLLM'
 import {WorkerService} from '@i/worker/WorkerService'
 import pino from 'pino'
 import type {ContainerEnvType} from './ContainerEnvSchema'
@@ -46,7 +46,7 @@ export const getContainer = async (env: ContainerEnvType) => {
   await kvstore.init()
   const markdownService = new MarkdownServiceJinaAi(env.JINA_API_KEY)
   const openAiApiKey = env.OPENAI_API_KEY
-  const summarizerService = new SummarizerService(openAiApiKey)
+  const summarizerService = new SummarizerServiceLLM(openAiApiKey)
 
   const sourceRepository = new SourceRepositoryPostgres(db)
   const sourceService = new SourceService(sourceRepository)
@@ -56,7 +56,6 @@ export const getContainer = async (env: ContainerEnvType) => {
     kvstore,
     linkService,
     markdownService,
-    sourceRepository,
     sourceService,
     summarizerService,
     productService,

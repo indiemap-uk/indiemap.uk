@@ -11,7 +11,7 @@
     "./product": "./src/entities/product/index.ts",
     "./source": "./src/entities/source/index.ts",
     "./geocoding": "./src/entities/geocoding/index.ts",
-    "./summary": "./src/entities/summary/index.ts",
+    "./summarizer": "./src/entities/summarizer/index.ts",
     "./schema": "./src/schema/index.ts",
     "./logger": "./src/logger/index.ts"
   },

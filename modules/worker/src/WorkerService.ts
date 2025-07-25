@@ -3,7 +3,7 @@ import {parseSchema} from '@i/core/schema'
 import Debug from 'debug'
 import {type Runner, type WorkerUtils, makeWorkerUtils, run} from 'graphile-worker'
 import * as v from 'valibot'
-import type {WorkerServices} from './Services.js'
+import type {TaskDeps} from './TaskDeps.js'
 import {type TaskName, taks} from './tasks/index.js'
 
 const WorkerEnvSchema = v.object({
@@ -21,9 +21,9 @@ export class WorkerService {
   #dbUrl: string
   #runner?: Runner
   #utils?: WorkerUtils
-  #services: WorkerServices
+  #services: TaskDeps
 
-  constructor(env: WorkerEnvType, s: WorkerServices) {
+  constructor(env: WorkerEnvType, s: TaskDeps) {
     const {DATABASE_URL} = parseSchema(WorkerEnvSchema, env)
 
     this.#dbUrl = DATABASE_URL

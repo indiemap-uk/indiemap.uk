@@ -2,7 +2,7 @@ import {parseSchema} from '@i/core/schema'
 import type {Task} from 'graphile-worker'
 import * as v from 'valibot'
 
-import type {WorkerServices} from '../Services.js'
+import type {TaskDeps} from '../TaskDeps.js'
 
 const PayloadSchema = v.pipe(v.string(), v.url())
 
@@ -10,7 +10,7 @@ const PayloadSchema = v.pipe(v.string(), v.url())
  * Fetch the markdown for the URL and create a Source entity from the links
  * found on the page
  */
-export const makeSourceFromUrl = (s: WorkerServices): Task => async (payload, helpers) => {
+export const makeSourceFromUrl = (s: TaskDeps): Task => async (payload, helpers) => {
   const url = parseSchema(PayloadSchema, payload)
   helpers.logger.info(`URL: ${url}`)
 

@@ -126,6 +126,9 @@ importers:
       '@ai-sdk/openai':
         specifier: ^1.3.23
         version: 1.3.23(zod@3.25.76)
+      '@i/core':
+        specifier: workspace:*
+        version: link:../core
       '@i/repository':
         specifier: workspace:*
         version: file:modules/repository(@opentelemetry/api@1.9.0)(@types/pg@8.15.4)(typescript@5.8.3)
@@ -196,6 +199,9 @@ importers:
       '@types/debug':
         specifier: ^4.1.12
         version: 4.1.12
+      vitest:
+        specifier: ^2.1.9
+        version: 2.1.9(@types/node@22.16.0)(jsdom@26.1.0)
 
   workloads/web:
     dependencies:
@@ -4732,6 +4738,7 @@ snapshots:
   '@i/summarizer@file:modules/summarizer(@opentelemetry/api@1.9.0)(@types/pg@8.15.4)(react@19.1.0)(typescript@5.8.3)(zod@3.25.76)':
     dependencies:
       '@ai-sdk/openai': 1.3.23(zod@3.25.76)
+      '@i/core': file:modules/core(typescript@5.8.3)
       '@i/repository': file:modules/repository(@opentelemetry/api@1.9.0)(@types/pg@8.15.4)(typescript@5.8.3)
       '@types/jsdom': 21.1.7
       '@valibot/to-json-schema': 1.3.0(valibot@1.1.0(typescript@5.8.3))
