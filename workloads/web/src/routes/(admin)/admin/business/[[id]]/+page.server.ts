@@ -1,6 +1,7 @@
 import {BusinessCRUDSchema, BusinessSchema, BusinessUserCreateSchema} from '@i/core/business'
 import {fail, redirect} from '@sveltejs/kit'
-import {message, superValidate} from 'sveltekit-superforms'
+import {setFlash} from 'sveltekit-flash-message/server'
+import {superValidate} from 'sveltekit-superforms'
 import {valibot} from 'sveltekit-superforms/adapters'
 import * as v from 'valibot'
 
@@ -49,7 +50,7 @@ export const actions = {
     return redirect(301, '/admin/businesses')
   },
 
-  update: async ({locals, request}) => {
+  update: async ({locals, request, cookies}) => {
     const form = await superValidate(request, valibot(BusinessCRUDSchema))
 
     if (!form.valid) {
@@ -59,11 +60,12 @@ export const actions = {
 
     try {
       await locals.container.businessService.update(v.parse(BusinessSchema, form.data))
-
-      return message(form, 'Business updated')
     } catch (error) {
       console.error(error)
       return fail(500, {form})
     }
+
+    setFlash({message: 'Business updated', type: 'success'}, cookies)
+    throw redirect(301, '/admin/businesses')
   },
 } satisfies Actions

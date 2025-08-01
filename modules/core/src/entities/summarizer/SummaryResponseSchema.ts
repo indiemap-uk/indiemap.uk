@@ -8,6 +8,8 @@ export const SummaryResponseSchema = v.object({
   meta: v.optional(v.string()),
   products: v.optional(v.array(v.string())),
   shortDescription: v.string(),
+  town: v.optional(v.string()),
+  county: v.optional(v.string()),
 })
 
 export type SummaryResponseType = v.InferOutput<typeof SummaryResponseSchema>

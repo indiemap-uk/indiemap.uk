@@ -125,6 +125,7 @@ const mock = async () => {
         businessId: business.id,
         label: faker.book.title(),
         url: faker.internet.url(),
+        order: linkCount,
       })
       linkCount++
     }

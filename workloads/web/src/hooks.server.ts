@@ -59,7 +59,10 @@ export const handle = sequence(
 )
 
 export const handleError: HandleServerError = ({error, status, event}) => {
-  event.locals.container.logger.error(error, 'Unexpected error')
+  // Do not log 404, it floods the logs
+  if (status !== 404) {
+    event.locals.container.logger.error(error, 'Unexpected error')
+  }
 
   const isAdminRoute = event.url.pathname.startsWith('/admin')
 

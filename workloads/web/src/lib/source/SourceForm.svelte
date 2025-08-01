@@ -1,9 +1,7 @@
 <script lang="ts">
 import ToggleSuperDebug from '$lib/components/ToggleSuperDebug.svelte'
-import {SourceCreateSchema, SourceSchema} from '@i/core/source'
-import {IconClipboard} from '@tabler/icons-svelte'
+import {IconClipboard, IconExternalLink} from '@tabler/icons-svelte'
 import {arrayProxy, superForm} from 'sveltekit-superforms'
-import {valibot} from 'sveltekit-superforms/adapters'
 
 const {sForm, business} = $props()
 
@@ -53,6 +51,18 @@ const {values: urlsValues, errors: urlsErrors, valueErrors: urlsValueErrors} = a
           }}
         >
           <IconClipboard />
+        </button>
+        <button
+          title="Open URL"
+          onclick={(e) => {
+            e.preventDefault()
+            if ($urlsValues[i]) {
+              window.open($urlsValues[i] as string, '_blank', 'noopener,noreferrer')
+            }
+          }}
+          disabled={!$urlsValues[i]}
+        >
+          <IconExternalLink />
         </button>
         <input
           type="text"

@@ -45,7 +45,7 @@ export class LinkRepositoryPostgres extends CRUDRepositoryPostgres implements Li
       .select()
       .from(links)
       .where(eq(links.businessId, id.toString()))
-      .orderBy(links.id)
+      .orderBy(links.order)
 
     return records.map((r) =>
       v.parse(LinkSchema, {

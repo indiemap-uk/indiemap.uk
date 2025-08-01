@@ -42,6 +42,6 @@ The modules that have such tests add a `test:db` script to package.json and
 the normal test script ignores the `@db` tests:
 
 ```json
-  "test": "vitest run -t '^(?!.*@db).*$' --hideSkippedTests",
-  "test:db": "vitest run -t '@db' --hideSkippedTests",
+"test": "vitest run -t '^(?!.*@db).*$' --hideSkippedTests",
+"test:db": "vitest run -t '@db' --hideSkippedTests",
 ```

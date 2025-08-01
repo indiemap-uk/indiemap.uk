@@ -3,6 +3,9 @@ import * as v from 'valibot'
 import {newIdFn} from '../../id/newIdFn.js'
 import {NameSearchSchema} from '../NameSearchSchema.js'
 import {TimestampSchema} from '../TimestampSchemas.js'
+import {LinkSchema} from '../link/LinkSchema.js'
+import {LocationSchema} from '../location/LocationSchema.js'
+import {ProductSchema} from '../product/ProductSchema.js'
 import {TownIDSearchSchema, TownSchema} from '../town/index.js'
 
 const businessIdPrefix = 'bsn'
@@ -30,7 +33,10 @@ export const BusinessSchema = v.object({
 
 export const BusinessResolvedSchema = v.object({
   ...BusinessSchema.entries,
-  town: v.optional(TownSchema),
+  town: v.nullish(TownSchema),
+  products: v.nullish(v.array(ProductSchema)),
+  locations: v.nullish(v.array(v.omit(LocationSchema, ['businessId']))),
+  links: v.nullish(v.array(LinkSchema)),
 })
 
 /**

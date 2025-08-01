@@ -3,6 +3,7 @@ import type {LinkService} from '@i/core/link'
 import type {ProductService} from '@i/core/product'
 import type {SourceService} from '@i/core/source'
 import type {SummarizerService} from '@i/core/summarizer'
+import type {TownService} from '@i/core/town'
 import type {KVStore} from '@i/repository/KVStore'
 import type {MarkdownService} from '@i/summarizer/MarkdownService'
 
@@ -14,4 +15,5 @@ export interface TaskDeps {
   productService: ProductService
   sourceService: SourceService
   summarizerService: SummarizerService
+  townService: TownService
 }

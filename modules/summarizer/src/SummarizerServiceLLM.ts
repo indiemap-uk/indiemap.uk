@@ -1,3 +1,4 @@
+import crypto from 'crypto'
 import Debug from 'debug'
 
 import {createOpenAI} from '@ai-sdk/openai'
@@ -43,6 +44,8 @@ export class SummarizerServiceLLM implements SummarizerService {
    *     'Modern & Contemporary design stained glass'
    *   ],
    *   madeInUk: 'all',
+   *   town: 'Rossendale',
+   *   county: 'Lancashire',
    *   meta: ''
    * }
    * ```
@@ -68,5 +71,13 @@ export class SummarizerServiceLLM implements SummarizerService {
     })
 
     return object
+  }
+
+  /**
+   * Returns a hash of the prompt instructions used for generating summaries.
+   * This can be used for cache invalidation when the prompt changes.
+   */
+  public getPromptHash(): string {
+    return crypto.createHash('md5').update(siteSummaryInstructions).digest('hex')
   }
 }

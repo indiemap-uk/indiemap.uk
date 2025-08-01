@@ -60,21 +60,32 @@ export class BusinessRepositoryPostgres extends CRUDRepositoryPostgres implement
       conditions.push(eq(businesses.status, status))
     }
 
-    const records = await this.db
-      .select({
-        business: businesses,
-        town: ukTowns,
-      })
-      .from(businesses)
-      .leftJoin(ukTowns, eq(businesses.townId, ukTowns.id))
-      .where(and(...conditions))
-      .limit(1)
+    const records = await this.db.query.businesses.findMany({
+      with: {
+        town: true,
+        products: true,
+        links: true,
+        locations: {
+          with: {
+            location: true,
+          },
+        },
+      },
+      where: and(...conditions),
+      limit: 1,
+    })
 
     if (records.length === 0) {
       return null
     }
 
-    return this.toResolvedBusinessSchema(this.ensure1(records))
+    const record = this.ensure1(records)
+    const entity = {
+      ...record,
+      locations: record.locations.map(location => location.location),
+    }
+
+    return parseSchema(BusinessResolvedSchema, entity)
   }
 
   async search(
@@ -161,8 +172,8 @@ export class BusinessRepositoryPostgres extends CRUDRepositoryPostgres implement
         gridReference: record.town.gridReference,
         easting: record.town.easting,
         northing: record.town.northing,
-        latitude: record.town.latitude ? parseFloat(record.town.latitude) : 0,
-        longitude: record.town.longitude ? parseFloat(record.town.longitude) : 0,
+        latitude: record.town.latitude,
+        longitude: record.town.longitude,
         elevation: record.town.elevation,
         postcodeSector: record.town.postcodeSector,
         localGovernmentArea: record.town.localGovernmentArea,

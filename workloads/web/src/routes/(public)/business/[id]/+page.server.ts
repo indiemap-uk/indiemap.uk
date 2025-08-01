@@ -12,14 +12,7 @@ export const load = async ({locals, params}) => {
     throw error(404, 'Not found')
   }
 
-  const [locations, links] = await Promise.all([
-    locals.container.locationService.getByBusinessId(businessId.output),
-    locals.container.linkService.getByBusinessId(businessId.output),
-  ])
-
   return {
     business,
-    links,
-    locations,
   }
 }

@@ -8,7 +8,7 @@ const hasMore = data.towns.length === data.limit
   <title>All Towns - Indiemap.uk</title>
 </svelte:head>
 
-<main>
+<main class="content">
   <h1>All Towns</h1>
 
   <ul>

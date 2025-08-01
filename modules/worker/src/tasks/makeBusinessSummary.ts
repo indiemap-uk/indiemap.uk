@@ -21,17 +21,55 @@ export const MakeBusinessSummaryPayloadSchema = v.object({
 export const makeBusinessFromSummary = (s: TaskDeps): Task => async (payload, h) => {
   const p = parseSchema(MakeBusinessSummaryPayloadSchema, payload)
 
-  const summary = await s.summarizerService.makeBusinessSummary(p.markdowns)
-
   const urlHash = crypto.createHash('md5').update(p.source.urls.join(',')).digest('hex')
-  const key = `llmsummary:${urlHash}`
-  await s.kvstore.set(key, summary)
+  const promptHash = s.summarizerService.getPromptHash()
+  const key = `llmsummary:${urlHash}:${promptHash}`
+
+  // Check for cached summary first
+  let summary = await s.kvstore.get(key)
+
+  if (!summary) {
+    h.logger.info('No cached summary found, generating new one')
+    summary = await s.summarizerService.makeBusinessSummary(p.markdowns)
+    await s.kvstore.set(key, summary)
+  } else {
+    h.logger.info('Using cached summary')
+  }
+
+  // Try to find a matching town based on the extracted location data
+  let townId: number | null = null
+  if (summary.town && summary.county) {
+    try {
+      const townSearchResults = await s.townService.search(summary.town)
+      // Find a town that matches both name and county
+      const matchingTown = townSearchResults.find(town =>
+        town.name.toLowerCase() === summary.town!.toLowerCase() &&
+        town.county.toLowerCase() === summary.county!.toLowerCase()
+      )
+      if (matchingTown) {
+        townId = matchingTown.id
+      }
+    } catch (error) {
+      h.logger.warn(`Failed to find town ${summary.town}, ${summary.county}: ${error}`)
+    }
+  } else if (summary.town) {
+    try {
+      const townSearchResults = await s.townService.search(summary.town)
+      // If only town name is available, take the first exact match
+      const matchingTown = townSearchResults.find(town => town.name.toLowerCase() === summary.town!.toLowerCase())
+      if (matchingTown) {
+        townId = matchingTown.id
+      }
+    } catch (error) {
+      h.logger.warn(`Failed to find town ${summary.town}: ${error}`)
+    }
+  }
 
   const b: BusinessUserCreateType = {
     description: summary.longDescription,
     name: summary.businessTitle,
     status: 'draft',
-    townId: null,
+    townId,
   }
   const business = await s.businessService.create(b)
 
@@ -50,10 +88,11 @@ export const makeBusinessFromSummary = (s: TaskDeps): Task => async (payload, h)
     ]),
   ])
 
-  for (const url of urls) {
+  for (const [index, url] of urls.entries()) {
     const link: LinkCreateType = {
       businessId: business.id,
       url: url,
+      order: index,
     }
 
     await s.linkService.create(link)
@@ -68,5 +107,5 @@ export const makeBusinessFromSummary = (s: TaskDeps): Task => async (payload, h)
     await s.productService.create(p)
   }
 
-  h.logger.info(`Business created: ${business}`)
+  h.logger.info(`Business created: ${business.id} in town: ${townId ?? 'none'}`)
 }

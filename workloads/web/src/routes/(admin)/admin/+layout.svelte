@@ -72,7 +72,7 @@ const menu = [
       <p class="menu-label">{section[0]}</p>
       <ul class="menu-list">
         {#each section[1] as link}
-          <li><a href={link[1]} class:is-active={link[1] === $page.url.pathname}>{link[0]}</a></li>
+          <li><a href={link[1]} class="plain" class:is-active={link[1] === $page.url.pathname}>{link[0]}</a></li>
         {/each}
       </ul>
     {/each}

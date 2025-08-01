@@ -8,6 +8,7 @@ export const linkFactory = (seed?: Partial<LinkType>): LinkType => {
     businessId: newBusinessId(),
     label: faker.helpers.maybe(() => faker.company.buzzPhrase(), {probability: 0.6}),
     url: faker.internet.url(),
+    order: 0,
     ...seed,
   }
 }

@@ -9,6 +9,7 @@
     "./KVStoreMemory": "./src/kvStore/KVStoreMemory.ts",
     "./KVStore": "./src/kvStore/KVStore.ts",
     "./TownRepositoryPostgres": "./src/TownRepositoryPostgres.ts",
+    "./TownRepositoryMemory": "./src/TownRepositoryMemory.ts",
     "./BusinessRepositoryPostgres": "./src/BusinessRepositoryPostgres.ts",
     "./BusinessRepositoryMemory": "./src/BusinessRepositoryMemory.ts",
     "./LinkRepositoryPostgres": "./src/LinkRepositoryPostgres.ts",

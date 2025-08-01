@@ -29,7 +29,7 @@ export class BusinessService {
     return this.businessRepository.delete(id)
   }
 
-  async getById(id: BusinessIdType, status?: BusinessType['status']) {
+  async getById(id: BusinessIdType, status?: BusinessType['status']): Promise<BusinessResolvedType | null> {
     return this.businessRepository.getById(id, status)
   }
 

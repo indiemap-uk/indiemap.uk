@@ -19,31 +19,57 @@ const {data} = $props()
     <p class="prose-width">{data.business.description}</p>
   </main>
 
-  <section>
-    {#if data.links.length > 0}
-      <h3>Links</h3>
-    {/if}
-    <ul>
-      {#each data.links as link}
-        <li>
-          <a href={link.url} target="_blank" rel="noreferer noopener">{link.label?.length ? link.label : link.url}</a>
-        </li>
-      {/each}
-    </ul>
-  </section>
-
-  <section>
-    {#if data.locations.length > 0}
-      <h3>Locations</h3>
-    {/if}
-    <ul>
-      {#each data.locations as location}
-        {#if location.label}
+  {#if data.business && data.business.products}
+    <section>
+      {#if data.business.products && data.business.products.length > 0}
+        <h3>Products</h3>
+      {/if}
+      <ul>
+        {#each data.business.products as product}
           <li>
-            {location.label}
+            {product.originalName}
           </li>
-        {/if}
-      {/each}
-    </ul>
-  </section>
+        {/each}
+      </ul>
+    </section>
+  {/if}
+
+  {#if data.business && data.business.links}
+    <section>
+      {#if data.business.links?.length > 0}
+        <h3>Links</h3>
+      {/if}
+      <ul>
+        {#each data.business.links as link}
+          <li>
+            <a href={link.url} target="_blank" rel="noreferer noopener">{link.label?.length ? link.label : link.url}</a>
+          </li>
+        {/each}
+      </ul>
+    </section>
+  {/if}
+
+  {#if data.business && data.business.locations}
+    <section>
+      {#if data.business.locations.length > 0}
+        <h3>Locations</h3>
+      {/if}
+      <ul>
+        {#each data.business.locations as location}
+          {#if location.label}
+            <li>
+              {location.label}
+              {#if location.latitude && location.longitude}
+                (<a
+                  href={`https://www.google.com/maps/search/?api=1&query=${location.latitude},${location.longitude}`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >map</a>)
+              {/if}
+            </li>
+          {/if}
+        {/each}
+      </ul>
+    </section>
+  {/if}
 </main>

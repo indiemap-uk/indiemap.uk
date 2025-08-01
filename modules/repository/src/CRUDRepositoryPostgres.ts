@@ -1,12 +1,13 @@
 import type {PostgresJsDatabase} from 'drizzle-orm/postgres-js'
+import * as schema from './db/schema/schema.js'
+
+export type IndieDBType = PostgresJsDatabase<typeof schema>
 
 export abstract class CRUDRepositoryPostgres {
   // oxlint-disable-next-line
-  protected readonly db: PostgresJsDatabase
+  protected readonly db: IndieDBType
 
-  constructor(
-    db: PostgresJsDatabase,
-  ) {
+  constructor(db: IndieDBType) {
     this.db = db
   }
 

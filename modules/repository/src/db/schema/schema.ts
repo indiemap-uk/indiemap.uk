@@ -1,5 +1,5 @@
 import {relations} from 'drizzle-orm'
-import {integer, numeric, pgEnum, pgTable, primaryKey, text, timestamp, varchar} from 'drizzle-orm/pg-core'
+import {integer, pgEnum, pgTable, primaryKey, real, text, timestamp, varchar} from 'drizzle-orm/pg-core'
 
 /**
  * SCHEMAS
@@ -20,8 +20,8 @@ export const ukTowns = pgTable('uk_towns', {
   gridReference: varchar({length: 8}),
   easting: integer(),
   northing: integer(),
-  latitude: numeric({precision: 8, scale: 5}),
-  longitude: numeric({precision: 8, scale: 5}),
+  latitude: real(),
+  longitude: real(),
   elevation: integer(),
   postcodeSector: varchar({length: 6}),
   localGovernmentArea: varchar({length: 44}),
@@ -45,14 +45,15 @@ export const links = pgTable('links', {
     .references(() => businesses.id, {onUpdate: 'cascade', onDelete: 'cascade'}),
   label: text(),
   url: varchar().notNull(),
+  order: integer().notNull().default(0),
 })
 
 export const locations = pgTable('locations', {
   id: varchar({length: 90}).primaryKey().notNull(),
   address: text(),
   label: text(),
-  latitude: numeric({precision: 8, scale: 5}),
-  longitude: numeric({precision: 8, scale: 5}),
+  latitude: real(),
+  longitude: real(),
 })
 
 export const businessLocations = pgTable(

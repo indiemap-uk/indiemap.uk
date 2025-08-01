@@ -14,10 +14,15 @@ export const load = async ({locals, parent}) => {
   }
 
   const links = (await locals.container.linkService.getByBusinessId(business.id)) ?? []
+  // Initialize order field for existing links that might not have it
+  const linksWithOrder = links.map((link, index) => ({
+    ...link,
+    order: link.order ?? index,
+  }))
   const formData = {
     businessId: business.id,
     deletedLinks: [],
-    links,
+    links: linksWithOrder,
   }
   const form = await superValidate(formData, valibot(LinkCRUDListSchema))
 
@@ -35,11 +40,12 @@ export const actions = {
 
     try {
       await Promise.all(
-        form.data.links.map((link) => {
+        form.data.links.map((link, index) => {
+          const linkWithOrder = {...link, order: index}
           if (link.id) {
-            return locals.container.linkService.update(link as LinkType)
+            return locals.container.linkService.update(linkWithOrder as LinkType)
           } else {
-            return locals.container.linkService.create(link as LinkCreateType)
+            return locals.container.linkService.create(linkWithOrder as LinkCreateType)
           }
         }),
       )

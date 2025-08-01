@@ -98,11 +98,7 @@ export class TownRepositoryPostgres extends CRUDRepositoryPostgres implements To
 
   /* Since create is only used for mock data, we don't really care about validation */
   async create(town: TownType): Promise<TownType> {
-    await this.db.insert(ukTowns).values({
-      ...town,
-      latitude: town.latitude.toString(),
-      longitude: town.longitude.toString(),
-    })
+    await this.db.insert(ukTowns).values(town)
 
     debug(`created town with id ${town.id}`)
 

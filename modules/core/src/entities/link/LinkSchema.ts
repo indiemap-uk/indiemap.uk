@@ -11,11 +11,13 @@ export const LinkSchema = v.object({
   id: LinkIdSchema,
   label: v.nullish(v.pipe(v.string(), v.trim())),
   url: v.pipe(v.string(), v.trim(), v.url(), v.maxLength(250)),
+  order: v.number(),
 })
 
 export const LinkCRUDSchema = v.object({
   ...LinkSchema.entries,
   id: v.optional(LinkSchema.entries.id),
+  order: v.optional(LinkSchema.entries.order),
 })
 
 /**

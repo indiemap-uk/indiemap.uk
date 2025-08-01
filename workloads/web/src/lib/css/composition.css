@@ -9,6 +9,26 @@
 	--flow-space: 3em;
 }
 
+.layout {
+	display: grid;
+	grid-template-columns: 1fr;
+	grid-template-rows: auto 1fr auto;
+	grid-template-areas:
+		"header"
+		"content"
+		"footer";
+	min-height: 100vh;
+}
+
 .content {
 	padding: var(--content-padding, 1em);
+}
+
+.footer {
+	margin-top: 2em;
+	height: 100px;
+
+	display: flex;
+	align-items: center;
+	justify-content: center;
 }

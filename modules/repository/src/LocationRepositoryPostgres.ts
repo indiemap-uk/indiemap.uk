@@ -24,8 +24,8 @@ export class LocationRepositoryPostgres extends CRUDRepositoryPostgres implement
       id: id.toString(),
       address: validatedData.address,
       label: validatedData.label ?? '',
-      latitude: validatedData.latitude.toString(),
-      longitude: validatedData.longitude.toString(),
+      latitude: validatedData.latitude,
+      longitude: validatedData.longitude,
     }
 
     return await this.db.transaction(async (tx) => {
@@ -44,11 +44,7 @@ export class LocationRepositoryPostgres extends CRUDRepositoryPostgres implement
         })
 
       return v.parse(LocationSchema, {
-        id: locationResult.id,
-        address: locationResult.address,
-        label: locationResult.label,
-        latitude: parseFloat(locationResult.latitude ?? '0'),
-        longitude: parseFloat(locationResult.longitude ?? '0'),
+        ...locationResult,
         businessId: data.businessId,
       })
     })
@@ -74,27 +70,11 @@ export class LocationRepositoryPostgres extends CRUDRepositoryPostgres implement
       .innerJoin(businessLocations, eq(locations.id, businessLocations.locationId))
       .where(eq(businessLocations.businessId, id.toString()))
 
-    return records.map((r) =>
-      v.parse(LocationSchema, {
-        id: r.id,
-        address: r.address,
-        label: r.label,
-        latitude: parseFloat(r.latitude ?? '0'),
-        longitude: parseFloat(r.longitude ?? '0'),
-        businessId: r.businessId,
-      })
-    )
+    return records.map((r) => v.parse(LocationSchema, r))
   }
 
   async update(data: LocationType) {
-    const validatedData = v.parse(LocationSchema, data)
-
-    const toUpdate = {
-      address: validatedData.address,
-      label: validatedData.label,
-      latitude: validatedData.latitude.toString(),
-      longitude: validatedData.longitude.toString(),
-    }
+    const toUpdate = v.parse(LocationSchema, data)
 
     await this.db
       .update(locations)

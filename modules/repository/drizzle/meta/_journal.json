@@ -8,6 +8,20 @@
       "when": 1753026313229,
       "tag": "0000_whole_hulk",
       "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "7",
+      "when": 1753948285522,
+      "tag": "0001_fluffy_black_bird",
+      "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "7",
+      "when": 1753968262627,
+      "tag": "0002_swift_bloodscream",
+      "breakpoints": true
     }
   ]
 }

@@ -13,7 +13,6 @@ const businessSearchAPI = (query: BusinessSearchType) => {
   return fetch(`/api/business/search?name=${q.output.name}&townId=${q.output.townId}`)
     .then((res) => res.json())
     .then((bs) => {
-      console.log('bs', bs)
       return bs.map((b: unknown) => parseSchema(BusinessResolvedSchema, b))
     })
     .catch((error) => {

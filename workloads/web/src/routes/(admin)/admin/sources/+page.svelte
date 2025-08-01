@@ -28,37 +28,32 @@ const {data} = $props()
   <table class="admin-data-table">
     <thead>
       <tr>
-        <th>UPDATED</th>
-        <th>CREATED</th>
         <th>ID</th>
         <th>URLS</th>
         <th>BUSINESS</th>
+        <th>UPDATED</th>
+        <th>CREATED</th>
       </tr>
     </thead>
     <tbody>
       {#each data.sources as source}
         <tr>
-          <td>
-            {dayjs().to(dayjs(source.updatedAt))}
-          </td>
-          <td>
-            {dayjs().to(dayjs(source.createdAt))}
-          </td>
           <td class="is-family-monospace">
             <a href={`/admin/source/${source.id}`}>
               {source.id}
             </a>
           </td>
           <td>
-            <div class="content">
-              {#each source.urls as url}
-                <div class="is-size-7">
-                  <a href={url} target="_blank" rel="noopener noreferrer">
-                    {url}
-                  </a>
-                </div>
-              {/each}
-            </div>
+            {#if source.urls.length}
+              <a href={`/admin/source/${source.id}`}>
+                {source.urls[0].replace(/https?:\/\//, '').replace(/\/$/, '')}
+                {#if source.urls.length > 1}
+                  +{source.urls.length - 1}
+                {/if}
+              </a>
+            {:else}
+              (no urls)
+            {/if}
           </td>
           <td>
             {#if source.business}
@@ -68,6 +63,12 @@ const {data} = $props()
             {:else}
               <em>-</em>
             {/if}
+          </td>
+          <td>
+            {dayjs().to(dayjs(source.updatedAt))}
+          </td>
+          <td>
+            {dayjs().to(dayjs(source.createdAt))}
           </td>
         </tr>
       {/each}

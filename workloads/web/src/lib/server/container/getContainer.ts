@@ -59,6 +59,7 @@ export const getContainer = async (env: ContainerEnvType) => {
     sourceService,
     summarizerService,
     productService,
+    townService,
   })
   await workerService.start()
 

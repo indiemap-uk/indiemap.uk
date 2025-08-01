@@ -68,8 +68,6 @@ export const actions = {
       return fail(400, {form})
     }
 
-    console.log('form.data', form.data)
-
     await locals.container.sourceService.delete(v.parse(v.string(), form.data.id))
 
     setFlash({message: 'Deleted', type: 'success'}, cookies)
@@ -106,7 +104,7 @@ export const actions = {
       await locals.container.workerService.addJob('makeBusinessFromSource', parseSchema(SourceSchema, form.data))
 
       setFlash({message: 'Business generation started! Check results in a few minutes.', type: 'success'}, cookies)
-      throw redirect(301, '/admin/businesses')
+      return redirect(301, '/admin/businesses')
     } catch (error) {
       console.error(error)
       return fail(500, {form})

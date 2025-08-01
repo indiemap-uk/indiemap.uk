@@ -108,11 +108,25 @@ const toggleTownEdit = (e: Event) => {
   </div>
 
   <div>
-    <label for="status">Status</label>
-    <select bind:value={$form.status} name="status">
-      <option value="live">Live</option>
-      <option value="draft">Draft</option>
-    </select>
+    <p>Status</p>
+    <label>
+      <input
+        type="radio"
+        bind:group={$form.status}
+        name="status"
+        value="live"
+      />
+      Live
+    </label>
+    <label>
+      <input
+        type="radio"
+        bind:group={$form.status}
+        name="status"
+        value="draft"
+      />
+      Draft
+    </label>
   </div>
 
   <div class="input-group">

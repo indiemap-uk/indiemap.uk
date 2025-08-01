@@ -2,13 +2,6 @@ body {
 	/* Many thanks to https://modernfontstacks.com/ */
 	font-family: system-ui, sans-serif;
 	font-weight: normal;
-
-	a {
-		text-decoration: none;
-		&:hover {
-			text-decoration: underline;
-		}
-	}
 }
 
 table {
@@ -53,6 +46,9 @@ form.admin {
 	& input {
 		width: 100%;
 		padding: 0.5rem;
+	}
+	& input[type="radio"] {
+		width: auto;
 	}
 
 	.input-group {

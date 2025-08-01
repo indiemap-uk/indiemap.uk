@@ -8,6 +8,10 @@ export class SummarizerServiceMock implements SummarizerService {
     this.#seed = seed
   }
 
+  public getPromptHash(): string {
+    return 'mock-hash'
+  }
+
   public async makeBusinessSummary(markdowns: string[]): Promise<SummaryResponseType> {
     return {
       businessTitle: 'mock',
@@ -17,6 +21,8 @@ export class SummarizerServiceMock implements SummarizerService {
       meta: '',
       products: ['mock'],
       shortDescription: 'mock',
+      town: 'mock town',
+      county: 'mock county',
       ...this.#seed,
     }
   }

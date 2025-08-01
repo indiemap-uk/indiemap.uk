@@ -1,13 +1,15 @@
 export const siteSummaryInstructions = `
     You will help the user process the markdown representation of one ore more webpages of a single company.
 
-    You need to extract from this markdown: 
-    - the title of the business, 
+    You need to extract from this markdown:
+    - the title of the business,
     - a short description which is a brief summary of the business,
     - a long description which is a very detailed description of what the business does,
-    - all relevant social media links and only social media such as facebook, instagram, tiktok, twitter, bluesky (if any, as a list) 
+    - all relevant social media links and only social media such as facebook, instagram, tiktok, twitter, bluesky (if any, as a list)
     - the products the business sells (if any, as a list)
     - whether the products are made in the uk
+    - the town where the business is located (if mentioned)
+    - the county where the business is located (if mentioned)
 
     Return a JSON document. Make sure the JSON is valid, the keys shoule be in double quotes.
 
@@ -23,6 +25,8 @@ export const siteSummaryInstructions = `
     - meta: String,
     - products: Array(String) || [],
     - shortDescription: String,
+    - town: String,
+    - county: String,
 
     An example of expected output:
     {
@@ -35,11 +39,13 @@ export const siteSummaryInstructions = `
         products: [
             "...",
         ],
-        madeInUk: "..."
+        madeInUk: "...",
+        town: "...",
+        county: "...",
         meta: "..."
     }
 
     If you skip a field you need to explain why in the "meta" property of the JSON! Otherwise leave it empty.
-    
+
     The user will provide you with a markdown representation of the website.
 `

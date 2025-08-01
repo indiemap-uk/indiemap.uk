@@ -3,10 +3,10 @@ import type {LinkType} from '@i/core/link'
 import type {TownType} from '@i/core/town'
 import {PostgreSqlContainer, StartedPostgreSqlContainer} from '@testcontainers/postgresql'
 import {migrate} from 'drizzle-orm/node-postgres/migrator'
-import type {PostgresJsDatabase} from 'drizzle-orm/postgres-js'
 import type {Pool} from 'pg'
 import {afterAll, beforeAll, describe, expect, test} from 'vitest'
 import {BusinessRepositoryPostgres} from './BusinessRepositoryPostgres.js'
+import type {IndieDBType} from './CRUDRepositoryPostgres.js'
 import {LinkRepositoryPostgres} from './LinkRepositoryPostgres.js'
 import {TownRepositoryPostgres} from './TownRepositoryPostgres.js'
 import {getDb} from './getDb.js'
@@ -16,7 +16,7 @@ import {townFactory} from './mock-data/townFactory.js'
 
 describe('Link Repository Postgres @db', () => {
   let container: StartedPostgreSqlContainer
-  let db: PostgresJsDatabase
+  let db: IndieDBType
   let pool: Pool
   let linkRepository: LinkRepositoryPostgres
   let links: LinkType[]
