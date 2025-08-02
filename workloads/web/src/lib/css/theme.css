@@ -2,15 +2,27 @@
 :root {
 	--flow-space: 1em;
 
+	/*
+	https://coolors.co/c70fab-0eb1d2-402a2c-241715-ffffff
+	*/
 	--palette-steel-pink: #c70fab;
 	--palette-pacific-cyan: #0eb1d2;
 	--palette-van-dyke: #402a2c;
 	--palette-licorice: #241715;
+	/*
+	dark
+	https://coolors.co/c70fab-0eb1d2-eff8e2-cecfc7-241715
+	*/
+	--palette-honeydew: #eff8e2;
+	--palette-timberwolf: #cecfc7;
 
 	--color-1: var(--palette-steel-pink);
 	--color-2: var(--palette-pacific-cyan);
 	--color-3: var(--palette-van-dyke);
 	--color-4: var(--palette-licorice);
+	--bg-color: white;
+
+	/***************************************************/
 
 	--text-color: var(--color-4);
 	--heading-color: var(--color-3);
@@ -28,5 +40,16 @@
 @media (prefers-color-scheme: dark) {
 	:root {
 		color-scheme: dark;
+
+		--color-1: var(--palette-steel-pink);
+		--color-2: var(--palette-pacific-cyan);
+		--color-3: var(--palette-timberwolf);
+		--color-4: var(--palette-honeydew);
+		--bg-color: var(--palette-licorice);
+
+		--text-color: var(--color-3);
+		--heading-color: var(--color-2);
+		--link-color: var(--color-3);
+		/*--link-color-hover: var(--color-1);*/
 	}
 }
