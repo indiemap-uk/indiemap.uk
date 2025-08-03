@@ -12,6 +12,6 @@ export const taks = {
   makeBusinessFromSummary: makeBusinessFromSummary,
   makeSourceFromUrl: makeSourceFromUrl,
   watchMarkdown: watchMarkdown,
-}
+} as const
 
 export type TaskName = keyof typeof taks

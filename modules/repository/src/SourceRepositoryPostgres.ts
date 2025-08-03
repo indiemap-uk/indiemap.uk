@@ -23,9 +23,8 @@ export class SourceRepositoryPostgres extends CRUDRepositoryPostgres implements 
     const now = new Date().toISOString()
 
     const toInsert = {
+      ...validatedData,
       id: id.toString(),
-      businessId: validatedData.businessId,
-      urls: validatedData.urls,
       createdAt: now,
       updatedAt: now,
     }

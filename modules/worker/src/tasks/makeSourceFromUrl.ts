@@ -7,6 +7,7 @@ import type {TaskDeps} from '../TaskDeps.js'
 const PayloadSchema = v.object({
   url: v.pipe(v.string(), v.url()),
   notes: v.optional(v.string()),
+  name: v.optional(v.string()),
 })
 
 /**
@@ -14,8 +15,8 @@ const PayloadSchema = v.object({
  * found on the page
  */
 export const makeSourceFromUrl = (s: TaskDeps): Task => async (payload, h) => {
-  const {url, notes} = parseSchema(PayloadSchema, payload)
-  h.logger.info(`URL: ${url}`)
+  const {url, notes, name} = parseSchema(PayloadSchema, payload)
+  h.logger.info('payload', {payload})
 
   let markdown: string
 
@@ -33,7 +34,7 @@ export const makeSourceFromUrl = (s: TaskDeps): Task => async (payload, h) => {
   const urls = s.sourceService.getLinksFromMarkdown(markdown)
   h.logger.debug(`found ${urls.length} urls`, {urls})
 
-  const source = await s.sourceService.create({urls})
+  const source = await s.sourceService.create({urls, name})
 
   // Create note if provided
   if (notes) {

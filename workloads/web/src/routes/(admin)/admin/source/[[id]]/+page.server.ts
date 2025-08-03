@@ -54,11 +54,12 @@ export const actions = {
       return setError(form, 'Exactly 1 URL is required to generate a source')
     }
 
-    await locals.container.workerService.addJob('makeSourceFromUrl', {
+    const payload = {
       url: form.data.urls[0],
-      name: form.data.name || new URL(form.data.urls[0]).hostname,
+      name: form.data.name?.length ? form.data.name : new URL(form.data.urls[0]).hostname,
       notes: `Generated from ${form.data.urls[0]}`,
-    })
+    }
+    await locals.container.workerService.addJob('makeSourceFromUrl', payload)
 
     setFlash({message: 'Source generation started! Check back in a few minutes.', type: 'success'}, cookies)
     return redirect(301, '/admin/sources')

@@ -49,7 +49,6 @@ const {values: urlsValues, errors: urlsErrors, valueErrors: urlsValueErrors} = a
       name="name"
       bind:value={$form.name}
       placeholder="Enter source name"
-      required
     />
   </div>
 
