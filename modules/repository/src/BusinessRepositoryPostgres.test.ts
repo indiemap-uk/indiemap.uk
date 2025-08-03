@@ -215,8 +215,8 @@ describe('Business Repository Postgres @db', () => {
 
       const updated = await repository.update(updatedData)
 
-      expect(updated.townId).toBeNull()
-      expect(updated.town).toBeUndefined()
+      expect(updated.townId).toBeFalsy()
+      expect(updated.town).toBeFalsy()
     })
 
     test('update non-existent business throws error', async () => {

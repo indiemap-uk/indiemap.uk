@@ -10,6 +10,12 @@ export const newSourceId = newIdFn(sourceIdPrefix)
 export const SourceSchema = v.object({
   businessId: v.nullish(v.string()),
   id: v.string(),
+  name: v.nullish(v.pipe(
+    v.string(),
+    v.trim(),
+    v.minLength(2, 'At least two characters'),
+    v.maxLength(100, 'At most 100 characters'),
+  )),
   urls: v.array(v.pipe(v.string(), v.trim(), v.url(), v.maxLength(250))),
   ...TimestampSchema.entries,
 })

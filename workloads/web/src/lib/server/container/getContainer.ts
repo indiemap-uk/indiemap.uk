@@ -1,6 +1,7 @@
 import {BusinessService} from '@i/core/business'
 import {LinkService} from '@i/core/link'
 import {LocationService} from '@i/core/location'
+import {NoteService} from '@i/core/note'
 import {ProductService} from '@i/core/product'
 import {SourceService} from '@i/core/source'
 import {TownService} from '@i/core/town'
@@ -9,6 +10,7 @@ import {BusinessRepositoryPostgres} from '@i/repository/BusinessRepositoryPostgr
 import {KVPostgresStore} from '@i/repository/KVPostgresStore'
 import {LinkRepositoryPostgres} from '@i/repository/LinkRepositoryPostgres'
 import {LocationRepositoryPostgres} from '@i/repository/LocationRepositoryPostgres'
+import {NoteRepositoryPostgres} from '@i/repository/NoteRepositoryPostgres'
 import {ProductRepositoryPostgres} from '@i/repository/ProductRepositoryPostgres'
 import {SourceRepositoryPostgres} from '@i/repository/SourceRepositoryPostgres'
 import {TownRepositoryPostgres} from '@i/repository/TownRepositoryPostgres'
@@ -23,7 +25,25 @@ export const getContainer = async (env: ContainerEnvType) => {
   const {db, pool} = getDb(env.DATABASE_URL)
   await pool.query('SET search_path TO public, authjs')
 
-  const logger = pino()
+  const pinoTransports = [
+    {
+      level: env.LOG_LEVEL ?? 'info',
+      target: 'pino-pretty',
+      options: {},
+    },
+  ]
+  if (env.AXIOM_DATASET && env.AXIOM_TOKEN) {
+    pinoTransports.push({
+      level: env.LOG_LEVEL ?? 'info',
+      target: '@axiomhq/pino',
+      options: {
+        dataset: env.AXIOM_DATASET,
+        token: env.AXIOM_TOKEN,
+      },
+    })
+  }
+
+  const logger = pino({level: env.LOG_LEVEL ?? 'info'}, pino.transport({targets: pinoTransports}))
 
   const townRepository = new TownRepositoryPostgres(db)
   const townService = new TownService(townRepository)
@@ -40,6 +60,9 @@ export const getContainer = async (env: ContainerEnvType) => {
   const productRepository = new ProductRepositoryPostgres(db)
   const productService = new ProductService(productRepository)
 
+  const noteRepository = new NoteRepositoryPostgres(db)
+  const noteService = new NoteService(noteRepository)
+
   const geocodingService = new GeocodingServiceGeocodify(env.GEOCODIFY_API_KEY)
 
   const kvstore = new KVPostgresStore({schema: env.KEYV_SCHEMA, table: env.KEYV_TABLE, uri: env.DATABASE_URL})
@@ -55,7 +78,9 @@ export const getContainer = async (env: ContainerEnvType) => {
     businessService,
     kvstore,
     linkService,
+    logger,
     markdownService,
+    noteService,
     sourceService,
     summarizerService,
     productService,
@@ -81,6 +106,8 @@ export const getContainer = async (env: ContainerEnvType) => {
     linkService,
     locationService,
     logger,
+    noteRepository,
+    noteService,
     sourceRepository,
     sourceService,
     summarizerService,

@@ -28,9 +28,10 @@ const {data} = $props()
   <table class="admin-data-table">
     <thead>
       <tr>
-        <th>ID</th>
+        <th>NAME</th>
         <th>URLS</th>
         <th>BUSINESS</th>
+        <th>NOTES</th>
         <th>UPDATED</th>
         <th>CREATED</th>
       </tr>
@@ -40,7 +41,7 @@ const {data} = $props()
         <tr>
           <td class="is-family-monospace">
             <a href={`/admin/source/${source.id}`}>
-              {source.id}
+              {source.name ?? `[${source.id}]`}
             </a>
           </td>
           <td>
@@ -65,6 +66,15 @@ const {data} = $props()
             {/if}
           </td>
           <td>
+            {#if source.notes && source.notes.length > 0}
+              <span class="has-notes" title={source.notes.map(note => note.content).join('\n')}>
+                {source.notes.length} note{source.notes.length !== 1 ? 's' : ''}
+              </span>
+            {:else}
+              <em>-</em>
+            {/if}
+          </td>
+          <td>
             {dayjs().to(dayjs(source.updatedAt))}
           </td>
           <td>
@@ -75,3 +85,11 @@ const {data} = $props()
     </tbody>
   </table>
 </div>
+
+<style>
+.has-notes{
+	text-decoration: underline;
+	text-decoration-style: dotted;
+	cursor: help;
+}
+</style>

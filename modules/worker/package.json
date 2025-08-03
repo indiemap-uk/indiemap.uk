@@ -17,6 +17,7 @@
     "@i/summarizer": "workspace:*",
     "debug": "^4.4.0",
     "graphile-worker": "^0.16.6",
+    "pino": "^9.7.0",
     "valibot": "^1.1.0"
   },
   "devDependencies": {

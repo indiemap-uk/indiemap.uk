@@ -9,18 +9,18 @@ import * as v from 'valibot'
 import type {Actions, PageServerLoad} from './$types'
 
 export const load: PageServerLoad = async ({parent}) => {
-  const {source} = await parent()
+  const {source, notes} = await parent()
 
   // No ID = new source form
   if (!source) {
     const sourceForm = await superValidate(valibot(SourceCreateSchema), {defaults: {urls: ['http://']}})
 
-    return {sourceForm}
+    return {sourceForm, notes: []}
   }
 
   const sourceForm = await superValidate(source, valibot(SourceSchema))
 
-  return {source, sourceForm}
+  return {source, sourceForm, notes}
 }
 
 export const actions = {
@@ -54,7 +54,11 @@ export const actions = {
       return setError(form, 'Exactly 1 URL is required to generate a source')
     }
 
-    await locals.container.workerService.addJob('makeSourceFromUrl', form.data.urls[0])
+    await locals.container.workerService.addJob('makeSourceFromUrl', {
+      url: form.data.urls[0],
+      name: form.data.name || new URL(form.data.urls[0]).hostname,
+      notes: `Generated from ${form.data.urls[0]}`,
+    })
 
     setFlash({message: 'Source generation started! Check back in a few minutes.', type: 'success'}, cookies)
     return redirect(301, '/admin/sources')

@@ -11,6 +11,7 @@ export const timestamps = {
 }
 
 export const businessStatusEnum = pgEnum('business_status', ['live', 'draft'])
+export const noteEntityTypeEnum = pgEnum('note_entity_type', ['source'])
 
 export const ukTowns = pgTable('uk_towns', {
   id: integer().primaryKey().notNull(),
@@ -77,6 +78,7 @@ export const businessLocations = pgTable(
 
 export const sources = pgTable('sources', {
   id: varchar({length: 90}).primaryKey().notNull(),
+  name: varchar(),
   urls: varchar().array().notNull(),
   businessId: varchar({length: 90})
     .references(() => businesses.id, {
@@ -94,6 +96,14 @@ export const products = pgTable('products', {
       onUpdate: 'cascade',
       onDelete: 'set null',
     }),
+  ...timestamps,
+})
+
+export const notes = pgTable('notes', {
+  id: varchar({length: 90}).primaryKey().notNull(),
+  entityType: noteEntityTypeEnum().notNull(),
+  entityId: varchar({length: 90}).notNull(),
+  content: text().notNull(),
   ...timestamps,
 })
 
@@ -138,10 +148,13 @@ export const businessLocationsRelations = relations(businessLocations, ({one}) =
   }),
 }))
 
-export const sourcesRelations = relations(sources, ({one}) => ({
+export const sourcesRelations = relations(sources, ({one, many}) => ({
   business: one(businesses, {
     fields: [sources.businessId],
     references: [businesses.id],
+  }),
+  notes: many(notes, {
+    relationName: 'sourceNotes',
   }),
 }))
 
@@ -149,5 +162,13 @@ export const productsRelations = relations(products, ({one}) => ({
   business: one(businesses, {
     fields: [products.businessId],
     references: [businesses.id],
+  }),
+}))
+
+export const notesRelations = relations(notes, ({one}) => ({
+  source: one(sources, {
+    fields: [notes.entityId],
+    references: [sources.id],
+    relationName: 'sourceNotes',
   }),
 }))

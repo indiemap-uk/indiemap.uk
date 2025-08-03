@@ -1,7 +1,8 @@
+import type {Logger as CoreLogger} from '@i/core/logger'
 import {parseSchema} from '@i/core/schema'
 
 import Debug from 'debug'
-import {type Runner, type WorkerUtils, makeWorkerUtils, run} from 'graphile-worker'
+import {type Runner, type WorkerUtils, Logger as GraphileLogger, makeWorkerUtils, run} from 'graphile-worker'
 import * as v from 'valibot'
 import type {TaskDeps} from './TaskDeps.js'
 import {type TaskName, taks} from './tasks/index.js'
@@ -22,12 +23,14 @@ export class WorkerService {
   #runner?: Runner
   #utils?: WorkerUtils
   #services: TaskDeps
+  #logger: CoreLogger
 
   constructor(env: WorkerEnvType, s: TaskDeps) {
     const {DATABASE_URL} = parseSchema(WorkerEnvSchema, env)
 
     this.#dbUrl = DATABASE_URL
     this.#services = s
+    this.#logger = s.logger
   }
 
   async start() {
@@ -39,6 +42,7 @@ export class WorkerService {
       this.#runner = await run({
         connectionString: this.#dbUrl,
         noPreparedStatements: true,
+        logger: new GraphileLogger(this.#logFactory()),
         /** ⬇️ TASK LIST ⬇️ **/
         taskList: {
           makeBusinessFromSource: taks.makeBusinessFromSource(this.#services),
@@ -137,6 +141,31 @@ export class WorkerService {
     } catch (error: unknown) {
       console.error(`Error stopping worker in WorkerService`)
       throw error
+    }
+  }
+
+  #logFactory() {
+    return (scope: any) => {
+      const scopedLogger = this.#logger.child({service: 'WorkerService', scope})
+
+      return (level: string, message: string, meta?: {[key: string]: unknown}) => {
+        switch (level) {
+          case 'error':
+            scopedLogger.error(meta, message)
+            break
+          case 'warn':
+            scopedLogger.error(meta, message)
+            break
+          case 'info':
+            scopedLogger.info(meta, message)
+            break
+          case 'debug':
+            scopedLogger.debug(meta, message)
+            break
+          default:
+            scopedLogger.info(meta, message)
+        }
+      }
     }
   }
 }

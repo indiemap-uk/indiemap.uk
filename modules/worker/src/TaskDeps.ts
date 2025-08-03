@@ -1,5 +1,7 @@
 import {BusinessService} from '@i/core/business'
 import type {LinkService} from '@i/core/link'
+import type {Logger} from '@i/core/logger'
+import type {NoteService} from '@i/core/note'
 import type {ProductService} from '@i/core/product'
 import type {SourceService} from '@i/core/source'
 import type {SummarizerService} from '@i/core/summarizer'
@@ -11,7 +13,9 @@ export interface TaskDeps {
   businessService: BusinessService
   kvstore: KVStore
   linkService: LinkService
+  logger: Logger
   markdownService: MarkdownService
+  noteService: NoteService
   productService: ProductService
   sourceService: SourceService
   summarizerService: SummarizerService

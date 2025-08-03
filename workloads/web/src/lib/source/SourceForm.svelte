@@ -3,7 +3,7 @@ import ToggleSuperDebug from '$lib/components/ToggleSuperDebug.svelte'
 import {IconClipboard, IconExternalLink} from '@tabler/icons-svelte'
 import {arrayProxy, superForm} from 'sveltekit-superforms'
 
-const {sForm, business} = $props()
+const {sForm, business, notes = []} = $props()
 
 const superform = superForm(sForm, {
   dataType: 'json',
@@ -30,6 +30,28 @@ const {values: urlsValues, errors: urlsErrors, valueErrors: urlsValueErrors} = a
       {business.name}
     </a>
   {/if}
+
+  {#if notes.length > 0}
+    <div>
+      <p><strong>Notes</strong></p>
+      <ul>
+        {#each notes as note}
+          <li>{note.content}</li>
+        {/each}
+      </ul>
+    </div>
+  {/if}
+
+  <div>
+    <label for="name">Name</label>
+    <input
+      type="text"
+      name="name"
+      bind:value={$form.name}
+      placeholder="Enter source name"
+      required
+    />
+  </div>
 
   <div>
     <label for="urls">URLs</label>

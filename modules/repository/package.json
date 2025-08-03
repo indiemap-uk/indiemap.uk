@@ -17,6 +17,8 @@
     "./LocationRepositoryPostgres": "./src/LocationRepositoryPostgres.ts",
     "./SourceRepositoryPostgres": "./src/SourceRepositoryPostgres.ts",
     "./SourceRepositoryMemory": "./src/SourceRepositoryMemory.ts",
+    "./NoteRepositoryPostgres": "./src/NoteRepositoryPostgres.ts",
+    "./NoteRepositoryMemory": "./src/NoteRepositoryMemory.ts",
     "./ProductRepositoryPostgres": "./src/ProductRepositoryPostgres.ts",
     "./ProductRepositoryMemory": "./src/ProductRepositoryMemory.ts",
     "./getDb": "./src/getDb.ts",
@@ -53,15 +55,16 @@
     "valibot": "^1.1.0"
   },
   "devDependencies": {
+    "@faker-js/faker": "^9.6.0",
     "@i/tsconfig": "workspace:*",
     "@testcontainers/postgresql": "^11.0.3",
     "@types/big.js": "6.2.2",
     "@types/debug": "^4.1.12",
-    "es-toolkit": "^1.34.1",
-    "tsx": "4.19.2",
+    "@types/node": "^24.1.0",
     "@types/pg": "^8.15.4",
     "drizzle-kit": "^0.31.4",
-    "@faker-js/faker": "^9.6.0"
+    "es-toolkit": "^1.34.1",
+    "tsx": "4.19.2"
   },
   "version": "1.0.0",
   "private": true,
