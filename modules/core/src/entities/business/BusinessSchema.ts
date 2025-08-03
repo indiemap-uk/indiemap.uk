@@ -17,11 +17,14 @@ const businessStatus = v.picklist(['live', 'draft'])
  * A schema representing a Business, this includes references to other entities.
  */
 export const BusinessSchema = v.object({
-  description: v.nullish(v.pipe(v.string(), v.trim(), v.minLength(5), v.maxLength(1000))),
+  description: v.nullish(
+    v.pipe(v.string(), v.trim(), v.transform((input) => input.slice(0, 1000)), v.minLength(5), v.maxLength(1000)),
+  ),
   id: v.string(),
   name: v.pipe(
     v.string(),
     v.trim(),
+    v.transform((input) => input.slice(0, 100)),
     v.minLength(2, 'At least two characters'),
     v.maxLength(100, 'At most 100 characters'),
   ),
