@@ -17,7 +17,11 @@ table {
 			text-align: left;
 		}
 		& tr:nth-child(even) {
-			background-color: #f0f0f0;
+			background-color: color-mix(
+				in srgb,
+				var(--color-2) 20%,
+				transparent 100%
+			);
 		}
 
 		& td {
