@@ -1,5 +1,5 @@
 {
-  "extends": "@i/tsconfig",
+  "extends": "../../tsconfig",
   "compilerOptions": {
     "allowJs": false,
     "declaration": true,

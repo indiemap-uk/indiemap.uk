@@ -1,4 +1,4 @@
 {
-  "extends": "@i/tsconfig",
+  "extends": "../../tsconfig",
   "include": ["src"]
 }
