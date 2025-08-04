@@ -1,0 +1,74 @@
+.admin-content {
+}
+
+.message {
+	padding: 1em;
+	background-color: var(--color-2-20);
+	width: var(--readable-width);
+	margin-block: 1em;
+	border-radius: 5px;
+}
+
+.admin-data-table {
+	width: 100%;
+	border-collapse: collapse;
+
+	& thead th {
+		padding-block: 1rem;
+	}
+
+	& th {
+		text-align: left;
+	}
+	& tr:nth-child(even) {
+		background-color: var(--color-2-20);
+	}
+
+	& td {
+		vertical-align: top;
+		padding-block: 0.5rem;
+		padding-inline: 0.5rem;
+	}
+}
+
+nav.breadcrumb ul {
+	display: inline-flex;
+	list-style: none;
+	gap: 1rem;
+}
+
+form.admin {
+	/* This is a copy of the flow utility */
+	& > * + * {
+		margin-block-start: 2em;
+	}
+
+	max-width: var(--readable-width);
+
+	& textarea,
+	& input {
+		width: 100%;
+		padding: 0.5rem;
+	}
+	& input[type="radio"] {
+		width: auto;
+	}
+
+	.input-group {
+		display: flex;
+		align-items: center;
+		gap: 0.5rem;
+		margin-bottom: 1rem;
+	}
+}
+
+ul.tabs {
+	padding: 0;
+	display: flex;
+	gap: 1rem;
+	list-style: none;
+
+	li.is-active {
+		font-weight: bold;
+	}
+}

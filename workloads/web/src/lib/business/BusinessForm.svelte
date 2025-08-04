@@ -5,17 +5,20 @@ import dayjs from 'dayjs'
 import type {SuperValidated} from 'sveltekit-superforms'
 
 import ToggleSuperDebug from '$lib/components/ToggleSuperDebug.svelte'
+import type {SourceType} from '@i/core/source'
 import Svelecte from 'svelecte'
 import {superForm} from 'sveltekit-superforms'
 
 const {
   sForm,
   town,
+  source,
 }: {
   /** sForm is the superform instance */
   sForm: SuperValidated<BusinessCRUDType>
   /** town is the currently selected town (if any) */
   town?: TownSearchResultType | null
+  source?: SourceType | null
 } = $props()
 const {constraints, enhance, errors, form, isTainted, message, tainted} = superForm(sForm, {invalidateAll: 'force'})
 
@@ -45,9 +48,15 @@ const toggleTownEdit = (e: Event) => {
 {/if}
 
 {#if $message}
-  <div>
+  <div class="message">
     {$message}
   </div>
+{/if}
+
+{#if source}
+  Source: <a href={`/admin/source/${source.id}`}>
+    {source.name ?? source.id}
+  </a>
 {/if}
 
 <form method="POST" use:enhance class="admin">

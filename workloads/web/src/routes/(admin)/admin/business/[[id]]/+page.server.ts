@@ -7,7 +7,7 @@ import * as v from 'valibot'
 
 import type {Actions, PageServerLoad} from './$types'
 
-export const load: PageServerLoad = async ({parent}) => {
+export const load: PageServerLoad = async ({parent, locals}) => {
   const {business} = await parent()
 
   // No ID = new business form
@@ -18,8 +18,9 @@ export const load: PageServerLoad = async ({parent}) => {
   }
 
   const businessForm = await superValidate(business, valibot(BusinessCRUDSchema))
+  const source = await locals.container.sourceService.getByBusinessId(business.id)
 
-  return {business, businessForm}
+  return {business, businessForm, source}
 }
 
 export const actions = {
@@ -66,6 +67,6 @@ export const actions = {
     }
 
     setFlash({message: 'Business updated', type: 'success'}, cookies)
-    throw redirect(301, '/admin/businesses')
+    return redirect(301, '/admin/businesses')
   },
 } satisfies Actions

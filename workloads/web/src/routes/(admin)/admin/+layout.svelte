@@ -81,9 +81,9 @@ const menu = [
   </aside>
 
   <main>
-    <div class="container">
+    <div class="admin-content">
       {#if $flash && showFlash}
-        <div class="notification is-{$flash.type}">
+        <div class="message">
           {$flash.message}
         </div>
       {/if}
@@ -118,14 +118,14 @@ header {
 	justify-content: space-between;
 
 	padding-block: 2rem;
-	padding-inline: 1rem;
+	padding-inline: var(--page-padding-inline);
 }
 
 aside {
 	grid-area: nav;
 
 	padding-top: 0;
-	padding-inline: 1rem;
+	padding-inline-start: var(--page-padding-inline);
 
 	display: flex;
 	flex-direction: column;
@@ -138,5 +138,6 @@ aside {
 
 main {
 	grid-area: content;
+	padding-inline-end: var(--page-padding-inline);
 }
 </style>

@@ -18,6 +18,7 @@
 
 	--color-1: var(--palette-steel-pink);
 	--color-2: var(--palette-pacific-cyan);
+	--color-2-20: color-mix(in srgb, var(--color-2) 20%, transparent 100%);
 	--color-3: var(--palette-van-dyke);
 	--color-4: var(--palette-licorice);
 	--bg-color: white;
