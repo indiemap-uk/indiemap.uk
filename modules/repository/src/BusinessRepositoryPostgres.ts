@@ -183,13 +183,7 @@ export class BusinessRepositoryPostgres extends CRUDRepositoryPostgres implement
       : undefined
 
     return parseSchema(BusinessResolvedSchema, {
-      id: record.business.id,
-      name: record.business.name,
-      description: record.business.description,
-      status: record.business.status,
-      townId: record.business.townId,
-      createdAt: record.business.createdAt,
-      updatedAt: record.business.updatedAt,
+      ...record.business,
       town: townData,
     })
   }

@@ -36,6 +36,7 @@ export const businesses = pgTable('businesses', {
   name: varchar().notNull(),
   status: businessStatusEnum().default('live').notNull(),
   townId: integer().references(() => ukTowns.id, {onUpdate: 'cascade', onDelete: 'set null'}),
+  county: varchar({length: 40}),
   ...timestamps,
 })
 
