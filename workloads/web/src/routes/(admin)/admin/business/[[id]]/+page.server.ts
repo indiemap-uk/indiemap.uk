@@ -40,7 +40,7 @@ export const actions = {
       return fail(500, {form})
     }
 
-    return redirect(301, `/admin/business/${business.id.toString()}`)
+    redirect(301, `/admin/business/${business.id.toString()}`)
   },
 
   delete: async ({locals, request}) => {
@@ -48,7 +48,7 @@ export const actions = {
 
     await locals.container.businessService.delete(v.parse(v.string(), formData.get('id')))
 
-    return redirect(301, '/admin/businesses')
+    redirect(301, '/admin/businesses')
   },
 
   update: async ({locals, request, cookies}) => {
@@ -67,6 +67,6 @@ export const actions = {
     }
 
     setFlash({message: 'Business updated', type: 'success'}, cookies)
-    return redirect(301, '/admin/businesses')
+    redirect(301, '/admin/businesses')
   },
 } satisfies Actions

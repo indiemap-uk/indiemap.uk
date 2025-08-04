@@ -124,7 +124,7 @@ const {values: urlsValues, errors: urlsErrors, valueErrors: urlsValueErrors} = a
       {#if !$form.id}
         <button
           type="submit"
-          formaction="?/generate"
+          formaction="?/makeFromUrl"
           disabled={$submitting}
         >
           Generate from the 1st URL

@@ -40,10 +40,10 @@ export const actions = {
       return fail(500, {form})
     }
 
-    return redirect(301, `/admin/source/${source.id.toString()}`)
+    redirect(301, `/admin/source/${source.id.toString()}`)
   },
 
-  generate: async ({locals, request, cookies}) => {
+  makeFromUrl: async ({locals, request, cookies}) => {
     const form = await superValidate(request, valibot(SourceCreateSchema))
 
     if (!form.valid) {
@@ -56,13 +56,13 @@ export const actions = {
 
     const payload = {
       url: form.data.urls[0],
-      name: form.data.name?.length ? form.data.name : new URL(form.data.urls[0]).hostname,
+      name: form.data.name,
       notes: `Generated from ${form.data.urls[0]}`,
     }
     await locals.container.workerService.addJob('makeSourceFromUrl', payload)
 
     setFlash({message: 'Source generation started! Check back in a few minutes.', type: 'success'}, cookies)
-    return redirect(301, '/admin/sources')
+    redirect(301, '/admin/sources')
   },
 
   delete: async ({locals, request, cookies}) => {
@@ -76,7 +76,7 @@ export const actions = {
     await locals.container.sourceService.delete(v.parse(v.string(), form.data.id))
 
     setFlash({message: 'Deleted', type: 'success'}, cookies)
-    throw redirect(301, '/admin/sources')
+    redirect(301, '/admin/sources')
   },
 
   update: async ({locals, request}) => {
@@ -109,7 +109,7 @@ export const actions = {
       await locals.container.workerService.addJob('makeBusinessFromSource', parseSchema(SourceSchema, form.data))
 
       setFlash({message: 'Business generation started! Check results in a few minutes.', type: 'success'}, cookies)
-      return redirect(301, '/admin/businesses')
+      redirect(301, '/admin/businesses')
     } catch (error) {
       console.error(error)
       return fail(500, {form})

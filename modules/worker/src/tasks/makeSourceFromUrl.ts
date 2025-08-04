@@ -6,8 +6,8 @@ import type {TaskDeps} from '../TaskDeps.js'
 
 const PayloadSchema = v.object({
   url: v.pipe(v.string(), v.url()),
-  notes: v.optional(v.string()),
-  name: v.optional(v.string()),
+  notes: v.nullish(v.string()),
+  name: v.nullish(v.string()),
 })
 
 /**

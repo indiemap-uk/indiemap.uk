@@ -1,12 +1,17 @@
+import {parseSchema} from '../../schema/parseSchema.js'
 import type {BusinessIdType} from '../business/BusinessType.js'
 import type {SourceRepository} from './SourceRepository.js'
+import {SourceCreateSchema} from './SourceSchema.js'
 import type {SourceCreateType, SourceResolvedType, SourceUpdateType} from './SourceType.js'
 
 export class SourceService {
   constructor(private readonly sourceRepository: SourceRepository) {}
 
   async create(newSource: SourceCreateType) {
-    return this.sourceRepository.create(newSource)
+    const validatedData = parseSchema(SourceCreateSchema, newSource)
+    const name = validatedData.name ?? new URL(validatedData.urls[0] as string).hostname
+
+    return this.sourceRepository.create({...validatedData, name})
   }
 
   delete(id: string) {

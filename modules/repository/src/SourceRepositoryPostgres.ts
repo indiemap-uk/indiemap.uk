@@ -4,7 +4,6 @@ import {
   type SourceRepository,
   type SourceResolvedType,
   type SourceUpdateType,
-  SourceCreateSchema,
   SourceResolvedSchema,
   SourceSchema,
   SourceUpdateSchema,
@@ -18,12 +17,11 @@ import {businesses, sources} from './db/schema/schema.js'
 
 export class SourceRepositoryPostgres extends CRUDRepositoryPostgres implements SourceRepository {
   async create(data: SourceCreateType) {
-    const validatedData = v.parse(SourceCreateSchema, data)
     const id = newSourceId()
     const now = new Date().toISOString()
 
     const toInsert = {
-      ...validatedData,
+      ...data,
       id: id.toString(),
       createdAt: now,
       updatedAt: now,

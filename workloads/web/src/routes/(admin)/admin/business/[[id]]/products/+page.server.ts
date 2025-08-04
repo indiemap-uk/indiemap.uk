@@ -10,7 +10,7 @@ export const load: PageServerLoad = async ({locals, parent}) => {
   const {business}: {business?: BusinessType | null} = await parent()
 
   if (!business) {
-    throw redirect(301, '/admin/businesses')
+    redirect(301, '/admin/businesses')
   }
 
   const products = (await locals.container.productService.getByBusinessId(business.id)) ?? []

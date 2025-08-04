@@ -10,7 +10,7 @@ export const load = async ({locals, parent}) => {
   const {business}: {business?: BusinessType | null} = await parent()
 
   if (!business) {
-    throw redirect(301, '/admin/businesses')
+    redirect(301, '/admin/businesses')
   }
 
   const locationService: LocationService = locals.container.locationService
