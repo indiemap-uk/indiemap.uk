@@ -1,4 +1,4 @@
-# DATABASE_URL is used by repository and web 
+# DATABASE_URL is used by repository and web
 export DATABASE_URL='postgres://indie:indie@localhost:5431/indie?sslmode=disable'
 
 # The comma separated list of admin email who can log in with a magic link at /admin
@@ -9,6 +9,9 @@ export AUTH_RESEND_KEY=
 
 # Strong random secret for Auth.js
 export AUTH_SECRET=
+
+# Cache TTL, 0 is fine in local
+export CACHE_TTL=0
 
 # https://geocodify.com API key for geocoding lookups
 export GEOCODIFY_API_KEY=

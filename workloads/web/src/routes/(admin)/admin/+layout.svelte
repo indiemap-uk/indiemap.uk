@@ -45,6 +45,12 @@ const menu = [
       ['List', '/admin/jobs'],
     ],
   ],
+  [
+    'Cache',
+    [
+      ['Manage', '/admin/cache'],
+    ],
+  ],
 ]
 </script>
 

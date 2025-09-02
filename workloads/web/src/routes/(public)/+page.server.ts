@@ -1,25 +1,36 @@
 const limit = 10
 
-export const load = async ({locals}) => {
-  const latestBusinesses = locals.container.businessRepository.search({status: 'live'}, {
-    limit,
-    order: {
-      by: 'createdAt',
-      direction: 'DESC',
-    },
-  })
+export const load = async ({locals, setHeaders}) => {
+  const {businessRepository, townRepository, cache} = locals.container
 
-  const townsWithBusiness = locals.container.townRepository.townsWithBusiness({
-    limit,
-    offset: 0,
-    order: {
-      by: 'businessCount',
-      direction: 'DESC',
-    },
+  const [latestBusinesses, townsWithBusiness] = await Promise.all([
+    cache.memo('latestBusinesses', () =>
+      businessRepository.search({status: 'live'}, {
+        limit,
+        order: {
+          by: 'createdAt',
+          direction: 'DESC',
+        },
+      })),
+
+    cache.memo('townWithBusiness', () =>
+      townRepository.townsWithBusiness({
+        limit,
+        offset: 0,
+        order: {
+          by: 'businessCount',
+          direction: 'DESC',
+        },
+      })),
+  ])
+
+  setHeaders({
+    'x-cached-latestBusinesses': latestBusinesses.isCached ? 'true' : 'false',
+    'x-cached-townsWithBusiness': townsWithBusiness.isCached ? 'true' : 'false',
   })
 
   return {
-    latestBusinesses,
-    townsWithBusiness,
+    latestBusinesses: latestBusinesses.value,
+    townsWithBusiness: townsWithBusiness.value,
   }
 }
