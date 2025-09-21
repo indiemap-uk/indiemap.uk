@@ -18,11 +18,17 @@ const {children} = $props()
 
   <footer class="footer content">
     <p>
-      This site is free, non-profit and <a
+      Indiemap is a free, non-profit and <a
         rel="noopener noreferrer"
         target="_blank"
         href="https://github.com/indiemap-uk/indiemap.uk"
-      >open-source</a>. Made in Brentwood, Essex ✌️
+      >open-source</a> project to promote small UK retail businesses.
+
+      <a
+        rel="noopener noreferrer"
+        target="_blank"
+        href="https://tally.so/r/waVdeW"
+      >Get in touch</a>. Made in Brentwood, Essex ✌️
     </p>
   </footer>
 </div>
