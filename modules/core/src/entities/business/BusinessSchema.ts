@@ -17,6 +17,7 @@ const businessStatus = v.picklist(['live', 'draft'])
  * A schema representing a Business, this includes references to other entities.
  */
 export const BusinessSchema = v.object({
+  county: v.nullish(v.string()),
   description: v.nullish(
     v.pipe(v.string(), v.trim(), v.transform((input) => input.slice(0, 1000)), v.minLength(5), v.maxLength(1000)),
   ),
@@ -29,8 +30,8 @@ export const BusinessSchema = v.object({
     v.maxLength(100, 'At most 100 characters'),
   ),
   /** The status of the business, live by default. Not available to users when draft. */
-  status: v.optional(businessStatus, 'live'),
-  townId: v.nullable(TownSchema.entries.id),
+  status: v.nullish(businessStatus, 'live'),
+  townId: v.nullish(TownSchema.entries.id),
   ...TimestampSchema.entries,
 })
 
@@ -74,6 +75,10 @@ export const BusinessSearchSchema = v.object({
   status: v.nullish(businessStatus),
   /** Town ID */
   townId: v.nullish(TownIDSearchSchema),
+  /** A list of town IDs */
+  townIds: v.nullish(v.array(TownIDSearchSchema)),
+  /** County name */
+  county: v.nullish(v.string()),
 })
 
 /**

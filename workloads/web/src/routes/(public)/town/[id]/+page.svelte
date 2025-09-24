@@ -1,4 +1,6 @@
 <script lang="ts">
+import CountyLink from '$lib/county/CountyLink.svelte'
+
 const {data} = $props()
 </script>
 
@@ -7,7 +9,7 @@ const {data} = $props()
 </svelte:head>
 
 <main class="content | flow">
-  <h2>{data.town.name}, {data.town.county}</h2>
+  <h2>{data.town.name}, <CountyLink name={data.town.county} /></h2>
 
   <ul>
     {#await data.businesses}

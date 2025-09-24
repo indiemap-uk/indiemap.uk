@@ -29,7 +29,7 @@ const {data} = $props()
     <thead>
       <tr>
         <th>NAME</th>
-        <th>TOWN</th>
+        <th>TOWN/COUNTY</th>
         <th>STATUS</th>
         <th>CREATED</th>
         <th>UPDATED</th>
@@ -47,7 +47,7 @@ const {data} = $props()
             {#if business.town}
               {business.town.name}, {business.town.county}
             {:else}
-              <em>-</em>
+              {business.county ?? '-'}
             {/if}
           </td>
           <td>{business.status}</td>

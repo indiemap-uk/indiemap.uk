@@ -1,4 +1,6 @@
 <script lang="ts">
+import CountyLink from '$lib/county/CountyLink.svelte'
+
 const {data} = $props()
 </script>
 
@@ -12,7 +14,15 @@ const {data} = $props()
 
     {#if data.business.town}
       <p>
-        Based in <a href={`/town/${data.business.town.id}`}>{data.business.town.name}, {data.business.town.county}</a>
+        Based in <a href={`/town/${data.business.town.id}`}>{data.business.town.name}</a>, <CountyLink
+          name={data.business.town.county}
+        />
+      </p>
+    {/if}
+
+    {#if data.business.county}
+      <p>
+        Based in <CountyLink name={data.business.county} />
       </p>
     {/if}
 

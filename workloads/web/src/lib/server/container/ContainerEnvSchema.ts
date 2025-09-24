@@ -7,13 +7,13 @@ export const ContainerEnvSchema = v.object({
   AXIOM_DATASET: v.optional(v.string()),
   AXIOM_TOKEN: v.optional(v.string()),
 	/**
-	 * The cache TTL in milliseconds, default is 24 hours
+	 * The cache TTL in milliseconds, default is 1 (cache for 1 ms only)
 	 */
 		CACHE_TTL: v.optional(
 			v.union([
 				v.number(),
 				v.pipe(v.string(), v.transform(Number), v.number())
-			]), 24 * 60 * 60 * 1000
+			]), 1
 		),
   /**
    * The full DB URL, e.g. postgres://indie:indie@localhost:5431/indie?sslmode=disable

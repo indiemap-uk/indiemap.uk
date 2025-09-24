@@ -8,7 +8,7 @@ const {children, data} = $props()
 
 {#if data.source?.id}
   <h1 class="title">
-    <span class="tag is-info">Edit</span> Source {data.source.id}
+    <span class="tag is-info">Edit</span> Source {data.source.name ?? data.source.id}
     {#if data.source.business}
       <span class="tag is-light">for {data.source.business.name}</span>
     {/if}

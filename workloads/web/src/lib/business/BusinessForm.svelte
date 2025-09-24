@@ -1,6 +1,6 @@
 <script lang="ts">
 import type {BusinessCRUDType} from '@i/core/business'
-import type {TownSearchResultType} from '@i/core/town'
+import {type TownSearchResultType, ukCounties} from '@i/core/town'
 import dayjs from 'dayjs'
 import type {SuperValidated} from 'sveltekit-superforms'
 
@@ -114,6 +114,18 @@ const toggleTownEdit = (e: Event) => {
       options={defaultOptions}
     />
     <button type="button" onclick={() => ($form.townId = null)}>Clear</button>
+  </div>
+
+  <div>
+    <label for="county">County</label>
+    <div>
+      <select bind:value={$form.county} name="county">
+        <option value={null}></option>
+        {#each ukCounties as county}
+          <option value={county}>{county}</option>
+        {/each}
+      </select>
+    </div>
   </div>
 
   <div>

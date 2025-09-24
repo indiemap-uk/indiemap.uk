@@ -1,4 +1,4 @@
-import {type BusinessListArgs, type BusinessSearchType, BusinessSearchSchema} from '@i/core/business'
+import {type BusinessListArgs, type BusinessSearchType, type BusinessType, BusinessSearchSchema} from '@i/core/business'
 import {error, json} from '@sveltejs/kit'
 import Debug from 'debug'
 import * as v from 'valibot'
@@ -37,7 +37,7 @@ export const GET = async ({locals, url}) => {
     limit,
     offset,
     order: {
-      by: orderBy as keyof BusinessSearchType,
+      by: orderBy as keyof BusinessType,
       direction: orderDirection as 'ASC' | 'DESC',
     },
   }

@@ -16,7 +16,7 @@ import {
   newBusinessId,
 } from '@i/core/business'
 import {parseSchema} from '@i/core/schema'
-import {and, asc, desc, eq, ilike} from 'drizzle-orm'
+import {and, asc, desc, eq, ilike, inArray, or} from 'drizzle-orm'
 import * as v from 'valibot'
 import {CRUDRepositoryPostgres} from './CRUDRepositoryPostgres.js'
 import {businesses, ukTowns} from './db/schema/schema.js'
@@ -105,6 +105,19 @@ export class BusinessRepositoryPostgres extends CRUDRepositoryPostgres implement
       conditions.push(eq(businesses.townId, query.townId))
     }
 
+    if (query.county && query.townIds && query.townIds.length > 0) {
+      conditions.push(
+        or(
+          eq(businesses.county, query.county),
+          inArray(businesses.townId, query.townIds),
+        ),
+      )
+    }
+
+    if (!query.county && query.townIds && query.townIds.length > 0) {
+      conditions.push(inArray(businesses.townId, query.townIds))
+    }
+
     if (query.status) {
       conditions.push(eq(businesses.status, query.status))
     }
@@ -136,7 +149,7 @@ export class BusinessRepositoryPostgres extends CRUDRepositoryPostgres implement
       })
       .from(businesses)
       .leftJoin(ukTowns, eq(businesses.townId, ukTowns.id))
-      .where(conditions.length > 0 ? and(...conditions) : undefined)
+      .where(and(...conditions))
       .orderBy(orderDirection)
       .limit(args.limit)
       .offset(args.offset)
@@ -183,13 +196,7 @@ export class BusinessRepositoryPostgres extends CRUDRepositoryPostgres implement
       : undefined
 
     return parseSchema(BusinessResolvedSchema, {
-      id: record.business.id,
-      name: record.business.name,
-      description: record.business.description,
-      status: record.business.status,
-      townId: record.business.townId,
-      createdAt: record.business.createdAt,
-      updatedAt: record.business.updatedAt,
+      ...record.business,
       town: townData,
     })
   }

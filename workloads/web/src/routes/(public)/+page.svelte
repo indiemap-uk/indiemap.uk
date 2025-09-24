@@ -1,4 +1,7 @@
 <script lang="ts">
+import CountyLink from '$lib/county/CountyLink.svelte'
+import TownLink from '$lib/town/TownLink.svelte'
+
 const {data} = $props()
 </script>
 
@@ -10,16 +13,14 @@ const {data} = $props()
   <section>
     <h2>Latest</h2>
     <ul>
-      {#await data.latestBusinesses then business}
-        {#each business as business}
-          <li>
-            <a href={`/business/${business.id}`}>{business.name}</a>
-            {#if business.town}
-              in <a href={`/town/${business.town?.id}`}>{business.town?.name}, {business.town?.county}</a>
-            {/if}
-          </li>
-        {/each}
-      {/await}
+      {#each data.latestBusinesses as business}
+        <li>
+          <a href={`/business/${business.id}`}>{business.name}</a>
+          {#if business.town}
+            in <TownLink id={business.town.id} name={business.town.name} />, <CountyLink name={business.town.county} />
+          {/if}
+        </li>
+      {/each}
     </ul>
     <p><a href="/businesses">All businesses</a></p>
   </section>
@@ -27,13 +28,11 @@ const {data} = $props()
   <section>
     <h2>Top Towns</h2>
     <ul>
-      {#await data.townsWithBusiness then towns}
-        {#each towns as town}
-          <li>
-            <a href={`/town/${town.id}`}>{town.name}, {town.county}</a> ({town.businessCount})
-          </li>
-        {/each}
-      {/await}
+      {#each data.townsWithBusiness as town}
+        <li>
+          <TownLink id={town.id} name={town.name} />, <CountyLink name={town.county} />
+        </li>
+      {/each}
     </ul>
     <p><a href="/towns">All towns</a></p>
   </section>
