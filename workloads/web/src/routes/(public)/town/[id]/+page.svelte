@@ -1,4 +1,5 @@
 <script lang="ts">
+import BusinessLink from '$lib/business/BusinessLink.svelte'
 import CountyLink from '$lib/county/CountyLink.svelte'
 
 const {data} = $props()
@@ -12,14 +13,10 @@ const {data} = $props()
   <h2>{data.town.name}, <CountyLink name={data.town.county} /></h2>
 
   <ul>
-    {#await data.businesses}
-      Loading...
-    {:then businesses}
-      {#each businesses as business}
-        <li>
-          <a href={`/business/${business.id}`}>{business.name}</a>
-        </li>
-      {/each}
-    {/await}
+    {#each data.businesses as business}
+      <li>
+        <BusinessLink {business} />
+      </li>
+    {/each}
   </ul>
 </main>

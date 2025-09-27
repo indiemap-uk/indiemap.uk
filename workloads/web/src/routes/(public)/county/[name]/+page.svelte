@@ -1,4 +1,6 @@
 <script lang="ts">
+import BusinessLink from '$lib/business/BusinessLink.svelte'
+
 const {data} = $props()
 </script>
 
@@ -12,7 +14,7 @@ const {data} = $props()
   <ul>
     {#each data.businesses as business}
       <li>
-        <a href={`/business/${business.id}`}>{business.name}</a>
+        <BusinessLink {business} />
       </li>
     {/each}
   </ul>

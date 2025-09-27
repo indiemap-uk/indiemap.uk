@@ -1,4 +1,6 @@
 <script lang="ts">
+import BusinessLink from '$lib/business/BusinessLink.svelte'
+
 const {data} = $props()
 
 const hasMore = data.businesses.length === data.limit
@@ -14,10 +16,7 @@ const hasMore = data.businesses.length === data.limit
   <ul>
     {#each data.businesses as business}
       <li>
-        <a href={`/business/${business.id}`}>{business.name}</a>
-        {#if business.town}
-          in <a href={`/town/${business.town?.id}`}>{business.town?.name}, {business.town?.county}</a>
-        {/if}
+        <BusinessLink {business} />
       </li>
     {/each}
   </ul>

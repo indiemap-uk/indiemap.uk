@@ -1,4 +1,5 @@
 <script lang="ts">
+import BusinessLink from '$lib/business/BusinessLink.svelte'
 import CountyLink from '$lib/county/CountyLink.svelte'
 import TownLink from '$lib/town/TownLink.svelte'
 
@@ -15,10 +16,7 @@ const {data} = $props()
     <ul>
       {#each data.latestBusinesses as business}
         <li>
-          <a href={`/business/${business.id}`}>{business.name}</a>
-          {#if business.town}
-            in <TownLink id={business.town.id} name={business.town.name} />, <CountyLink name={business.town.county} />
-          {/if}
+          <BusinessLink {business} />
         </li>
       {/each}
     </ul>
