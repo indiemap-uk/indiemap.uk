@@ -108,6 +108,21 @@ export class TownRepositoryMemory implements TownRepository {
     return townsWithBusinesses.slice(args.offset, args.offset + args.limit)
   }
 
+  async countiesWithBusiness(): Promise<string[]> {
+    // Get unique counties from towns that have businesses
+    const counties = new Set<string>()
+
+    Array.from(this.#towns.values())
+      .filter(town => (this.#businessCountByTownId.get(town.id) ?? 0) >= 1)
+      .forEach(town => {
+        if (town.county) {
+          counties.add(town.county)
+        }
+      })
+
+    return Array.from(counties).sort()
+  }
+
   // Helper method to set business counts (for testing/setup)
   setBusinessCount(townId: number, count: number): void {
     this.#businessCountByTownId.set(townId, count)

@@ -146,6 +146,19 @@ export class TownRepositoryPostgres extends CRUDRepositoryPostgres implements To
     })
   }
 
+  async countiesWithBusiness(): Promise<string[]> {
+    const countyExpression = sql<string>`coalesce(${businesses.county}, ${ukTowns.county})`
+
+    const rows = await this.db
+      .selectDistinct({county: countyExpression})
+      .from(businesses)
+      .leftJoin(ukTowns, eq(businesses.townId, ukTowns.id))
+      .where(eq(businesses.status, 'live'))
+      .orderBy(countyExpression)
+
+    return rows.map((r: {county: string}) => r.county).filter(Boolean)
+  }
+
   private toSchema = (record: typeof ukTowns.$inferSelect) => {
     try {
       return v.parse(TownSchema, {

@@ -11,4 +11,6 @@ export interface TownRepository {
   create(town: TownType): Promise<TownType>
   /** Returns all towns with businesses */
   townsWithBusiness(args?: TownListArgsType): Promise<Array<TownType & {businessCount: number}>>
+  /** Returns all counties that have businesses */
+  countiesWithBusiness(): Promise<string[]>
 }

@@ -34,4 +34,16 @@ const {data} = $props()
     </ul>
     <p><a href="/towns">All towns</a></p>
   </section>
+
+  <section>
+    <h2>Counties</h2>
+    <ul>
+      {#each data.countiesWithBusiness as county}
+        <li>
+          <CountyLink name={county} />
+        </li>
+      {/each}
+    </ul>
+    <p><a href="/counties">All counties</a></p>
+  </section>
 </main>
