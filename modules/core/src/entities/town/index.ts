@@ -1,6 +1,0 @@
-export type {TownRepository} from './TownRepository.js'
-export * from './TownSchema.js'
-export * from './TownService.js'
-export type * from './TownType.js'
-export {countyTownIds} from './countyTownIds.js'
-export {ukCounties} from './ukCounties.js'

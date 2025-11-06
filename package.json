@@ -1,15 +1,27 @@
 {
   "name": "@indeimap/indiemap",
   "scripts": {
-    "typecheck": "pnpm --filter !tsconfig --filter !web recursive exec tsc --noEmit && pnpm -F web check",
-    "test": "pnpm --filter !tsconfig recursive run test",
-    "test:db": "pnpm --filter !tsconfig recursive run test:db",
+    "typecheck": "pnpm --filter !web recursive exec tsc --noEmit && pnpm -F web check",
+    "test": "pnpm recursive run test",
+    "test:db": "pnpm recursive run test:db",
     "validate": "pnpm run lint:fix && pnpm run typecheck && pnpm run test && pnpm run test:db",
     "validate!": "pnpm run lint:fix && pnpm run typecheck && pnpm run test",
     "lint": "oxlint && dprint check",
     "lint:fix": "oxlint --fix && dprint fmt",
+    "dev": "pnpm --filter web dev",
+    "storybook": "pnpm --filter web storybook",
     "docker:build": "docker build -t ghcr.io/indiemap-uk/indiemap:latest --file workloads/web/Dockerfile .",
-    "docker:run": "docker-compose up"
+    "dc:up": "docker compose up postgresql -d",
+    "dc:down": "docker compose down postgresql",
+    "dc:destroy": "docker-compose down -v",
+    "db:up": "pnpm dc:up && sleep 2 && pnpm mig:up && pnpm towns",
+    "db:reset": "pnpm dc:destroy && pnpm db:up",
+    "mig:new": "pnpm --filter core exec drizzle-kit generate --config src/db/drizzle.config.ts",
+    "mig:up": "pnpm --filter core exec drizzle-kit migrate --config src/db/drizzle.config.ts",
+    "mig:push": "pnpm --filter core exec drizzle-kit push --config src/db/drizzle.config.ts",
+    "mock": "cd modules/core && tsx src/mock-data/mock.ts",
+    "mock:towns": "cd modules/core && tsx src/mock-data/towns.ts",
+    "towns": "cd towns && sh ./install.sh"
   },
   "devDependencies": {
     "@types/node": "^24.1.0",
@@ -23,5 +35,5 @@
   "private": true,
   "license": "UNLICENSED",
   "type": "module",
-  "packageManager": "pnpm@10.17.1"
+  "packageManager": "pnpm@10.20.0"
 }

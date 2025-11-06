@@ -1,26 +1,18 @@
 import { CacheMemory } from '$lib/cache/CacheMemory'
-import { BusinessService } from '@i/core/business'
-import { LinkService } from '@i/core/link'
-import { LocationService } from '@i/core/location'
-import { NoteService } from '@i/core/note'
-import { ProductService } from '@i/core/product'
-import { SourceService } from '@i/core/source'
-import { TownService } from '@i/core/town'
-import { GeocodingServiceGeocodify } from '@i/geocoding'
-import { BusinessRepositoryPostgres } from '@i/repository/BusinessRepositoryPostgres'
-import { KVPostgresStore } from '@i/repository/KVPostgresStore'
-import { LinkRepositoryPostgres } from '@i/repository/LinkRepositoryPostgres'
-import { LocationRepositoryPostgres } from '@i/repository/LocationRepositoryPostgres'
-import { NoteRepositoryPostgres } from '@i/repository/NoteRepositoryPostgres'
-import { ProductRepositoryPostgres } from '@i/repository/ProductRepositoryPostgres'
-import { SourceRepositoryPostgres } from '@i/repository/SourceRepositoryPostgres'
-import { TownRepositoryPostgres } from '@i/repository/TownRepositoryPostgres'
-import { getDb } from '@i/repository/getDb'
-import { MarkdownServiceJinaAi } from '@i/summarizer/MarkdownServiceJinaAi'
-import { SummarizerServiceLLM } from '@i/summarizer/SummarizerServiceLLM'
-import { WorkerService } from '@i/worker/WorkerService'
+import {BusinessRepositoryPostgres, BusinessService} from '@i/core/business'
+import {LinkRepositoryPostgres, LinkService} from '@i/core/link'
+import {LocationRepositoryPostgres, LocationService} from '@i/core/location'
+import {NoteRepositoryPostgres, NoteService} from '@i/core/note'
+import {ProductRepositoryPostgres, ProductService} from '@i/core/product'
+import {SourceRepositoryPostgres, SourceService} from '@i/core/source'
+import {TownRepositoryPostgres, TownService} from '@i/core/town'
+import { MarkdownServiceJinaAi, SummarizerServiceLLM } from '@i/core/summarizer'
+import { WorkerService } from '@i/core/worker'
 import pino from 'pino'
 import type { ContainerEnvType } from './ContainerEnvSchema'
+import {GeocodingServiceGeocodify} from "@i/core/geocoding";
+import {KVStorePostgres} from "@i/core/kvStore";
+import {getDb} from "@i/core/db";
 
 export const getContainer = async (env: ContainerEnvType) => {
   const {db, pool} = getDb(env.DATABASE_URL)
@@ -68,7 +60,7 @@ export const getContainer = async (env: ContainerEnvType) => {
 
 	const cache = new CacheMemory(env.CACHE_TTL)
 
-  const kvstore = new KVPostgresStore({schema: env.KEYV_SCHEMA, table: env.KEYV_TABLE, uri: env.DATABASE_URL})
+  const kvstore = new KVStorePostgres({schema: env.KEYV_SCHEMA, table: env.KEYV_TABLE, uri: env.DATABASE_URL})
   await kvstore.init()
   const markdownService = new MarkdownServiceJinaAi(env.JINA_API_KEY)
   const openAiApiKey = env.OPENAI_API_KEY

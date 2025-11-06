@@ -1,32 +1,72 @@
 {
   "name": "@i/core",
   "imports": {
-    "#lib": "./src/*"
+    "#business/*": "./src/business/*",
+    "#db/*": "./src/db/*",
+    "#geocoding/*": "./src/geocoding/*",
+    "#kvStore/*": "./src/kvStore/*",
+    "#link/*": "./src/link/*",
+    "#location/*": "./src/location/*",
+    "#logger/*": "./src/logger/*",
+    "#mock/*": "./src/mock-data/*",
+    "#note/*": "./src/note/*",
+    "#product/*": "./src/product/*",
+    "#schema/*": "./src/schema/*",
+    "#source/*": "./src/source/*",
+    "#summarizer/*": "./src/summarizer/*",
+    "#town/*": "./src/town/*",
+    "#worker/*": "./src/worker/*"
   },
   "exports": {
-    "./business": "./src/entities/business/index.ts",
-    "./town": "./src/entities/town/index.ts",
-    "./link": "./src/entities/link/index.ts",
-    "./location": "./src/entities/location/index.ts",
-    "./note": "./src/entities/note/index.ts",
-    "./product": "./src/entities/product/index.ts",
-    "./source": "./src/entities/source/index.ts",
-    "./geocoding": "./src/entities/geocoding/index.ts",
-    "./summarizer": "./src/entities/summarizer/index.ts",
+    "./business": "./src/business/index.ts",
+    "./db": "./src/db/index.ts",
+    "./town": "./src/town/index.ts",
+    "./link": "./src/link/index.ts",
+    "./location": "./src/location/index.ts",
+    "./note": "./src/note/index.ts",
+    "./product": "./src/product/index.ts",
+    "./source": "./src/source/index.ts",
+    "./geocoding": "./src/geocoding/index.ts",
+    "./summarizer": "./src/summarizer/index.ts",
     "./schema": "./src/schema/index.ts",
-    "./logger": "./src/logger/index.ts"
+    "./logger": "./src/logger/index.ts",
+    "./kvStore": "./src/kvStore/index.ts",
+    "./worker": "./src/worker/index.ts"
   },
   "scripts": {
     "typecheck": "tsc --noEmit",
-    "test": "vitest run"
+    "test": "vitest run -t '^(?!.*@db).*$' --hideSkippedTests",
+    "tdd": "vitest -t '^(?!.*@db).*$' --hideSkippedTests",
+    "test:db": "vitest run -t '@db' --hideSkippedTests",
+    "tdd:db": "vitest -t '@db' --hideSkippedTests"
   },
   "dependencies": {
+    "@keyv/postgres": "^2.1.6",
     "debug": "^4.4.0",
+    "keyv": "5.3.2",
+    "ky": "^1.13.0",
     "nanoid": "^5.1.5",
-    "valibot": "^1.1.0"
+    "valibot": "^1.1.0",
+    "big.js": "^6.2.2",
+    "drizzle-orm": "^0.44.2",
+    "es-toolkit": "^1.34.1",
+    "pg": "^8.16.3",
+    "@ai-sdk/openai": "^1.3.23",
+    "ai": "^4.3.19",
+    "@valibot/to-json-schema": "^1.0.0",
+    "graphile-worker": "^0.16.6",
+    "pino": "^9.7.0"
   },
   "devDependencies": {
-    "@types/debug": "^4.1.12"
+    "@types/debug": "^4.1.12",
+    "@faker-js/faker": "^9.6.0",
+    "@testcontainers/postgresql": "^11.0.3",
+    "@types/big.js": "6.2.2",
+    "@types/node": "^24.1.0",
+    "@types/pg": "^8.15.4",
+    "drizzle-kit": "^0.31.4",
+    "es-toolkit": "^1.34.1",
+    "tsx": "4.19.2"
   },
   "version": "1.0.0",
   "private": true,

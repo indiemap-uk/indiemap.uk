@@ -4,9 +4,9 @@ import {checkEnv} from '$lib/server/checkEnv'
 import PostgresAdapter from '@auth/pg-adapter'
 import {type DefaultSession, SvelteKitAuth} from '@auth/sveltekit'
 import Resend from '@auth/sveltekit/providers/resend'
-import {getDb} from '@i/repository/getDb'
 import crypto from 'crypto'
 import Debug from 'debug'
+import {getDb} from "@i/core/db";
 
 const debug = Debug('indiemap:authjs')
 
