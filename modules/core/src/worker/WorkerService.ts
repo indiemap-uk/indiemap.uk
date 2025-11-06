@@ -136,8 +136,14 @@ export class WorkerService {
 
   async stop() {
     try {
-      this.#runner && await this.#runner.stop()
-      this.#utils && await this.#utils.release()
+			if (this.#runner) {
+				await this.#runner.stop()
+			}
+
+			if (this.#utils) {
+				await this.#utils.release()
+			}
+
     } catch (error: unknown) {
       console.error(`Error stopping worker in WorkerService`)
       throw error
