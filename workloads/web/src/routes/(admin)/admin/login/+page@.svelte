@@ -6,6 +6,11 @@ const {data} = $props()
 
 <div class="container is-fluid has-text-centered">
   <div class="section is-medium">
-    <a class="button mx-auto" href="/auth/signin">Admin Sign In</a>
+    <button 
+      class="button mx-auto" 
+      onclick={() => signIn(undefined, { callbackUrl: '/admin' })}
+    >
+      Admin Sign In
+    </button>
   </div>
 </div>
